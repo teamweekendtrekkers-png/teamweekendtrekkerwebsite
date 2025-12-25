@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Team Weekend Trekkers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.jpg" alt="Team Weekend Trekkers" class="logo-img">
+                <span class="logo-text">Team Weekend Trekkers</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trips.html">Trips</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="https://wa.me/919538236581" target="_blank" class="btn-nav">Book Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you!</p>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-layout">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h2>Get In Touch</h2>
+                    <p>Have questions about a trip? Want to customize your adventure? Or just want to say hi? We're here to help!</p>
+                    
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <div class="contact-icon whatsapp-bg">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>WhatsApp (Fastest)</h4>
+                                <a href="https://wa.me/919538236581">+91 9538236581</a>
+                                <p>Usually reply within 5 minutes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon instagram-bg">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Instagram</h4>
+                                <a href="https://instagram.com/teamweekendtrekkers" target="_blank">@teamweekendtrekkers</a>
+                                <p>Follow us for trip updates & photos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon location-bg">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Location</h4>
+                                <p>Kalkere Main Road</p>
+                                <p>Kalkere, Bangalore</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon upi-bg">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>UPI Payment</h4>
+                                <p class="upi-highlight" id="upi-display">Loading...</p>
+                                <button class="btn btn-small" onclick="copyUPI()">
+                                    <i class="fas fa-copy"></i> Copy UPI ID
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-action-buttons">
+                        <a href="https://wa.me/919538236581?text=Hi!%20I%20have%20a%20query%20about%20your%20treks" class="btn btn-whatsapp btn-full" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Message on WhatsApp
+                        </a>
+                        <a href="https://instagram.com/teamweekendtrekkers" class="btn btn-instagram btn-full" target="_blank">
+                            <i class="fab fa-instagram"></i> Follow on Instagram
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h2>Send Us a Message</h2>
+                    <form class="contact-form" data-netlify="true" name="contact" method="POST">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject">
+                                <option value="general">General Inquiry</option>
+                                <option value="booking">Booking Query</option>
+                                <option value="custom">Custom Trip Request</option>
+                                <option value="corporate">Corporate/Group Booking</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>How do I book a trek?</h4>
+                    <p>Simply browse our trips, select your preferred date, and click "Book Now". You can pay via UPI or online payment. For instant booking, message us on WhatsApp!</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What's included in the trip cost?</h4>
+                    <p>All our trips include transport from Bangalore, meals as mentioned, camping equipment, trek leads, permits, and entry fees. Check individual trip pages for specifics.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Is it safe for solo travelers?</h4>
+                    <p>Absolutely! Most of our travelers are solo. You'll be in a group with experienced trek leads and make new friends along the way. We've had 7000+ happy solo travelers.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What's the cancellation policy?</h4>
+                    <p>Cancellations 7+ days before: 80% refund. 3-7 days: 50% refund. Less than 3 days: No refund. You can transfer your booking to someone else anytime!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Team Weekend Trekkers</h4>
+                    <p>A Travel community for the travellers, By the travellers.</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/919538236581" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="trips.html">All Trips</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 9538236581</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Pay via UPI</h4>
+                    <p class="upi-id-display" id="upi-footer">Loading...</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Team Weekend Trekkers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919538236581" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script>
+    // UPI Protection - Dynamically generate UPI ID
+    (function() {
+        const p = [57,53,51,56,50,51,54,53,56,49];
+        const s = [64];
+        const d = [121,98,108];
+        const u = [...p,...s,...d].map(c => String.fromCharCode(c)).join('');
+        
+        // Set UPI display elements
+        const upiDisplay = document.getElementById('upi-display');
+        const upiFooter = document.getElementById('upi-footer');
+        
+        if (upiDisplay) upiDisplay.textContent = u;
+        if (upiFooter) upiFooter.textContent = u;
+        
+        // Update copyUPI function
+        window.copyUPI = function() {
+            navigator.clipboard.writeText(u).then(() => {
+                const btn = document.querySelector('.contact-card .btn-small');
+                if (btn) {
+                    const original = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => {
+                        btn.innerHTML = original;
+                        btn.style.background = '';
+                    }, 2000);
+                }
+            });
+        };
+    })();
+    </script>
+</body>
+</html>

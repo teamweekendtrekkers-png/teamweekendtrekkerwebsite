@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Team Weekend Trekkers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.jpg" alt="Team Weekend Trekkers" class="logo-img">
+                <span class="logo-text">Team Weekend Trekkers</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trips.html">Trips</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header checkout-header">
+        <h1>Complete Your Booking</h1>
+        <p>You're one step away from your adventure!</p>
+    </section>
+
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-layout">
+                <!-- Booking Form -->
+                <div class="checkout-main">
+                    <div class="checkout-card">
+                        <h2><i class="fas fa-user"></i> Your Details</h2>
+                        <form id="checkoutForm" data-netlify="true" name="booking">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name *</label>
+                                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                                </div>
+                                <div class="form-group">
+                                    <label for="altPhone">Alternate Phone</label>
+                                    <input type="tel" id="altPhone" name="altPhone" placeholder="+91 9876543210">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="participants">Participant Names (if more than 1)</label>
+                                <textarea id="participants" name="participants" rows="3" placeholder="Enter names of all participants, one per line"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Special Requests</label>
+                                <textarea id="notes" name="notes" rows="2" placeholder="Any dietary requirements, medical conditions, or special requests?"></textarea>
+                            </div>
+                            
+                            <!-- Hidden fields for booking info -->
+                            <input type="hidden" id="hiddenTripName" name="tripName">
+                            <input type="hidden" id="hiddenTripDate" name="tripDate">
+                            <input type="hidden" id="hiddenPeople" name="peopleCount">
+                            <input type="hidden" id="hiddenTotal" name="totalAmount">
+                            
+                            <button type="button" id="submitDetailsBtn" class="btn btn-primary btn-full" onclick="submitDetails()">
+                                <i class="fas fa-paper-plane"></i> Submit Details & Proceed to Payment
+                            </button>
+                            <p class="submit-note"><i class="fas fa-lock"></i> Your details will be sent securely to confirm your booking</p>
+                        </form>
+                        
+                        <!-- Success Message (hidden initially) -->
+                        <div id="submitSuccess" class="submit-success" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>Details Submitted Successfully!</h3>
+                            <p>We've received your booking details. Please proceed with payment below.</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Options (hidden initially) -->
+                    <div class="checkout-card" id="paymentSection" style="display: none;">
+                        <h2><i class="fas fa-credit-card"></i> Payment Options</h2>
+                        
+                        <!-- UPI Payment - Primary -->
+                        <div class="payment-option primary-payment">
+                            <h3>💳 Pay via UPI (Recommended)</h3>
+                            <div class="upi-payment-box">
+                                <div class="upi-id-large">
+                                    <span class="label">UPI ID:</span>
+                                    <span class="upi-value" id="upiId">••••••6581@ybl</span>
+                                    <button class="copy-btn" onclick="secureCopyUPI()">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="upi-buttons">
+                                    <button class="btn btn-upi" id="upiPayBtn" onclick="securePayViaUPI(window.checkoutAmount, window.checkoutTrip)">
+                                        <i class="fas fa-mobile-alt"></i> Pay ₹<span id="upiAmount">3,499</span> via UPI
+                                    </button>
+                                </div>
+                                <div class="upi-apps">
+                                    <span>Works with:</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" height="20">
+                                    <span>GPay, PhonePe, Paytm, etc.</span>
+                                </div>
+                                <div class="upi-instructions">
+                                    <p><strong>After payment:</strong></p>
+                                    <ol>
+                                        <li>Take a screenshot of payment confirmation</li>
+                                        <li>Send screenshot on WhatsApp to confirm booking</li>
+                                    </ol>
+                                    <a href="https://wa.me/919538236581?text=Hi!%20I've%20made%20the%20payment%20for%20my%20trek%20booking.%20Sharing%20the%20screenshot." class="btn btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> Send Payment Screenshot
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Razorpay Payment -->
+                        <div class="payment-option">
+                            <h3>💳 Pay Online (Cards/NetBanking/Wallets)</h3>
+                            <p class="payment-desc">Pay securely using Credit/Debit Cards, Net Banking, or Wallets</p>
+                            <button id="rzpButton" class="btn btn-razorpay btn-full">
+                                <i class="fas fa-lock"></i> Pay ₹<span id="rzpAmount">3,499</span> Securely
+                            </button>
+                            <p class="powered-by">Powered by Razorpay</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="checkout-sidebar">
+                    <div class="summary-card">
+                        <h3>Booking Summary</h3>
+                        <div class="summary-trip">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=100" alt="Trek" class="summary-img">
+                            <div class="summary-trip-info">
+                                <h4 id="summaryTripName">Netravati Peak Trek</h4>
+                                <p><i class="fas fa-map-marker-alt"></i> Western Ghats, Karnataka</p>
+                            </div>
+                        </div>
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Date</span>
+                                <span id="summaryDate">Jan 11-12, 2026</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Participants</span>
+                                <span id="summaryPeople">1 Person</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Price per person</span>
+                                <span>₹3,499</span>
+                            </div>
+                            <div class="summary-row discount">
+                                <span>Discount</span>
+                                <span>-₹1,000</span>
+                            </div>
+                        </div>
+                        <div class="summary-total">
+                            <span>Total Amount</span>
+                            <span id="summaryTotal">₹3,499</span>
+                        </div>
+                        <div class="summary-note">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Booking confirms on receiving payment. Limited slots available!</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Support -->
+                    <div class="support-card">
+                        <h4>Need Help?</h4>
+                        <p>We're here to assist you</p>
+                        <a href="https://wa.me/919538236581?text=Hi!%20I%20need%20help%20with%20my%20booking" class="btn btn-whatsapp btn-full" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Chat with Us
+                        </a>
+                        <p class="call-text">Or call: +91 9538236581</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Team Weekend Trekkers. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/919538236581" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919538236581" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/trips-data.js"></script>
+    <script src="js/razorpay.js"></script>
+    <script>
+        // ========== Web3Forms Configuration (100% FREE) ==========
+        const WEB3FORMS_ACCESS_KEY = '519286b7-8c28-4093-8cf1-6ad73f9233b7';
+
+        // ========== URL Parameters ==========
+        function getTripFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('trip') || 'netravati';
+        }
+        function getDateFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('date') || 'Jan 11-12, 2026';
+        }
+        function getPeopleFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return parseInt(urlParams.get('people')) || 1;
+        }
+
+        // ========== Update Checkout Page ==========
+        function updateCheckoutPage() {
+            const tripId = getTripFromURL();
+            const trip = getTripData(tripId);
+            const date = decodeURIComponent(getDateFromURL());
+            const people = getPeopleFromURL();
+            
+            const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
+            const totalAmount = priceNum * people;
+            const formattedTotal = totalAmount.toLocaleString('en-IN');
+            
+            // Update summary card
+            document.getElementById('summaryTripName').textContent = trip.title;
+            document.querySelector('.summary-trip-info p').innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + trip.location;
+            document.querySelector('.summary-img').src = trip.image;
+            document.getElementById('summaryDate').textContent = date;
+            document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
+            document.querySelector('.summary-details .summary-row:nth-child(3) span:last-child').textContent = trip.price;
+            document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;
+            
+            // Update hidden fields
+            document.getElementById('hiddenTripName').value = trip.title;
+            document.getElementById('hiddenTripDate').value = date;
+            document.getElementById('hiddenPeople').value = people;
+            document.getElementById('hiddenTotal').value = '₹' + formattedTotal;
+            
+            // Update UPI payment
+            document.getElementById('upiAmount').textContent = formattedTotal;
+            // Store amount for secure payment function
+            window.checkoutAmount = totalAmount;
+            window.checkoutTrip = trip.title;
+            
+            // Update Razorpay button
+            document.getElementById('rzpAmount').textContent = formattedTotal;
+            
+            // Update page title
+            document.title = 'Checkout - ' + trip.title + ' | Team Weekend Trekkers';
+            
+            // Store data for later
+            window.bookingData = { trip: trip.title, location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
+        }
+
+        // ========== Form Validation ==========
+        function validateForm() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            let isValid = true;
+            
+            document.querySelectorAll('.form-error').forEach(el => el.remove());
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            
+            if (!fullName || fullName.length < 3) { showError('fullName', 'Please enter your full name'); isValid = false; }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) { showError('email', 'Please enter a valid email'); isValid = false; }
+            
+            const phoneRegex = /^[\+]?[0-9]{10,13}$/;
+            const cleanPhone = phone.replace(/[\s\-]/g, '');
+            if (!cleanPhone || !phoneRegex.test(cleanPhone)) { showError('phone', 'Please enter a valid 10-digit phone number'); isValid = false; }
+            
+            return isValid;
+        }
+        
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('input-error');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'form-error';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            field.parentElement.appendChild(errorDiv);
+        }
+
+        // ========== Submit Details via Web3Forms ==========
+        async function submitDetails() {
+            if (!validateForm()) return;
+            
+            const btn = document.getElementById('submitDetailsBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            // Build email content
+            const formData = {
+                access_key: WEB3FORMS_ACCESS_KEY,
+                subject: '🌟 New Trek Booking: ' + window.bookingData.trip,
+                from_name: 'Team Weekend Trekkers Website',
+                // Customer Details
+                'Customer Name': document.getElementById('fullName').value.trim(),
+                'Customer Email': document.getElementById('email').value.trim(),
+                'Phone Number': document.getElementById('phone').value.trim(),
+                'Alternate Phone': document.getElementById('altPhone').value.trim() || 'Not provided',
+                // Booking Details
+                'Trek Name': window.bookingData.trip,
+                'Location': window.bookingData.location,
+                'Trek Date': window.bookingData.date,
+                'Number of People': window.bookingData.people,
+                'Total Amount': '₹' + window.bookingData.total.toLocaleString('en-IN'),
+                // Additional Info
+                'Participant Names': document.getElementById('participants').value.trim() || 'Single participant',
+                'Special Requests': document.getElementById('notes').value.trim() || 'None',
+                'Booking Time': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+            };
+            
+            // If not configured, simulate success for testing
+            if (WEB3FORMS_ACCESS_KEY === 'YOUR_ACCESS_KEY_HERE') {
+                console.log('Web3Forms not configured. Form data:', formData);
+                setTimeout(function() {
+                    showPaymentSection();
+                    btn.innerHTML = '<i class="fas fa-check"></i> Details Submitted!';
+                }, 1000);
+                return;
+            }
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('Email sent successfully!', result);
+                    showPaymentSection();
+                    btn.innerHTML = '<i class="fas fa-check"></i> Details Submitted!';
+                } else {
+                    throw new Error(result.message || 'Failed to send');
+                }
+            } catch (error) {
+                console.error('Email failed:', error);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Details & Proceed to Payment';
+                alert('Failed to send details. Please try again or contact us on WhatsApp.');
+            }
+        }
+        
+        function showPaymentSection() {
+            document.getElementById('checkoutForm').style.display = 'none';
+            document.getElementById('submitSuccess').style.display = 'block';
+            
+            const paymentSection = document.getElementById('paymentSection');
+            paymentSection.style.display = 'block';
+            paymentSection.classList.add('payment-revealed');
+            
+            document.querySelector('.support-card').classList.remove('support-locked');
+            
+            setTimeout(function() {
+                paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        // ========== Initialize ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCheckoutPage();
+            document.querySelector('.checkout-card:first-child').classList.add('details-required');
+            document.querySelector('.support-card').classList.add('support-locked');
+        });
+    </script>
+    <script src="js/security.js"></script>
+</body>
+</html>

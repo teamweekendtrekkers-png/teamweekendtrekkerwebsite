@@ -1,0 +1,385 @@
+// ============================================
+// TEAM WEEKEND TREKKERS - TRIP DATABASE
+// ============================================
+// 
+// HOW TO UPDATE:
+// 
+// 📸 PHOTOS: Put images in images/trips/tripid.jpg
+//    - Keep filename same as trip ID (e.g., coorg.jpg)
+//    - Recommended size: 800x600 or 16:9 ratio
+// 
+// 💰 PRICES: Change the 'price' field
+//    - Format: "₹X,XXX" (with ₹ symbol and comma)
+//    - Example: price: "₹4,999",
+// 
+// 📅 DATES: Update 'availableDates' array
+//    - Format: ["Jan 11-12, 2025", "Jan 18-19, 2025"]
+//    - Add/remove dates as needed
+// 
+// ➕ NEW TRIP: Copy any trip block, change:
+//    - Trip ID (the key, e.g., 'coorg')
+//    - All fields inside
+//    - Add photo: images/trips/newtripid.jpg
+// 
+// 🔄 To generate dates, run: python3 admin/trip-manager.py
+// ============================================
+
+const tripsData = {
+    netravati: {
+        title: "Netravati Peak Trek",
+        location: "Western Ghats, Karnataka",
+        badge: "Weekend Trek",
+        price: "₹3,499",
+        image: "images/trips/netravati.jpg",
+        distance: "15-20 km",
+        elevation: "1,420 m",
+        difficulty: "Moderate",
+        bestTime: "Oct - Feb",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Feb 15-16, 2026"],
+        about: "Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.\n\nThe trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.",
+        highlights: ["Hidden waterfalls along the trail", "Night camping under stars", "Rare bird and wildlife spotting", "Pristine streams for refreshing dips", "360° panoramic views from the peak", "Away from tourist crowds"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from designated Bangalore pickup points", "10:30 PM - Introduction and trip briefing in the vehicle", "11:00 PM - Begin overnight journey to base camp", "Music, bonfire vibes, and getting to know fellow trekkers"]},
+            {day: "Day 1", title: "Trek to Summit & Camping", activities: ["5:00 AM - Arrive at base village, freshen up", "6:00 AM - Light breakfast and trek briefing", "7:00 AM - Begin trek through forest trail", "10:00 AM - Cross streams and waterfalls", "1:00 PM - Reach campsite, packed lunch", "3:00 PM - Explore nearby viewpoints", "6:00 PM - Sunset views from the peak", "8:00 PM - Bonfire, dinner, stargazing"]},
+            {day: "Day 2", title: "Sunrise, Descent & Return", activities: ["5:30 AM - Wake up for sunrise", "6:00 AM - Witness breathtaking sunrise over clouds", "7:30 AM - Breakfast at campsite", "8:30 AM - Begin descent", "12:00 PM - Reach base, freshen up", "1:00 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]}
+        ],
+        includes: ["Bangalore to Bangalore transportation (AC vehicle)", "1 Breakfast + 1 Lunch + 1 Dinner", "Camping equipment (tents, sleeping bags)", "Experienced trek lead and support staff", "Forest entry permits", "First aid kit", "Bonfire arrangements"],
+        excludes: ["Personal expenses", "Travel insurance", "Any meals not mentioned", "Tips and gratuities", "Anything not mentioned in inclusions"]
+    },
+    coorg: {
+        title: "Coorg with Mandalpatti Peak",
+        location: "Kodagu, Karnataka",
+        badge: "Road Trip",
+        price: "₹4,177",
+        image: "images/trips/coorg.jpg",
+        distance: "280 km from Bangalore",
+        elevation: "1,450 m",
+        difficulty: "Easy",
+        bestTime: "Sep - Mar",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Experience the Scotland of India! Coorg is a picturesque hill station known for its coffee plantations, misty hills, and rich Kodava culture. The highlight is Mandalpatti Peak offering stunning views of the Western Ghats.\n\nJourney through winding roads surrounded by coffee estates, visit ancient temples, and enjoy local Kodava cuisine. The Jeep ride to Mandalpatti through off-road trails is an adventure in itself!",
+        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja's Seat sunset point", "Authentic Kodava cuisine", "Misty mountain views"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from Bangalore", "10:30 PM - Introduction and trip briefing", "11:00 PM - Begin overnight journey to Coorg", "Enjoy music and get to know fellow travelers"]},
+            {day: "Day 1", title: "Explore Coorg", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk", "6:30 PM - Sunset at Raja's Seat", "8:00 PM - Dinner and overnight stay"]},
+            {day: "Day 2", title: "Temple Visit & Return", activities: ["7:00 AM - Breakfast at homestay", "8:30 AM - Visit Talakaveri & Bhagamandala Temple", "11:00 AM - Shopping for coffee and spices", "12:30 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]}
+        ],
+        includes: ["AC transportation from Bangalore", "1 Night accommodation (Hotel/Homestay)", "2 Breakfasts + 2 Lunches + 1 Dinner", "Jeep ride to Mandalpatti", "All sightseeing as per itinerary", "Experienced tour lead"],
+        excludes: ["Personal expenses", "Entry fees to monuments", "Travel insurance", "Tips and gratuities"]
+    },
+    chikmagalur: {
+        title: "Chikmagalur 2 Days Trip",
+        location: "Chikmagalur, Karnataka",
+        badge: "Hill Station",
+        price: "₹4,177",
+        image: "images/trips/chikmagalur.jpg",
+        distance: "250 km from Bangalore",
+        elevation: "1,090 m",
+        difficulty: "Easy",
+        bestTime: "Sep - Feb",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Chikmagalur, the land of coffee, offers a perfect weekend escape with its rolling hills, coffee plantations, and serene waterfalls. Home to the highest peak in Karnataka - Mullayanagiri - this destination combines adventure with relaxation.\n\nExperience the aroma of fresh coffee, trek through misty trails, and witness stunning sunsets over the Western Ghats. A perfect blend of nature, adventure, and tranquility!",
+        highlights: ["Mullayanagiri Peak - Highest in Karnataka", "Baba Budangiri Hills", "Coffee estate stay experience", "Hebbe Falls trek", "Z-Point sunset views", "Fresh coffee tasting"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["10:00 PM - Pickup from Bangalore", "10:30 PM - Trip briefing and introductions", "11:00 PM - Overnight journey begins"]},
+            {day: "Day 1", title: "Chikmagalur Exploration", activities: ["5:30 AM - Arrive at Chikmagalur", "6:30 AM - Freshen up and breakfast", "8:00 AM - Drive to Mullayanagiri Peak", "10:00 AM - Trek to the summit", "12:00 PM - Visit Baba Budangiri", "2:00 PM - Lunch at local restaurant", "4:00 PM - Hebbe Falls visit", "6:00 PM - Sunset at Z-Point", "8:00 PM - Dinner and bonfire"]},
+            {day: "Day 2", title: "Coffee Trail & Return", activities: ["7:00 AM - Sunrise and breakfast", "9:00 AM - Coffee plantation tour", "11:00 AM - Visit Ayyanakere Lake", "1:00 PM - Lunch and shopping", "2:00 PM - Departure for Bangalore", "8:00 PM - Arrive back in Bangalore"]}
+        ],
+        includes: ["AC transportation roundtrip", "1 Night stay (Homestay/Resort)", "All meals as mentioned", "Sightseeing as per itinerary", "Trek lead and guide", "Bonfire (weather permitting)"],
+        excludes: ["Entry fees", "Personal expenses", "Travel insurance", "Anything not mentioned"]
+    },
+    kerala: {
+        title: "Kerala Backwaters Trip",
+        location: "Alleppey, Kerala",
+        badge: "Backwaters",
+        price: "₹9,877",
+        image: "images/trips/kerala.jpg",
+        distance: "560 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Sep - Mar",
+        duration: "3D/2N",
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
+        highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
+        itinerary: [
+            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
+            {day: "Day 1", title: "Alleppey Houseboat Experience", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board houseboat", "1:00 PM - Kerala lunch on houseboat", "2:00 PM - Cruise through backwaters", "5:00 PM - Evening tea and snacks", "7:00 PM - Sunset on backwaters", "8:00 PM - Dinner and overnight on houseboat"]},
+            {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater views", "8:00 AM - Breakfast and disembark", "10:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at beach shack", "3:00 PM - Beach time and swimming", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
+            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
+        excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"]
+    },
+    ooty: {
+        title: "Ooty & Coonoor Trip",
+        location: "Nilgiris, Tamil Nadu",
+        badge: "Hill Station",
+        price: "₹4,499",
+        image: "images/trips/ooty.jpg",
+        distance: "280 km from Bangalore",
+        elevation: "2,240 m",
+        difficulty: "Easy",
+        bestTime: "Oct - Jun",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Escape to the Queen of Hill Stations! Ooty, nestled in the Nilgiri hills, offers colonial charm, toy train rides, tea gardens, and beautiful botanical gardens. Combined with the quieter Coonoor, this trip is perfect for nature lovers.\n\nExperience the famous Nilgiri Mountain Railway, walk through tea estates, and enjoy the pleasant weather year-round!",
+        highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim's Park"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["10:00 PM - Pickup from Bangalore", "10:30 PM - Introductions", "11:00 PM - Begin journey to Ooty"]},
+            {day: "Day 1", title: "Ooty Exploration", activities: ["6:00 AM - Arrive in Ooty", "7:30 AM - Freshen up, breakfast", "9:00 AM - Botanical Gardens", "11:00 AM - Doddabetta Peak", "1:00 PM - Lunch", "2:30 PM - Tea factory visit", "4:00 PM - Toy train to Coonoor", "5:30 PM - Sim's Park, Coonoor", "7:00 PM - Return to Ooty", "8:00 PM - Dinner, overnight stay"]},
+            {day: "Day 2", title: "Lake, Shopping & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Ooty Lake boating", "10:00 AM - Rose Garden", "11:30 AM - Local market shopping", "1:00 PM - Lunch and departure", "7:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "1 Night hotel stay", "Breakfasts and lunches", "Toy train tickets", "All sightseeing", "Tour guide"],
+        excludes: ["Entry fees to gardens", "Boating charges", "Personal expenses", "Dinner"]
+    },
+    spiti: {
+        title: "Spiti Valley Expedition",
+        location: "Himachal Pradesh",
+        badge: "Expedition",
+        price: "₹18,999",
+        image: "images/trips/spiti.jpg",
+        distance: "2,100 km from Bangalore",
+        elevation: "4,500 m",
+        difficulty: "Challenging",
+        bestTime: "Jun - Sep",
+        duration: "8D/7N",
+        availableDates: ["Jun 07-14, 2026", "Jun 21-28, 2026", "Jul 05-12, 2026", "Jul 19-26, 2026", "Aug 02-09, 2026"],
+        about: "Embark on a life-changing expedition to Spiti Valley - the Middle Land between Tibet and India. This cold desert mountain valley offers surreal landscapes, ancient monasteries, and some of the most dramatic roads in the world.\n\nCross high-altitude passes, visit 1000-year-old monasteries, and experience the raw beauty of the Trans-Himalayas. This is for true adventurers seeking an off-beat experience!",
+        highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World's highest post office - Hikkim", "Langza fossil village", "Kaza local market exploration"],
+        itinerary: [
+            {day: "Day 1", title: "Bangalore to Delhi", activities: ["Morning flight to Delhi", "Pickup and transfer to hotel", "Evening briefing session", "Overnight in Delhi"]},
+            {day: "Day 2", title: "Delhi to Shimla", activities: ["6:00 AM - Depart for Shimla", "3:00 PM - Arrive in Shimla", "Evening - Mall Road walk", "Overnight in Shimla"]},
+            {day: "Day 3", title: "Shimla to Nako", activities: ["6:00 AM - Early start", "Cross Kinnaur Valley", "Visit Nako Lake", "Overnight in Nako"]},
+            {day: "Day 4-5", title: "Kaza & Monasteries", activities: ["Drive to Kaza via Tabo", "Visit Tabo Monastery", "Explore Key Monastery", "Kibber village excursion", "2 nights in Kaza"]},
+            {day: "Day 6", title: "Chandratal Lake", activities: ["Drive to Chandratal", "Cross Kunzum Pass", "Camp by the lake", "Stargazing session"]},
+            {day: "Day 7-8", title: "Return Journey", activities: ["Early morning lake visit", "Drive to Manali via Rohtang", "Evening at Mall Road", "Next day flight to Bangalore"]}
+        ],
+        includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
+        excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"]
+    },
+    kudremukh: {
+        title: "Kudremukh Trek",
+        location: "Western Ghats, Karnataka",
+        badge: "Trek",
+        price: "₹3,999",
+        image: "images/trips/kudremukh.jpg",
+        distance: "18 km trek",
+        elevation: "1,894 m",
+        difficulty: "Moderate-Hard",
+        bestTime: "Oct - Feb",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Kudremukh, meaning 'Horse Face' in Kannada, is one of the most beautiful treks in South India. The peak resembles a horse's face when viewed from certain angles. This UNESCO heritage site offers pristine grasslands, shola forests, and stunning views.\n\nTrek through the rolling green hills, cross numerous streams, and camp under the stars in one of the most biodiverse regions of the Western Ghats!",
+        highlights: ["UNESCO World Heritage Site", "Rolling grassland meadows", "Unique horse-face peak view", "Night camping experience", "Multiple stream crossings", "Rich biodiversity zone"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:30 PM - Pickup from Bangalore", "10:00 PM - Trip briefing", "10:30 PM - Overnight journey to Kudremukh"]},
+            {day: "Day 1", title: "Trek Day", activities: ["5:00 AM - Arrive at base, freshen up", "6:00 AM - Breakfast", "7:00 AM - Forest permits and trek start", "10:00 AM - Cross grasslands", "1:00 PM - Lunch break", "3:00 PM - Reach campsite near peak", "5:00 PM - Summit push", "6:30 PM - Sunset from peak", "8:00 PM - Dinner at camp"]},
+            {day: "Day 2", title: "Descent & Return", activities: ["5:30 AM - Sunrise at peak", "7:00 AM - Breakfast", "8:00 AM - Begin descent", "12:00 PM - Reach base", "1:00 PM - Lunch", "2:00 PM - Depart for Bangalore", "9:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid"],
+        excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"]
+    },
+    goa: {
+        title: "Goa Beach Backpacking",
+        location: "North Goa",
+        badge: "Backpacking",
+        price: "₹5,477",
+        image: "images/trips/goa.jpg",
+        distance: "560 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Oct - Mar",
+        duration: "2D/2N",
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        about: "Experience Goa like a true backpacker! This trip covers the best of North Goa - pristine beaches, vibrant nightlife, historic forts, and delicious seafood. Perfect for those looking to explore Goa beyond the usual tourist spots.\n\nFrom the hippie vibes of Anjuna to the Portuguese charm of Old Goa, experience the diverse flavors of India's party capital!",
+        highlights: ["Calangute & Baga Beach", "Anjuna Flea Market", "Fort Aguada sunset", "Old Goa churches", "Nightlife experience", "Water sports (optional)"],
+        itinerary: [
+            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Introduction", "9:00 PM - Overnight journey to Goa"]},
+            {day: "Day 1", title: "North Goa Exploration", activities: ["8:00 AM - Arrive in Goa", "9:00 AM - Check-in, freshen up", "10:30 AM - Calangute Beach", "1:00 PM - Seafood lunch", "3:00 PM - Fort Aguada", "5:00 PM - Candolim Beach", "7:00 PM - Baga Beach sunset", "9:00 PM - Dinner and nightlife"]},
+            {day: "Day 2", title: "Old Goa & More Beaches", activities: ["8:00 AM - Breakfast", "9:30 AM - Old Goa churches", "11:00 AM - Anjuna Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Vagator Beach & Chapora Fort", "6:00 PM - Sunset point", "8:00 PM - Return journey", "6:00 AM - Arrive Bangalore (next day)"]}
+        ],
+        includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
+        excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"]
+    },
+    dandeli: {
+        title: "Dandeli River Adventure",
+        location: "Dandeli, Karnataka",
+        badge: "Adventure",
+        price: "₹6,997",
+        image: "images/trips/dandeli.jpg",
+        distance: "480 km from Bangalore",
+        elevation: "460 m",
+        difficulty: "Moderate",
+        bestTime: "Oct - May",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Get your adrenaline pumping at Dandeli - Karnataka's adventure capital! Known for white water rafting on the Kali River, this destination offers a perfect mix of adventure sports and wildlife experiences.\n\nCamp by the river, try rafting through rapids, go kayaking, and spot crocodiles on a coracle ride. Perfect for adventure enthusiasts and nature lovers alike!",
+        highlights: ["White water rafting (Grade 2-3)", "Kayaking on Kali River", "Coracle ride", "Jungle safari", "Night camping by river", "Bonfire and BBQ"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Adventure Day", activities: ["6:00 AM - Arrive at Dandeli", "7:00 AM - Check-in, freshen up", "8:00 AM - Breakfast", "9:30 AM - White water rafting (2 hrs)", "12:00 PM - Lunch at camp", "2:00 PM - Kayaking session", "4:00 PM - Coracle ride", "6:00 PM - River jacuzzi", "7:30 PM - Bonfire and BBQ dinner"]},
+            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Morning jungle safari", "8:30 AM - Breakfast", "10:00 AM - Syntheri Rocks visit", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "1 Night riverside camp", "All meals", "Rafting, Kayaking, Coracle", "Jungle safari", "Bonfire and BBQ", "All safety equipment"],
+        excludes: ["Personal expenses", "Travel insurance", "Additional activities", "Tips"]
+    },
+    hampi: {
+        title: "Hampi - Anjanadri Hills",
+        location: "Hampi, Karnataka",
+        badge: "Heritage",
+        price: "₹4,477",
+        image: "images/trips/hampi.jpg",
+        distance: "350 km from Bangalore",
+        elevation: "467 m",
+        difficulty: "Easy",
+        bestTime: "Oct - Feb",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Step back in time at Hampi, the UNESCO World Heritage Site and capital of the mighty Vijayanagara Empire. This open-air museum features stunning temple architecture, boulder-strewn landscapes, and the sacred Tungabhadra River.\n\nClimb Anjanadri Hill (believed to be Lord Hanuman's birthplace), explore ancient ruins, and witness magical sunsets over the surreal boulder landscape!",
+        highlights: ["Anjanadri Hill sunrise trek", "Virupaksha Temple", "Vijaya Vittala Temple & Stone Chariot", "Coracle ride on Tungabhadra", "Hemakuta Hill sunset", "Hippie Island exploration"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Introduction", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Hampi Heritage Walk", activities: ["5:00 AM - Arrive in Hampi", "5:30 AM - Anjanadri Hill sunrise trek", "7:30 AM - Breakfast", "9:00 AM - Virupaksha Temple", "11:00 AM - Vijaya Vittala Temple", "1:00 PM - Lunch", "2:30 PM - Coracle ride", "4:00 PM - Hippie Island exploration", "6:00 PM - Hemakuta Hill sunset", "8:00 PM - Dinner and rest"]},
+            {day: "Day 2", title: "More Ruins & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Queen's Bath", "9:30 AM - Elephant Stables", "10:30 AM - Underground Shiva Temple", "12:00 PM - Lunch", "1:00 PM - Departure", "8:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "1 Night accommodation", "Breakfasts and lunches", "Coracle ride", "Local guide", "All sightseeing"],
+        excludes: ["Entry fees to monuments", "Dinner", "Personal expenses", "Tips"]
+    },
+    yercaud: {
+        title: "Yercaud Hill Station",
+        location: "Salem, Tamil Nadu",
+        badge: "Road Trip",
+        price: "₹4,999",
+        image: "images/trips/yercaud.jpg",
+        distance: "220 km from Bangalore",
+        elevation: "1,515 m",
+        difficulty: "Easy",
+        bestTime: "Year round",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Discover the hidden gem of Tamil Nadu! Yercaud, known as the 'Poor Man's Ooty', offers serene lake views, coffee plantations, and pleasant weather without the crowds. Perfect for a peaceful weekend getaway.\n\nExplore the charming Yercaud Lake, visit ancient temples, and enjoy panoramic views from Lady's Seat. A perfect escape for those seeking tranquility!",
+        highlights: ["Yercaud Lake boating", "Pagoda Point views", "Lady's Seat viewpoint", "Shevaroy Temple", "Coffee and spice gardens", "Bear's Cave exploration"],
+        itinerary: [
+            {day: "Day 1", title: "Early Morning Departure", activities: ["4:00 AM - Pickup from Bangalore", "8:00 AM - Breakfast en route", "10:00 AM - Arrive in Yercaud", "11:00 AM - Check-in, freshen up", "12:00 PM - Yercaud Lake boating", "1:30 PM - Lunch", "3:00 PM - Pagoda Point & Lady's Seat", "5:00 PM - Shevaroy Temple", "6:30 PM - Sunset point", "8:00 PM - Dinner and rest"]},
+            {day: "Day 2", title: "More Exploration & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Bear's Cave", "10:00 AM - Coffee plantation visit", "11:30 AM - Local market shopping", "1:00 PM - Lunch", "2:00 PM - Departure", "7:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "1 Night hotel stay", "Breakfasts", "Boating tickets", "All sightseeing", "Tour guide"],
+        excludes: ["Lunches and dinners", "Entry fees", "Personal expenses", "Tips"]
+    },
+    "nandi-hills": {
+        title: "Nandi Hills Sunrise",
+        location: "Bangalore Rural",
+        badge: "Day Trip",
+        price: "₹1,499",
+        image: "images/trips/nandi-hills.jpg",
+        distance: "60 km from Bangalore",
+        elevation: "1,478 m",
+        difficulty: "Easy",
+        bestTime: "Year round",
+        duration: "1 Day",
+        availableDates: ["Jan 04, 2026", "Jan 11, 2026", "Jan 18, 2026", "Jan 25, 2026", "Feb 01, 2026", "Feb 08, 2026"],
+        about: "Witness the magical sunrise from Nandi Hills, Bangalore's favorite weekend getaway! Just an hour from the city, this ancient hill fortress offers breathtaking views, cool breeze, and a perfect escape from the urban hustle.\n\nCombine it with a visit to Bhoga Nandeeshwara Temple and enjoy cycling or paragliding options. Perfect for early birds and photography enthusiasts!",
+        highlights: ["Spectacular sunrise views", "Tipu Sultan's Summer Palace", "Bhoga Nandeeshwara Temple", "Cycling trails", "Paragliding (optional)", "Photography paradise"],
+        itinerary: [
+            {day: "Day 1", title: "Sunrise Trip", activities: ["3:30 AM - Pickup from Bangalore", "4:30 AM - Arrive at Nandi Hills", "5:00 AM - Trek to sunrise point", "5:45 AM - Witness magical sunrise", "7:00 AM - Explore Tipu's Drop", "8:00 AM - Breakfast at hilltop", "9:30 AM - Bhoga Nandeeshwara Temple", "11:00 AM - Optional: Cycling/Paragliding", "1:00 PM - Lunch", "2:30 PM - Departure", "4:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "Breakfast", "Entry tickets", "Tour guide"],
+        excludes: ["Lunch", "Paragliding/Cycling charges", "Personal expenses", "Tips"]
+    },
+    gokarna: {
+        title: "Gokarna Beach Trek",
+        location: "Gokarna, Karnataka",
+        badge: "Beach Trek",
+        price: "₹4,777",
+        image: "images/trips/goa.jpg",
+        distance: "480 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Moderate",
+        bestTime: "Oct - Mar",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Experience Gokarna - the quieter, more spiritual cousin of Goa! This temple town offers pristine beaches, beach trekking, and a laid-back vibe perfect for backpackers. Trek between secluded beaches and discover hidden coves.\n\nFrom the sacred Mahabaleshwar Temple to the hippie paradise of Om Beach, experience the best of this coastal gem!",
+        highlights: ["Beach trek: Kudle to Paradise", "Om Beach camping", "Mahabaleshwar Temple", "Half Moon Beach", "Paradise Beach", "Sunset at Kudle Beach"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Beach Trek & Exploration", activities: ["6:00 AM - Arrive in Gokarna", "7:00 AM - Freshen up, breakfast", "8:30 AM - Mahabaleshwar Temple", "10:00 AM - Gokarna Beach", "11:00 AM - Beach trek begins", "12:00 PM - Kudle Beach", "1:30 PM - Lunch at beach cafe", "3:00 PM - Continue to Om Beach", "5:00 PM - Half Moon Beach", "6:30 PM - Sunset at Paradise Beach", "8:00 PM - Bonfire dinner at camp"]},
+            {day: "Day 2", title: "Morning Beach & Return", activities: ["6:00 AM - Sunrise at beach", "7:30 AM - Swim and relax", "9:00 AM - Breakfast", "10:00 AM - Trek back to Gokarna", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC Sleeper transport", "1 Night beach camping", "All meals", "Beach trek guide", "Camping gear", "Bonfire"],
+        excludes: ["Water sports", "Personal expenses", "Temple donations", "Tips"]
+    },
+    wayanad: {
+        title: "Wayanad 2 Days Trip",
+        location: "Wayanad, Kerala",
+        badge: "Hill Station",
+        price: "₹4,977",
+        image: "images/trips/kerala.jpg",
+        distance: "280 km from Bangalore",
+        elevation: "700-2,100 m",
+        difficulty: "Easy",
+        bestTime: "Oct - May",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Explore the green paradise of Wayanad in Kerala! This hill district offers ancient caves, stunning waterfalls, wildlife sanctuaries, and spice plantations. Perfect for nature lovers and adventure seekers alike.\n\nFrom the historic Edakkal Caves to the misty Chembra Peak, Wayanad offers diverse experiences in a compact destination!",
+        highlights: ["Edakkal Caves prehistoric art", "Soochipara Waterfalls", "Wayanad Wildlife Sanctuary", "Banasura Sagar Dam", "Spice plantation visit", "Chembra Peak heart-shaped lake"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Wayanad Exploration", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Freshen up, breakfast", "8:00 AM - Edakkal Caves trek", "11:00 AM - Soochipara Waterfalls", "1:00 PM - Kerala lunch", "2:30 PM - Banasura Sagar Dam", "4:30 PM - Spice plantation tour", "6:00 PM - Check-in to resort", "8:00 PM - Dinner"]},
+            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Wildlife safari", "8:30 AM - Breakfast", "10:00 AM - Pookode Lake", "11:30 AM - Shopping", "1:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
+        excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"]
+    },
+    munnar: {
+        title: "Munnar with Kolukkumalai Sunrise",
+        location: "Munnar, Kerala",
+        badge: "Hill Station",
+        price: "₹6,277",
+        image: "images/trips/kerala.jpg",
+        distance: "480 km from Bangalore",
+        elevation: "1,600 m",
+        difficulty: "Easy",
+        bestTime: "Sep - Mar",
+        duration: "2D/2N",
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        about: "Experience the tea capital of South India! Munnar's rolling tea gardens, misty mountains, and the world's highest tea plantation at Kolukkumalai make this a must-visit destination. Witness a magical sunrise above the clouds!\n\nThe jeep ride to Kolukkumalai through winding paths is an adventure in itself. Combine with Eravikulam National Park for Nilgiri Tahr sighting!",
+        highlights: ["Kolukkumalai sunrise jeep trip", "World's highest tea plantation", "Eravikulam National Park", "Tea Museum visit", "Mattupetty Dam", "Top Station viewpoint"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Introduction", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Munnar Sightseeing", activities: ["9:00 AM - Arrive in Munnar", "10:00 AM - Check-in, freshen up", "11:00 AM - Eravikulam National Park", "1:30 PM - Kerala lunch", "3:00 PM - Tea Museum", "4:30 PM - Mattupetty Dam", "6:00 PM - Echo Point", "8:00 PM - Dinner and rest"]},
+            {day: "Day 2", title: "Kolukkumalai & More", activities: ["3:00 AM - Wake up call", "3:30 AM - Jeep to Kolukkumalai", "5:30 AM - Sunrise above clouds", "7:00 AM - Tea factory tour", "9:00 AM - Return to hotel, breakfast", "11:00 AM - Top Station", "1:00 PM - Lunch", "2:00 PM - Shopping", "3:00 PM - Departure", "11:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC Sleeper transport", "1 Night hotel stay", "All meals", "Kolukkumalai jeep", "All sightseeing", "National park entry"],
+        excludes: ["Personal expenses", "Boating charges", "Tips"]
+    },
+    theyyam: {
+        title: "Kannur Theyyam Tour",
+        location: "Kannur, Kerala",
+        badge: "Cultural",
+        price: "₹5,977",
+        image: "images/trips/kerala.jpg",
+        distance: "340 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Oct - May",
+        duration: "2D/1N",
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        about: "Witness the spectacular Theyyam ritual - a 800-year-old living tradition of North Kerala! This divine art form combines dance, music, and spiritual possession in colorful costumes. A truly unique cultural experience!\n\nExplore the beautiful Kannur coastline, visit ancient temples, and experience authentic Kerala cuisine. The Theyyam performance will leave you spellbound!",
+        highlights: ["Live Theyyam performance", "Kannur Fort (St. Angelo)", "Payyambalam Beach", "Muzhappilangad Drive-in Beach", "Traditional Kerala meals", "Folklore museum"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Kannur & Theyyam", activities: ["6:00 AM - Arrive in Kannur", "7:00 AM - Freshen up, breakfast", "9:00 AM - Kannur Fort", "11:00 AM - Payyambalam Beach", "1:00 PM - Traditional Kerala lunch", "3:00 PM - Muzhappilangad Beach", "5:00 PM - Folklore museum", "7:00 PM - Theyyam temple visit", "8:00 PM - Witness Theyyam ritual", "10:00 PM - Dinner and rest"]},
+            {day: "Day 2", title: "More Theyyam & Return", activities: ["5:00 AM - Early morning Theyyam", "8:00 AM - Breakfast", "9:30 AM - Temple visits", "11:00 AM - Local market", "12:30 PM - Lunch", "1:30 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+        ],
+        includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
+        excludes: ["Temple donations", "Personal expenses", "Tips"]
+    }
+};
+
+function getTripData(tripId) {
+    return tripsData[tripId] || tripsData['netravati'];
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Trips - Team Weekend Trekkers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.jpg" alt="Team Weekend Trekkers" class="logo-img">
+                <span class="logo-text">Team Weekend Trekkers</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trips.html" class="active">Trips</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="https://wa.me/919538236581" target="_blank" class="btn-nav">Book Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>All Trips & Adventures</h1>
+        <p>Choose your next adventure from our curated collection</p>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="trek">Treks</button>
+                <button class="filter-btn" data-filter="roadtrip">Road Trips</button>
+                <button class="filter-btn" data-filter="backpacking">Backpacking</button>
+                <button class="filter-btn" data-filter="expedition">Expeditions</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="trips-section">
+        <div class="container">
+            <div class="trips-grid" id="tripsDynamicGrid">
+                <!-- Trip cards loaded dynamically from trips-data.js -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Team Weekend Trekkers</h4>
+                    <p>A Travel community for the travellers, By the travellers.</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/919538236581" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="trips.html">All Trips</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 9538236581</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Pay via UPI</h4>
+                    <p class="upi-id-display" id="upi-footer">Loading...</p>
+                    <button class="btn btn-small copy-upi" onclick="copyUPI()"><i class="fas fa-copy"></i> Copy UPI</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Team Weekend Trekkers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919538236581" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/trips-data.js"></script>
+    <script>
+    // Utility: Get trip category for filter
+    function getTripCategory(tripId, trip) {
+        if (trip.badge && trip.badge.toLowerCase().includes('trek')) return 'trek';
+        if (trip.badge && trip.badge.toLowerCase().includes('road')) return 'roadtrip';
+        if (trip.badge && trip.badge.toLowerCase().includes('expedition')) return 'expedition';
+        if (trip.badge && trip.badge.toLowerCase().includes('backpack')) return 'backpacking';
+        if (trip.badge && trip.badge.toLowerCase().includes('hill')) return 'backpacking';
+        if (trip.badge && trip.badge.toLowerCase().includes('adventure')) return 'trek';
+        if (trip.badge && trip.badge.toLowerCase().includes('backwater')) return 'backpacking';
+        return 'other';
+    }
+    // Render all trips
+    function loadTrips() {
+        const grid = document.getElementById('tripsDynamicGrid');
+        if (!grid) return;
+        let html = '';
+        Object.entries(tripsData).forEach(([id, trip]) => {
+            const category = getTripCategory(id, trip);
+            html += `
+            <div class="trip-card" data-category="${category}">
+                <div class="trip-image">
+                    <img src="${trip.image}" alt="${trip.title}">
+                    <span class="trip-badge">${trip.badge}</span>
+                </div>
+                <div class="trip-content">
+                    <h3>${trip.title}</h3>
+                    <p class="trip-location"><i class="fas fa-map-marker-alt"></i> ${trip.location}</p>
+                    <div class="trip-meta">
+                        <span><i class="fas fa-clock"></i> ${trip.duration || ''}</span>
+                        <span><i class="fas fa-signal"></i> ${trip.difficulty || ''}</span>
+                    </div>
+                    <div class="trip-footer">
+                        <span class="trip-price">${trip.price}</span>
+                        <a href="trip-detail.html?trip=${id}" class="btn btn-small">Explore</a>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        grid.innerHTML = html;
+        // Initialize filters after cards are loaded
+        initFilters();
+    }
+    // Filter functionality
+    function initFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const tripCards = document.querySelectorAll('.trip-card');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                tripCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', loadTrips);
+    </script>
+    <script>
+    // UPI Protection
+    (function() {
+        const p = [57,53,51,56,50,51,54,53,56,49];
+        const s = [64];
+        const d = [121,98,108];
+        const u = [...p,...s,...d].map(c => String.fromCharCode(c)).join('');
+        const el = document.getElementById('upi-footer');
+        if (el) el.textContent = u;
+    })();
+    </script>
+</body>
+</html>
