@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-25 16:57
+// Last updated: 2025-12-25 17:01
 // 
 // 📸 PHOTOS: Put images in images/trips/tripid.jpg
 // 💰 PRICES: Change the 'price' field
@@ -38,7 +38,7 @@ const tripsData = {
         title: "Coorg with Mandalpatti Peak",
         location: "Kodagu, Karnataka",
         badge: "Road Trip",
-        price: "₹4,300",
+        price: "₹4,222",
         image: "images/trips/coorg.jpg",
         distance: "280 km from Bangalore",
         elevation: "1,450 m",
