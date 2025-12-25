@@ -1886,6 +1886,16 @@ After saving your changes, deploy your website:
                     else:
                         log("✅ Changes committed")
                     
+                    # Pull remote changes first (auto-sync)
+                    log("🔄 Syncing with remote...")
+                    result = subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'],
+                                           capture_output=True, text=True,
+                                           cwd=PROJECT_ROOT, timeout=60)
+                    if result.returncode != 0:
+                        log(f"⚠️ Sync note: {result.stderr or result.stdout}")
+                    else:
+                        log("✅ Synced with remote")
+                    
                     log("☁️ Pushing to GitHub...")
                     log("   (This may take a moment)")
                     result = subprocess.run(['git', 'push', 'origin', 'main'],
