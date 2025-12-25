@@ -24,6 +24,14 @@ TRIPS_DATA_FILE = os.path.join(PROJECT_ROOT, "js", "trips-data.js")
 FEATURED_TRIPS_FILE = os.path.join(PROJECT_ROOT, "js", "featured-trips.js")
 IMAGES_DIR = os.path.join(PROJECT_ROOT, "images", "trips")
 
+# HTML files that load trips-data.js (for cache-busting)
+HTML_FILES = [
+    os.path.join(PROJECT_ROOT, "index.html"),
+    os.path.join(PROJECT_ROOT, "trips.html"),
+    os.path.join(PROJECT_ROOT, "trip-detail.html"),
+    os.path.join(PROJECT_ROOT, "checkout.html"),
+]
+
 # Modern color scheme
 COLORS = {
     'bg': '#1a1a2e',
@@ -1545,12 +1553,55 @@ function getFeaturedTrips() {
             with open(TRIPS_DATA_FILE, 'w') as f:
                 f.write(js_content)
             
+            # Update cache version in HTML files to force browser refresh
+            cache_updated = self.update_cache_version()
+            
             self.unsaved_changes = False
             self.update_status("💾 Changes saved successfully!")
+            
+            cache_msg = "\n\n✅ Cache-busting updated in HTML files." if cache_updated else ""
             messagebox.showinfo("Success", 
-                              f"Changes saved to:\n{TRIPS_DATA_FILE}\n\nBackup created.")
+                              f"Changes saved to:\n{TRIPS_DATA_FILE}\n\nBackup created.{cache_msg}")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to save: {e}")
+    
+    def update_cache_version(self):
+        """Update version parameter in HTML files to bust browser cache.
+        
+        This ensures users always get the latest trips-data.js when prices change.
+        """
+        import time
+        version = int(time.time())  # Unix timestamp as version
+        updated_count = 0
+        
+        # Pattern to match trips-data.js with or without existing version
+        pattern = r'(src=["\']js/trips-data\.js)(\?v=\d+)?(["\'])'
+        replacement = f'\\1?v={version}\\3'
+        
+        for html_file in HTML_FILES:
+            try:
+                if not os.path.exists(html_file):
+                    continue
+                
+                with open(html_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                # Check if file has the script tag
+                if 'trips-data.js' in content:
+                    new_content = re.sub(pattern, replacement, content)
+                    
+                    if new_content != content:
+                        with open(html_file, 'w', encoding='utf-8') as f:
+                            f.write(new_content)
+                        updated_count += 1
+                        print(f"✅ Updated cache version in: {os.path.basename(html_file)}")
+            except Exception as e:
+                print(f"⚠️ Failed to update {html_file}: {e}")
+        
+        if updated_count > 0:
+            print(f"🔄 Cache-busting: Updated {updated_count} HTML files with v={version}")
+        
+        return updated_count > 0
     
     def generate_js_content(self):
         """Generate JavaScript file content in object format."""
