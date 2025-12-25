@@ -8,12 +8,12 @@ title Trip Manager - WSL
 
 echo.
 echo  ========================================================
-echo     Trip Manager - Starting in WSL Ubuntu...
+echo     Trip Manager - Starting in WSL...
 echo  ========================================================
 echo.
 
-:: Run Trip Manager directly using Ubuntu WSL
-wsl -d Ubuntu -- python3 /home/simplifybytes/TravelBooking/admin/trip-manager.py
+:: Try default WSL (no distro name needed)
+wsl python3 /home/simplifybytes/TravelBooking/admin/trip-manager.py
 
 echo.
 echo  Trip Manager closed.

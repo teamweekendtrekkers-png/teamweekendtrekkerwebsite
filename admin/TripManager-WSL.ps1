@@ -5,12 +5,12 @@
 
 Write-Host ""
 Write-Host "  ========================================================" -ForegroundColor Cyan
-Write-Host "     Trip Manager - Starting in WSL Ubuntu..." -ForegroundColor Cyan
+Write-Host "     Trip Manager - Starting in WSL..." -ForegroundColor Cyan
 Write-Host "  ========================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Run Trip Manager in WSL
-wsl -d Ubuntu python3 /home/simplifybytes/TravelBooking/admin/trip-manager.py
+# Run Trip Manager in default WSL
+wsl python3 /home/simplifybytes/TravelBooking/admin/trip-manager.py
 
 Write-Host ""
 Write-Host "  Trip Manager closed." -ForegroundColor Yellow
