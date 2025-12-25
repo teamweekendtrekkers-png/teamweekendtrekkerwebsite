@@ -7,10 +7,14 @@
 title Trip Manager - WSL
 
 echo.
-echo  Starting Trip Manager in WSL...
+echo  ========================================================
+echo     Trip Manager - Starting in WSL Ubuntu...
+echo  ========================================================
 echo.
 
-:: Run the bash script in WSL
-wsl -e bash -c "cd /home/simplifybytes/TravelBooking/admin && ./run-trip-manager.sh"
+:: Run Trip Manager directly using Ubuntu WSL
+wsl -d Ubuntu -- python3 /home/simplifybytes/TravelBooking/admin/trip-manager.py
 
+echo.
+echo  Trip Manager closed.
 pause
