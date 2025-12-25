@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-25 13:40
+// Last updated: 2025-12-25 14:54
 // 
 // 📸 PHOTOS: Put images in images/trips/tripid.jpg
 // 💰 PRICES: Change the 'price' field

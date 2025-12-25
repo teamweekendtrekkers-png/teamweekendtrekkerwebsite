@@ -78,86 +78,9 @@
         <div class="container">
             <h2 class="section-title">Upcoming Adventures</h2>
             <p class="section-subtitle">We Provide Real Adventures, Not Just Tours</p>
-            <div class="trips-grid">
-                <!-- Trip Card 1 -->
-                <div class="trip-card">
-                    <div class="trip-image">
-                        <img src="images/trips/netravati.jpg" alt="Netravati Peak Trek">
-                        <span class="trip-badge">Weekend Trek</span>
-                    </div>
-                    <div class="trip-content">
-                        <h3>Netravati Peak Trek</h3>
-                        <p class="trip-location"><i class="fas fa-map-marker-alt"></i> Western Ghats, Karnataka</p>
-                        <div class="trip-meta">
-                            <span><i class="fas fa-clock"></i> 2 Days</span>
-                            <span><i class="fas fa-signal"></i> Moderate</span>
-                        </div>
-                        <div class="trip-footer">
-                            <span class="trip-price">₹3,499</span>
-                            <a href="trip-detail.html?trip=netravati" class="btn btn-small">Explore</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Trip Card 2 -->
-                <div class="trip-card">
-                    <div class="trip-image">
-                        <img src="images/trips/kerala.jpg" alt="Kerala Road Trip">
-                        <span class="trip-badge">Road Trip</span>
-                    </div>
-                    <div class="trip-content">
-                        <h3>Kerala Road Trip</h3>
-                        <p class="trip-location"><i class="fas fa-map-marker-alt"></i> Athirapalli - Kochi - Alappuzha</p>
-                        <div class="trip-meta">
-                            <span><i class="fas fa-clock"></i> 3 Days</span>
-                            <span><i class="fas fa-signal"></i> Easy</span>
-                        </div>
-                        <div class="trip-footer">
-                            <span class="trip-price">₹10,000</span>
-                            <a href="trip-detail.html?trip=kerala" class="btn btn-small">Explore</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Trip Card 3 -->
-                <div class="trip-card">
-                    <div class="trip-image">
-                        <img src="images/trips/ooty.jpg" alt="Ooty Backpacking">
-                        <span class="trip-badge">Backpacking</span>
-                    </div>
-                    <div class="trip-content">
-                        <h3>Ooty Backpacking Trip</h3>
-                        <p class="trip-location"><i class="fas fa-map-marker-alt"></i> Nilgiri Hills, Tamil Nadu</p>
-                        <div class="trip-meta">
-                            <span><i class="fas fa-clock"></i> 3 Days</span>
-                            <span><i class="fas fa-signal"></i> Easy</span>
-                        </div>
-                        <div class="trip-footer">
-                            <span class="trip-price">₹5,499</span>
-                            <a href="trip-detail.html?trip=ooty" class="btn btn-small">Explore</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Trip Card 4 -->
-                <div class="trip-card">
-                    <div class="trip-image">
-                        <img src="images/trips/spiti.jpg" alt="Spiti Valley">
-                        <span class="trip-badge">Expedition</span>
-                    </div>
-                    <div class="trip-content">
-                        <h3>Winter Spiti Valley</h3>
-                        <p class="trip-location"><i class="fas fa-map-marker-alt"></i> Himachal Pradesh</p>
-                        <div class="trip-meta">
-                            <span><i class="fas fa-clock"></i> 7 Days</span>
-                            <span><i class="fas fa-signal"></i> Moderate</span>
-                        </div>
-                        <div class="trip-footer">
-                            <span class="trip-price">₹17,999</span>
-                            <a href="trip-detail.html?trip=spiti" class="btn btn-small">Explore</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="trips-grid" id="featured-trips-grid">
+                <!-- Featured trips will be loaded dynamically -->
+                <div class="loading-placeholder">Loading adventures...</div>
             </div>
             <div class="center-btn">
                 <a href="trips.html" class="btn btn-primary">View All Trips</a>
@@ -328,7 +251,46 @@
         <span>Chat with us</span>
     </a>
 
+    <script src="js/trips-data.js"></script>
+    <script src="js/featured-trips.js"></script>
     <script src="js/main.js"></script>
     <script src="js/security.js"></script>
+    <script>
+    // Load Featured Trips on Homepage
+    document.addEventListener('DOMContentLoaded', function() {
+        const grid = document.getElementById('featured-trips-grid');
+        if (!grid) return;
+        
+        // Get featured trips
+        const featuredTrips = getFeaturedTrips();
+        
+        if (featuredTrips.length === 0) {
+            grid.innerHTML = '<p>No featured trips available.</p>';
+            return;
+        }
+        
+        // Generate trip cards
+        grid.innerHTML = featuredTrips.map(trip => `
+            <div class="trip-card">
+                <div class="trip-image">
+                    <img src="${trip.image}" alt="${trip.title}">
+                    <span class="trip-badge">${trip.badge || 'Trip'}</span>
+                </div>
+                <div class="trip-content">
+                    <h3>${trip.title}</h3>
+                    <p class="trip-location"><i class="fas fa-map-marker-alt"></i> ${trip.location}</p>
+                    <div class="trip-meta">
+                        <span><i class="fas fa-clock"></i> ${trip.duration || 'Multiple Days'}</span>
+                        <span><i class="fas fa-signal"></i> ${trip.difficulty || 'Moderate'}</span>
+                    </div>
+                    <div class="trip-footer">
+                        <span class="trip-price">${trip.price}</span>
+                        <a href="trip-detail.html?trip=${trip.id}" class="btn btn-small">Explore</a>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    });
+    </script>
 </body>
 </html>

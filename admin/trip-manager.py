@@ -19,6 +19,7 @@ from datetime import datetime, timedelta
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 TRIPS_DATA_FILE = os.path.join(PROJECT_ROOT, "js", "trips-data.js")
+FEATURED_TRIPS_FILE = os.path.join(PROJECT_ROOT, "js", "featured-trips.js")
 IMAGES_DIR = os.path.join(PROJECT_ROOT, "images", "trips")
 
 # Modern color scheme
@@ -332,6 +333,7 @@ class TripManagerApp:
         nav_buttons = [
             ("📋 All Trips", self.show_trip_list),
             ("➕ Add New Trip", self.show_add_trip),
+            ("⭐ Featured Trips", self.show_featured_trips),
             ("🖼️ Photo Manager", self.show_photo_manager),
             ("💾 Save Changes", self.save_trips),
             ("🚀 Deploy Site", self.deploy_site),
@@ -1042,6 +1044,279 @@ class TripManagerApp:
             self.update_status(f"🗑️ Deleted trip: {trip.get('title')}")
             self.display_trips()
     
+    def show_featured_trips(self):
+        """Show featured trips management screen."""
+        self.clear_content()
+        
+        # Load current featured trips
+        self.featured_trip_ids = self.load_featured_trips()
+        
+        # Header
+        header = tk.Frame(self.content_frame, bg=COLORS['bg'])
+        header.pack(fill=tk.X, pady=(0, 20))
+        
+        tk.Label(header, text="⭐ Featured Trips (Homepage)", 
+                font=('Helvetica', 24, 'bold'),
+                bg=COLORS['bg'], fg=COLORS['text']).pack(side=tk.LEFT)
+        
+        tk.Label(self.content_frame, 
+                text="Select up to 4 trips to display in the 'Upcoming Adventures' section on the homepage.",
+                font=('Helvetica', 11),
+                bg=COLORS['bg'], fg=COLORS['text_secondary']).pack(anchor='w', pady=(0, 20))
+        
+        # Main container
+        main_frame = tk.Frame(self.content_frame, bg=COLORS['bg'])
+        main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Left side - Available Trips
+        left_frame = tk.Frame(main_frame, bg=COLORS['card'])
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
+        
+        tk.Label(left_frame, text="📋 Available Trips", 
+                font=('Helvetica', 14, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 10))
+        
+        # Available trips listbox
+        avail_list_frame = tk.Frame(left_frame, bg=COLORS['card'])
+        avail_list_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
+        
+        self.available_listbox = tk.Listbox(avail_list_frame, height=15,
+                                           font=('Helvetica', 11),
+                                           bg=COLORS['input_bg'], fg=COLORS['text'],
+                                           selectbackground=COLORS['accent'],
+                                           selectmode=tk.SINGLE,
+                                           bd=0, relief='flat')
+        self.available_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        avail_scrollbar = ttk.Scrollbar(avail_list_frame, orient="vertical", 
+                                       command=self.available_listbox.yview)
+        avail_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.available_listbox.config(yscrollcommand=avail_scrollbar.set)
+        
+        # Populate available trips (excluding already featured ones)
+        for trip in self.trips:
+            trip_id = trip.get('id', '')
+            if trip_id not in self.featured_trip_ids:
+                self.available_listbox.insert(tk.END, f"{trip.get('title', 'Unknown')} [{trip_id}]")
+        
+        # Center - Action Buttons
+        center_frame = tk.Frame(main_frame, bg=COLORS['bg'])
+        center_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10)
+        
+        # Spacer
+        tk.Frame(center_frame, bg=COLORS['bg'], height=100).pack()
+        
+        add_btn = tk.Button(center_frame, text="➡️ Add",
+                          font=('Helvetica', 11, 'bold'),
+                          bg=COLORS['success'], fg=COLORS['text'],
+                          bd=0, padx=20, pady=8, cursor='hand2',
+                          command=self.add_to_featured)
+        add_btn.pack(pady=5)
+        
+        remove_btn = tk.Button(center_frame, text="⬅️ Remove",
+                             font=('Helvetica', 11, 'bold'),
+                             bg='#dc3545', fg=COLORS['text'],
+                             bd=0, padx=20, pady=8, cursor='hand2',
+                             command=self.remove_from_featured)
+        remove_btn.pack(pady=5)
+        
+        tk.Frame(center_frame, bg=COLORS['bg'], height=20).pack()
+        
+        move_up_btn = tk.Button(center_frame, text="🔼 Up",
+                              font=('Helvetica', 11),
+                              bg=COLORS['card'], fg=COLORS['text'],
+                              bd=0, padx=20, pady=8, cursor='hand2',
+                              command=self.move_featured_up)
+        move_up_btn.pack(pady=5)
+        
+        move_down_btn = tk.Button(center_frame, text="🔽 Down",
+                                font=('Helvetica', 11),
+                                bg=COLORS['card'], fg=COLORS['text'],
+                                bd=0, padx=20, pady=8, cursor='hand2',
+                                command=self.move_featured_down)
+        move_down_btn.pack(pady=5)
+        
+        # Right side - Featured Trips
+        right_frame = tk.Frame(main_frame, bg=COLORS['card'])
+        right_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 0))
+        
+        tk.Label(right_frame, text="⭐ Featured on Homepage (max 4)", 
+                font=('Helvetica', 14, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 10))
+        
+        # Featured trips listbox
+        feat_list_frame = tk.Frame(right_frame, bg=COLORS['card'])
+        feat_list_frame.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
+        
+        self.featured_listbox = tk.Listbox(feat_list_frame, height=15,
+                                          font=('Helvetica', 11),
+                                          bg=COLORS['input_bg'], fg=COLORS['text'],
+                                          selectbackground=COLORS['accent'],
+                                          selectmode=tk.SINGLE,
+                                          bd=0, relief='flat')
+        self.featured_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        feat_scrollbar = ttk.Scrollbar(feat_list_frame, orient="vertical", 
+                                      command=self.featured_listbox.yview)
+        feat_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.featured_listbox.config(yscrollcommand=feat_scrollbar.set)
+        
+        # Populate featured trips
+        self.refresh_featured_listbox()
+        
+        # Save button
+        save_frame = tk.Frame(self.content_frame, bg=COLORS['bg'])
+        save_frame.pack(fill=tk.X, pady=20)
+        
+        save_btn = tk.Button(save_frame, text="💾 Save Featured Trips",
+                           font=('Helvetica', 12, 'bold'),
+                           bg=COLORS['success'], fg=COLORS['text'],
+                           bd=0, padx=30, pady=12, cursor='hand2',
+                           command=self.save_featured_trips)
+        save_btn.pack()
+    
+    def load_featured_trips(self):
+        """Load featured trip IDs from file."""
+        try:
+            with open(FEATURED_TRIPS_FILE, 'r') as f:
+                content = f.read()
+            
+            # Extract array from JS file
+            match = re.search(r'const\s+featuredTripIds\s*=\s*\[([\s\S]*?)\]', content)
+            if match:
+                array_content = match.group(1)
+                # Extract quoted strings
+                ids = re.findall(r'["\']([^"\']+)["\']', array_content)
+                return ids
+        except FileNotFoundError:
+            pass
+        except Exception as e:
+            print(f"Error loading featured trips: {e}")
+        
+        return ["netravati", "kerala", "ooty", "spiti"]  # Default
+    
+    def refresh_featured_listbox(self):
+        """Refresh the featured listbox display."""
+        self.featured_listbox.delete(0, tk.END)
+        for i, trip_id in enumerate(self.featured_trip_ids):
+            # Find trip title
+            trip = next((t for t in self.trips if t.get('id') == trip_id), None)
+            title = trip.get('title', 'Unknown') if trip else f"Unknown ({trip_id})"
+            self.featured_listbox.insert(tk.END, f"{i+1}. {title} [{trip_id}]")
+    
+    def refresh_available_listbox(self):
+        """Refresh the available listbox display."""
+        self.available_listbox.delete(0, tk.END)
+        for trip in self.trips:
+            trip_id = trip.get('id', '')
+            if trip_id not in self.featured_trip_ids:
+                self.available_listbox.insert(tk.END, f"{trip.get('title', 'Unknown')} [{trip_id}]")
+    
+    def add_to_featured(self):
+        """Add selected trip to featured list."""
+        selection = self.available_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("No Selection", "Please select a trip to add.")
+            return
+        
+        if len(self.featured_trip_ids) >= 4:
+            messagebox.showwarning("Limit Reached", "Maximum 4 featured trips allowed.\nRemove one first to add another.")
+            return
+        
+        # Get selected item text and extract ID
+        item_text = self.available_listbox.get(selection[0])
+        trip_id = re.search(r'\[([^\]]+)\]$', item_text)
+        if trip_id:
+            trip_id = trip_id.group(1)
+            self.featured_trip_ids.append(trip_id)
+            self.refresh_featured_listbox()
+            self.refresh_available_listbox()
+            self.update_status(f"⭐ Added to featured: {trip_id}")
+    
+    def remove_from_featured(self):
+        """Remove selected trip from featured list."""
+        selection = self.featured_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("No Selection", "Please select a trip to remove.")
+            return
+        
+        # Get selected item text and extract ID
+        item_text = self.featured_listbox.get(selection[0])
+        trip_id = re.search(r'\[([^\]]+)\]$', item_text)
+        if trip_id:
+            trip_id = trip_id.group(1)
+            self.featured_trip_ids.remove(trip_id)
+            self.refresh_featured_listbox()
+            self.refresh_available_listbox()
+            self.update_status(f"❌ Removed from featured: {trip_id}")
+    
+    def move_featured_up(self):
+        """Move selected featured trip up in the list."""
+        selection = self.featured_listbox.curselection()
+        if not selection or selection[0] == 0:
+            return
+        
+        idx = selection[0]
+        self.featured_trip_ids[idx], self.featured_trip_ids[idx-1] = \
+            self.featured_trip_ids[idx-1], self.featured_trip_ids[idx]
+        self.refresh_featured_listbox()
+        self.featured_listbox.selection_set(idx-1)
+    
+    def move_featured_down(self):
+        """Move selected featured trip down in the list."""
+        selection = self.featured_listbox.curselection()
+        if not selection or selection[0] >= len(self.featured_trip_ids) - 1:
+            return
+        
+        idx = selection[0]
+        self.featured_trip_ids[idx], self.featured_trip_ids[idx+1] = \
+            self.featured_trip_ids[idx+1], self.featured_trip_ids[idx]
+        self.refresh_featured_listbox()
+        self.featured_listbox.selection_set(idx+1)
+    
+    def save_featured_trips(self):
+        """Save featured trips to file."""
+        try:
+            content = '''// ============================================
+// FEATURED TRIPS CONFIGURATION
+// ============================================
+// 
+// These trips will be displayed on the homepage
+// in the "Upcoming Adventures" section.
+// 
+// Edit using Trip Manager → ⭐ Featured Trips
+// Last updated: ''' + datetime.now().strftime('%Y-%m-%d %H:%M') + '''
+// ============================================
+
+const featuredTripIds = [
+'''
+            for trip_id in self.featured_trip_ids:
+                content += f'    "{trip_id}",\n'
+            
+            content += '''];
+
+// Function to get featured trips data
+function getFeaturedTrips() {
+    return featuredTripIds.map(id => {
+        const trip = tripsData[id];
+        if (trip) {
+            return { id, ...trip };
+        }
+        return null;
+    }).filter(t => t !== null);
+}
+'''
+            
+            with open(FEATURED_TRIPS_FILE, 'w') as f:
+                f.write(content)
+            
+            self.update_status("⭐ Featured trips saved!")
+            messagebox.showinfo("Success", 
+                              f"Featured trips saved!\n\nSelected trips:\n" + 
+                              "\n".join([f"• {tid}" for tid in self.featured_trip_ids]))
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to save: {e}")
+
     def show_photo_manager(self):
         """Show photo management screen."""
         self.clear_content()

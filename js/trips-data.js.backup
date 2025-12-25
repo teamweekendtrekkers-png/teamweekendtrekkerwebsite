@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-25 13:36
+// Last updated: 2025-12-25 13:40
 // 
 // 📸 PHOTOS: Put images in images/trips/tripid.jpg
 // 💰 PRICES: Change the 'price' field
@@ -26,7 +26,7 @@ const tripsData = {
         about: "Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.\n\nThe trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.",
         highlights: ["Hidden waterfalls along the trail", "Night camping under stars", "Rare bird and wildlife spotting", "Pristine streams for refreshing dips", "360° panoramic views from the peak", "Away from tourist crowds"],
         itinerary: [
-            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from designated Bangalore pickup points", "10:30 PM - Introduction and trip briefing in the vehicle", "11:00 PM - Begin overnight journey to base camp", "Music, bonfire vibes, and getting to know fellow trekkers"]},
+            {day: "Day 0", title: "Night Departure from Bangalore.", activities: ["10:00 PM - Pickup from designated Bangalore pickup points", "10:30 PM - Introduction and trip briefing in the vehicle", "11:00 PM - Begin overnight journey to base camp", "Music, bonfire vibes, and getting to know fellow trekkers"]},
             {day: "Day 1", title: "Trek to Summit & Camping", activities: ["5:00 AM - Arrive at base village, freshen up", "6:00 AM - Light breakfast and trek briefing", "7:00 AM - Begin trek through forest trail", "10:00 AM - Cross streams and waterfalls", "1:00 PM - Reach campsite, packed lunch", "3:00 PM - Explore nearby viewpoints", "6:00 PM - Sunset views from the peak", "8:00 PM - Bonfire, dinner, stargazing"]},
             {day: "Day 2", title: "Sunrise, Descent & Return", activities: ["5:30 AM - Wake up for sunrise", "6:00 AM - Witness breathtaking sunrise over clouds", "7:30 AM - Breakfast at campsite", "8:30 AM - Begin descent", "12:00 PM - Reach base, freshen up", "1:00 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]}
         ],
