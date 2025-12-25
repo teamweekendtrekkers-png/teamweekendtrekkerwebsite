@@ -1768,14 +1768,14 @@ After saving your changes, deploy your website:
         thread.start()
     
     def deploy_to_github(self):
-        """Deploy changes to GitHub with UI feedback."""
+        """Deploy changes to GitHub with robust error handling and auto-recovery."""
         print("DEBUG: deploy_to_github() method called!")
         
         # Create deployment dialog
         deploy_win = tk.Toplevel(self.root)
         deploy_win.title("🚀 Deploy to GitHub")
-        deploy_win.geometry("550x520")
-        deploy_win.minsize(500, 480)
+        deploy_win.geometry("600x580")
+        deploy_win.minsize(550, 550)
         deploy_win.configure(bg=COLORS['bg'])
         deploy_win.transient(self.root)
         deploy_win.grab_set()
@@ -1833,7 +1833,7 @@ After saving your changes, deploy your website:
                 font=('Helvetica', 11, 'bold'),
                 bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
         
-        log_text = tk.Text(log_frame, height=8, font=('Consolas', 10),
+        log_text = tk.Text(log_frame, height=10, font=('Consolas', 10),
                           bg=COLORS['input_bg'], fg=COLORS['text'], bd=0)
         log_text.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
         
@@ -1852,76 +1852,207 @@ After saving your changes, deploy your website:
         
         self._deploy_log = log
         
+        def run_git_command(args, timeout=60, allow_fail=False):
+            """Run a git command and return (success, output)."""
+            try:
+                result = subprocess.run(
+                    ['git'] + args,
+                    capture_output=True, text=True,
+                    cwd=PROJECT_ROOT, timeout=timeout
+                )
+                output = (result.stdout + ' ' + result.stderr).strip()
+                success = result.returncode == 0
+                return success, output, result.returncode
+            except subprocess.TimeoutExpired:
+                return False, "Command timed out", -1
+            except FileNotFoundError:
+                return False, "Git not found", -1
+            except Exception as e:
+                return False, str(e), -1
+        
         def do_deploy():
             print("DEBUG: do_deploy() clicked!")
             self._deploy_btn.config(state=tk.DISABLED, text="⏳ Deploying...")
-            log("Starting deployment...")
+            log("🚀 Starting deployment...")
+            log("")
             
             def deploy_thread():
                 try:
                     commit_msg = self._commit_entry.get().strip() or "Updated trips"
                     
-                    log("🔍 Checking for changes...")
-                    result = subprocess.run(['git', 'status', '--porcelain'],
-                                           capture_output=True, text=True,
-                                           cwd=PROJECT_ROOT)
-                    
-                    if not result.stdout.strip():
-                        log("⚠️ No changes to deploy!")
-                        self._deploy_win.after(0, lambda: self._deploy_btn.config(state=tk.NORMAL, text="🚀 Deploy Now"))
+                    # Step 1: Verify git repository
+                    log("📂 Step 1/7: Verifying Git repository...")
+                    success, output, _ = run_git_command(['rev-parse', '--git-dir'])
+                    if not success:
+                        log(f"❌ Not a git repository: {output}")
                         return
+                    log("   ✅ Git repository verified")
                     
-                    changes = len(result.stdout.strip().split('\n'))
-                    log(f"📁 Found {changes} changed file(s)")
+                    # Step 2: Check remote configuration
+                    log("🔗 Step 2/7: Checking remote configuration...")
+                    success, output, _ = run_git_command(['remote', '-v'])
+                    if 'origin' not in output:
+                        log("❌ No 'origin' remote configured!")
+                        log("   Run: git remote add origin <your-repo-url>")
+                        return
+                    # Extract and show remote URL (mask sensitive parts)
+                    remote_url = output.split('\n')[0] if output else 'unknown'
+                    log(f"   ✅ Remote: {remote_url.split()[1] if len(remote_url.split()) > 1 else 'configured'}")
                     
-                    log("📦 Staging changes...")
-                    subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, capture_output=True, text=True)
-                    log("✅ Changes staged")
+                    # Step 3: Check for uncommitted changes
+                    log("🔍 Step 3/7: Checking for changes...")
+                    success, output, _ = run_git_command(['status', '--porcelain'])
                     
-                    log(f"💾 Committing: {commit_msg}")
-                    result = subprocess.run(['git', 'commit', '-m', commit_msg], 
-                                           capture_output=True, text=True, cwd=PROJECT_ROOT)
-                    if result.returncode != 0 and 'nothing to commit' not in result.stdout.lower():
-                        log(f"⚠️ Note: {result.stderr or result.stdout}")
-                    else:
-                        log("✅ Changes committed")
-                    
-                    # Pull remote changes first (auto-sync)
-                    log("🔄 Syncing with remote...")
-                    result = subprocess.run(['git', 'pull', '--rebase', 'origin', 'main'],
-                                           capture_output=True, text=True,
-                                           cwd=PROJECT_ROOT, timeout=60)
-                    if result.returncode != 0:
-                        log(f"⚠️ Sync note: {result.stderr or result.stdout}")
-                    else:
-                        log("✅ Synced with remote")
-                    
-                    log("☁️ Pushing to GitHub...")
-                    log("   (This may take a moment)")
-                    result = subprocess.run(['git', 'push', 'origin', 'main'],
-                                           capture_output=True, text=True,
-                                           cwd=PROJECT_ROOT, timeout=120)
-                    
-                    output = (result.stdout + result.stderr).lower()
-                    if result.returncode == 0 or 'up-to-date' in output or 'everything up-to-date' in output:
-                        log("✅ Successfully pushed to GitHub!")
+                    if not output.strip():
+                        log("   ⚠️ No local changes to deploy")
                         log("")
-                        log("🎉 DEPLOYMENT SUCCESSFUL!")
-                        log("🌐 Website will update in 1-2 minutes.")
-                        self._deploy_win.after(0, lambda: messagebox.showinfo("Success", 
-                            "✅ Deployed successfully!\n\nYour website will update in 1-2 minutes."))
+                        log("   Checking if we're ahead of remote...")
+                        success, ahead_output, _ = run_git_command(['rev-list', '--count', 'origin/main..HEAD'])
+                        if success and ahead_output.strip() != '0':
+                            log(f"   📤 Found {ahead_output.strip()} unpushed commit(s)")
+                        else:
+                            log("   ✅ Already up to date with remote!")
+                            self._deploy_win.after(0, lambda: self._deploy_btn.config(state=tk.NORMAL, text="🚀 Deploy Now"))
+                            return
                     else:
-                        error_msg = result.stderr or result.stdout
-                        log(f"❌ Push failed: {error_msg}")
-                        self._deploy_win.after(0, lambda: messagebox.showerror("Error", 
-                            f"Push failed:\n{error_msg}"))
+                        changes = len([l for l in output.strip().split('\n') if l])
+                        log(f"   📁 Found {changes} changed file(s)")
                     
-                except subprocess.TimeoutExpired:
-                    log("❌ Push timed out! Check your connection.")
-                except FileNotFoundError:
-                    log("❌ Git not found! Please install Git.")
+                    # Step 4: Stash any uncommitted changes before fetch (safety)
+                    log("💾 Step 4/7: Saving local changes...")
+                    # Stage all changes first
+                    success, output, _ = run_git_command(['add', '-A'])
+                    if not success:
+                        log(f"   ⚠️ Staging warning: {output}")
+                    log("   ✅ Changes staged")
+                    
+                    # Commit changes
+                    log(f"   📝 Committing: {commit_msg[:50]}{'...' if len(commit_msg) > 50 else ''}")
+                    success, output, code = run_git_command(['commit', '-m', commit_msg])
+                    if not success:
+                        if 'nothing to commit' in output.lower():
+                            log("   ℹ️ No new changes to commit")
+                        else:
+                            log(f"   ⚠️ Commit note: {output[:100]}")
+                    else:
+                        log("   ✅ Changes committed")
+                    
+                    # Step 5: Fetch latest from remote
+                    log("📥 Step 5/7: Fetching latest from remote...")
+                    success, output, _ = run_git_command(['fetch', 'origin', 'main'], timeout=60)
+                    if not success:
+                        log(f"   ⚠️ Fetch warning: {output[:100]}")
+                        log("   Continuing anyway...")
+                    else:
+                        log("   ✅ Fetched latest changes")
+                    
+                    # Step 6: Rebase onto remote (handles diverged histories)
+                    log("🔄 Step 6/7: Rebasing local changes...")
+                    
+                    # Check if we need to rebase
+                    success, behind_output, _ = run_git_command(['rev-list', '--count', 'HEAD..origin/main'])
+                    behind_count = int(behind_output.strip()) if success and behind_output.strip().isdigit() else 0
+                    
+                    if behind_count > 0:
+                        log(f"   📥 Remote has {behind_count} new commit(s)")
+                        
+                        # Try rebase
+                        success, output, code = run_git_command(['rebase', 'origin/main'], timeout=120)
+                        
+                        if not success:
+                            # Check for conflicts
+                            if 'conflict' in output.lower() or 'could not apply' in output.lower():
+                                log("   ⚠️ Merge conflict detected!")
+                                log("   🔧 Attempting automatic resolution...")
+                                
+                                # Abort the failed rebase
+                                run_git_command(['rebase', '--abort'])
+                                
+                                # Try merge instead with ours strategy for conflicts
+                                log("   🔀 Trying merge strategy...")
+                                success, output, _ = run_git_command(['merge', 'origin/main', '-X', 'ours', '-m', 'Merge remote changes'])
+                                
+                                if not success:
+                                    log(f"   ❌ Auto-merge failed: {output[:100]}")
+                                    log("")
+                                    log("   💡 Manual fix needed:")
+                                    log("   1. Open terminal in project folder")
+                                    log("   2. Run: git status")
+                                    log("   3. Resolve conflicts in listed files")
+                                    log("   4. Run: git add . && git commit")
+                                    log("   5. Try Deploy again")
+                                    return
+                                else:
+                                    log("   ✅ Merged with remote (kept local changes)")
+                            else:
+                                log(f"   ⚠️ Rebase issue: {output[:100]}")
+                                # Abort any in-progress rebase
+                                run_git_command(['rebase', '--abort'])
+                        else:
+                            log("   ✅ Rebased successfully")
+                    else:
+                        log("   ✅ Already up to date with remote")
+                    
+                    # Step 7: Push to remote
+                    log("☁️ Step 7/7: Pushing to GitHub...")
+                    log("   (This may take a moment...)")
+                    
+                    # Try normal push first
+                    success, output, code = run_git_command(['push', 'origin', 'main'], timeout=120)
+                    
+                    if not success:
+                        output_lower = output.lower()
+                        
+                        # Check for common push failures
+                        if 'rejected' in output_lower or 'non-fast-forward' in output_lower:
+                            log("   ⚠️ Push rejected - remote has newer changes")
+                            log("   🔄 Attempting force-with-lease (safe force)...")
+                            
+                            # Use force-with-lease (safer than force)
+                            success, output, _ = run_git_command(['push', '--force-with-lease', 'origin', 'main'], timeout=120)
+                            
+                            if not success:
+                                log(f"   ❌ Force push also failed: {output[:100]}")
+                                log("")
+                                log("   💡 Try: git push -f origin main (manual)")
+                                return
+                            else:
+                                log("   ✅ Force pushed successfully")
+                        
+                        elif 'permission denied' in output_lower or 'authentication' in output_lower:
+                            log("   ❌ Authentication failed!")
+                            log("   💡 Check your SSH keys or credentials")
+                            log("   Run: ssh -T git@github.com")
+                            return
+                        
+                        elif 'could not resolve' in output_lower or 'network' in output_lower:
+                            log("   ❌ Network error!")
+                            log("   💡 Check your internet connection")
+                            return
+                        
+                        else:
+                            log(f"   ❌ Push failed: {output[:150]}")
+                            return
+                    
+                    # Success!
+                    output_lower = output.lower()
+                    if 'up-to-date' in output_lower or 'everything up-to-date' in output_lower:
+                        log("   ✅ Already up to date!")
+                    else:
+                        log("   ✅ Pushed successfully!")
+                    
+                    log("")
+                    log("═" * 45)
+                    log("🎉 DEPLOYMENT SUCCESSFUL!")
+                    log("═" * 45)
+                    log("🌐 Website will update in 1-2 minutes.")
+                    log("")
+                    
+                    self._deploy_win.after(0, lambda: messagebox.showinfo("Success", 
+                        "✅ Deployed successfully!\n\nYour website will update in 1-2 minutes."))
+                    
                 except Exception as e:
-                    log(f"❌ Error: {str(e)}")
+                    log(f"❌ Unexpected error: {str(e)}")
                     import traceback
                     log(traceback.format_exc())
                 finally:
