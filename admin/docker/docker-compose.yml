@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  trip-manager:
+    build: .
+    container_name: trip-manager
+    volumes:
+      # Mount the entire TravelBooking project
+      - ../../:/project
+      # Mount SSH keys from user's home directory (read-only)
+      - ~/.ssh:/ssh-keys:ro
+    environment:
+      # X11 display for GUI (Windows Docker Desktop)
+      - DISPLAY=host.docker.internal:0.0
+    # Allow network access for Git operations
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Interactive mode for GUI
+    stdin_open: true
+    tty: true
