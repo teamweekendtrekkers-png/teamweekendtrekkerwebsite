@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-25 13:40
+// Last updated: 2025-12-25 16:53
 // 
 // 📸 PHOTOS: Put images in images/trips/tripid.jpg
 // 💰 PRICES: Change the 'price' field
@@ -15,14 +15,14 @@ const tripsData = {
         title: "Netravati Peak Trek",
         location: "Western Ghats, Karnataka",
         badge: "Weekend Trek",
-        price: "₹4600",
+        price: "₹4844",
         image: "images/trips/netravati.jpg",
         distance: "15-20 km",
         elevation: "1,420 m",
         difficulty: "Moderate",
         bestTime: "Oct - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Feb 15-16, 2026", "Jan 20-22, 2026"],
+        availableDates: ["Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 08-09, 2026", "Jan 20-22, 2026"],
         about: "Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.\n\nThe trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.",
         highlights: ["Hidden waterfalls along the trail", "Night camping under stars", "Rare bird and wildlife spotting", "Pristine streams for refreshing dips", "360° panoramic views from the peak", "Away from tourist crowds"],
         itinerary: [

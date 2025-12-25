@@ -13,6 +13,8 @@ import re
 import os
 import shutil
 import calendar
+import subprocess
+import threading
 from datetime import datetime, timedelta
 
 # Configuration
@@ -336,7 +338,7 @@ class TripManagerApp:
             ("⭐ Featured Trips", self.show_featured_trips),
             ("🖼️ Photo Manager", self.show_photo_manager),
             ("💾 Save Changes", self.save_trips),
-            ("🚀 Deploy Site", self.deploy_site),
+            ("🚀 Deploy to GitHub", self.deploy_to_github),
         ]
         
         for text, command in nav_buttons:
@@ -1724,6 +1726,201 @@ After saving your changes, deploy your website:
                                   "You have unsaved changes. Save before closing?"):
                 self.save_trips()
         self.root.destroy()
+    
+    def git_push_changes(self, commit_message="Updated trips"):
+        """Push changes to GitHub in background."""
+        def push_thread():
+            try:
+                # Check if git is available
+                result = subprocess.run(['git', '--version'], 
+                                       capture_output=True, text=True, 
+                                       cwd=PROJECT_ROOT)
+                if result.returncode != 0:
+                    return
+                
+                # Check for changes
+                result = subprocess.run(['git', 'status', '--porcelain'],
+                                       capture_output=True, text=True,
+                                       cwd=PROJECT_ROOT)
+                if not result.stdout.strip():
+                    return  # No changes
+                
+                # Git add
+                subprocess.run(['git', 'add', '-A'], 
+                              capture_output=True, cwd=PROJECT_ROOT)
+                
+                # Git commit
+                subprocess.run(['git', 'commit', '-m', commit_message],
+                              capture_output=True, cwd=PROJECT_ROOT)
+                
+                # Git push
+                result = subprocess.run(['git', 'push', 'origin', 'main'],
+                                       capture_output=True, text=True,
+                                       cwd=PROJECT_ROOT, timeout=120)
+                
+                if result.returncode == 0:
+                    self.root.after(0, lambda: self.update_status("☁️ Pushed to GitHub!"))
+                    
+            except Exception as e:
+                print(f"Git push error: {e}")
+        
+        thread = threading.Thread(target=push_thread, daemon=True)
+        thread.start()
+    
+    def deploy_to_github(self):
+        """Deploy changes to GitHub with UI feedback."""
+        print("DEBUG: deploy_to_github() method called!")
+        
+        # Create deployment dialog
+        deploy_win = tk.Toplevel(self.root)
+        deploy_win.title("🚀 Deploy to GitHub")
+        deploy_win.geometry("550x520")
+        deploy_win.minsize(500, 480)
+        deploy_win.configure(bg=COLORS['bg'])
+        deploy_win.transient(self.root)
+        deploy_win.grab_set()
+        
+        # === BUTTONS FIRST (at bottom) ===
+        btn_frame = tk.Frame(deploy_win, bg=COLORS['bg'])
+        btn_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=20, pady=15)
+        
+        # Placeholder for deploy_btn - will be configured later
+        deploy_btn = tk.Button(btn_frame, text="🚀 Deploy Now",
+                              font=('Helvetica', 12, 'bold'),
+                              bg=COLORS['success'], fg=COLORS['text'],
+                              bd=0, padx=30, pady=12, cursor='hand2')
+        deploy_btn.pack(side=tk.LEFT, padx=5)
+        
+        cancel_btn = tk.Button(btn_frame, text="Cancel",
+                              font=('Helvetica', 11),
+                              bg=COLORS['card'], fg=COLORS['text'],
+                              bd=0, padx=25, pady=10, cursor='hand2',
+                              command=deploy_win.destroy)
+        cancel_btn.pack(side=tk.RIGHT, padx=5)
+        
+        # === HEADER ===
+        header = tk.Frame(deploy_win, bg=COLORS['sidebar'])
+        header.pack(fill=tk.X)
+        
+        tk.Label(header, text="🚀 Deploy to GitHub",
+                font=('Helvetica', 18, 'bold'),
+                bg=COLORS['sidebar'], fg=COLORS['text']).pack(pady=20)
+        
+        # Info text
+        tk.Label(deploy_win, text="Push your changes to GitHub to update the live website.",
+                font=('Helvetica', 10),
+                bg=COLORS['bg'], fg=COLORS['text_secondary']).pack(pady=(15, 5))
+        
+        # === COMMIT MESSAGE ===
+        msg_frame = tk.Frame(deploy_win, bg=COLORS['card'])
+        msg_frame.pack(fill=tk.X, padx=20, pady=15)
+        
+        tk.Label(msg_frame, text="📝 Commit Message:",
+                font=('Helvetica', 11, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        commit_entry = tk.Entry(msg_frame, font=('Helvetica', 11),
+                               bg=COLORS['input_bg'], fg=COLORS['text'],
+                               insertbackground=COLORS['text'], bd=0)
+        commit_entry.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=10)
+        commit_entry.insert(0, f"Updated trips - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+        
+        # === STATUS LOG ===
+        log_frame = tk.Frame(deploy_win, bg=COLORS['card'])
+        log_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+        
+        tk.Label(log_frame, text="📋 Deployment Log:",
+                font=('Helvetica', 11, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        log_text = tk.Text(log_frame, height=8, font=('Consolas', 10),
+                          bg=COLORS['input_bg'], fg=COLORS['text'], bd=0)
+        log_text.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
+        
+        # Store references
+        self._deploy_log_text = log_text
+        self._deploy_win = deploy_win
+        self._commit_entry = commit_entry
+        self._deploy_btn = deploy_btn
+        
+        def log(msg):
+            """Thread-safe logging."""
+            def _update():
+                self._deploy_log_text.insert(tk.END, f"{msg}\n")
+                self._deploy_log_text.see(tk.END)
+            self._deploy_win.after(0, _update)
+        
+        self._deploy_log = log
+        
+        def do_deploy():
+            print("DEBUG: do_deploy() clicked!")
+            self._deploy_btn.config(state=tk.DISABLED, text="⏳ Deploying...")
+            log("Starting deployment...")
+            
+            def deploy_thread():
+                try:
+                    commit_msg = self._commit_entry.get().strip() or "Updated trips"
+                    
+                    log("🔍 Checking for changes...")
+                    result = subprocess.run(['git', 'status', '--porcelain'],
+                                           capture_output=True, text=True,
+                                           cwd=PROJECT_ROOT)
+                    
+                    if not result.stdout.strip():
+                        log("⚠️ No changes to deploy!")
+                        self._deploy_win.after(0, lambda: self._deploy_btn.config(state=tk.NORMAL, text="🚀 Deploy Now"))
+                        return
+                    
+                    changes = len(result.stdout.strip().split('\n'))
+                    log(f"📁 Found {changes} changed file(s)")
+                    
+                    log("📦 Staging changes...")
+                    subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, capture_output=True, text=True)
+                    log("✅ Changes staged")
+                    
+                    log(f"💾 Committing: {commit_msg}")
+                    result = subprocess.run(['git', 'commit', '-m', commit_msg], 
+                                           capture_output=True, text=True, cwd=PROJECT_ROOT)
+                    if result.returncode != 0 and 'nothing to commit' not in result.stdout.lower():
+                        log(f"⚠️ Note: {result.stderr or result.stdout}")
+                    else:
+                        log("✅ Changes committed")
+                    
+                    log("☁️ Pushing to GitHub...")
+                    log("   (This may take a moment)")
+                    result = subprocess.run(['git', 'push', 'origin', 'main'],
+                                           capture_output=True, text=True,
+                                           cwd=PROJECT_ROOT, timeout=120)
+                    
+                    output = (result.stdout + result.stderr).lower()
+                    if result.returncode == 0 or 'up-to-date' in output or 'everything up-to-date' in output:
+                        log("✅ Successfully pushed to GitHub!")
+                        log("")
+                        log("🎉 DEPLOYMENT SUCCESSFUL!")
+                        log("🌐 Website will update in 1-2 minutes.")
+                        self._deploy_win.after(0, lambda: messagebox.showinfo("Success", 
+                            "✅ Deployed successfully!\n\nYour website will update in 1-2 minutes."))
+                    else:
+                        error_msg = result.stderr or result.stdout
+                        log(f"❌ Push failed: {error_msg}")
+                        self._deploy_win.after(0, lambda: messagebox.showerror("Error", 
+                            f"Push failed:\n{error_msg}"))
+                    
+                except subprocess.TimeoutExpired:
+                    log("❌ Push timed out! Check your connection.")
+                except FileNotFoundError:
+                    log("❌ Git not found! Please install Git.")
+                except Exception as e:
+                    log(f"❌ Error: {str(e)}")
+                    import traceback
+                    log(traceback.format_exc())
+                finally:
+                    self._deploy_win.after(0, lambda: self._deploy_btn.config(state=tk.NORMAL, text="🚀 Deploy Now"))
+            
+            threading.Thread(target=deploy_thread, daemon=True).start()
+        
+        # Now configure the button command
+        deploy_btn.config(command=do_deploy)
 
 
 def main():
