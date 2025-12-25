@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-25 21:39
+// Last updated: 2025-12-25 21:53
 // 
 // 📸 PHOTOS: Put images in images/trips/tripid.jpg
 // 💰 PRICES: Change the 'price' field
@@ -15,7 +15,7 @@ const tripsData = {
         title: "Netravati Peak Trek",
         location: "Western Ghats, Karnataka",
         badge: "Weekend Trek",
-        price: "₹4999",
+        price: "₹4000",
         image: "images/trips/netravati.jpg",
         distance: "15-20 km",
         elevation: "1,420 m",

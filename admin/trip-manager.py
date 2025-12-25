@@ -1823,7 +1823,107 @@ After saving your changes, deploy your website:
                                bg=COLORS['input_bg'], fg=COLORS['text'],
                                insertbackground=COLORS['text'], bd=0)
         commit_entry.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=10)
-        commit_entry.insert(0, f"Updated trips - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+        commit_entry.insert(0, "")  # Will be auto-generated
+        
+        # Auto-generate button
+        def generate_commit_msg():
+            """Generate detailed commit message based on changed files."""
+            try:
+                result = subprocess.run(['git', 'status', '--porcelain'],
+                                       capture_output=True, text=True, cwd=PROJECT_ROOT)
+                if not result.stdout.strip():
+                    commit_entry.delete(0, tk.END)
+                    commit_entry.insert(0, "No changes to commit")
+                    return
+                
+                lines = [l for l in result.stdout.strip().split('\n') if l]
+                
+                # Categorize changes
+                added = []
+                modified = []
+                deleted = []
+                
+                for line in lines:
+                    status = line[:2].strip()
+                    filepath = line[3:].strip()
+                    filename = os.path.basename(filepath)
+                    
+                    if status in ['A', '??']:
+                        added.append(filename)
+                    elif status == 'D':
+                        deleted.append(filename)
+                    else:  # M, MM, etc.
+                        modified.append(filename)
+                
+                # Build commit message
+                parts = []
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+                
+                # Detect specific changes
+                trips_changed = any('trips-data' in f for f in modified + added)
+                featured_changed = any('featured-trips' in f for f in modified + added)
+                style_changed = any(f.endswith('.css') for f in modified + added)
+                html_changed = any(f.endswith('.html') for f in modified + added)
+                js_changed = any(f.endswith('.js') and 'trips-data' not in f and 'featured-trips' not in f 
+                                for f in modified + added)
+                
+                if trips_changed:
+                    parts.append("Update trips data")
+                if featured_changed:
+                    parts.append("Update featured trips")
+                if style_changed:
+                    parts.append("Update styles")
+                if html_changed:
+                    parts.append("Update pages")
+                if js_changed:
+                    parts.append("Update scripts")
+                
+                if added:
+                    parts.append(f"Add {len(added)} file(s)")
+                if deleted:
+                    parts.append(f"Remove {len(deleted)} file(s)")
+                
+                if not parts:
+                    parts.append(f"Update {len(lines)} file(s)")
+                
+                # Create summary
+                summary = " | ".join(parts[:3])  # Max 3 parts in summary
+                
+                # Create detailed message
+                details = []
+                if modified:
+                    details.append(f"Modified: {', '.join(modified[:5])}")
+                    if len(modified) > 5:
+                        details.append(f"  ...and {len(modified) - 5} more")
+                if added:
+                    details.append(f"Added: {', '.join(added[:3])}")
+                if deleted:
+                    details.append(f"Deleted: {', '.join(deleted[:3])}")
+                
+                full_msg = f"{summary} [{timestamp}]"
+                if details:
+                    full_msg += "\n\n" + "\n".join(details)
+                
+                commit_entry.delete(0, tk.END)
+                commit_entry.insert(0, full_msg.split('\n')[0])  # Only first line in entry
+                
+                # Store full message for commit
+                self._full_commit_msg = full_msg
+                
+            except Exception as e:
+                commit_entry.delete(0, tk.END)
+                commit_entry.insert(0, f"Updated - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+                self._full_commit_msg = None
+        
+        # Generate initial commit message
+        self._full_commit_msg = None
+        deploy_win.after(100, generate_commit_msg)
+        
+        # Refresh button
+        refresh_btn = tk.Button(msg_frame, text="🔄", font=('Helvetica', 10),
+                               bg=COLORS['card'], fg=COLORS['text'],
+                               bd=0, cursor='hand2', command=generate_commit_msg)
+        refresh_btn.place(relx=0.95, rely=0.6, anchor='e')
         
         # === STATUS LOG ===
         log_frame = tk.Frame(deploy_win, bg=COLORS['card'])
@@ -1878,7 +1978,12 @@ After saving your changes, deploy your website:
             
             def deploy_thread():
                 try:
-                    commit_msg = self._commit_entry.get().strip() or "Updated trips"
+                    # Use full commit message if available, otherwise use entry text
+                    user_msg = self._commit_entry.get().strip()
+                    if hasattr(self, '_full_commit_msg') and self._full_commit_msg:
+                        commit_msg = self._full_commit_msg
+                    else:
+                        commit_msg = user_msg or f"Updated - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
                     
                     # Step 1: Verify git repository
                     log("📂 Step 1/7: Verifying Git repository...")
@@ -1899,8 +2004,8 @@ After saving your changes, deploy your website:
                     remote_url = output.split('\n')[0] if output else 'unknown'
                     log(f"   ✅ Remote: {remote_url.split()[1] if len(remote_url.split()) > 1 else 'configured'}")
                     
-                    # Step 3: Check for uncommitted changes
-                    log("🔍 Step 3/7: Checking for changes...")
+                    # Step 3: Check for uncommitted changes and build detailed message
+                    log("🔍 Step 3/7: Analyzing changes...")
                     success, output, _ = run_git_command(['status', '--porcelain'])
                     
                     if not output.strip():
@@ -1915,19 +2020,37 @@ After saving your changes, deploy your website:
                             self._deploy_win.after(0, lambda: self._deploy_btn.config(state=tk.NORMAL, text="🚀 Deploy Now"))
                             return
                     else:
-                        changes = len([l for l in output.strip().split('\n') if l])
-                        log(f"   📁 Found {changes} changed file(s)")
+                        # Parse and display changed files
+                        lines = [l for l in output.strip().split('\n') if l]
+                        log(f"   📁 Found {len(lines)} changed file(s):")
+                        
+                        # Categorize and show changes
+                        for line in lines[:10]:  # Show first 10
+                            status = line[:2].strip()
+                            filepath = line[3:].strip()
+                            status_icon = {'M': '📝', 'A': '➕', 'D': '🗑️', '??': '🆕'}.get(status, '📄')
+                            status_text = {'M': 'Modified', 'A': 'Added', 'D': 'Deleted', '??': 'New'}.get(status, 'Changed')
+                            log(f"      {status_icon} {status_text}: {filepath}")
+                        
+                        if len(lines) > 10:
+                            log(f"      ... and {len(lines) - 10} more files")
                     
                     # Step 4: Stash any uncommitted changes before fetch (safety)
-                    log("💾 Step 4/7: Saving local changes...")
+                    log("💾 Step 4/7: Staging and committing changes...")
                     # Stage all changes first
                     success, output, _ = run_git_command(['add', '-A'])
                     if not success:
                         log(f"   ⚠️ Staging warning: {output}")
                     log("   ✅ Changes staged")
                     
-                    # Commit changes
-                    log(f"   📝 Committing: {commit_msg[:50]}{'...' if len(commit_msg) > 50 else ''}")
+                    # Show commit message summary
+                    commit_summary = commit_msg.split('\n')[0]  # First line only
+                    log(f"   📝 Commit: {commit_summary[:60]}{'...' if len(commit_summary) > 60 else ''}")
+                    
+                    # Show if detailed message
+                    if '\n' in commit_msg:
+                        log("   📋 (Detailed description included)")
+                    
                     success, output, code = run_git_command(['commit', '-m', commit_msg])
                     if not success:
                         if 'nothing to commit' in output.lower():
@@ -1935,7 +2058,7 @@ After saving your changes, deploy your website:
                         else:
                             log(f"   ⚠️ Commit note: {output[:100]}")
                     else:
-                        log("   ✅ Changes committed")
+                        log("   ✅ Changes committed successfully")
                     
                     # Step 5: Fetch latest from remote
                     log("📥 Step 5/7: Fetching latest from remote...")
