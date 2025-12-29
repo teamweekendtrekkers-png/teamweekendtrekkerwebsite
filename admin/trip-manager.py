@@ -952,14 +952,27 @@ class TripManagerApp:
         messagebox.showinfo("Success", "Trip updated! Click 'Save Changes' to write to file.")
     
     def show_add_trip(self):
-        """Show form to add new trip."""
+        """Show form to add new trip - matches Edit Trip form with all fields."""
         self.current_trip_index = None
         self.clear_content()
         
-        # Header
-        tk.Label(self.content_frame, text="➕ Add New Trip", 
-                font=('Helvetica', 24, 'bold'),
-                bg=COLORS['bg'], fg=COLORS['text']).pack(anchor='w', pady=(0, 20))
+        # Initialize for new trip
+        self.current_itinerary = []
+        self.edit_vars = {}  # Reuse edit_vars for consistency with create_form_field
+        
+        # Header with back button
+        header = tk.Frame(self.content_frame, bg=COLORS['bg'])
+        header.pack(fill=tk.X, pady=(0, 20))
+        
+        back_btn = tk.Button(header, text="← Back", font=('Helvetica', 11),
+                           bg=COLORS['card'], fg=COLORS['text'],
+                           bd=0, padx=15, pady=5, cursor='hand2',
+                           command=self.show_trip_list)
+        back_btn.pack(side=tk.LEFT)
+        
+        tk.Label(header, text="➕ Add New Trip", 
+                font=('Helvetica', 20, 'bold'),
+                bg=COLORS['bg'], fg=COLORS['text']).pack(side=tk.LEFT, padx=20)
         
         # Scrollable form
         container = tk.Frame(self.content_frame, bg=COLORS['bg'])
@@ -976,72 +989,237 @@ class TripManagerApp:
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
-        # Form fields
-        self.new_trip_vars = {}
+        # Mouse wheel scrolling
+        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1*(e.delta/120)), "units"))
         
+        # Form fields - same as Edit Trip but with ID field added at top
         fields = [
-            ('id', 'Trip ID (e.g., "new-location")', ''),
+            ('id', 'Trip ID (e.g., "coorg-trek") - used in URL', ''),
             ('title', 'Trip Title', ''),
             ('location', 'Location', ''),
-            ('badge', 'Badge', 'Weekend Trip'),
+            ('badge', 'Badge (e.g., "Weekend Trip")', 'Weekend Trip'),
             ('price', 'Price (₹)', '2999'),
             ('duration', 'Duration', '2 Days / 1 Night'),
             ('difficulty', 'Difficulty', 'Moderate'),
             ('groupSize', 'Group Size', '15-20 people'),
-            ('description', 'Description', ''),
+            ('image', 'Image Path', 'images/trips/'),
         ]
         
         for field_id, label, default in fields:
-            frame = tk.Frame(form_frame, bg=COLORS['card'])
-            frame.pack(fill=tk.X, pady=5, padx=5)
-            
-            tk.Label(frame, text=label, font=('Helvetica', 11, 'bold'),
-                    bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
-            
-            var = tk.StringVar(value=default)
-            entry = tk.Entry(frame, textvariable=var, font=('Helvetica', 11),
-                           bg=COLORS['input_bg'], fg=COLORS['text'],
-                           insertbackground=COLORS['text'],
-                           bd=0, relief='flat')
-            entry.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=8)
-            
-            self.new_trip_vars[field_id] = var
+            self.create_form_field(form_frame, field_id, label, default)
         
-        # Add button
-        add_btn = tk.Button(form_frame, text="➕ Add Trip",
+        # Description/About (multiline) - same as Edit Trip
+        desc_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        desc_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(desc_frame, text="About / Description", font=('Helvetica', 11, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        self.desc_text = tk.Text(desc_frame, height=4, font=('Helvetica', 11),
+                                bg=COLORS['input_bg'], fg=COLORS['text'],
+                                insertbackground=COLORS['text'],
+                                bd=0, relief='flat', wrap=tk.WORD)
+        self.desc_text.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=5)
+        
+        # Available Dates section - same as Edit Trip
+        dates_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        dates_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(dates_frame, text="📅 Available Dates", font=('Helvetica', 12, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 10))
+        
+        # Dates list
+        dates_list_frame = tk.Frame(dates_frame, bg=COLORS['card'])
+        dates_list_frame.pack(fill=tk.X, padx=15)
+        
+        self.dates_listbox = tk.Listbox(dates_list_frame, height=5,
+                                        font=('Helvetica', 11),
+                                        bg=COLORS['input_bg'], fg=COLORS['text'],
+                                        selectbackground=COLORS['accent'],
+                                        bd=0, relief='flat')
+        self.dates_listbox.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        
+        # Date buttons
+        date_btn_frame = tk.Frame(dates_list_frame, bg=COLORS['card'])
+        date_btn_frame.pack(side=tk.RIGHT, padx=(10, 0))
+        
+        add_date_btn = tk.Button(date_btn_frame, text="➕ Add",
+                                font=('Helvetica', 10),
+                                bg=COLORS['success'], fg=COLORS['text'],
+                                bd=0, padx=10, pady=5, cursor='hand2',
+                                command=self.add_date)
+        add_date_btn.pack(pady=2)
+        
+        remove_date_btn = tk.Button(date_btn_frame, text="➖ Remove",
+                                   font=('Helvetica', 10),
+                                   bg='#dc3545', fg=COLORS['text'],
+                                   bd=0, padx=10, pady=5, cursor='hand2',
+                                   command=self.remove_date)
+        remove_date_btn.pack(pady=2)
+        
+        # Calendar picker button
+        calendar_btn = tk.Button(date_btn_frame, text="📅 Pick",
+                                font=('Helvetica', 10),
+                                bg=COLORS['accent'], fg=COLORS['text'],
+                                bd=0, padx=10, pady=5, cursor='hand2',
+                                command=self.open_date_picker)
+        calendar_btn.pack(pady=2)
+        
+        # New date entry
+        new_date_frame = tk.Frame(dates_frame, bg=COLORS['card'])
+        new_date_frame.pack(fill=tk.X, padx=15, pady=(10, 15))
+        
+        tk.Label(new_date_frame, text="Or type manually (format: 'Jan 15-17'):",
+                font=('Helvetica', 10),
+                bg=COLORS['card'], fg=COLORS['text_secondary']).pack(anchor='w')
+        
+        self.new_date_entry = tk.Entry(new_date_frame, font=('Helvetica', 11),
+                                       bg=COLORS['input_bg'], fg=COLORS['text'],
+                                       insertbackground=COLORS['text'],
+                                       bd=0, relief='flat')
+        self.new_date_entry.pack(fill=tk.X, ipady=8)
+        
+        # Highlights section - same as Edit Trip
+        highlights_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        highlights_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(highlights_frame, text="✨ Highlights (one per line)", 
+                font=('Helvetica', 12, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        self.highlights_text = tk.Text(highlights_frame, height=4, font=('Helvetica', 11),
+                                       bg=COLORS['input_bg'], fg=COLORS['text'],
+                                       insertbackground=COLORS['text'],
+                                       bd=0, relief='flat', wrap=tk.WORD)
+        self.highlights_text.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=5)
+        
+        # Day-wise Itinerary section - same as Edit Trip
+        itinerary_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        itinerary_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(itinerary_frame, text="📅 Day-wise Itinerary", 
+                font=('Helvetica', 12, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        tk.Label(itinerary_frame, text="Click on a day to edit its activities", 
+                font=('Helvetica', 10),
+                bg=COLORS['card'], fg=COLORS['text_secondary']).pack(anchor='w', padx=15, pady=(0, 10))
+        
+        # Days list container
+        self.itinerary_days_frame = tk.Frame(itinerary_frame, bg=COLORS['card'])
+        self.itinerary_days_frame.pack(fill=tk.X, padx=15, pady=(0, 10))
+        
+        # Display existing days (empty for new trip)
+        self.display_itinerary_days()
+        
+        # Buttons for itinerary management
+        itinerary_btn_frame = tk.Frame(itinerary_frame, bg=COLORS['card'])
+        itinerary_btn_frame.pack(fill=tk.X, padx=15, pady=(0, 15))
+        
+        add_day_btn = tk.Button(itinerary_btn_frame, text="➕ Add Day",
+                               font=('Helvetica', 10),
+                               bg=COLORS['success'], fg=COLORS['text'],
+                               bd=0, padx=15, pady=5, cursor='hand2',
+                               command=self.add_itinerary_day)
+        add_day_btn.pack(side=tk.LEFT, padx=5)
+        
+        # Inclusions section
+        inclusions_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        inclusions_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(inclusions_frame, text="✅ Inclusions (one per line)", 
+                font=('Helvetica', 12, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        self.inclusions_text = tk.Text(inclusions_frame, height=3, font=('Helvetica', 11),
+                                       bg=COLORS['input_bg'], fg=COLORS['text'],
+                                       insertbackground=COLORS['text'],
+                                       bd=0, relief='flat', wrap=tk.WORD)
+        self.inclusions_text.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=5)
+        self.inclusions_text.insert('1.0', 'Transportation\nAccommodation\nMeals\nGuide')
+        
+        # Exclusions section
+        exclusions_frame = tk.Frame(form_frame, bg=COLORS['card'])
+        exclusions_frame.pack(fill=tk.X, pady=10, padx=5)
+        
+        tk.Label(exclusions_frame, text="❌ Exclusions (one per line)", 
+                font=('Helvetica', 12, 'bold'),
+                bg=COLORS['card'], fg=COLORS['text']).pack(anchor='w', padx=15, pady=(15, 5))
+        
+        self.exclusions_text = tk.Text(exclusions_frame, height=3, font=('Helvetica', 11),
+                                       bg=COLORS['input_bg'], fg=COLORS['text'],
+                                       insertbackground=COLORS['text'],
+                                       bd=0, relief='flat', wrap=tk.WORD)
+        self.exclusions_text.pack(fill=tk.X, padx=15, pady=(0, 15), ipady=5)
+        self.exclusions_text.insert('1.0', 'Personal expenses\nTravel insurance')
+        
+        # Add Trip button
+        save_frame = tk.Frame(form_frame, bg=COLORS['bg'])
+        save_frame.pack(fill=tk.X, pady=20, padx=5)
+        
+        add_btn = tk.Button(save_frame, text="➕ Add Trip",
                           font=('Helvetica', 12, 'bold'),
                           bg=COLORS['success'], fg=COLORS['text'],
                           bd=0, padx=30, pady=12, cursor='hand2',
                           command=self.add_new_trip)
-        add_btn.pack(pady=20)
+        add_btn.pack()
     
     def add_new_trip(self):
-        """Add a new trip to the list."""
-        trip = {
-            'id': self.new_trip_vars['id'].get(),
-            'title': self.new_trip_vars['title'].get(),
-            'location': self.new_trip_vars['location'].get(),
-            'badge': self.new_trip_vars['badge'].get(),
-            'price': int(self.new_trip_vars['price'].get() or 0),
-            'duration': self.new_trip_vars['duration'].get(),
-            'difficulty': self.new_trip_vars['difficulty'].get(),
-            'groupSize': self.new_trip_vars['groupSize'].get(),
-            'description': self.new_trip_vars['description'].get(),
-            'image': f"images/trips/{self.new_trip_vars['id'].get()}.jpg",
-            'availableDates': [],
-            'highlights': [],
-            'inclusions': ['Transportation', 'Accommodation', 'Meals', 'Guide'],
-            'exclusions': ['Personal expenses', 'Travel insurance'],
-        }
+        """Add a new trip to the list with all fields from the form."""
+        # Validate required fields
+        trip_id = self.edit_vars['id'].get().strip()
+        trip_title = self.edit_vars['title'].get().strip()
         
-        if not trip['id'] or not trip['title']:
+        if not trip_id or not trip_title:
             messagebox.showerror("Error", "Trip ID and Title are required!")
             return
+        
+        # Check for duplicate ID
+        for existing_trip in self.trips:
+            if existing_trip.get('id') == trip_id:
+                messagebox.showerror("Error", f"Trip ID '{trip_id}' already exists!\nPlease use a unique ID.")
+                return
+        
+        # Get highlights from text
+        highlights_text = self.highlights_text.get('1.0', tk.END).strip()
+        highlights = [h.strip() for h in highlights_text.split('\n') if h.strip()]
+        
+        # Get inclusions from text
+        inclusions_text = self.inclusions_text.get('1.0', tk.END).strip()
+        inclusions = [i.strip() for i in inclusions_text.split('\n') if i.strip()]
+        
+        # Get exclusions from text
+        exclusions_text = self.exclusions_text.get('1.0', tk.END).strip()
+        exclusions = [e.strip() for e in exclusions_text.split('\n') if e.strip()]
+        
+        # Build image path - auto-complete if user just typed filename
+        image_path = self.edit_vars['image'].get().strip()
+        if not image_path or image_path == 'images/trips/':
+            image_path = f"images/trips/{trip_id}.jpg"
+        
+        # Create trip object with all fields
+        trip = {
+            'id': trip_id,
+            'title': trip_title,
+            'location': self.edit_vars['location'].get().strip(),
+            'badge': self.edit_vars['badge'].get().strip(),
+            'price': self.edit_vars['price'].get().strip(),
+            'duration': self.edit_vars['duration'].get().strip(),
+            'difficulty': self.edit_vars['difficulty'].get().strip(),
+            'groupSize': self.edit_vars['groupSize'].get().strip(),
+            'image': image_path,
+            'about': self.desc_text.get('1.0', tk.END).strip(),
+            'availableDates': list(self.dates_listbox.get(0, tk.END)),
+            'highlights': highlights,
+            'itinerary': self.current_itinerary if hasattr(self, 'current_itinerary') else [],
+            'inclusions': inclusions,
+            'exclusions': exclusions,
+        }
         
         self.trips.append(trip)
         self.unsaved_changes = True
         self.update_status(f"✅ Added new trip: {trip['title']}")
-        messagebox.showinfo("Success", f"Trip '{trip['title']}' added!\nDon't forget to save changes.")
+        messagebox.showinfo("Success", f"Trip '{trip['title']}' added!\n\nDon't forget to:\n1. Click 'Save Changes'\n2. Add trip image to images/trips/{trip_id}.jpg")
         self.show_trip_list()
     
     def delete_trip(self, index):

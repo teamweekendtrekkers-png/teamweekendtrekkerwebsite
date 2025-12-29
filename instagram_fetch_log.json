@@ -1,0 +1,205 @@
+{
+  "fetched_at": "2025-12-25T23:24:52.174620",
+  "source": "https://www.instagram.com/teamweekendtrekkers/",
+  "photos_found": 116,
+  "photos_downloaded": 50,
+  "trips_updated": 28,
+  "details": {
+    "netravati": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "ee17a2a76fd426cb4584348c6e0b07e4",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/netravati.jpg",
+      "fetched_at": "2025-12-25T23:25:43.112493"
+    },
+    "kerala": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "400fef338629141ecbd92e43c27b43e3",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/kerala.jpg",
+      "fetched_at": "2025-12-25T23:25:43.112926"
+    },
+    "ooty": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "9f864287526c69d4acca894a979411b1",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/ooty.jpg",
+      "fetched_at": "2025-12-25T23:25:43.113192"
+    },
+    "spiti": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "1d304c334aad1df5395ae5ea5cd70c90",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/spiti.jpg",
+      "fetched_at": "2025-12-25T23:25:43.113467"
+    },
+    "coorg": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "ecc5425b8da25bbe8a7e393bc6dec8ac",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/coorg.jpg",
+      "fetched_at": "2025-12-25T23:25:43.113713"
+    },
+    "gokarna": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "f6ecc60a90a07f6eb29d44aa23ae0a41",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/gokarna.jpg",
+      "fetched_at": "2025-12-25T23:25:43.113953"
+    },
+    "goa": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "d48bb627092b994e119fcf21ac57ce85",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/goa.jpg",
+      "fetched_at": "2025-12-25T23:25:43.114315"
+    },
+    "hampi": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "ef65aae66635bc3d8a945697aeeb3772",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/hampi.jpg",
+      "fetched_at": "2025-12-25T23:25:43.115008"
+    },
+    "wayanad": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "9268744363a7097ae6e800221ffb75fc",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/wayanad.jpg",
+      "fetched_at": "2025-12-25T23:25:43.115422"
+    },
+    "chikmagalur": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "e2a3fdd6eebcfff5b53827f545e2a545",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/chikmagalur.jpg",
+      "fetched_at": "2025-12-25T23:25:43.115839"
+    },
+    "kudremukh": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "b63e63edd1d968f8aebc8c931d95a26b",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/kudremukh.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116080"
+    },
+    "dandeli": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "cb4b4e069fdb54b0ccd3e52f3ef98d39",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/dandeli.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116330"
+    },
+    "munnar": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "603d4aa7bb8d886884fa07bddad77c40",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/munnar.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116473"
+    },
+    "yercaud": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "7cfb7f581bdb532b140609f995c0745c",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/yercaud.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116620"
+    },
+    "pondicherry": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "69bb67545a18ac6751aec52007994a1a",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/pondicherry.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116727"
+    },
+    "theyyam": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "de02cbff8466d561297d1a3e23b315f8",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/theyyam.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116847"
+    },
+    "nandi-hills": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "e0e8ec5b9585e1747dcb24c55d6644e3",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/nandi-hills.jpg",
+      "fetched_at": "2025-12-25T23:25:43.116991"
+    },
+    "alleppey-varkala": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "939336899b960f74b5099f16175219c2",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/alleppey-varkala.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117137"
+    },
+    "goa-waterfalls": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "c74e4e83bfdf541d93e5927fc247fd4e",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/goa-waterfalls.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117275"
+    },
+    "madurai-rameswaram": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "d12d203c842c11415f160522090a65d0",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/madurai-rameswaram.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117409"
+    },
+    "rameshwaram-dhanushkodi": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "7cfe4db4e2edd2c513cb6920348b5c1e",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/rameshwaram-dhanushkodi.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117528"
+    },
+    "netrani-island-scuba": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "af4a6cde0ff1c3692f658a45556066a8",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/netrani-island-scuba.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117678"
+    },
+    "dandeli-netrani-scuba": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "7aa24a3da1cc81fcde1fe9fb8785f029",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/dandeli-netrani-scuba.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117817"
+    },
+    "wayanad-3-days": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "16dc0cccd04ae8b957552c6d28f79ac6",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/wayanad-3-days.jpg",
+      "fetched_at": "2025-12-25T23:25:43.117951"
+    },
+    "wayanad-pool-party": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "47cf1c2136fc99be0198722d00ba862a",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/wayanad-pool-party.jpg",
+      "fetched_at": "2025-12-25T23:25:43.118094"
+    },
+    "scuba-day-trip": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "ee6d099d1ce5c6e03609080b5e537ab9",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/scuba-day-trip.jpg",
+      "fetched_at": "2025-12-25T23:25:43.118224"
+    },
+    "gokarna-new-year-party": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "6663f63cd8cdba0bf6b30c6a960eee6d",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/gokarna-new-year-party.jpg",
+      "fetched_at": "2025-12-25T23:25:43.118369"
+    },
+    "pondicherry-beach": {
+      "status": "success",
+      "source": "instagram",
+      "hash": "4cc0e04dbd60cb38917328fe860d9621",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/pondicherry-beach.jpg",
+      "fetched_at": "2025-12-25T23:25:43.118502"
+    }
+  }
+}

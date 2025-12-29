@@ -1,0 +1,91 @@
+{
+  "fetched_at": "2025-12-25T22:51:48.134991",
+  "successful": 12,
+  "failed": 0,
+  "details": {
+    "chikmagalur": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "a68e1959e70673a6",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/chikmagalur.jpg",
+      "fetched_at": "2025-12-25T22:51:30.077220"
+    },
+    "nandi-hills": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "91de2f116ab59a49",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/nandi-hills.jpg",
+      "fetched_at": "2025-12-25T22:51:34.327325"
+    },
+    "kudremukh": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "b3597298dd26c926",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/kudremukh.jpg",
+      "fetched_at": "2025-12-25T22:51:35.360649"
+    },
+    "dandeli": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "def1dad936190a24",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/dandeli.jpg",
+      "fetched_at": "2025-12-25T22:51:36.568154"
+    },
+    "ooty": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "e6cd5609a6996e25",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/ooty.jpg",
+      "fetched_at": "2025-12-25T22:51:37.703700"
+    },
+    "netravati": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "cdf39c33634c4949",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/netravati.jpg",
+      "fetched_at": "2025-12-25T22:51:38.821530"
+    },
+    "kerala": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "e9b4d26924c9cd36",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/kerala.jpg",
+      "fetched_at": "2025-12-25T22:51:40.683768"
+    },
+    "goa": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "cab2a5354dd39a2c",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/goa.jpg",
+      "fetched_at": "2025-12-25T22:51:42.244340"
+    },
+    "hampi": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "f68e8cce8c3ce80e",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/hampi.jpg",
+      "fetched_at": "2025-12-25T22:51:43.307372"
+    },
+    "yercaud": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "9b29cce6eac918b4",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/yercaud.jpg",
+      "fetched_at": "2025-12-25T22:51:45.076531"
+    },
+    "spiti": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "cbcfcf303862c398",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/spiti.jpg",
+      "fetched_at": "2025-12-25T22:51:46.407497"
+    },
+    "coorg": {
+      "status": "success",
+      "source": "picsum",
+      "hash": "847ae19c78877da2",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/coorg.jpg",
+      "fetched_at": "2025-12-25T22:51:47.632855"
+    }
+  }
+}

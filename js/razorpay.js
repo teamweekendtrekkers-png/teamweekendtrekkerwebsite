@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `Name: ${fullName}\n` +
                         `Phone: ${phone}`
                     );
-                    window.open(`https://wa.me/919538236581?text=${whatsappMsg}`, '_blank');
+                    window.open(`https://wa.me/917019235581?text=${whatsappMsg}`, '_blank');
                 },
                 
                 // Handler for payment modal close

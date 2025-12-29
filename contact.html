@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .input-error { border-color: #dc3545 !important; }
+        .form-error { color: #dc3545; font-size: 0.85em; margin-top: 5px; }
+        .submit-success { text-align: center; padding: 30px; }
+        .submit-success i { font-size: 50px; color: #28a745; }
+        .submit-success h3 { margin: 15px 0; color: #333; }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -24,7 +31,7 @@
                 <li><a href="trips.html">Trips</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html" class="active">Contact</a></li>
-                <li><a href="https://wa.me/919538236581" target="_blank" class="btn-nav">Book Now</a></li>
+                <li><a href="https://wa.me/917019235581" target="_blank" class="btn-nav">Book Now</a></li>
             </ul>
         </div>
     </nav>
@@ -49,7 +56,7 @@
                             </div>
                             <div class="contact-detail">
                                 <h4>WhatsApp (Fastest)</h4>
-                                <a href="https://wa.me/919538236581">+91 9538236581</a>
+                                <a href="https://wa.me/917019235581">+91 7019235581</a>
                                 <p>Usually reply within 5 minutes</p>
                             </div>
                         </div>
@@ -91,7 +98,7 @@
                     </div>
 
                     <div class="quick-action-buttons">
-                        <a href="https://wa.me/919538236581?text=Hi!%20I%20have%20a%20query%20about%20your%20treks" class="btn btn-whatsapp btn-full" target="_blank">
+                        <a href="https://wa.me/917019235581?text=Hi!%20I%20have%20a%20query%20about%20your%20treks" class="btn btn-whatsapp btn-full" target="_blank">
                             <i class="fab fa-whatsapp"></i> Message on WhatsApp
                         </a>
                         <a href="https://instagram.com/teamweekendtrekkers" class="btn btn-instagram btn-full" target="_blank">
@@ -103,37 +110,46 @@
                 <!-- Contact Form -->
                 <div class="contact-form-wrapper">
                     <h2>Send Us a Message</h2>
-                    <form class="contact-form" data-netlify="true" name="contact" method="POST">
+                    <form class="contact-form" id="contactForm" onsubmit="return false;">
                         <div class="form-group">
-                            <label for="name">Your Name *</label>
-                            <input type="text" id="name" name="name" required placeholder="Enter your name">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name">
                         </div>
                         <div class="form-group">
                             <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                            <input type="email" id="email" name="email" placeholder="your@email.com">
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                            <input type="tel" id="phone" name="phone" placeholder="+91 9876543210">
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
                             <select id="subject" name="subject">
-                                <option value="general">General Inquiry</option>
-                                <option value="booking">Booking Query</option>
-                                <option value="custom">Custom Trip Request</option>
-                                <option value="corporate">Corporate/Group Booking</option>
-                                <option value="feedback">Feedback</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                                <option value="Booking Query">Booking Query</option>
+                                <option value="Custom Trip Request">Custom Trip Request</option>
+                                <option value="Corporate/Group Booking">Corporate/Group Booking</option>
+                                <option value="Feedback">Feedback</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="message">Message *</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help you..."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full">
+                        <button type="button" id="submitBtn" class="btn btn-primary btn-full" onclick="submitContactForm()">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
+                        <p class="submit-note" style="text-align: center; margin-top: 10px; color: #888; font-size: 0.9em;">
+                            <i class="fas fa-lock"></i> Your message will be sent securely
+                        </p>
                     </form>
+                    <!-- Success Message -->
+                    <div id="submitSuccess" class="submit-success" style="display: none; text-align: center; padding: 30px;">
+                        <i class="fas fa-check-circle" style="font-size: 50px; color: #28a745;"></i>
+                        <h3 style="margin: 15px 0;">Message Sent Successfully!</h3>
+                        <p>Thank you for contacting us. We'll get back to you within 24 hours.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -172,7 +188,7 @@
                     <p>A Travel community for the travellers, By the travellers.</p>
                     <div class="social-links">
                         <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/919538236581" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/917019235581" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -187,7 +203,7 @@
                 <div class="footer-col">
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
-                    <p><i class="fab fa-whatsapp"></i> +91 9538236581</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 7019235581</p>
                 </div>
                 <div class="footer-col">
                     <h4>Pay via UPI</h4>
@@ -200,28 +216,123 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/919538236581" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/917019235581" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
         <span>Chat with us</span>
     </a>
 
     <script src="js/main.js"></script>
     <script>
-    // UPI Protection - Dynamically generate UPI ID
+    // ========== Web3Forms Configuration (same as checkout) ==========
+    const WEB3FORMS_ACCESS_KEY = '519286b7-8c28-4093-8cf1-6ad73f9233b7';
+
+    // ========== Form Validation ==========
+    function validateContactForm() {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const message = document.getElementById('message').value.trim();
+        let isValid = true;
+        
+        // Clear previous errors
+        document.querySelectorAll('.form-error').forEach(el => el.remove());
+        document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+        
+        if (!name || name.length < 2) {
+            showError('name', 'Please enter your name');
+            isValid = false;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            showError('email', 'Please enter a valid email');
+            isValid = false;
+        }
+        
+        const phoneRegex = /^[\+]?[0-9]{10,13}$/;
+        const cleanPhone = phone.replace(/[\s\-]/g, '');
+        if (!cleanPhone || !phoneRegex.test(cleanPhone)) {
+            showError('phone', 'Please enter a valid 10-digit phone number');
+            isValid = false;
+        }
+        
+        if (!message || message.length < 10) {
+            showError('message', 'Please enter a message (at least 10 characters)');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        field.classList.add('input-error');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.style.cssText = 'color: #dc3545; font-size: 0.85em; margin-top: 5px;';
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+        field.parentElement.appendChild(errorDiv);
+    }
+
+    // ========== Submit Contact Form via Web3Forms ==========
+    async function submitContactForm() {
+        if (!validateContactForm()) return;
+        
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        
+        const formData = {
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject: '📩 Contact Form: ' + document.getElementById('subject').value,
+            from_name: 'Team Weekend Trekkers Website',
+            'Name': document.getElementById('name').value.trim(),
+            'Email': document.getElementById('email').value.trim(),
+            'Phone': document.getElementById('phone').value.trim(),
+            'Subject': document.getElementById('subject').value,
+            'Message': document.getElementById('message').value.trim(),
+            'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+        };
+        
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('contactForm').style.display = 'none';
+                document.getElementById('submitSuccess').style.display = 'block';
+            } else {
+                throw new Error(result.message || 'Failed to send');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            alert('Failed to send message. Please try again or contact us on WhatsApp.');
+        }
+    }
+
+    // UPI Protection - Display masked, copy actual
     (function() {
         const p = [57,53,51,56,50,51,54,53,56,49];
         const s = [64];
         const d = [121,98,108];
         const u = [...p,...s,...d].map(c => String.fromCharCode(c)).join('');
+        const masked = '••••••6581@ybl';
         
-        // Set UPI display elements
+        // Set UPI display elements (masked)
         const upiDisplay = document.getElementById('upi-display');
         const upiFooter = document.getElementById('upi-footer');
         
-        if (upiDisplay) upiDisplay.textContent = u;
-        if (upiFooter) upiFooter.textContent = u;
+        if (upiDisplay) upiDisplay.textContent = masked;
+        if (upiFooter) upiFooter.textContent = masked;
         
-        // Update copyUPI function
+        // Update copyUPI function (copies actual UPI)
         window.copyUPI = function() {
             navigator.clipboard.writeText(u).then(() => {
                 const btn = document.querySelector('.contact-card .btn-small');

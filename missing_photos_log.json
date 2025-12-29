@@ -1,0 +1,86 @@
+{
+  "fetched_at": "2025-12-25T23:12:09.033789",
+  "total_trips": 11,
+  "successful": 11,
+  "from_instagram": 0,
+  "from_cloudfront": 11,
+  "details": {
+    "alleppey-varkala": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "ab565c8d8a72b19a",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/alleppey-varkala.jpg",
+      "fetched_at": "2025-12-25T23:12:06.459114"
+    },
+    "gokarna-new-year-party": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "c02f0ea5f0075ff4",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/gokarna-new-year-party.jpg",
+      "fetched_at": "2025-12-25T23:12:06.744821"
+    },
+    "scuba-day-trip": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "c5e83a974e42393d",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/scuba-day-trip.jpg",
+      "fetched_at": "2025-12-25T23:12:07.020958"
+    },
+    "rameshwaram-dhanushkodi": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "daf7047b2528f2a4",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/rameshwaram-dhanushkodi.jpg",
+      "fetched_at": "2025-12-25T23:12:07.283886"
+    },
+    "dandeli-netrani-scuba": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "92999d44ea785dd2",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/dandeli-netrani-scuba.jpg",
+      "fetched_at": "2025-12-25T23:12:07.556323"
+    },
+    "netrani-island-scuba": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "94961e70b67c11fc",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/netrani-island-scuba.jpg",
+      "fetched_at": "2025-12-25T23:12:07.811798"
+    },
+    "wayanad-3-days": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "bfa0096e943bc4ce",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/wayanad-3-days.jpg",
+      "fetched_at": "2025-12-25T23:12:08.081887"
+    },
+    "madurai-rameswaram": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "b9e7c45a374169b0",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/madurai-rameswaram.jpg",
+      "fetched_at": "2025-12-25T23:12:08.380133"
+    },
+    "wayanad-pool-party": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "c54f3c6e66843e94",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/wayanad-pool-party.jpg",
+      "fetched_at": "2025-12-25T23:12:08.647016"
+    },
+    "goa-waterfalls": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "9386f6a5e9d280e3",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/goa-waterfalls.jpg",
+      "fetched_at": "2025-12-25T23:12:08.849352"
+    },
+    "pondicherry-beach": {
+      "status": "success",
+      "source": "cloudfront",
+      "hash": "82616bdb731cbd30",
+      "path": "/home/simplifybytes/TravelBooking/images/trips/pondicherry-beach.jpg",
+      "fetched_at": "2025-12-25T23:12:09.032905"
+    }
+  }
+}

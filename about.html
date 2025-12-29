@@ -24,7 +24,7 @@
                 <li><a href="trips.html">Trips</a></li>
                 <li><a href="about.html" class="active">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="https://wa.me/919538236581" target="_blank" class="btn-nav">Book Now</a></li>
+                <li><a href="https://wa.me/917019235581" target="_blank" class="btn-nav">Book Now</a></li>
             </ul>
         </div>
     </nav>
@@ -108,7 +108,7 @@
             <p>Join 7,200+ travellers who've explored with us</p>
             <div class="cta-buttons">
                 <a href="trips.html" class="btn btn-primary">Explore Trips</a>
-                <a href="https://wa.me/919538236581?text=Hi!%20I%20want%20to%20know%20more%20about%20Team%20Weekend%20Trekkers" target="_blank" class="btn btn-whatsapp">
+                <a href="https://wa.me/917019235581?text=Hi!%20I%20want%20to%20know%20more%20about%20Team%20Weekend%20Trekkers" target="_blank" class="btn btn-whatsapp">
                     <i class="fab fa-whatsapp"></i> Chat With Us
                 </a>
             </div>
@@ -123,7 +123,7 @@
                     <p>A Travel community for the travellers, By the travellers.</p>
                     <div class="social-links">
                         <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/919538236581" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/917019235581" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -138,7 +138,7 @@
                 <div class="footer-col">
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
-                    <p><i class="fab fa-whatsapp"></i> +91 9538236581</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 7019235581</p>
                 </div>
                 <div class="footer-col">
                     <h4>Pay via UPI</h4>
@@ -152,21 +152,32 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/919538236581" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/917019235581" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
         <span>Chat with us</span>
     </a>
 
     <script src="js/main.js"></script>
     <script>
-    // UPI Protection
+    // UPI Protection - Display masked, copy actual
     (function() {
         const p = [57,53,51,56,50,51,54,53,56,49];
         const s = [64];
         const d = [121,98,108];
         const u = [...p,...s,...d].map(c => String.fromCharCode(c)).join('');
         const el = document.getElementById('upi-footer');
-        if (el) el.textContent = u;
+        if (el) el.textContent = '••••••6581@ybl';
+        window.copyUPI = function() {
+            navigator.clipboard.writeText(u).then(() => {
+                const btn = document.querySelector('.copy-upi');
+                if (btn) {
+                    const original = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; }, 2000);
+                }
+            });
+        };
     })();
     </script>
 </body>
