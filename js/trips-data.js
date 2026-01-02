@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-03 00:34
+// Last updated: 2026-01-03 01:14
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -91,7 +91,7 @@ const tripsData = {
         about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
         highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
         itinerary: [
-            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
+            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore at night", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
             {day: "Day 1", title: "Alleppey Houseboat Experience", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board houseboat", "1:00 PM - Kerala lunch on houseboat", "2:00 PM - Cruise through backwaters", "5:00 PM - Evening tea and snacks", "7:00 PM - Sunset on backwaters", "8:00 PM - Dinner and overnight on houseboat"]},
             {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater views", "8:00 AM - Breakfast and disembark", "10:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at beach shack", "3:00 PM - Beach time and swimming", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
             {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]},
