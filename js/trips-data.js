@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-30 19:31
+// Last updated: 2026-01-03 00:34
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -634,8 +634,9 @@ const tripsData = {
 };
 
 // ============================================
-// GET TRIP DATA FUNCTION - DO NOT REMOVE!
+// GET TRIP DATA FUNCTION
 // ============================================
+// Returns trip data by ID, defaults to 'netravati' if not found
 function getTripData(tripId) {
     return tripsData[tripId] || tripsData['netravati'];
 }
