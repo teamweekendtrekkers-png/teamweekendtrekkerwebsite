@@ -2,12 +2,8 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2025-12-30 17:45
-// 
-// 📸 PHOTOS: Put images in images/trips/tripid.jpg
-// 💰 PRICES: Change the 'price' field
-// 📅 DATES: Update 'availableDates' array
-// ➕ NEW TRIP: Copy any trip block, change all fields
+// Last updated: 2025-12-30 19:31
+// Updated via Trip Manager Mobile App
 // ============================================
 
 const tripsData = {
@@ -28,7 +24,7 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure from Bangalore.", activities: ["10:00 PM - Pickup from designated Bangalore pickup points", "10:30 PM - Introduction and trip briefing in the vehicle", "11:00 PM - Begin overnight journey to base camp", "Music, bonfire vibes, and getting to know fellow trekkers"]},
             {day: "Day 1", title: "Trek to Summit & Camping", activities: ["5:00 AM - Arrive at base village, freshen up", "6:00 AM - Light breakfast and trek briefing", "7:00 AM - Begin trek through forest trail", "10:00 AM - Cross streams and waterfalls", "1:00 PM - Reach campsite, packed lunch", "3:00 PM - Explore nearby viewpoints", "6:00 PM - Sunset views from the peak", "8:00 PM - Bonfire, dinner, stargazing"]},
-            {day: "Day 2", title: "Sunrise, Descent & Return", activities: ["5:30 AM - Wake up for sunrise", "6:00 AM - Witness breathtaking sunrise over clouds", "7:30 AM - Breakfast at campsite", "8:30 AM - Begin descent", "12:00 PM - Reach base, freshen up", "1:00 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]}
+            {day: "Day 2", title: "Sunrise, Descent & Return", activities: ["5:30 AM - Wake up for sunrise", "6:00 AM - Witness breathtaking sunrise over clouds", "7:30 AM - Breakfast at campsite", "8:30 AM - Begin descent", "12:00 PM - Reach base, freshen up", "1:00 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]},
         ],
         includes: ["Bangalore to Bangalore transportation (AC vehicle)", "1 Breakfast + 1 Lunch + 1 Dinner", "Camping equipment (tents, sleeping bags)", "Experienced trek lead and support staff", "Forest entry permits", "First aid kit", "Bonfire arrangements"],
         excludes: ["Personal expenses", "Travel insurance", "Any meals not mentioned", "Tips and gratuities", "Anything not mentioned in inclusions"],
@@ -47,11 +43,11 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
         about: "Experience the Scotland of India! Coorg is a picturesque hill station known for its coffee plantations, misty hills, and rich Kodava culture. The highlight is Mandalpatti Peak offering stunning views of the Western Ghats.\n\nJourney through winding roads surrounded by coffee estates, visit ancient temples, and enjoy local Kodava cuisine. The Jeep ride to Mandalpatti through off-road trails is an adventure in itself!",
-        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja's Seat sunset point", "Authentic Kodava cuisine", "Misty mountain views"],
+        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja", ", ", ", "],
         itinerary: [
             {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from Bangalore", "10:30 PM - Introduction and trip briefing", "11:00 PM - Begin overnight journey to Coorg", "Enjoy music and get to know fellow travelers"]},
-            {day: "Day 1", title: "Explore Coorg", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk", "6:30 PM - Sunset at Raja's Seat", "8:00 PM - Dinner and overnight stay"]},
-            {day: "Day 2", title: "Temple Visit & Return", activities: ["7:00 AM - Breakfast at homestay", "8:30 AM - Visit Talakaveri & Bhagamandala Temple", "11:00 AM - Shopping for coffee and spices", "12:30 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]}
+            {day: "Day 1", title: "Explore Coorg", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk", "6:30 PM - Sunset at Raja", ", "]},
+            {day: "Day 2", title: "Temple Visit & Return", activities: ["7:00 AM - Breakfast at homestay", "8:30 AM - Visit Talakaveri & Bhagamandala Temple", "11:00 AM - Shopping for coffee and spices", "12:30 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]},
         ],
         includes: ["AC transportation from Bangalore", "1 Night accommodation (Hotel/Homestay)", "2 Breakfasts + 2 Lunches + 1 Dinner", "Jeep ride to Mandalpatti", "All sightseeing as per itinerary", "Experienced tour lead"],
         excludes: ["Personal expenses", "Entry fees to monuments", "Travel insurance", "Tips and gratuities"],
@@ -74,7 +70,7 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["10:00 PM - Pickup from Bangalore (cool)", "10:30 PM - Trip briefing and introductions", "11:00 PM - Overnight journey begins"]},
             {day: "Day 1", title: "Chikmagalur Exploration", activities: ["5:30 AM - Arrive at Chikmagalur", "6:30 AM - Freshen up and breakfast", "8:00 AM - Drive to Mullayanagiri Peak", "10:00 AM - Trek to the summit", "12:00 PM - Visit Baba Budangiri", "2:00 PM - Lunch at local restaurant", "4:00 PM - Hebbe Falls visit", "6:00 PM - Sunset at Z-Point", "8:00 PM - Dinner and bonfire"]},
-            {day: "Day 2", title: "Coffee Trail & Return", activities: ["7:00 AM - Sunrise and breakfast", "9:00 AM - Coffee plantation tour", "11:00 AM - Visit Ayyanakere Lake", "1:00 PM - Lunch and shopping", "2:00 PM - Departure for Bangalore", "8:00 PM - Arrive back in Bangalore"]}
+            {day: "Day 2", title: "Coffee Trail & Return", activities: ["7:00 AM - Sunrise and breakfast", "9:00 AM - Coffee plantation tour", "11:00 AM - Visit Ayyanakere Lake", "1:00 PM - Lunch and shopping", "2:00 PM - Departure for Bangalore", "8:00 PM - Arrive back in Bangalore"]},
         ],
         includes: ["AC transportation roundtrip", "1 Night stay (Homestay/Resort)", "All meals as mentioned", "Sightseeing as per itinerary", "Trek lead and guide", "Bonfire (weather permitting)"],
         excludes: ["Entry fees", "Personal expenses", "Travel insurance", "Anything not mentioned"],
@@ -98,10 +94,11 @@ const tripsData = {
             {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
             {day: "Day 1", title: "Alleppey Houseboat Experience", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board houseboat", "1:00 PM - Kerala lunch on houseboat", "2:00 PM - Cruise through backwaters", "5:00 PM - Evening tea and snacks", "7:00 PM - Sunset on backwaters", "8:00 PM - Dinner and overnight on houseboat"]},
             {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater views", "8:00 AM - Breakfast and disembark", "10:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at beach shack", "3:00 PM - Beach time and swimming", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
-            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]}
+            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
         excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
+        groupSize: "",
     },
     ooty: {
         title: "Ooty & Coonoor Trip",
@@ -116,14 +113,15 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
         about: "Escape to the Queen of Hill Stations! Ooty, nestled in the Nilgiri hills, offers colonial charm, toy train rides, tea gardens, and beautiful botanical gardens. Combined with the quieter Coonoor, this trip is perfect for nature lovers.\n\nExperience the famous Nilgiri Mountain Railway, walk through tea estates, and enjoy the pleasant weather year-round!",
-        highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim's Park"],
+        highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim"],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["10:00 PM - Pickup from Bangalore", "10:30 PM - Introductions", "11:00 PM - Begin journey to Ooty"]},
-            {day: "Day 1", title: "Ooty Exploration", activities: ["6:00 AM - Arrive in Ooty", "7:30 AM - Freshen up, breakfast", "9:00 AM - Botanical Gardens", "11:00 AM - Doddabetta Peak", "1:00 PM - Lunch", "2:30 PM - Tea factory visit", "4:00 PM - Toy train to Coonoor", "5:30 PM - Sim's Park, Coonoor", "7:00 PM - Return to Ooty", "8:00 PM - Dinner, overnight stay"]},
-            {day: "Day 2", title: "Lake, Shopping & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Ooty Lake boating", "10:00 AM - Rose Garden", "11:30 AM - Local market shopping", "1:00 PM - Lunch and departure", "7:00 PM - Arrive in Bangalore"]}
+            {day: "Day 1", title: "Ooty Exploration", activities: ["6:00 AM - Arrive in Ooty", "7:30 AM - Freshen up, breakfast", "9:00 AM - Botanical Gardens", "11:00 AM - Doddabetta Peak", "1:00 PM - Lunch", "2:30 PM - Tea factory visit", "4:00 PM - Toy train to Coonoor", "5:30 PM - Sim", ", ", ", "]},
+            {day: "Day 2", title: "Lake, Shopping & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Ooty Lake boating", "10:00 AM - Rose Garden", "11:30 AM - Local market shopping", "1:00 PM - Lunch and departure", "7:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts and lunches", "Toy train tickets", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees to gardens", "Boating charges", "Personal expenses", "Dinner"],
+        groupSize: "",
     },
     spiti: {
         title: "Spiti Valley Expedition",
@@ -138,14 +136,14 @@ const tripsData = {
         duration: "8D/7N",
         availableDates: ["Jun 07-14, 2026", "Jun 21-28, 2026", "Jul 05-12, 2026", "Jul 19-26, 2026", "Aug 02-09, 2026", "Dec 27-29.2026"],
         about: "Embark on a life-changing expedition to Spiti Valley - the Middle Land between Tibet and India. This cold desert mountain valley offers surreal landscapes, ancient monasteries, and some of the most dramatic roads in the world.\n\nCross high-altitude passes, visit 1000-year-old monasteries, and experience the raw beauty of the Trans-Himalayas. This is for true adventurers seeking an off-beat experience!",
-        highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World's highest post office - Hikkim", "Langza fossil village", "Kaza local market exploration"],
+        highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World", ", ", ", "],
         itinerary: [
             {day: "Day 1", title: "Bangalore to Delhi", activities: ["Morning flight to Delhi", "Pickup and transfer to hotel", "Evening briefing session", "Overnight in Delhi"]},
             {day: "Day 2", title: "Delhi to Shimla", activities: ["6:00 AM - Depart for Shimla", "3:00 PM - Arrive in Shimla", "Evening - Mall Road walk", "Overnight in Shimla"]},
             {day: "Day 3", title: "Shimla to Nako", activities: ["6:00 AM - Early start", "Cross Kinnaur Valley", "Visit Nako Lake", "Overnight in Nako"]},
             {day: "Day 4-5", title: "Kaza & Monasteries", activities: ["Drive to Kaza via Tabo", "Visit Tabo Monastery", "Explore Key Monastery", "Kibber village excursion", "2 nights in Kaza"]},
             {day: "Day 6", title: "Chandratal Lake", activities: ["Drive to Chandratal", "Cross Kunzum Pass", "Camp by the lake", "Stargazing session"]},
-            {day: "Day 7-8", title: "Return Journey", activities: ["Early morning lake visit", "Drive to Manali via Rohtang", "Evening at Mall Road", "Next day flight to Bangalore"]}
+            {day: "Day 7-8", title: "Return Journey", activities: ["Early morning lake visit", "Drive to Manali via Rohtang", "Evening at Mall Road", "Next day flight to Bangalore"]},
         ],
         includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
         excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"],
@@ -168,10 +166,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:30 PM - Pickup from Bangalore", "10:00 PM - Trip briefing", "10:30 PM - Overnight journey to Kudremukh"]},
             {day: "Day 1", title: "Trek Day", activities: ["5:00 AM - Arrive at base, freshen up", "6:00 AM - Breakfast", "7:00 AM - Forest permits and trek start", "10:00 AM - Cross grasslands", "1:00 PM - Lunch break", "3:00 PM - Reach campsite near peak", "5:00 PM - Summit push", "6:30 PM - Sunset from peak", "8:00 PM - Dinner at camp"]},
-            {day: "Day 2", title: "Descent & Return", activities: ["5:30 AM - Sunrise at peak", "7:00 AM - Breakfast", "8:00 AM - Begin descent", "12:00 PM - Reach base", "1:00 PM - Lunch", "2:00 PM - Depart for Bangalore", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Descent & Return", activities: ["5:30 AM - Sunrise at peak", "7:00 AM - Breakfast", "8:00 AM - Begin descent", "12:00 PM - Reach base", "1:00 PM - Lunch", "2:00 PM - Depart for Bangalore", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
+        groupSize: "",
     },
     goa: {
         title: "Goa Beach Backpacking",
@@ -190,10 +189,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Introduction", "9:00 PM - Overnight journey to Goa"]},
             {day: "Day 1", title: "North Goa Exploration", activities: ["8:00 AM - Arrive in Goa", "9:00 AM - Check-in, freshen up", "10:30 AM - Calangute Beach", "1:00 PM - Seafood lunch", "3:00 PM - Fort Aguada", "5:00 PM - Candolim Beach", "7:00 PM - Baga Beach sunset", "9:00 PM - Dinner and nightlife"]},
-            {day: "Day 2", title: "Old Goa & More Beaches", activities: ["8:00 AM - Breakfast", "9:30 AM - Old Goa churches", "11:00 AM - Anjuna Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Vagator Beach & Chapora Fort", "6:00 PM - Sunset point", "8:00 PM - Return journey", "6:00 AM - Arrive Bangalore (next day)"]}
+            {day: "Day 2", title: "Old Goa & More Beaches", activities: ["8:00 AM - Breakfast", "9:30 AM - Old Goa churches", "11:00 AM - Anjuna Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Vagator Beach & Chapora Fort", "6:00 PM - Sunset point", "8:00 PM - Return journey", "6:00 AM - Arrive Bangalore (next day)"]},
         ],
         includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
         excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
+        groupSize: "",
     },
     dandeli: {
         title: "Dandeli River Adventure",
@@ -212,10 +212,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Adventure Day", activities: ["6:00 AM - Arrive at Dandeli", "7:00 AM - Check-in, freshen up", "8:00 AM - Breakfast", "9:30 AM - White water rafting (2 hrs)", "12:00 PM - Lunch at camp", "2:00 PM - Kayaking session", "4:00 PM - Coracle ride", "6:00 PM - River jacuzzi", "7:30 PM - Bonfire and BBQ dinner"]},
-            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Morning jungle safari", "8:30 AM - Breakfast", "10:00 AM - Syntheri Rocks visit", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Morning jungle safari", "8:30 AM - Breakfast", "10:00 AM - Syntheri Rocks visit", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night riverside camp", "All meals", "Rafting, Kayaking, Coracle", "Jungle safari", "Bonfire and BBQ", "All safety equipment"],
         excludes: ["Personal expenses", "Travel insurance", "Additional activities", "Tips"],
+        groupSize: "",
     },
     hampi: {
         title: "Hampi - Anjanadri Hills",
@@ -234,10 +235,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Introduction", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Hampi Heritage Walk", activities: ["5:00 AM - Arrive in Hampi", "5:30 AM - Anjanadri Hill sunrise trek", "7:30 AM - Breakfast", "9:00 AM - Virupaksha Temple", "11:00 AM - Vijaya Vittala Temple", "1:00 PM - Lunch", "2:30 PM - Coracle ride", "4:00 PM - Hippie Island exploration", "6:00 PM - Hemakuta Hill sunset", "8:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "More Ruins & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Queen's Bath", "9:30 AM - Elephant Stables", "10:30 AM - Underground Shiva Temple", "12:00 PM - Lunch", "1:00 PM - Departure", "8:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "More Ruins & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Queen", ", ", ", ", ", ", ", ", ", "]},
         ],
         includes: ["AC transportation", "1 Night accommodation", "Breakfasts and lunches", "Coracle ride", "Local guide", "All sightseeing"],
         excludes: ["Entry fees to monuments", "Dinner", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     yercaud: {
         title: "Yercaud Hill Station",
@@ -252,13 +254,14 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
         about: "Discover the hidden gem of Tamil Nadu! Yercaud, known as the 'Poor Man's Ooty', offers serene lake views, coffee plantations, and pleasant weather without the crowds. Perfect for a peaceful weekend getaway.\n\nExplore the charming Yercaud Lake, visit ancient temples, and enjoy panoramic views from Lady's Seat. A perfect escape for those seeking tranquility!",
-        highlights: ["Yercaud Lake boating", "Pagoda Point views", "Lady's Seat viewpoint", "Shevaroy Temple", "Coffee and spice gardens", "Bear's Cave exploration"],
+        highlights: ["Yercaud Lake boating", "Pagoda Point views", "Lady", ", ", ", ", ", ", "s Cave exploration"],
         itinerary: [
-            {day: "Day 1", title: "Early Morning Departure", activities: ["4:00 AM - Pickup from Bangalore", "8:00 AM - Breakfast en route", "10:00 AM - Arrive in Yercaud", "11:00 AM - Check-in, freshen up", "12:00 PM - Yercaud Lake boating", "1:30 PM - Lunch", "3:00 PM - Pagoda Point & Lady's Seat", "5:00 PM - Shevaroy Temple", "6:30 PM - Sunset point", "8:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "More Exploration & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Bear's Cave", "10:00 AM - Coffee plantation visit", "11:30 AM - Local market shopping", "1:00 PM - Lunch", "2:00 PM - Departure", "7:00 PM - Arrive in Bangalore"]}
+            {day: "Day 1", title: "Early Morning Departure", activities: ["4:00 AM - Pickup from Bangalore", "8:00 AM - Breakfast en route", "10:00 AM - Arrive in Yercaud", "11:00 AM - Check-in, freshen up", "12:00 PM - Yercaud Lake boating", "1:30 PM - Lunch", "3:00 PM - Pagoda Point & Lady", ", ", ", ", ", "]},
+            {day: "Day 2", title: "More Exploration & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Bear", ", ", ", ", ", ", ", ", ", "]},
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts", "Boating tickets", "All sightseeing", "Tour guide"],
         excludes: ["Lunches and dinners", "Entry fees", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
@@ -273,12 +276,13 @@ const tripsData = {
         duration: "1 Day",
         availableDates: ["Jan 04, 2026", "Jan 11, 2026", "Jan 18, 2026", "Jan 25, 2026", "Feb 01, 2026", "Feb 08, 2026"],
         about: "Witness the magical sunrise from Nandi Hills, Bangalore's favorite weekend getaway! Just an hour from the city, this ancient hill fortress offers breathtaking views, cool breeze, and a perfect escape from the urban hustle.\n\nCombine it with a visit to Bhoga Nandeeshwara Temple and enjoy cycling or paragliding options. Perfect for early birds and photography enthusiasts!",
-        highlights: ["Spectacular sunrise views", "Tipu Sultan's Summer Palace", "Bhoga Nandeeshwara Temple", "Cycling trails", "Paragliding (optional)", "Photography paradise"],
+        highlights: ["Spectacular sunrise views", "Tipu Sultan", ", ", ", ", ", ", ", "],
         itinerary: [
-            {day: "Day 1", title: "Sunrise Trip", activities: ["3:30 AM - Pickup from Bangalore", "4:30 AM - Arrive at Nandi Hills", "5:00 AM - Trek to sunrise point", "5:45 AM - Witness magical sunrise", "7:00 AM - Explore Tipu's Drop", "8:00 AM - Breakfast at hilltop", "9:30 AM - Bhoga Nandeeshwara Temple", "11:00 AM - Optional: Cycling/Paragliding", "1:00 PM - Lunch", "2:30 PM - Departure", "4:00 PM - Arrive in Bangalore"]}
+            {day: "Day 1", title: "Sunrise Trip", activities: ["3:30 AM - Pickup from Bangalore", "4:30 AM - Arrive at Nandi Hills", "5:00 AM - Trek to sunrise point", "5:45 AM - Witness magical sunrise", "7:00 AM - Explore Tipu", ", ", ", ", ", ", ", ", ", ", ", "]},
         ],
         includes: ["AC transportation", "Breakfast", "Entry tickets", "Tour guide"],
         excludes: ["Lunch", "Paragliding/Cycling charges", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     gokarna: {
         title: "Gokarna Beach Trek",
@@ -297,10 +301,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Beach Trek & Exploration", activities: ["6:00 AM - Arrive in Gokarna", "7:00 AM - Freshen up, breakfast", "8:30 AM - Mahabaleshwar Temple", "10:00 AM - Gokarna Beach", "11:00 AM - Beach trek begins", "12:00 PM - Kudle Beach", "1:30 PM - Lunch at beach cafe", "3:00 PM - Continue to Om Beach", "5:00 PM - Half Moon Beach", "6:30 PM - Sunset at Paradise Beach", "8:00 PM - Bonfire dinner at camp"]},
-            {day: "Day 2", title: "Morning Beach & Return", activities: ["6:00 AM - Sunrise at beach", "7:30 AM - Swim and relax", "9:00 AM - Breakfast", "10:00 AM - Trek back to Gokarna", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Morning Beach & Return", activities: ["6:00 AM - Sunrise at beach", "7:30 AM - Swim and relax", "9:00 AM - Breakfast", "10:00 AM - Trek back to Gokarna", "12:00 PM - Lunch", "1:00 PM - Departure", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "1 Night beach camping", "All meals", "Beach trek guide", "Camping gear", "Bonfire"],
         excludes: ["Water sports", "Personal expenses", "Temple donations", "Tips"],
+        groupSize: "",
     },
     wayanad: {
         title: "Wayanad 2 Days Trip",
@@ -319,7 +324,7 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Wayanad Exploration", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Freshen up, breakfast", "8:00 AM - Edakkal Caves trek", "11:00 AM - Soochipara Waterfalls", "1:00 PM - Kerala lunch", "2:30 PM - Banasura Sagar Dam", "4:30 PM - Spice plantation tour", "6:00 PM - Check-in to resort", "8:00 PM - Dinner"]},
-            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Wildlife safari", "8:30 AM - Breakfast", "10:00 AM - Pookode Lake", "11:30 AM - Shopping", "1:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Wildlife safari", "8:30 AM - Breakfast", "10:00 AM - Pookode Lake", "11:30 AM - Shopping", "1:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
@@ -338,14 +343,15 @@ const tripsData = {
         duration: "2D/2N",
         availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
         about: "Experience the tea capital of South India! Munnar's rolling tea gardens, misty mountains, and the world's highest tea plantation at Kolukkumalai make this a must-visit destination. Witness a magical sunrise above the clouds!\n\nThe jeep ride to Kolukkumalai through winding paths is an adventure in itself. Combine with Eravikulam National Park for Nilgiri Tahr sighting!",
-        highlights: ["Kolukkumalai sunrise jeep trip", "World's highest tea plantation", "Eravikulam National Park", "Tea Museum visit", "Mattupetty Dam", "Top Station viewpoint"],
+        highlights: ["Kolukkumalai sunrise jeep trip", "World", ", ", ", ", ", ", ", "],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Introduction", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Munnar Sightseeing", activities: ["9:00 AM - Arrive in Munnar", "10:00 AM - Check-in, freshen up", "11:00 AM - Eravikulam National Park", "1:30 PM - Kerala lunch", "3:00 PM - Tea Museum", "4:30 PM - Mattupetty Dam", "6:00 PM - Echo Point", "8:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "Kolukkumalai & More", activities: ["3:00 AM - Wake up call", "3:30 AM - Jeep to Kolukkumalai", "5:30 AM - Sunrise above clouds", "7:00 AM - Tea factory tour", "9:00 AM - Return to hotel, breakfast", "11:00 AM - Top Station", "1:00 PM - Lunch", "2:00 PM - Shopping", "3:00 PM - Departure", "11:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Kolukkumalai & More", activities: ["3:00 AM - Wake up call", "3:30 AM - Jeep to Kolukkumalai", "5:30 AM - Sunrise above clouds", "7:00 AM - Tea factory tour", "9:00 AM - Return to hotel, breakfast", "11:00 AM - Top Station", "1:00 PM - Lunch", "2:00 PM - Shopping", "3:00 PM - Departure", "11:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "1 Night hotel stay", "All meals", "Kolukkumalai jeep", "All sightseeing", "National park entry"],
         excludes: ["Personal expenses", "Boating charges", "Tips"],
+        groupSize: "",
     },
     theyyam: {
         title: "Kannur Theyyam Tour",
@@ -364,10 +370,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Kannur & Theyyam", activities: ["6:00 AM - Arrive in Kannur", "7:00 AM - Freshen up, breakfast", "9:00 AM - Kannur Fort", "11:00 AM - Payyambalam Beach", "1:00 PM - Traditional Kerala lunch", "3:00 PM - Muzhappilangad Beach", "5:00 PM - Folklore museum", "7:00 PM - Theyyam temple visit", "8:00 PM - Witness Theyyam ritual", "10:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "More Theyyam & Return", activities: ["5:00 AM - Early morning Theyyam", "8:00 AM - Breakfast", "9:30 AM - Temple visits", "11:00 AM - Local market", "12:30 PM - Lunch", "1:30 PM - Departure", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "More Theyyam & Return", activities: ["5:00 AM - Early morning Theyyam", "8:00 AM - Breakfast", "9:30 AM - Temple visits", "11:00 AM - Local market", "12:30 PM - Lunch", "1:30 PM - Departure", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
         excludes: ["Temple donations", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
@@ -386,7 +393,7 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure (Dec 30)", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction and New Year excitement", "9:00 PM - Overnight journey to Gokarna"]},
             {day: "Day 1", title: "Beach Exploration (Dec 31)", activities: ["6:00 AM - Arrive in Gokarna", "7:00 AM - Check-in to beach camp, freshen up", "8:00 AM - Breakfast", "10:00 AM - Beach hopping: Kudle, Om Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Half Moon & Paradise Beach trek", "6:00 PM - Return to camp, freshen up", "8:00 PM - New Year Eve party begins", "9:00 PM - Bonfire, DJ, dance", "11:00 PM - Beach games and countdown prep", "12:00 AM - HAPPY NEW YEAR! Fireworks & celebration"]},
-            {day: "Day 2", title: "New Year Day & Return (Jan 1)", activities: ["8:00 AM - Late breakfast (recovery time!)", "10:00 AM - Mahabaleshwar Temple visit", "11:30 AM - Gokarna Beach", "1:00 PM - New Year lunch", "2:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore with amazing memories"]}
+            {day: "Day 2", title: "New Year Day & Return (Jan 1)", activities: ["8:00 AM - Late breakfast (recovery time!)", "10:00 AM - Mahabaleshwar Temple visit", "11:30 AM - Gokarna Beach", "1:00 PM - New Year lunch", "2:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore with amazing memories"]},
         ],
         includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
@@ -405,14 +412,15 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
         about: "Dive into the crystal clear waters of Netrani Island - India's premier scuba diving destination! Also known as Pigeon Island, this heart-shaped island offers visibility up to 30 meters and vibrant marine life including reef sharks, rays, and colorful coral.\n\nNo prior diving experience needed! Our certified PADI instructors will guide you through every step. Also visit the magnificent Murudeshwar Temple with the world's second tallest Shiva statue.",
-        highlights: ["Scuba diving at Netrani Island", "30m underwater visibility", "Marine life: sharks, rays, turtles", "Murudeshwar Temple visit", "World's 2nd tallest Shiva statue", "PADI certified instructors"],
+        highlights: ["Scuba diving at Netrani Island", "30m underwater visibility", "Marine life: sharks, rays, turtles", "Murudeshwar Temple visit", "World", ", "],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing and scuba introduction", "10:00 PM - Overnight journey to Murudeshwar"]},
             {day: "Day 1", title: "Scuba Diving Day", activities: ["6:00 AM - Arrive at Murudeshwar", "7:00 AM - Check-in, freshen up, breakfast", "8:30 AM - Scuba diving briefing and training", "10:00 AM - Boat ride to Netrani Island (1 hour)", "11:30 AM - Scuba diving session (45 mins underwater)", "1:00 PM - Return to shore, lunch", "3:00 PM - Rest and optional snorkeling", "5:00 PM - Murudeshwar Temple visit", "6:30 PM - Sunset at beach", "8:00 PM - Dinner and overnight stay"]},
-            {day: "Day 2", title: "Temple & Return", activities: ["6:00 AM - Sunrise at Murudeshwar beach", "7:30 AM - Breakfast", "9:00 AM - Explore Murudeshwar Temple complex", "10:30 AM - Shopping for souvenirs", "12:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Temple & Return", activities: ["6:00 AM - Sunrise at Murudeshwar beach", "7:30 AM - Breakfast", "9:00 AM - Explore Murudeshwar Temple complex", "10:30 AM - Shopping for souvenirs", "12:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night hotel stay", "All meals", "Scuba diving with equipment", "PADI certified instructor", "Boat ride to island", "Temple visit"],
         excludes: ["Underwater photos/videos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        groupSize: "",
     },
     pondicherry: {
         title: "Pondicherry Trip",
@@ -431,10 +439,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Introduction and trip briefing", "10:00 PM - Overnight journey to Pondicherry"]},
             {day: "Day 1", title: "Pondicherry Exploration", activities: ["6:00 AM - Arrive in Pondicherry", "7:00 AM - Paradise Beach sunrise", "8:30 AM - Check-in and breakfast at French cafe", "10:00 AM - Auroville and Matrimandir visit", "1:00 PM - Lunch at Auroville cafe", "3:00 PM - French Quarter heritage walk", "4:30 PM - Sri Aurobindo Ashram", "6:00 PM - Promenade Beach sunset", "7:30 PM - Rock Beach stroll", "8:30 PM - Dinner at French restaurant"]},
-            {day: "Day 2", title: "Beach & Return", activities: ["6:00 AM - Optional sunrise at beach", "8:00 AM - Breakfast", "9:30 AM - Serenity Beach visit", "11:00 AM - Shopping at MG Road", "12:30 PM - Lunch", "1:30 PM - Departure for Bangalore", "8:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Beach & Return", activities: ["6:00 AM - Optional sunrise at beach", "8:00 AM - Breakfast", "9:30 AM - Serenity Beach visit", "11:00 AM - Shopping at MG Road", "12:30 PM - Lunch", "1:30 PM - Departure for Bangalore", "8:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfast", "Paradise Beach boat ride", "Auroville entry", "Local guide"],
         excludes: ["Meals not mentioned", "Shopping", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     "wayanad-pool-party": {
         title: "Wayanad Private Pool Party",
@@ -453,10 +462,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Party mood begins in the bus!", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Pool Party Day", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Check-in to resort", "7:30 AM - Breakfast", "9:00 AM - Edakkal Caves trek", "12:00 PM - Return to resort, lunch", "2:00 PM - Pool party begins!", "2:30 PM - Pool games, music, fun", "5:00 PM - Snacks by the pool", "7:00 PM - Freshen up", "8:00 PM - BBQ dinner with bonfire", "10:00 PM - Music, dance, party night"]},
-            {day: "Day 2", title: "Sightseeing & Return", activities: ["8:00 AM - Late breakfast", "9:30 AM - Soochipara Waterfalls", "11:30 AM - Pookode Lake", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Sightseeing & Return", activities: ["8:00 AM - Late breakfast", "9:30 AM - Soochipara Waterfalls", "11:30 AM - Pookode Lake", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
+        groupSize: "",
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
@@ -476,10 +486,11 @@ const tripsData = {
             {day: "Day 0", title: "Night Departure", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip briefing", "9:00 PM - Overnight journey to Madurai"]},
             {day: "Day 1", title: "Madurai & Rameswaram", activities: ["6:00 AM - Arrive in Madurai", "7:00 AM - Freshen up, breakfast", "8:00 AM - Meenakshi Amman Temple", "11:00 AM - Thirumalai Nayak Palace", "12:30 PM - Lunch", "1:30 PM - Drive to Rameswaram", "4:00 PM - Pamban Bridge photo stop", "5:00 PM - Ramanathaswamy Temple", "7:00 PM - Agni Theertham beach", "8:00 PM - Dinner and overnight stay"]},
             {day: "Day 2", title: "Dhanushkodi & Thanjavur", activities: ["5:00 AM - Dhanushkodi sunrise trip", "7:30 AM - Explore ghost town", "9:00 AM - Breakfast", "10:00 AM - Drive to Thanjavur", "2:00 PM - Lunch en route", "4:00 PM - Brihadeeswarar Temple", "6:00 PM - Thanjavur Palace", "8:00 PM - Dinner and overnight stay"]},
-            {day: "Day 3", title: "Return Journey", activities: ["7:00 AM - Breakfast", "8:00 AM - Saraswathi Mahal Library", "10:00 AM - Departure for Bangalore", "8:00 PM - Arrive in Bangalore"]}
+            {day: "Day 3", title: "Return Journey", activities: ["7:00 AM - Breakfast", "8:00 AM - Saraswathi Mahal Library", "10:00 AM - Departure for Bangalore", "8:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "2 Nights hotel stay", "All meals", "Temple guide", "All sightseeing", "Dhanushkodi jeep"],
         excludes: ["Temple donations", "Special pooja charges", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
@@ -499,10 +510,11 @@ const tripsData = {
             {day: "Day 0", title: "Night Departure", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
             {day: "Day 1", title: "Alleppey Houseboat", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board traditional houseboat", "12:30 PM - Kerala lunch on houseboat", "1:00 PM - Cruise through backwaters", "4:00 PM - Tea and snacks on deck", "6:00 PM - Sunset on backwaters", "8:00 PM - Dinner on houseboat", "Night - Sleep under stars on deck"]},
             {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater sunrise", "8:00 AM - Breakfast, disembark", "9:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at cliff cafe", "2:00 PM - Beach time and swimming", "4:00 PM - Cliff walk and cafes", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
-            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Breakfast", "7:00 AM - Drive to Athirappilly", "11:00 AM - Athirappilly Falls visit", "1:00 PM - Lunch near falls", "2:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore"]}
+            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Breakfast", "7:00 AM - Drive to Athirappilly", "11:00 AM - Athirappilly Falls visit", "1:00 PM - Lunch near falls", "2:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "1 Night houseboat (AC)", "1 Night hotel stay", "All meals", "All sightseeing", "Tour guide"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        groupSize: "",
     },
     "rameshwaram-dhanushkodi": {
         title: "Rameshwaram-Dhanushkodi-Srirangam",
@@ -517,14 +529,15 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
         about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1000 pillars, explore the haunting beauty of Dhanushkodi ghost town, and seek blessings at Srirangam's massive temple complex.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana.",
-        highlights: ["Ramanathaswamy Temple", "Dhanushkodi ghost town", "Pamban Bridge - India's first sea bridge", "Srirangam Ranganathaswamy Temple", "22 holy theerthams", "Agni Theertham beach"],
+        highlights: ["Ramanathaswamy Temple", "Dhanushkodi ghost town", "Pamban Bridge - India", ", ", ", ", ", "],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Rameswaram & Dhanushkodi", activities: ["7:00 AM - Arrive in Rameswaram", "7:30 AM - Freshen up, breakfast", "8:30 AM - Agni Theertham holy bath", "9:30 AM - Ramanathaswamy Temple", "12:00 PM - 22 Theerthams ritual", "1:00 PM - Lunch", "2:30 PM - Jeep ride to Dhanushkodi", "3:30 PM - Explore ghost town", "5:00 PM - Dhanushkodi beach & tip of India", "6:30 PM - Return via Pamban Bridge sunset", "8:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "Srirangam & Return", activities: ["5:00 AM - Early departure for Srirangam", "9:00 AM - Breakfast en route", "11:00 AM - Ranganathaswamy Temple", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Srirangam & Return", activities: ["5:00 AM - Early departure for Srirangam", "9:00 AM - Breakfast en route", "11:00 AM - Ranganathaswamy Temple", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night stay", "All meals", "Dhanushkodi jeep", "Temple guide", "All sightseeing"],
         excludes: ["Temple donations", "Special pooja", "Personal expenses", "Tips"],
+        groupSize: "",
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
@@ -543,10 +556,11 @@ const tripsData = {
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trek briefing", "9:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Waterfall Treks", activities: ["6:00 AM - Arrive at Karnataka-Goa border", "7:00 AM - Breakfast", "8:00 AM - Trek to hidden waterfalls", "10:00 AM - Swim in natural pools", "12:00 PM - Packed lunch at waterfall", "2:00 PM - Continue to second waterfall", "4:00 PM - Spice plantation visit", "6:00 PM - Drive to Goa", "8:00 PM - Check-in, dinner at beach shack"]},
-            {day: "Day 2", title: "Goa Beaches & Return", activities: ["6:00 AM - Sunrise at beach", "8:00 AM - Breakfast", "9:00 AM - Dudhsagar Falls viewpoint", "12:00 PM - Lunch", "1:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore"]}
+            {day: "Day 2", title: "Goa Beaches & Return", activities: ["6:00 AM - Sunrise at beach", "8:00 AM - Breakfast", "9:00 AM - Dudhsagar Falls viewpoint", "12:00 PM - Lunch", "1:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Trek guide", "Spice plantation entry", "All sightseeing"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        groupSize: "",
     },
     "dandeli-netrani-scuba": {
         title: "Dandeli & Netrani Scuba Diving",
@@ -566,10 +580,11 @@ const tripsData = {
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Adventure briefing", "10:00 PM - Overnight journey to Dandeli"]},
             {day: "Day 1", title: "Dandeli Adventures", activities: ["6:00 AM - Arrive at Dandeli", "7:00 AM - Check-in to riverside camp", "8:00 AM - Breakfast", "9:30 AM - White water rafting (2 hours)", "12:00 PM - Lunch at camp", "2:00 PM - Kayaking session", "4:00 PM - Jungle safari", "6:00 PM - Return to camp", "7:00 PM - Bonfire and BBQ dinner"]},
             {day: "Day 2", title: "Scuba Diving Day", activities: ["5:00 AM - Early departure for Murudeshwar", "8:00 AM - Breakfast en route", "10:00 AM - Scuba diving briefing", "11:00 AM - Boat ride to Netrani Island", "12:00 PM - Scuba diving session", "2:00 PM - Return to shore, lunch", "4:00 PM - Murudeshwar Temple visit", "6:00 PM - Beach sunset", "8:00 PM - Dinner and overnight stay"]},
-            {day: "Day 3", title: "Return Journey", activities: ["7:00 AM - Breakfast", "8:00 AM - Departure for Bangalore", "6:00 PM - Arrive in Bangalore"]}
+            {day: "Day 3", title: "Return Journey", activities: ["7:00 AM - Breakfast", "8:00 AM - Departure for Bangalore", "6:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "2 Nights stay (camp + hotel)", "All meals", "Rafting & Kayaking", "Scuba diving with equipment", "Jungle safari", "All activities"],
         excludes: ["Underwater photos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        groupSize: "",
     },
     "scuba-day-trip": {
         title: "1 Day Scuba Diving Trip",
@@ -586,10 +601,11 @@ const tripsData = {
         about: "Experience scuba diving without taking time off! This express trip departs Friday night and gets you diving at Netrani Island by Saturday morning. Perfect for busy professionals who want adventure without sacrificing too many days.\n\nNo experience needed - our PADI certified instructors will have you exploring underwater wonders in no time!",
         highlights: ["Express scuba diving trip", "Netrani Island dive", "PADI certified instructors", "Underwater marine life", "Murudeshwar Temple", "Minimal time commitment"],
         itinerary: [
-            {day: "Day 1", title: "Scuba Express", activities: ["12:00 AM - Departure from Bangalore (Friday midnight)", "6:00 AM - Arrive Murudeshwar, freshen up", "7:00 AM - Breakfast", "8:00 AM - Scuba briefing and training", "9:30 AM - Boat to Netrani Island", "10:30 AM - Scuba diving session", "12:30 PM - Return to shore", "1:00 PM - Lunch", "2:30 PM - Murudeshwar Temple visit", "4:00 PM - Departure for Bangalore", "11:00 PM - Arrive in Bangalore"]}
+            {day: "Day 1", title: "Scuba Express", activities: ["12:00 AM - Departure from Bangalore (Friday midnight)", "6:00 AM - Arrive Murudeshwar, freshen up", "7:00 AM - Breakfast", "8:00 AM - Scuba briefing and training", "9:30 AM - Boat to Netrani Island", "10:30 AM - Scuba diving session", "12:30 PM - Return to shore", "1:00 PM - Lunch", "2:30 PM - Murudeshwar Temple visit", "4:00 PM - Departure for Bangalore", "11:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "Breakfast and lunch", "Scuba diving with equipment", "PADI instructor", "Boat ride", "Temple visit"],
         excludes: ["Underwater photos/videos", "Personal expenses", "Dinner", "Tips"],
+        groupSize: "",
     },
     "wayanad-3-days": {
         title: "Wayanad 3 Days Trip",
@@ -609,13 +625,17 @@ const tripsData = {
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Caves & Waterfalls", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Check-in, freshen up", "7:30 AM - Breakfast", "9:00 AM - Edakkal Caves trek", "12:00 PM - Lunch", "2:00 PM - Soochipara Waterfalls", "4:30 PM - Meenmutty Falls", "6:30 PM - Return to resort", "8:00 PM - Dinner"]},
             {day: "Day 2", title: "Chembra Peak & Wildlife", activities: ["5:00 AM - Early start for Chembra Peak", "6:00 AM - Trek begins", "9:00 AM - Heart-shaped lake viewpoint", "11:00 AM - Return, late breakfast", "1:00 PM - Lunch", "2:30 PM - Wildlife Safari", "5:00 PM - Banasura Sagar Dam", "6:30 PM - Sunset at dam", "8:00 PM - Bonfire dinner"]},
-            {day: "Day 3", title: "Plantations & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Tea plantation visit", "10:00 AM - Spice garden tour", "11:30 AM - Pookode Lake", "1:00 PM - Lunch and shopping", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]}
+            {day: "Day 3", title: "Plantations & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Tea plantation visit", "10:00 AM - Spice garden tour", "11:30 AM - Pookode Lake", "1:00 PM - Lunch and shopping", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "2 Nights resort stay", "All meals", "Chembra trek permit", "Wildlife safari", "All sightseeing", "Bonfire"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
-    }
+        groupSize: "",
+    },
 };
 
+// ============================================
+// GET TRIP DATA FUNCTION - DO NOT REMOVE!
+// ============================================
 function getTripData(tripId) {
     return tripsData[tripId] || tripsData['netravati'];
 }
