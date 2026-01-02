@@ -1,0 +1,57 @@
+name: Website Validation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Make validation script executable
+      run: chmod +x validate-website.sh
+    
+    - name: Run website validation
+      run: ./validate-website.sh
+    
+    - name: Check for console errors in JavaScript
+      run: |
+        echo "🔍 Checking for common JavaScript issues..."
+        
+        # Check for console.log statements (optional warning)
+        CONSOLE_LOGS=$(grep -r "console.log" js/*.js --include="*.js" | wc -l || echo "0")
+        if [ "$CONSOLE_LOGS" -gt 0 ]; then
+          echo "⚠️  Found $CONSOLE_LOGS console.log statements (consider removing for production)"
+        fi
+        
+        # Check for debugger statements
+        if grep -r "debugger" js/*.js --include="*.js" > /dev/null 2>&1; then
+          echo "❌ Found debugger statements - remove before deployment!"
+          exit 1
+        fi
+        
+        echo "✅ No critical JavaScript issues found"
+    
+    - name: Validate HTML with HTMLHint (optional)
+      continue-on-error: true
+      run: |
+        npm install -g htmlhint
+        htmlhint "*.html" --config .htmlhintrc || true
+    
+    - name: Summary
+      run: |
+        echo ""
+        echo "================================================"
+        echo "✅ All validation checks completed!"
+        echo "================================================"
