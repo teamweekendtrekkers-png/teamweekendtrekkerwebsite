@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-03 01:36
+// Last updated: 2026-01-03 01:06
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -91,7 +91,7 @@ const tripsData = {
         about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
         highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
         itinerary: [
-            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore at night", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
+            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore(Cool)", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
             {day: "Day 1", title: "Alleppey Houseboat Experience", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board houseboat", "1:00 PM - Kerala lunch on houseboat", "2:00 PM - Cruise through backwaters", "5:00 PM - Evening tea and snacks", "7:00 PM - Sunset on backwaters", "8:00 PM - Dinner and overnight on houseboat"]},
             {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater views", "8:00 AM - Breakfast and disembark", "10:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at beach shack", "3:00 PM - Beach time and swimming", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
             {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]},
@@ -134,7 +134,7 @@ const tripsData = {
         difficulty: "Challenging",
         bestTime: "Jun - Sep",
         duration: "8D/7N",
-        availableDates: ["Jun 07-14, 2026\nJun 21-28, 2026\nJul 05-12, 2026\nJul 19-26, 2026\nAug 02-09, 2026\nDec 27-29.2026"],
+        availableDates: ["Jun 07-14, 2026", "Jun 21-28, 2026", "Jul 05-12, 2026", "Jul 19-26, 2026", "Aug 02-09, 2026", "Dec 27-29.2026"],
         about: "Embark on a life-changing expedition to Spiti Valley - the Middle Land between Tibet and India. This cold desert mountain valley offers surreal landscapes, ancient monasteries, and some of the most dramatic roads in the world.\n\nCross high-altitude passes, visit 1000-year-old monasteries, and experience the raw beauty of the Trans-Himalayas. This is for true adventurers seeking an off-beat experience!",
         highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World", ", ", ", "],
         itinerary: [
@@ -143,7 +143,7 @@ const tripsData = {
             {day: "Day 3", title: "Shimla to Nako", activities: ["6:00 AM - Early start", "Cross Kinnaur Valley", "Visit Nako Lake", "Overnight in Nako"]},
             {day: "Day 4-5", title: "Kaza & Monasteries", activities: ["Drive to Kaza via Tabo", "Visit Tabo Monastery", "Explore Key Monastery", "Kibber village excursion", "2 nights in Kaza"]},
             {day: "Day 6", title: "Chandratal Lake", activities: ["Drive to Chandratal", "Cross Kunzum Pass", "Camp by the lake", "Stargazing session"]},
-            {day: "Day 7-8", title: "Return Journey", activities: ["Early morning lake visit", "Drive to Manali via Rohtang", "Evening at Mall Road", "Next day flight to Bangalore", "Trip Over"]},
+            {day: "Day 7-8", title: "Return Journey", activities: ["Early morning lake visit", "Drive to Manali via Rohtang", "Evening at Mall Road", "Next day flight to Bangalore"]},
         ],
         includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
         excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"],

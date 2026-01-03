@@ -272,7 +272,7 @@
         SecurityConfig._tampered = true;
         window.secureCopyUPI = window.securePayViaUPI = window.copyUPI = function() { showSecurityAlert('Security Error'); return false; };
         
-        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;justify-content:center;align-items:center;z-index:999999;padding:20px;"><div style="text-align:center;color:white;max-width:450px;"><div style="font-size:72px;margin-bottom:20px;">🚨</div><h1 style="margin:0 0 15px;font-size:24px;">Security Alert</h1><p style="margin:0 0 25px;font-size:16px;line-height:1.7;">This page has been <strong>tampered with</strong>.<br><strong>DO NOT make payments here.</strong></p><div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;margin-bottom:20px;"><p style="margin:0;font-size:13px;">Error: ' + reason + '</p></div><p style="margin:0;font-size:14px;">Visit: <a href="https://adventureshiva.netlify.app" style="color:#fbbf24;text-decoration:underline;">adventureshiva.netlify.app</a></p></div></div>';
+        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;justify-content:center;align-items:center;z-index:999999;padding:20px;"><div style="text-align:center;color:white;max-width:450px;"><div style="font-size:72px;margin-bottom:20px;">🚨</div><h1 style="margin:0 0 15px;font-size:24px;">Security Alert</h1><p style="margin:0 0 25px;font-size:16px;line-height:1.7;">This page has been <strong>tampered with</strong>.<br><strong>DO NOT make payments here.</strong></p><div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;margin-bottom:20px;"><p style="margin:0;font-size:13px;">Error: ' + reason + '</p></div><p style="margin:0;font-size:14px;">Visit: <a href="https://teamweekendtrekkers.com" style="color:#fbbf24;text-decoration:underline;">teamweekendtrekkers.com</a></p></div></div>';
     }
 
     function showTamperWarning(reason) {
@@ -331,7 +331,7 @@
         getUPILink: function(amount, name) { 
             var u = this.getUPI(); 
             if (!u) return null; 
-            return 'upi://pay?pa=' + encodeURIComponent(u) + '&pn=' + encodeURIComponent('Adventure Shiva') + '&am=' + (amount||'') + '&cu=INR&tn=' + encodeURIComponent('Booking: ' + XSSProtection.sanitizeInput(name || 'Trip')); 
+            return 'upi://pay?pa=' + encodeURIComponent(u) + '&pn=' + encodeURIComponent('Team Weekend Trekkers') + '&am=' + (amount||'') + '&cu=INR&tn=' + encodeURIComponent('Booking: ' + XSSProtection.sanitizeInput(name || 'Trip')); 
         }
     };
 
