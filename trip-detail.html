@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Netravati Peak Trek - Team Weekend Trekkers</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -28,20 +29,96 @@
         </div>
     </nav>
 
-    <!-- Trip Hero -->
-    <section class="trip-hero" id="tripHero">
-        <div class="hero-overlay"></div>
-        <div class="trip-hero-content">
-            <span class="trip-badge-large" id="tripBadge">Weekend Trek</span>
-            <h1 id="tripTitle">Netravati Peak Trek</h1>
-            <p class="trip-hero-location"><i class="fas fa-map-marker-alt"></i> <span id="tripLocation">Western Ghats, Karnataka</span></p>
-            <div class="trip-hero-price">
-                <span class="price-label">Starting from</span>
-                <span class="price-amount" id="tripPrice">₹3,499</span>
-                <span class="price-person">/person</span>
+    <!-- Trip Hero with Gallery - TWT Style -->
+    <section class="trip-hero-gallery" id="tripHeroGallery">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="trips.html">Treks</a> / <span id="breadcrumbTitle">Netravati Peak Trek</span>
+            </div>
+            <div class="gallery-wrapper">
+                <div class="gallery-main" onclick="openLightbox(0)">
+                    <img src="images/trips/netravati.jpg" alt="Trek Main Image" id="galleryMainImg">
+                </div>
+                <div class="gallery-side">
+                    <div class="gallery-item" onclick="openLightbox(1)">
+                        <img src="images/trips/netravati.jpg" alt="Trek Photo 2" id="galleryImg1">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(2)">
+                        <img src="images/trips/netravati.jpg" alt="Trek Photo 3" id="galleryImg2">
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(3)">
+                        <img src="images/trips/netravati.jpg" alt="Trek Photo 4" id="galleryImg3">
+                    </div>
+                    <div class="gallery-item gallery-more" onclick="openLightbox(4)">
+                        <img src="images/trips/netravati.jpg" alt="Trek Photo 5" id="galleryImg4">
+                        <div class="gallery-overlay">
+                            <span>+3 More</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Trek At A Glance -->
+    <section class="trek-glance">
+        <div class="container">
+            <h2>Trek at a glance</h2>
+            <div class="glance-grid">
+                <div class="glance-item">
+                    <i class="fas fa-clock"></i>
+                    <span class="glance-label">Trek duration</span>
+                    <span class="glance-value" id="glanceDuration">2 days / 1 night</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-signal"></i>
+                    <span class="glance-label">Difficulty level</span>
+                    <span class="glance-value" id="glanceDifficulty">Easy to Moderate</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-mountain"></i>
+                    <span class="glance-label">Max altitude</span>
+                    <span class="glance-value" id="glanceAltitude">4640 ft</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="glance-label">Location</span>
+                    <span class="glance-value" id="glanceLocation">Western Ghats</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-route"></i>
+                    <span class="glance-label">Total trek distance</span>
+                    <span class="glance-value" id="glanceDistance">12 km</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-user-friends"></i>
+                    <span class="glance-label">For ages</span>
+                    <span class="glance-value" id="glanceAge">12+</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-users"></i>
+                    <span class="glance-label">Max group size</span>
+                    <span class="glance-value" id="glanceGroupSize">20 pax</span>
+                </div>
+                <div class="glance-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="glance-label">Best time to go</span>
+                    <span class="glance-value" id="glanceBestTime">Oct - Feb</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="galleryLightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" onclick="changeImage(-1)">&#10094;</button>
+        <button class="lightbox-next" onclick="changeImage(1)">&#10095;</button>
+        <div class="lightbox-content">
+            <img src="" alt="Gallery Image" id="lightboxImage">
+        </div>
+        <div class="lightbox-counter" id="imageCounter">1 / 6</div>
+    </div>
 
     <section class="trip-details">
         <div class="container">
@@ -194,6 +271,66 @@
                             <div class="carry-item"><i class="fas fa-camera"></i> Camera (optional)</div>
                         </div>
                     </div>
+
+                    <!-- Perfect For Section -->
+                    <div class="content-section">
+                        <h2>Perfect For</h2>
+                        <div class="suitable-for-grid" id="suitableForGrid">
+                            <div class="suitable-tag"><i class="fas fa-user"></i> Solo Travelers</div>
+                            <div class="suitable-tag"><i class="fas fa-user-friends"></i> Friends</div>
+                            <div class="suitable-tag"><i class="fas fa-star"></i> First Timers</div>
+                            <div class="suitable-tag"><i class="fas fa-graduation-cap"></i> Students</div>
+                        </div>
+                    </div>
+
+                    <!-- Pickup Points Section -->
+                    <div class="content-section">
+                        <h2><i class="fas fa-map-marker-alt"></i> Bangalore Pickup Points</h2>
+                        <p class="section-note">All pickups are on the night of Day 0. Please reach 15 minutes before departure time.</p>
+                        <div class="pickup-table-wrapper">
+                            <table class="pickup-table" id="pickupTable">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>Landmark</th>
+                                        <th>Time</th>
+                                        <th>Map</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Cancellation Policy Section -->
+                    <div class="content-section">
+                        <h2><i class="fas fa-shield-alt"></i> Cancellation Policy</h2>
+                        <div class="policy-cards" id="policyCards">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                        <div class="policy-notes">
+                            <p><i class="fas fa-info-circle"></i> Refunds are processed within 5-7 business days.</p>
+                            <p><i class="fas fa-exchange-alt"></i> Date changes are free if requested 7+ days before the trip.</p>
+                        </div>
+                    </div>
+
+                    <!-- Trek Guidelines Section -->
+                    <div class="content-section">
+                        <h2><i class="fas fa-clipboard-list"></i> Trip Guidelines</h2>
+                        <div class="guidelines-grid" id="guidelinesGrid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <div class="content-section">
+                        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+                        <div class="faq-accordion" id="faqAccordion">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar -->
@@ -329,6 +466,51 @@
             // Update document title
             document.title = `${trip.title} - Team Weekend Trekkers`;
 
+            // Update breadcrumb
+            const breadcrumbTitle = document.getElementById('breadcrumbTitle');
+            if (breadcrumbTitle) breadcrumbTitle.textContent = trip.title;
+
+            // Update gallery images
+            const galleryMainImg = document.getElementById('galleryMainImg');
+            if (galleryMainImg) galleryMainImg.src = trip.image;
+            
+            const galleryImg1 = document.getElementById('galleryImg1');
+            if (galleryImg1) galleryImg1.src = trip.image;
+            
+            const galleryImg2 = document.getElementById('galleryImg2');
+            if (galleryImg2) galleryImg2.src = trip.image;
+            
+            const galleryImg3 = document.getElementById('galleryImg3');
+            if (galleryImg3) galleryImg3.src = trip.image;
+            
+            const galleryImg4 = document.getElementById('galleryImg4');
+            if (galleryImg4) galleryImg4.src = trip.image;
+
+            // Update Trek at a Glance
+            const glanceDuration = document.getElementById('glanceDuration');
+            if (glanceDuration) glanceDuration.textContent = trip.duration || '2 days / 1 night';
+            
+            const glanceDifficulty = document.getElementById('glanceDifficulty');
+            if (glanceDifficulty) glanceDifficulty.textContent = trip.difficulty || 'Moderate';
+            
+            const glanceAltitude = document.getElementById('glanceAltitude');
+            if (glanceAltitude) glanceAltitude.textContent = trip.elevation || '4640 ft';
+            
+            const glanceLocation = document.getElementById('glanceLocation');
+            if (glanceLocation) glanceLocation.textContent = trip.location ? trip.location.split(',')[0] : 'Western Ghats';
+            
+            const glanceDistance = document.getElementById('glanceDistance');
+            if (glanceDistance) glanceDistance.textContent = trip.distance || '12 km';
+            
+            const glanceAge = document.getElementById('glanceAge');
+            if (glanceAge) glanceAge.textContent = trip.ageRange || '12+';
+            
+            const glanceGroupSize = document.getElementById('glanceGroupSize');
+            if (glanceGroupSize) glanceGroupSize.textContent = trip.groupSize || '20 pax';
+            
+            const glanceBestTime = document.getElementById('glanceBestTime');
+            if (glanceBestTime) glanceBestTime.textContent = trip.bestTime || 'Oct - Feb';
+
             // Update location
             const locationEl = document.getElementById('tripLocation');
             if (locationEl) locationEl.textContent = trip.location;
@@ -423,6 +605,60 @@
                 floatingWhatsapp.href = `https://wa.me/7019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(trip.title)}`;
             }
 
+            // Update Pickup Points Table
+            const pickupTable = document.querySelector('#pickupTable tbody');
+            if (pickupTable && typeof commonPickupPoints !== 'undefined') {
+                pickupTable.innerHTML = commonPickupPoints.map(point => `
+                    <tr>
+                        <td><strong>${point.name}</strong></td>
+                        <td>${point.landmark}</td>
+                        <td><span class="pickup-time">${point.time}</span></td>
+                        <td><a href="${point.mapLink}" target="_blank" class="map-link"><i class="fas fa-map-marker-alt"></i> View</a></td>
+                    </tr>
+                `).join('');
+            }
+
+            // Update Cancellation Policy Cards (TWT style - shows cancellation fee)
+            const policyCards = document.getElementById('policyCards');
+            if (policyCards && typeof commonCancellationPolicy !== 'undefined') {
+                policyCards.innerHTML = commonCancellationPolicy.map(policy => `
+                    <div class="policy-card" style="border-left: 4px solid ${policy.color}">
+                        <div class="policy-days">${policy.days}</div>
+                        <div class="policy-refund" style="color: ${policy.color}">Cancellation Fee: ${policy.refund}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Update Guidelines Grid (TWT style with title and description)
+            const guidelinesGrid = document.getElementById('guidelinesGrid');
+            if (guidelinesGrid && typeof commonGuidelines !== 'undefined') {
+                guidelinesGrid.innerHTML = commonGuidelines.map(guideline => `
+                    <div class="guideline-item">
+                        <div class="guideline-icon"><i class="fas ${guideline.icon}"></i></div>
+                        <div class="guideline-content">
+                            <h4>${guideline.title}</h4>
+                            <p>${guideline.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Update FAQ Accordion
+            const faqAccordion = document.getElementById('faqAccordion');
+            if (faqAccordion && typeof commonFAQs !== 'undefined') {
+                faqAccordion.innerHTML = commonFAQs.map((faq, index) => `
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(${index})">
+                            <span>${faq.q}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-${index}">
+                            <p>${faq.a}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
             // Update date dropdown with available dates
             const dateSelect = document.getElementById('dateSelect');
             if (dateSelect && trip.availableDates && trip.availableDates.length > 0) {
@@ -454,12 +690,92 @@
             const tripId = getTripFromURL();
             const dateSelect = document.getElementById('dateSelect');
             const peopleSelect = document.getElementById('peopleCount');
-            const date = dateSelect ? dateSelect.value : 'Jan 11-12, 2026';
+            const date = dateSelect ? dateSelect.value : '';
             const people = peopleSelect ? peopleSelect.value : 1;
+            
+            // Validate date is selected
+            if (!date) {
+                alert('Please select a date for your trek');
+                dateSelect.focus();
+                dateSelect.classList.add('error');
+                return false;
+            }
+            
+            dateSelect.classList.remove('error');
             const checkoutUrl = `checkout.html?trip=${tripId}&date=${encodeURIComponent(date)}&people=${people}`;
             window.location.href = checkoutUrl;
             return false;
         }
+
+        // FAQ Toggle Function
+        function toggleFAQ(index) {
+            const answer = document.getElementById(`faq-${index}`);
+            const item = answer.parentElement;
+            const icon = item.querySelector('.faq-question i');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-item').forEach((faq, i) => {
+                if (i !== index) {
+                    faq.classList.remove('active');
+                    const otherAnswer = document.getElementById(`faq-${i}`);
+                    if (otherAnswer) otherAnswer.style.maxHeight = null;
+                }
+            });
+            
+            // Toggle current FAQ
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            } else {
+                answer.style.maxHeight = null;
+            }
+        }
+
+        // Gallery Lightbox Functions
+        let currentImageIndex = 0;
+        let galleryImages = [];
+
+        function openLightbox(index) {
+            const lightbox = document.getElementById('galleryLightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            const counter = document.getElementById('imageCounter');
+            
+            currentImageIndex = index;
+            galleryImages = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
+            
+            lightboxImg.src = galleryImages[currentImageIndex];
+            counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('galleryLightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+            if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+            
+            const lightboxImg = document.getElementById('lightboxImage');
+            const counter = document.getElementById('imageCounter');
+            lightboxImg.src = galleryImages[currentImageIndex];
+            counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('galleryLightbox');
+            if (!lightbox || !lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            if (e.key === 'ArrowRight') changeImage(1);
+        });
+
         document.addEventListener('DOMContentLoaded', updateTripPage);
     </script>
     <script src="js/security.js"></script>
