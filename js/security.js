@@ -18,10 +18,10 @@
     
     const SecurityConfig = {
         // UPI stored as ASCII character codes (not plain text)
-        _p1: [57,53,51,56,51,51,54,53,56,49], 
+        _p1: [57,52,50,57,52,50,57,56,54,50], 
         _p2: 64,  
         _p3: [121,98,108], 
-        _checksum: 968587228,
+        _checksum: 191569790,
         
         _rateLimits: {
             copyAttempts: { max: 5, window: 60000 },
