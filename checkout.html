@@ -94,6 +94,36 @@
                     <div class="checkout-card" id="paymentSection" style="display: none;">
                         <h2><i class="fas fa-credit-card"></i> Payment Options</h2>
                         
+                        <!-- Payment Type Selector -->
+                        <div class="payment-type-selector">
+                            <h3>💰 Choose Payment Type</h3>
+                            <div class="payment-type-options">
+                                <label class="payment-type-option">
+                                    <input type="radio" name="paymentType" value="half" checked onchange="updatePaymentAmount()">
+                                    <div class="payment-type-card selected">
+                                        <div class="payment-type-badge">Recommended</div>
+                                        <span class="payment-type-icon">50%</span>
+                                        <span class="payment-type-title">Pay 50% Now</span>
+                                        <span class="payment-type-amount" id="halfPayAmount">₹1,750</span>
+                                        <span class="payment-type-desc">Pay remaining 50% later</span>
+                                    </div>
+                                </label>
+                                <label class="payment-type-option">
+                                    <input type="radio" name="paymentType" value="full" onchange="updatePaymentAmount()">
+                                    <div class="payment-type-card">
+                                        <span class="payment-type-icon">100%</span>
+                                        <span class="payment-type-title">Pay Full Amount</span>
+                                        <span class="payment-type-amount" id="fullPayAmount">₹3,500</span>
+                                        <span class="payment-type-desc">Complete payment now</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="payment-type-note" id="paymentNote">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Remaining ₹<span id="remainingAmount">1,750</span> to be paid before the trek starts</span>
+                            </div>
+                        </div>
+                        
                         <!-- UPI Payment - Primary -->
                         <div class="payment-option primary-payment">
                             <h3>💳 Pay via UPI (Recommended)</h3>
@@ -240,6 +270,8 @@
             const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
             const totalAmount = priceNum * people;
             const formattedTotal = totalAmount.toLocaleString('en-IN');
+            const halfAmount = Math.ceil(totalAmount / 2);
+            const formattedHalf = halfAmount.toLocaleString('en-IN');
             
             // Update summary card
             document.getElementById('summaryTripName').textContent = trip.title;
@@ -256,20 +288,65 @@
             document.getElementById('hiddenPeople').value = people;
             document.getElementById('hiddenTotal').value = '₹' + formattedTotal;
             
-            // Update UPI payment
-            document.getElementById('upiAmount').textContent = formattedTotal;
+            // Update UPI payment (default to half amount)
+            document.getElementById('upiAmount').textContent = formattedHalf;
             // Store amount for secure payment function
-            window.checkoutAmount = totalAmount;
+            window.checkoutAmount = halfAmount;
             window.checkoutTrip = trip.title;
             
-            // Update Razorpay button
-            document.getElementById('rzpAmount').textContent = formattedTotal;
+            // Update Razorpay button (default to half amount)
+            document.getElementById('rzpAmount').textContent = formattedHalf;
             
             // Update page title
             document.title = 'Checkout - ' + trip.title + ' | Team Weekend Trekkers';
             
             // Store data for later
             window.bookingData = { trip: trip.title, location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
+            
+            // Update half payment option amounts
+            const halfAmount = Math.ceil(totalAmount / 2);
+            document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
+            document.getElementById('fullPayAmount').textContent = '₹' + formattedTotal;
+            document.getElementById('remainingAmount').textContent = halfAmount.toLocaleString('en-IN');
+            
+            // Set default payment type to half
+            window.selectedPaymentType = 'half';
+            window.currentPayAmount = halfAmount;
+        }
+
+        // ========== Update Payment Amount Based on Selection ==========
+        function updatePaymentAmount() {
+            const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
+            const totalAmount = window.bookingData.total;
+            const halfAmount = Math.ceil(totalAmount / 2);
+            
+            // Update card selection visual
+            document.querySelectorAll('.payment-type-card').forEach(card => card.classList.remove('selected'));
+            document.querySelector('input[name="paymentType"]:checked').nextElementSibling.classList.add('selected');
+            
+            let payAmount;
+            if (paymentType === 'half') {
+                payAmount = halfAmount;
+                document.getElementById('paymentNote').classList.remove('hidden');
+                document.getElementById('paymentNote').style.display = 'flex';
+            } else {
+                payAmount = totalAmount;
+                document.getElementById('paymentNote').classList.add('hidden');
+                document.getElementById('paymentNote').style.display = 'none';
+            }
+            
+            const formattedPayAmount = payAmount.toLocaleString('en-IN');
+            
+            // Update UPI button and amount
+            document.getElementById('upiAmount').textContent = formattedPayAmount;
+            window.checkoutAmount = payAmount;
+            
+            // Update Razorpay button
+            document.getElementById('rzpAmount').textContent = formattedPayAmount;
+            
+            // Store selected payment type
+            window.selectedPaymentType = paymentType;
+            window.currentPayAmount = payAmount;
         }
 
         // ========== Form Validation ==========
