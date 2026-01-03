@@ -330,8 +330,41 @@
         },
         getUPILink: function(amount, name) { 
             var u = this.getUPI(); 
-            if (!u) return null; 
-            return 'upi://pay?pa=' + encodeURIComponent(u) + '&pn=' + encodeURIComponent('Team Weekend Trekkers') + '&am=' + (amount||'') + '&cu=INR&tn=' + encodeURIComponent('Booking: ' + XSSProtection.sanitizeInput(name || 'Trip')); 
+            if (!u) return null;
+            var payeeName = encodeURIComponent('Team Weekend Trekkers');
+            var txnNote = encodeURIComponent('Booking: ' + XSSProtection.sanitizeInput(name || 'Trip'));
+            var amountStr = amount || '';
+            
+            // Check if iOS (upi:// doesn't work on iOS)
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            
+            if (isIOS) {
+                // Use PhonePe deep link for iOS
+                return 'phonepe://pay?pa=' + encodeURIComponent(u) + '&pn=' + payeeName + '&am=' + amountStr + '&cu=INR&tn=' + txnNote;
+            } else {
+                // Use standard UPI for Android (opens app chooser)
+                return 'upi://pay?pa=' + encodeURIComponent(u) + '&pn=' + payeeName + '&am=' + amountStr + '&cu=INR&tn=' + txnNote;
+            }
+        },
+        // Get alternative payment links for iOS fallback
+        getAlternativeLinks: function(amount, name) {
+            var u = this.getUPI();
+            if (!u) return null;
+            var payeeName = encodeURIComponent('Team Weekend Trekkers');
+            var txnNote = encodeURIComponent('Booking: ' + XSSProtection.sanitizeInput(name || 'Trip'));
+            var amountStr = amount || '';
+            var encodedUPI = encodeURIComponent(u);
+            
+            return {
+                phonepe: 'phonepe://pay?pa=' + encodedUPI + '&pn=' + payeeName + '&am=' + amountStr + '&cu=INR&tn=' + txnNote,
+                gpay: 'gpay://upi/pay?pa=' + encodedUPI + '&pn=' + payeeName + '&am=' + amountStr + '&cu=INR&tn=' + txnNote,
+                paytm: 'paytmmp://pay?pa=' + encodedUPI + '&pn=' + payeeName + '&am=' + amountStr + '&cu=INR&tn=' + txnNote
+            };
+        },
+        isIOS: function() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         }
     };
 
@@ -365,9 +398,60 @@
         if (!RateLimiter.check('paymentAttempts')) { showSecurityAlert('Wait ' + RateLimiter.getRemainingTime('paymentAttempts') + 's'); return false; }
         var link = UPISecurity.getUPILink(amount, tripName);
         if (!link) { showSecurityAlert('Payment link failed.'); return false; }
-        window.location.href = link;
+        
+        // For iOS, try PhonePe first, show fallback options if it fails
+        if (UPISecurity.isIOS()) {
+            // Try to open PhonePe
+            var start = Date.now();
+            window.location.href = link;
+            
+            // If PhonePe isn't installed, show alternative options after a short delay
+            setTimeout(function() {
+                // If we're still here after 2 seconds, the app probably didn't open
+                if (Date.now() - start < 2500) {
+                    showIOSPaymentOptions(amount, tripName);
+                }
+            }, 2000);
+        } else {
+            // Android - standard UPI intent opens app chooser
+            window.location.href = link;
+        }
         return true;
     };
+    
+    // Show iOS payment app options modal
+    function showIOSPaymentOptions(amount, tripName) {
+        var existing = document.getElementById('ios-payment-modal');
+        if (existing) existing.remove();
+        
+        var links = UPISecurity.getAlternativeLinks(amount, tripName);
+        if (!links) return;
+        
+        var modal = document.createElement('div');
+        modal.id = 'ios-payment-modal';
+        modal.innerHTML = 
+            '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10002;display:flex;align-items:center;justify-content:center;padding:20px;">' +
+                '<div style="background:white;border-radius:16px;padding:24px;max-width:320px;width:100%;text-align:center;">' +
+                    '<h3 style="margin:0 0 8px;font-size:18px;color:#1f2937;">Choose Payment App</h3>' +
+                    '<p style="margin:0 0 20px;color:#6b7280;font-size:14px;">Select your preferred UPI app</p>' +
+                    '<div style="display:flex;flex-direction:column;gap:10px;">' +
+                        '<a href="' + links.phonepe + '" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#5f259f;color:white;border-radius:10px;text-decoration:none;font-weight:600;">' +
+                            '<span>PhonePe</span></a>' +
+                        '<a href="' + links.gpay + '" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#4285f4;color:white;border-radius:10px;text-decoration:none;font-weight:600;">' +
+                            '<span>Google Pay</span></a>' +
+                        '<a href="' + links.paytm + '" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#00baf2;color:white;border-radius:10px;text-decoration:none;font-weight:600;">' +
+                            '<span>Paytm</span></a>' +
+                    '</div>' +
+                    '<button onclick="this.closest(\'#ios-payment-modal\').remove()" style="margin-top:16px;padding:12px 24px;background:#f3f4f6;border:none;border-radius:8px;color:#6b7280;cursor:pointer;font-size:14px;">Cancel</button>' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(modal);
+        
+        // Close on backdrop click
+        modal.querySelector('div').addEventListener('click', function(e) {
+            if (e.target === this) modal.remove();
+        });
+    }
 
     window.validateBookingForm = function(form) {
         var hp = form.querySelector('[name="' + SecurityConfig._honeypotField + '"]');
