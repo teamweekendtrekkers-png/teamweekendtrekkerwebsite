@@ -136,6 +136,24 @@ if command -v node &> /dev/null; then
         fi
     done
     
+    # Also check inline JavaScript in HTML files
+    for html_file in "${HTML_FILES[@]}"; do
+        if [ -f "$html_file" ]; then
+            # Extract JavaScript from <script> tags (not src) and validate
+            INLINE_JS=$(sed -n '/<script>/,/<\/script>/p' "$html_file" | grep -v '<script>' | grep -v '</script>')
+            if [ -n "$INLINE_JS" ]; then
+                echo "$INLINE_JS" > /tmp/inline_check.js
+                if ! node -c /tmp/inline_check.js 2>/dev/null; then
+                    echo -e "  ${RED}❌ $html_file: Inline JavaScript syntax error${NC}"
+                    node -c /tmp/inline_check.js 2>&1 | head -3
+                    JS_ERRORS=$((JS_ERRORS + 1))
+                    ERRORS=$((ERRORS + 1))
+                fi
+                rm -f /tmp/inline_check.js
+            fi
+        fi
+    done
+    
     if [ $JS_ERRORS -eq 0 ]; then
         echo -e "  ${GREEN}✅ All JavaScript files valid${NC}"
     fi

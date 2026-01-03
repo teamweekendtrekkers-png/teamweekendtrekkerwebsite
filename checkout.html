@@ -303,8 +303,7 @@
             // Store data for later
             window.bookingData = { trip: trip.title, location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
             
-            // Update half payment option amounts
-            const halfAmount = Math.ceil(totalAmount / 2);
+            // Update half payment option amounts (using already declared halfAmount)
             document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
             document.getElementById('fullPayAmount').textContent = '₹' + formattedTotal;
             document.getElementById('remainingAmount').textContent = halfAmount.toLocaleString('en-IN');
