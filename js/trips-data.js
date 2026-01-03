@@ -2,82 +2,23 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-03 19:45
+// Last updated: 2026-01-04 02:16
 // Updated via Trip Manager Mobile App
 // ============================================
-
-// ============================================
-// SHARED/COMMON DATA (used across all trips)
-// ============================================
-
-// Common Bangalore pickup points (TWT style)
-const commonPickupPoints = [
-    { name: "HSR Layout", landmark: "Udupi Grand, Teacher's Colony", time: "8:30 PM", mapLink: "https://bit.ly/UdupiGrandTeachersColony" },
-    { name: "Domlur", landmark: "Yamaha Showroom", time: "9:00 PM", mapLink: "https://bit.ly/YamahaShowroomDomlur" },
-    { name: "MG Road", landmark: "St. Marks Cathedral Bus Stop", time: "9:30 PM", mapLink: "https://goo.gl/maps/xpHsKY5aDmijTskV9" },
-    { name: "Rajajinagar", landmark: "Navrang Theatre", time: "10:00 PM", mapLink: "https://goo.gl/maps/navrangtheatre" },
-    { name: "Yeshwanthpur", landmark: "Metro Station Exit", time: "10:15 PM", mapLink: "https://goo.gl/maps/yeshwanthpurmetro" },
-    { name: "Hebbal", landmark: "Hebbal Flyover", time: "10:30 PM", mapLink: "https://maps.google.com/?q=13.0358,77.5970" }
-];
-
-// Common cancellation policy (TWT style - cancellation fees)
-const commonCancellationPolicy = [
-    { days: "7+ days before", refund: "50% of invoice", color: "#f59e0b", type: "partial" },
-    { days: "3-6 days before", refund: "70% of invoice", color: "#f97316", type: "high" },
-    { days: "0-2 days before", refund: "100% of invoice", color: "#ef4444", type: "full" }
-];
-
-// Common trek guidelines (TWT style)
-const commonGuidelines = [
-    { icon: "fa-wine-bottle", title: "No alcohol or smoking", desc: "For everyone's safety and enjoyment, please don't consume alcohol, intoxicants, or smoke at any point during the journey or trek." },
-    { icon: "fa-utensils", title: "Dinner before boarding", desc: "Kindly complete your dinner before you board the bus. We will not be stopping for dinner after pickup." },
-    { icon: "fa-bus", title: "Travel arrangements", desc: "We arrange transportation based on group size - tempo traveler for smaller groups, mini-bus for larger groups. Both non-AC with push-back seats." },
-    { icon: "fa-campground", title: "Embrace the outdoors", desc: "Our trips are about getting out into nature, often in remote locations. Please don't expect luxury accommodations." },
-    { icon: "fa-carrot", title: "Food provided", desc: "We provide basic, vegetarian meals during the trek. Non-veg food is not served. Please carry your own snacks if needed." },
-    { icon: "fa-leaf", title: "Leave no trace policy", desc: "Please help us keep our beautiful outdoors clean by disposing of all litter properly. Carry back all waste." },
-    { icon: "fa-suitcase", title: "Personal belongings", desc: "You are responsible for your personal belongings, valuables, and jewelry. We are not liable for any lost items." },
-    { icon: "fa-clock", title: "Potential delays", desc: "While we strive to be on schedule, please be aware that traffic delays or vehicle breakdowns can sometimes occur." }
-];
-
-// Common FAQs (TWT style)
-const commonFAQs = [
-    { q: "I've booked my trip. When will I hear from you next?", a: "You'll get an event heads-up message by Thursday of the trip week. It includes exact pickup points with timings, your trek leader's name and phone number, and a quick list of do's & don'ts." },
-    { q: "Will I be added to a WhatsApp Group once the trip is confirmed?", a: "Yes! Once you book, you'll be added to a WhatsApp group with all participants of your batch. This is where you can coordinate, ask questions, and connect with fellow travelers." },
-    { q: "I'm travelling solo. Can I still join?", a: "Absolutely! Most of our travelers are solo and it's a great way to make new friends. Our trek leads ensure everyone feels included and welcome." },
-    { q: "Are your trips safe for women?", a: "Yes, we ensure a safe and respectful environment for all. We often have women trek leads and many of our groups have female majority. We have zero tolerance for inappropriate behavior." },
-    { q: "How do I get a discount on trips?", a: "Follow us on Instagram for flash sales and discount codes. You can also get group discounts for bookings of 5+ people. Early bird bookings sometimes have special offers too!" },
-    { q: "Can I leave my extra luggage at the accommodation?", a: "Yes, you can leave extra bags in our vehicle or at the homestay during the trek. We recommend carrying only essentials in a day backpack during the actual trek." },
-    { q: "What kind of fitness is required for your treks?", a: "Basic fitness is required. If you can climb 4-5 floors without getting breathless, you're good to go for easy-moderate treks. We recommend light exercises a week before." },
-    { q: "What's your cancellation and refund policy?", a: "7+ days before: 50% cancellation fee. 3-6 days: 70% fee. 0-2 days: 100% fee (no refund). All requests must be made via email or WhatsApp." },
-    { q: "What happens if the trip is cancelled due to weather?", a: "If we cancel due to weather or safety concerns, you'll receive a full credit voucher for a future trip. We prioritize your safety above everything else." },
-    { q: "Can I get a customized trip for my group?", a: "Yes! We offer customized trips for groups of 8+. Contact us on WhatsApp to discuss your requirements and get special group rates." }
-];
-
-// Suitable for labels
-const suitableForLabels = {
-    solo: { label: "Solo Travelers", icon: "fa-user" },
-    couples: { label: "Couples", icon: "fa-heart" },
-    families: { label: "Families", icon: "fa-home" },
-    friends: { label: "Friends", icon: "fa-user-friends" },
-    beginners: { label: "First Timers", icon: "fa-star" },
-    women: { label: "Women Safe", icon: "fa-female" },
-    students: { label: "Students", icon: "fa-graduation-cap" },
-    corporate: { label: "Corporate", icon: "fa-briefcase" }
-};
 
 const tripsData = {
     netravati: {
         title: "Netravati Peak Trek",
         location: "Western Ghats, Karnataka",
         badge: "Weekend Trek",
-        price: "₹4000",
+        price: "₹4111",
         image: "images/trips/netravati.jpg",
         distance: "15-20 km",
         elevation: "1,420 m",
         difficulty: "Moderate",
         bestTime: "Oct - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 08-09, 2026", "Jan 20-22, 2026"],
+        availableDates: ["Jan 18-19, 2026\nJan 25-26, 2026\nFeb 08-09, 2026\nJan 20-22, 2026"],
         about: "Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.\n\nThe trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.",
         highlights: ["Hidden waterfalls along the trail", "Night camping under stars", "Rare bird and wildlife spotting", "Pristine streams for refreshing dips", "360° panoramic views from the peak", "Away from tourist crowds"],
         itinerary: [
@@ -123,7 +64,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Dec 27-28"],
+        availableDates: ["Jan 11-12, 2026\nJan 18-19, 2026\nJan 25-26, 2026\nFeb 01-02, 2026\nFeb 08-09, 2026\nDec 27-28"],
         about: "Chikmagalur, the land of coffee, offers a perfect weekend escape with its rolling hills, coffee plantations, and serene waterfalls. Home to the highest peak in Karnataka - Mullayanagiri - this destination combines adventure with relaxation.\n\nExperience the aroma of fresh coffee, trek through misty trails, and witness stunning sunsets over the Western Ghats. A perfect blend of nature, adventure, and tranquility!",
         highlights: ["Mullayanagiri Peak - Highest in Karnataka", "Baba Budangiri Hills", "Coffee estate stay experience", "Hebbe Falls trek", "Z-Point sunset views", "Fresh coffee tasting"],
         itinerary: [
