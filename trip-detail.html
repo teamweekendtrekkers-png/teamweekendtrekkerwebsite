@@ -605,17 +605,26 @@
                 floatingWhatsapp.href = `https://wa.me/7019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(trip.title)}`;
             }
 
-            // Update Pickup Points Table - Use trip-specific boardingLocations if available
+            // ============================================
+            // COMMON SECTIONS - Use trip-specific overrides OR common defaults
+            // Pattern: trip.fieldName overrides commonFieldName if defined and has data
+            // ============================================
+
+            // Update Pickup Points Table
             const pickupTable = document.querySelector('#pickupTable tbody');
             if (pickupTable) {
-                // Use trip's boardingLocations if available, otherwise fall back to commonPickupPoints
-                const pickupPoints = (trip.boardingLocations && trip.boardingLocations.length > 0) 
+                // Use trip-specific boardingLocations ONLY if it has valid entries (name & time)
+                const hasValidBoardingLocations = trip.boardingLocations && 
+                    trip.boardingLocations.length > 0 && 
+                    trip.boardingLocations.some(p => p.name && p.time);
+                
+                const pickupPoints = hasValidBoardingLocations 
                     ? trip.boardingLocations 
                     : (typeof commonPickupPoints !== 'undefined' ? commonPickupPoints : []);
                 
                 pickupTable.innerHTML = pickupPoints.map(point => `
                     <tr>
-                        <td><strong>${point.name}</strong></td>
+                        <td><strong>${point.name || ''}</strong></td>
                         <td>${point.landmark || ''}</td>
                         <td><span class="pickup-time">${point.time || ''}</span></td>
                         <td>${point.mapLink ? `<a href="${point.mapLink}" target="_blank" class="map-link"><i class="fas fa-map-marker-alt"></i> View</a>` : ''}</td>
@@ -623,23 +632,33 @@
                 `).join('');
             }
 
-            // Update Cancellation Policy Cards (TWT style - shows cancellation fee)
+            // Update Cancellation Policy Cards
             const policyCards = document.getElementById('policyCards');
-            if (policyCards && typeof commonCancellationPolicy !== 'undefined') {
-                policyCards.innerHTML = commonCancellationPolicy.map(policy => `
-                    <div class="policy-card" style="border-left: 4px solid ${policy.color}">
+            if (policyCards) {
+                // Use trip-specific cancellationPolicy if defined, otherwise common
+                const cancellationData = (trip.cancellationPolicy && trip.cancellationPolicy.length > 0)
+                    ? trip.cancellationPolicy
+                    : (typeof commonCancellationPolicy !== 'undefined' ? commonCancellationPolicy : []);
+                
+                policyCards.innerHTML = cancellationData.map(policy => `
+                    <div class="policy-card" style="border-left: 4px solid ${policy.color || '#666'}">
                         <div class="policy-days">${policy.days}</div>
-                        <div class="policy-refund" style="color: ${policy.color}">Cancellation Fee: ${policy.refund}</div>
+                        <div class="policy-refund" style="color: ${policy.color || '#666'}">Cancellation Fee: ${policy.refund}</div>
                     </div>
                 `).join('');
             }
 
-            // Update Guidelines Grid (TWT style with title and description)
+            // Update Guidelines Grid
             const guidelinesGrid = document.getElementById('guidelinesGrid');
-            if (guidelinesGrid && typeof commonGuidelines !== 'undefined') {
-                guidelinesGrid.innerHTML = commonGuidelines.map(guideline => `
+            if (guidelinesGrid) {
+                // Use trip-specific guidelines if defined, otherwise common
+                const guidelinesData = (trip.guidelines && trip.guidelines.length > 0)
+                    ? trip.guidelines
+                    : (typeof commonGuidelines !== 'undefined' ? commonGuidelines : []);
+                
+                guidelinesGrid.innerHTML = guidelinesData.map(guideline => `
                     <div class="guideline-item">
-                        <div class="guideline-icon"><i class="fas ${guideline.icon}"></i></div>
+                        <div class="guideline-icon"><i class="fas ${guideline.icon || 'fa-info-circle'}"></i></div>
                         <div class="guideline-content">
                             <h4>${guideline.title}</h4>
                             <p>${guideline.desc}</p>
@@ -650,8 +669,13 @@
 
             // Update FAQ Accordion
             const faqAccordion = document.getElementById('faqAccordion');
-            if (faqAccordion && typeof commonFAQs !== 'undefined') {
-                faqAccordion.innerHTML = commonFAQs.map((faq, index) => `
+            if (faqAccordion) {
+                // Use trip-specific FAQs if defined, otherwise common
+                const faqData = (trip.faqs && trip.faqs.length > 0)
+                    ? trip.faqs
+                    : (typeof commonFAQs !== 'undefined' ? commonFAQs : []);
+                
+                faqAccordion.innerHTML = faqData.map((faq, index) => `
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(${index})">
                             <span>${faq.q}</span>

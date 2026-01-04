@@ -215,9 +215,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
-        boardingLocations: [
-            {name: "Silk board", landmark: "metro station", time: "10:22", mapLink: ""},
-        ],
+        boardingLocations: [],  // Uses common pickup points
         galleryImages: [],
         groupSize: "12-20 members",
     },
