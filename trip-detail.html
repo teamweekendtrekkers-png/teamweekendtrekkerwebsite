@@ -440,7 +440,7 @@
     </a>
 
     <script src="js/main.js"></script>
-    <script src="js/trips-data.js?v=1767552007"></script>
+    <script src="js/trips-data.js?v=1767556524"></script>
     <script>
         // Get trip from URL parameter
         function getTripFromURL() {
@@ -470,21 +470,31 @@
             const breadcrumbTitle = document.getElementById('breadcrumbTitle');
             if (breadcrumbTitle) breadcrumbTitle.textContent = trip.title;
 
-            // Update gallery images
+            // Update gallery images - use galleryImages array if available
+            const galleryImages = trip.galleryImages && trip.galleryImages.length > 0 
+                ? [trip.image, ...trip.galleryImages] 
+                : [trip.image, trip.image, trip.image, trip.image, trip.image];
+            
             const galleryMainImg = document.getElementById('galleryMainImg');
-            if (galleryMainImg) galleryMainImg.src = trip.image;
+            if (galleryMainImg) galleryMainImg.src = galleryImages[0] || trip.image;
             
             const galleryImg1 = document.getElementById('galleryImg1');
-            if (galleryImg1) galleryImg1.src = trip.image;
+            if (galleryImg1) galleryImg1.src = galleryImages[1] || trip.image;
             
             const galleryImg2 = document.getElementById('galleryImg2');
-            if (galleryImg2) galleryImg2.src = trip.image;
+            if (galleryImg2) galleryImg2.src = galleryImages[2] || trip.image;
             
             const galleryImg3 = document.getElementById('galleryImg3');
-            if (galleryImg3) galleryImg3.src = trip.image;
+            if (galleryImg3) galleryImg3.src = galleryImages[3] || trip.image;
             
             const galleryImg4 = document.getElementById('galleryImg4');
-            if (galleryImg4) galleryImg4.src = trip.image;
+            if (galleryImg4) galleryImg4.src = galleryImages[4] || trip.image;
+            
+            // Update "more photos" count if we have gallery images
+            const morePhotosOverlay = document.querySelector('.gallery-overlay span');
+            if (morePhotosOverlay && trip.galleryImages && trip.galleryImages.length > 4) {
+                morePhotosOverlay.textContent = `+${trip.galleryImages.length - 4} More`;
+            }
 
             // Update Trek at a Glance
             const glanceDuration = document.getElementById('glanceDuration');
