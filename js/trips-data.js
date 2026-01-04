@@ -32,6 +32,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
     coorg: {
         title: "Coorg Unplugged: Nature, Culture & Coffee",
@@ -58,6 +59,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
     chikmagalur: {
         title: "Chikmagalur 2 Days Trip",
@@ -84,6 +86,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     kerala: {
         title: "Kerala Backwaters Trip",
@@ -111,6 +114,7 @@ const tripsData = {
         ],
         galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
         groupSize: "",
+        isActive: true,
     },
     "vagamon-thekkady": {
         title: "Vagamon & Thekkady - Kerala Bliss Trip",
@@ -138,6 +142,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
     ooty: {
         title: "Ooty & Coonoor Trip",
@@ -164,6 +169,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
     spiti: {
         title: "Spiti Valley Expedition",
@@ -193,6 +199,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     kudremukh: {
         title: "Kudremukh Trek",
@@ -223,6 +230,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
     goa: {
         title: "Goa Beach Backpacking",
@@ -249,6 +257,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     dandeli: {
         title: "Dandeli River Adventure",
@@ -275,6 +284,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     hampi: {
         title: "Hampi - Anjanadri Hills",
@@ -301,6 +311,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     yercaud: {
         title: "Yercaud Hill Station",
@@ -326,6 +337,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
@@ -350,6 +362,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     gokarna: {
         title: "Gokarna Beach Trek",
@@ -376,6 +389,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     wayanad: {
         title: "Wayanad 2 Days Trip",
@@ -402,6 +416,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
@@ -428,6 +443,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     theyyam: {
         title: "Kannur Theyyam Tour",
@@ -454,6 +470,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
@@ -480,6 +497,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "netrani-island-scuba": {
         title: "Netrani Island Scuba Diving",
@@ -506,6 +524,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     pondicherry: {
         title: "Pondicherry Trip",
@@ -532,6 +551,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "wayanad-pool-party": {
         title: "Wayanad Private Pool Party",
@@ -558,6 +578,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
@@ -585,6 +606,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
@@ -612,6 +634,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "rameshwaram-dhanushkodi": {
         title: "Rameshwaram-Dhanushkodi-Thanjavur",
@@ -638,6 +661,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-25 members",
+        isActive: true,
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
@@ -664,6 +688,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "dandeli-netrani-scuba": {
         title: "Dandeli & Netrani Scuba Diving",
@@ -691,6 +716,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "scuba-day-trip": {
         title: "1 Day Scuba Diving Trip",
@@ -715,6 +741,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "wayanad-3-days": {
         title: "Wayanad 3 Days Trip",
@@ -742,6 +769,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
+        isActive: true,
     },
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Christmas Special",
@@ -769,6 +797,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12 members",
+        isActive: true,
     },
     "kannur-theyyam": {
         title: "Kannur-Thalassery Theyyam Tour",
@@ -795,6 +824,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
     },
 };
 

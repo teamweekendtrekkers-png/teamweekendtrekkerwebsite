@@ -28,6 +28,41 @@
   - Trip Type (Trek, Road Trip, Beach, etc.)
 - **Sort Options:** Price (Low-High, High-Low), Popularity, Date
 - **Trip Cards:** Image, Title, Price, Duration, Difficulty badge, Rating
+- **Inactive Trip Handling:** Use `isActive` flag to grey out unavailable trips
+
+#### Grey Out Inactive Trips Implementation
+```kotlin
+// In TripCard composable or RecyclerView adapter
+@Composable
+fun TripCard(trip: Trip, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .alpha(if (trip.isActive) 1f else 0.5f)
+            .clickable(enabled = trip.isActive) { onClick() }
+    ) {
+        // Card content
+        if (!trip.isActive) {
+            // Show "Coming Soon" or "Not Available" overlay
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = "Coming Soon",
+                    modifier = Modifier.align(Alignment.Center),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+        }
+    }
+}
+
+// Or in RecyclerView adapter
+class TripViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun bind(trip: Trip) {
+        itemView.alpha = if (trip.isActive) 1.0f else 0.5f
+        itemView.isClickable = trip.isActive
+        comingSoonBadge.visibility = if (trip.isActive) View.GONE else View.VISIBLE
+    }
+}
+```
 
 ### 1.3 Trip Detail Screen
 - **Image Gallery:** Swipeable images with fullscreen lightbox
