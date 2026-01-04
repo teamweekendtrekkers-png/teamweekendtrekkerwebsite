@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-05 02:38
+// Last updated: 2026-01-05 02:40
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -524,7 +524,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     pondicherry: {
         title: "Pondicherry Trip",
