@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-05 01:09
+// Last updated: 2026-01-05 01:13
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -96,7 +96,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Mar",
         duration: "3D/2N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        availableDates: ["Jan 10-12, 2026\nJan 17-19, 2026\nJan 24-26, 2026\nJan 31-Feb 02, 2026\nFeb 07-09, 2026"],
         about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
         highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
         itinerary: [
@@ -109,7 +109,7 @@ const tripsData = {
         excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
         boardingLocations: [
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
         groupSize: "",
     },
     "vagamon-thekkady": {
