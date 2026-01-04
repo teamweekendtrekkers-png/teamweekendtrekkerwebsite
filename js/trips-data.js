@@ -711,3 +711,147 @@ const tripsData = {
 function getTripData(tripId) {
     return tripsData[tripId] || tripsData['netravati'];
 }
+
+// ============================================
+// COMMON DATA - PICKUP POINTS
+// ============================================
+const commonPickupPoints = [
+    {
+        name: "Majestic",
+        landmark: "Metro Station / Shantala Silks",
+        time: "8:30 PM - 10:00 PM",
+        mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"
+    },
+    {
+        name: "Koramangala",
+        landmark: "Kota Kochari, Opp Forum Mall",
+        time: "9:00 PM - 10:30 PM",
+        mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"
+    },
+    {
+        name: "Silk Board",
+        landmark: "Silk Board Junction",
+        time: "9:15 PM - 10:45 PM",
+        mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"
+    },
+    {
+        name: "Electronic City",
+        landmark: "Infosys Gate / Toll Plaza",
+        time: "9:45 PM - 11:15 PM",
+        mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"
+    }
+];
+
+// ============================================
+// COMMON DATA - CANCELLATION POLICY (PTU Style - Shows Fee)
+// ============================================
+const commonCancellationPolicy = [
+    {
+        days: "7+ days before trip",
+        refund: "50%",
+        color: "#22c55e"  // Green - least penalty
+    },
+    {
+        days: "3-6 days before trip",
+        refund: "70%",
+        color: "#f59e0b"  // Orange - medium penalty
+    },
+    {
+        days: "0-2 days before trip",
+        refund: "100%",
+        color: "#ef4444"  // Red - full penalty (no refund)
+    }
+];
+
+// ============================================
+// COMMON DATA - TRIP GUIDELINES (PTU Style)
+// ============================================
+const commonGuidelines = [
+    {
+        icon: "fa-ban",
+        title: "No Alcohol or Smoking",
+        desc: "Consumption of alcohol and smoking is strictly prohibited during the trip. Violation may result in immediate termination without refund."
+    },
+    {
+        icon: "fa-utensils",
+        title: "Dinner Before Boarding",
+        desc: "Please have your dinner before boarding the vehicle. We won't stop for dinner breaks during night journeys."
+    },
+    {
+        icon: "fa-bus",
+        title: "Travel Arrangements",
+        desc: "We use Tempo Travellers or Mini-buses with push-back seats. AC will be on from 7 AM to 7 PM only. Night travel is non-AC."
+    },
+    {
+        icon: "fa-mountain",
+        title: "Embrace the Outdoors",
+        desc: "This is an adventure trip, not a luxury vacation. Expect basic facilities, unpredictable weather, and some physical activity."
+    },
+    {
+        icon: "fa-seedling",
+        title: "Food (Vegetarian)",
+        desc: "All meals provided during the trip are vegetarian. Non-veg food is not allowed on our trips."
+    },
+    {
+        icon: "fa-leaf",
+        title: "Leave No Trace",
+        desc: "Respect nature. Don't litter, don't pluck plants, and carry back all your waste. Let's keep our trails clean."
+    },
+    {
+        icon: "fa-suitcase",
+        title: "Personal Belongings",
+        desc: "Team Weekend Trekkers is not responsible for loss or damage to personal belongings. Keep valuables secure at all times."
+    },
+    {
+        icon: "fa-clock",
+        title: "Potential Delays",
+        desc: "Travel times are estimates. Traffic, weather, and unforeseen circumstances may cause delays. Please be patient and cooperative."
+    }
+];
+
+// ============================================
+// COMMON DATA - FAQs (PTU Style)
+// ============================================
+const commonFAQs = [
+    {
+        q: "How do I book a trip?",
+        a: "You can book directly through our website by selecting your preferred date and number of travelers, then completing the payment. Alternatively, you can WhatsApp us at 7019235581 for assistance."
+    },
+    {
+        q: "Is there a WhatsApp group for the trip?",
+        a: "Yes! Once your booking is confirmed, you'll be added to a WhatsApp group with fellow travelers and the trip coordinator 2-3 days before the trip."
+    },
+    {
+        q: "Is it safe for solo travelers?",
+        a: "Absolutely! Most of our travelers are solo. Our groups are friendly and you'll make great friends. We maintain a balanced male-female ratio on most trips."
+    },
+    {
+        q: "Is it safe for women travelers?",
+        a: "Yes, women's safety is our top priority. We have female travelers on almost every trip, and our coordinators ensure a safe and comfortable environment for everyone."
+    },
+    {
+        q: "Are there any discounts available?",
+        a: "We offer group discounts for 4+ people booking together. Students and repeat travelers may also get special offers. Contact us on WhatsApp for current deals."
+    },
+    {
+        q: "What should I pack for the trip?",
+        a: "Pack light! Essentials include: comfortable clothes, good walking shoes, rain jacket/poncho, water bottle, power bank, personal medicines, toiletries, and a small backpack."
+    },
+    {
+        q: "What is the luggage limit?",
+        a: "One backpack (40-50L) per person. Avoid large suitcases as they're difficult to carry on treks and take up space in the vehicle."
+    },
+    {
+        q: "Do I need to be super fit for treks?",
+        a: "Basic fitness is required. If you can walk 5-10 km and climb stairs without getting exhausted, you're good! Check the difficulty level on each trip page."
+    },
+    {
+        q: "What if I need to cancel my booking?",
+        a: "You can cancel through WhatsApp. Cancellation fees apply: 50% fee (7+ days before), 70% fee (3-6 days before), 100% fee (0-2 days before). Refunds are processed within 5-7 business days."
+    },
+    {
+        q: "What if the trip gets cancelled due to weather?",
+        a: "If we cancel due to bad weather or unforeseen circumstances, you'll get a full refund or option to reschedule to another date. Your safety comes first!"
+    }
+];
+
