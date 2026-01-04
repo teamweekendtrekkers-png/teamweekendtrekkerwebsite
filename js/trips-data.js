@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-05 01:13
+// Last updated: 2026-01-05 02:25
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -72,7 +72,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026\\\nJan 18-19, 2026\\\nJan 25-26, 2026\\\nFeb 01-02, 2026\\\nFeb 08-09, 2026\\\nDec 27-28"],
+        availableDates: ["Jan 11-12, 2026\\", "Jan 18-19, 2026\\", "Jan 25-26, 2026\\", "Feb 01-02, 2026\\", "Feb 08-09, 2026\\", "Dec 27-28"],
         about: "Chikmagalur, the land of coffee, offers a perfect weekend escape with its rolling hills, coffee plantations, and serene waterfalls. Home to the highest peak in Karnataka - Mullayanagiri - this destination combines adventure with relaxation.\n\nExperience the aroma of fresh coffee, trek through misty trails, and witness stunning sunsets over the Western Ghats. A perfect blend of nature, adventure, and tranquility!",
         highlights: ["Mullayanagiri Peak - Highest in Karnataka", "Baba Budangiri Hills", "Coffee estate stay experience", "Hebbe Falls trek", "Z-Point sunset views", "Fresh coffee tasting"],
         itinerary: [
@@ -99,7 +99,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Mar",
         duration: "3D/2N",
-        availableDates: ["Jan 10-12, 2026\nJan 17-19, 2026\nJan 24-26, 2026\nJan 31-Feb 02, 2026\nFeb 07-09, 2026"],
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
         about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
         highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
         itinerary: [
@@ -212,7 +212,7 @@ const tripsData = {
         difficulty: "Moderate-Hard",
         bestTime: "Oct - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 10-12, 2026\nJan 17-19, 2026\nJan 24-26, 2026\nJan 31-Feb 2, 2026\nFeb 7-9, 2026"],
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
         about: "Kudremukh, meaning 'Horse Face' in Kannada, is one of the most beautiful treks in South India. The peak resembles a horse's face when viewed from certain angles. This UNESCO heritage site offers pristine grasslands, shola forests, and stunning views.\n\nTrek through the rolling green hills, cross numerous streams, and camp under the stars in one of the most biodiverse regions of the Western Ghats!",
         highlights: ["UNESCO World Heritage Site", "Rolling grassland meadows", "Unique horse-face peak view", "Night camping experience", "Multiple stream crossings", "Rich biodiversity zone"],
         itinerary: [
@@ -578,7 +578,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
