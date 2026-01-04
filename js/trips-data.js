@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-04 22:15
+// Last updated: 2026-01-04 23:56
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -70,7 +70,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026\\nJan 18-19, 2026\\nJan 25-26, 2026\\nFeb 01-02, 2026\\nFeb 08-09, 2026\\nDec 27-28"],
+        availableDates: ["Jan 11-12, 2026\\\nJan 18-19, 2026\\\nJan 25-26, 2026\\\nFeb 01-02, 2026\\\nFeb 08-09, 2026\\\nDec 27-28"],
         about: "Chikmagalur, the land of coffee, offers a perfect weekend escape with its rolling hills, coffee plantations, and serene waterfalls. Home to the highest peak in Karnataka - Mullayanagiri - this destination combines adventure with relaxation.\n\nExperience the aroma of fresh coffee, trek through misty trails, and witness stunning sunsets over the Western Ghats. A perfect blend of nature, adventure, and tranquility!",
         highlights: ["Mullayanagiri Peak - Highest in Karnataka", "Baba Budangiri Hills", "Coffee estate stay experience", "Hebbe Falls trek", "Z-Point sunset views", "Fresh coffee tasting"],
         itinerary: [
@@ -205,7 +205,7 @@ const tripsData = {
         difficulty: "Moderate-Hard",
         bestTime: "Oct - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
+        availableDates: ["Jan 10-12, 2026\nJan 17-19, 2026\nJan 24-26, 2026\nJan 31-Feb 2, 2026\nFeb 7-9, 2026"],
         about: "Kudremukh, meaning 'Horse Face' in Kannada, is one of the most beautiful treks in South India. The peak resembles a horse's face when viewed from certain angles. This UNESCO heritage site offers pristine grasslands, shola forests, and stunning views.\n\nTrek through the rolling green hills, cross numerous streams, and camp under the stars in one of the most biodiverse regions of the Western Ghats!",
         highlights: ["UNESCO World Heritage Site", "Rolling grassland meadows", "Unique horse-face peak view", "Night camping experience", "Multiple stream crossings", "Rich biodiversity zone"],
         itinerary: [
@@ -216,6 +216,7 @@ const tripsData = {
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
         boardingLocations: [
+            {name: "Silk board", landmark: "metro station", time: "10:22", mapLink: ""},
         ],
         galleryImages: [],
         groupSize: "12-20 members",
@@ -801,3 +802,146 @@ const tripsData = {
 function getTripData(tripId) {
     return tripsData[tripId] || tripsData['netravati'];
 }
+
+// ============================================
+// COMMON DATA - PICKUP POINTS
+// ============================================
+const commonPickupPoints = [
+    {
+        name: "Majestic",
+        landmark: "Metro Station / Shantala Silks",
+        time: "8:30 PM - 10:00 PM",
+        mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"
+    },
+    {
+        name: "Koramangala",
+        landmark: "Kota Kochari, Opp Forum Mall",
+        time: "9:00 PM - 10:30 PM",
+        mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"
+    },
+    {
+        name: "Silk Board",
+        landmark: "Silk Board Junction",
+        time: "9:15 PM - 10:45 PM",
+        mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"
+    },
+    {
+        name: "Electronic City",
+        landmark: "Infosys Gate / Toll Plaza",
+        time: "9:45 PM - 11:15 PM",
+        mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"
+    }
+];
+
+// ============================================
+// COMMON DATA - CANCELLATION POLICY (PTU Style - Shows Fee)
+// ============================================
+const commonCancellationPolicy = [
+    {
+        days: "7+ days before trip",
+        refund: "50%",
+        color: "#22c55e"  // Green - least penalty
+    },
+    {
+        days: "3-6 days before trip",
+        refund: "70%",
+        color: "#f59e0b"  // Orange - medium penalty
+    },
+    {
+        days: "0-2 days before trip",
+        refund: "100%",
+        color: "#ef4444"  // Red - full penalty (no refund)
+    }
+];
+
+// ============================================
+// COMMON DATA - TRIP GUIDELINES (PTU Style)
+// ============================================
+const commonGuidelines = [
+    {
+        icon: "fa-ban",
+        title: "No Alcohol or Smoking",
+        desc: "Consumption of alcohol and smoking is strictly prohibited during the trip. Violation may result in immediate termination without refund."
+    },
+    {
+        icon: "fa-utensils",
+        title: "Dinner Before Boarding",
+        desc: "Please have your dinner before boarding the vehicle. We won't stop for dinner breaks during night journeys."
+    },
+    {
+        icon: "fa-bus",
+        title: "Travel Arrangements",
+        desc: "We use Tempo Travellers or Mini-buses with push-back seats. AC will be on from 7 AM to 7 PM only. Night travel is non-AC."
+    },
+    {
+        icon: "fa-mountain",
+        title: "Embrace the Outdoors",
+        desc: "This is an adventure trip, not a luxury vacation. Expect basic facilities, unpredictable weather, and some physical activity."
+    },
+    {
+        icon: "fa-seedling",
+        title: "Food (Vegetarian/Non-Vegetarian)",
+        desc: "All meals provided during the trip are vegetarian/Non-veg based on the situation."
+    },
+    {
+        icon: "fa-leaf",
+        title: "Leave No Trace",
+        desc: "Respect nature. Don't litter, don't pluck plants, and carry back all your waste. Let's keep our trails clean."
+    },
+    {
+        icon: "fa-suitcase",
+        title: "Personal Belongings",
+        desc: "Team Weekend Trekkers is not responsible for loss or damage to personal belongings. Keep valuables secure at all times."
+    },
+    {
+        icon: "fa-clock",
+        title: "Potential Delays",
+        desc: "Travel times are estimates. Traffic, weather, and unforeseen circumstances may cause delays. Please be patient and cooperative."
+    }
+];
+
+// ============================================
+// COMMON DATA - FAQs (PTU Style)
+// ============================================
+const commonFAQs = [
+    {
+        q: "How do I book a trip?",
+        a: "You can book directly through our website by selecting your preferred date and number of travelers, then completing the payment. Alternatively, you can WhatsApp us at 7019235581 for assistance."
+    },
+    {
+        q: "Is there a WhatsApp group for the trip?",
+        a: "Yes! Once your booking is confirmed, you'll be added to a WhatsApp group with fellow travelers and the trip coordinator 2-3 days before the trip."
+    },
+    {
+        q: "Is it safe for solo travelers?",
+        a: "Absolutely! Most of our travelers are solo. Our groups are friendly and you'll make great friends. We maintain a balanced male-female ratio on most trips."
+    },
+    {
+        q: "Is it safe for women travelers?",
+        a: "Yes, women's safety is our top priority. We have female travelers on almost every trip, and our coordinators ensure a safe and comfortable environment for everyone."
+    },
+    {
+        q: "Are there any discounts available?",
+        a: "We offer group discounts for 4+ people booking together. Students and repeat travelers may also get special offers. Contact us on WhatsApp for current deals."
+    },
+    {
+        q: "What should I pack for the trip?",
+        a: "Pack light! Essentials include: comfortable clothes, good walking shoes, rain jacket/poncho, water bottle, power bank, personal medicines, toiletries, and a small backpack."
+    },
+    {
+        q: "What is the luggage limit?",
+        a: "One backpack (40-50L) per person. Avoid large suitcases as they're difficult to carry on treks and take up space in the vehicle."
+    },
+    {
+        q: "Do I need to be super fit for treks?",
+        a: "Basic fitness is required. If you can walk 5-10 km and climb stairs without getting exhausted, you're good! Check the difficulty level on each trip page."
+    },
+    {
+        q: "What if I need to cancel my booking?",
+        a: "You can cancel through WhatsApp. Cancellation fees apply: 50% fee (7+ days before), 70% fee (3-6 days before), 100% fee (0-2 days before). Refunds are processed within 5-7 business days."
+    },
+    {
+        q: "What if the trip gets cancelled due to weather?",
+        a: "If we cancel due to bad weather or unforeseen circumstances, you'll get a full refund or option to reschedule to another date. Your safety comes first!"
+    }
+];
