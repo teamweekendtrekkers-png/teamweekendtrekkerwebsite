@@ -6,12 +6,14 @@
 // in the "Upcoming Adventures" section.
 // 
 // Edit using Trip Manager → ⭐ Featured Trips
-// Last updated: 2025-12-25 14:54
+// Last updated: 2026-01-04 12:00
 // ============================================
 
 const featuredTripIds = [
-    "gokarna-new-year-party",
     "rameshwaram-dhanushkodi",
+    "varkala-kochi-christmas",
+    "kannur-theyyam",
+    "gokarna-new-year-party",
 ];
 
 // Function to get featured trips data

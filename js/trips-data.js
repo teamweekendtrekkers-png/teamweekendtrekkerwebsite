@@ -2,8 +2,8 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-04 02:16
-// Updated via Trip Manager Mobile App
+// Last updated: 2026-01-04 12:30
+// Updated with catalog data from Google Forms
 // ============================================
 
 const tripsData = {
@@ -517,27 +517,27 @@ const tripsData = {
         groupSize: "",
     },
     "rameshwaram-dhanushkodi": {
-        title: "Rameshwaram-Dhanushkodi-Srirangam",
+        title: "Rameshwaram-Dhanushkodi-Thanjavur",
         location: "Tamil Nadu",
         badge: "Heritage",
-        price: "₹6,177",
+        price: "₹5,999",
         image: "images/trips/rameshwaram-dhanushkodi.jpg",
         distance: "550 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
         bestTime: "Oct - Mar",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
-        about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1000 pillars, explore the haunting beauty of Dhanushkodi ghost town, and seek blessings at Srirangam's massive temple complex.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana.",
-        highlights: ["Ramanathaswamy Temple", "Dhanushkodi ghost town", "Pamban Bridge - India", ", ", ", ", ", "],
+        availableDates: ["Jan 2-4, 2026", "Jan 9-11, 2026", "Jan 16-18, 2026", "Jan 23-25, 2026", "Jan 30-Feb 1, 2026"],
+        about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
+        highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
-            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
-            {day: "Day 1", title: "Rameswaram & Dhanushkodi", activities: ["7:00 AM - Arrive in Rameswaram", "7:30 AM - Freshen up, breakfast", "8:30 AM - Agni Theertham holy bath", "9:30 AM - Ramanathaswamy Temple", "12:00 PM - 22 Theerthams ritual", "1:00 PM - Lunch", "2:30 PM - Jeep ride to Dhanushkodi", "3:30 PM - Explore ghost town", "5:00 PM - Dhanushkodi beach & tip of India", "6:30 PM - Return via Pamban Bridge sunset", "8:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "Srirangam & Return", activities: ["5:00 AM - Early departure for Srirangam", "9:00 AM - Breakfast en route", "11:00 AM - Ranganathaswamy Temple", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
+            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "8:55 PM - Koramangala pickup (Kota Kochari)", "9:10 PM - Silk Board pickup", "9:50 PM - Electronic City pickup", "10:00 PM - Start overnight journey to Rameshwaram"]},
+            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["Morning - Arrive in Rameshwaram", "Check-in to homestay & freshen up", "Tamil Nadu-style breakfast", "Pamban Bridge - Epic ocean views", "Ramanathaswamy Temple - World's longest corridor", "Lunch at local restaurant", "Jeep ride to Dhanushkodi", "Dhanushkodi Ghost Town & Beach", "Ram Setu Viewpoint - Last point of India", "Dhanushkodi Lighthouse", "Kothanda Ramar Temple", "Return via Pamban Bridge sunset", "Dinner and overnight stay"]},
+            {day: "Day 2", title: "Thanjavur Royal Heritage & Return", activities: ["Early breakfast", "Check-out and depart for Thanjavur", "Thanjavur Maratha Palace - Royal grandeur", "Brihadeeswara Temple - UNESCO World Heritage", "Saraswathi Mahal Library (if time permits)", "Thanjavur Art Gallery (if time permits)", "Lunch", "Departure for Bangalore", "6:00 AM next day - Arrive in Bangalore"]},
         ],
-        includes: ["AC transportation", "1 Night stay", "All meals", "Dhanushkodi jeep", "Temple guide", "All sightseeing"],
-        excludes: ["Temple donations", "Special pooja", "Personal expenses", "Tips"],
-        groupSize: "",
+        includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation (shared rooms)", "2 Breakfasts", "Tamil Nadu State Tax (₹4,000)", "All entry charges", "Local guide & outdoor leader", "Dhanushkodi jeep ride"],
+        excludes: ["Activities charges", "Meals other than breakfast", "Personal expenses", "Insurance (health/medical/life)", "Anything not mentioned"],
+        groupSize: "12-25 members",
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
@@ -630,6 +630,53 @@ const tripsData = {
         includes: ["AC transportation", "2 Nights resort stay", "All meals", "Chembra trek permit", "Wildlife safari", "All sightseeing", "Bonfire"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
         groupSize: "",
+    },
+    "varkala-kochi-christmas": {
+        title: "Varkala, Kochi & Alleppey - Christmas Special",
+        location: "Kerala",
+        badge: "Christmas Special",
+        price: "₹9,999",
+        image: "images/trips/kerala.jpg",
+        distance: "560 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Dec - Mar",
+        duration: "3D/2N",
+        availableDates: ["Dec 24-28, 2025", "Jan 8-12, 2026", "Jan 22-26, 2026", "Feb 5-9, 2026"],
+        about: "12 strangers. 1 epic escape. Find freedom on Kerala's coast! From the historic charm of Fort Kochi to the peaceful Alleppey backwaters and boho soul of Varkala, this journey is all about new bonds, coastal chill, and unforgettable memories.\n\nExplore Chinese Fishing Nets, cruise through serene backwaters on a shikara, café-hop on Varkala Cliff, and witness the mighty Jatayu Earth Center - the world's largest bird sculpture!",
+        highlights: ["Fort Kochi & Chinese Fishing Nets", "Jew Town & Dutch Palace", "Kashi Art Café", "Alleppey Shikara Boat Ride", "Varkala Cliff & Cafés", "Black Sand Beach sunset", "Kayaking through backwaters", "Jatayu Earth Center"],
+        itinerary: [
+            {day: "Day 0", title: "Night Groove - Wheels Roll!", activities: ["9:00 PM - Pickup from Majestic Metro Station", "9:40 PM - Koramangala pickup (Kota Kochari)", "10:00 PM - Silk Board pickup", "10:40 PM - Electronic City pickup", "Overnight journey with playlists & bonding"]},
+            {day: "Day 1", title: "Kochi Calling - Culture & Coastal Charms", activities: ["Morning - Arrive in Kochi", "Check into cozy homestay & refresh", "Traditional Kerala breakfast - appams & chutneys", "Fort Kochi exploration", "Chinese Fishing Nets photo stop", "St. Francis Church visit", "Jew Town & spice markets", "Dutch Palace murals", "Kashi Art Café - art & coffee", "Lunch at Kochi café", "Sunset at Kochi Beach", "Dinner and overnight stay"]},
+            {day: "Day 2", title: "Alleppey Magic & Varkala Vibes", activities: ["Breakfast at homestay", "Drive to Alleppey - Venice of the East", "Shikara boat ride through palm-draped backwaters", "Drive to Varkala", "Lunch with cliff views", "Explore Varkala Cliff - shops & cafés", "Optional: Ayurvedic massage", "Sunset at Black Sand Beach", "Beachside dinner & chill", "Overnight in Varkala"]},
+            {day: "Day 3", title: "Jatayu Adventures & Final Feels", activities: ["Sea breeze breakfast", "Beach activities or yoga with a view", "Kayaking through peaceful backwater islands", "Jatayu Earth Center - world's largest bird sculpture", "Panoramic views & exploration", "Begin scenic drive back to Bangalore", "8:00 AM next day - Arrive in Bangalore"]},
+        ],
+        includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Kerala & TN State Tax", "Toll, parking & entry charges", "Shikara boat ride", "Local guide & outdoor leader", "First aid kit"],
+        excludes: ["Water/adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance (medical/accidental/life)", "Anything not mentioned"],
+        groupSize: "12 members",
+    },
+    "kannur-theyyam": {
+        title: "Kannur-Thalassery Theyyam Tour",
+        location: "Kannur, Kerala",
+        badge: "Cultural",
+        price: "₹5,499",
+        image: "images/trips/theyyam.jpg",
+        distance: "350 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Nov - Apr",
+        duration: "2D/1N",
+        availableDates: ["Jan 2-4, 2026", "Jan 9-11, 2026", "Jan 16-18, 2026", "Jan 23-25, 2026", "Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026"],
+        about: "Experience the raw power of Theyyam - Kerala's ancient fire ritual! This offbeat cultural tour takes you through Kannur and Thalassery, where fire, dance, devotion, and divine blessings create a once-in-a-lifetime spectacle.\n\nFrom temple trails and lighthouse climbs to kayaking through mangroves and witnessing the sacred Theyyam ceremony - this is Kerala beyond the backwaters!",
+        highlights: ["Theyyam Night Ceremony - Fire ritual", "Sunrise Theyyam experience", "St. Angelo Fort & Kannur Lighthouse", "Payyambalam Beach sunset", "Thalassery Fort & Graffiti Street", "Folk Art Museum", "Backwater kayaking & mangroves", "Mahe Beach sunset"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["9:30 PM - Pickup from Bangalore", "Trip briefing and introductions", "Overnight journey to Kannur", "Music, snacks & bonding"]},
+            {day: "Day 1", title: "Temples, Forts & Theyyam Night", activities: ["Morning - Arrive in Kannur", "Freshen up & Kerala breakfast", "Temple trails & ferry ride to Amban Temple", "Taste unique prasadam - tea, steamed pear & coconut", "St. Angelo Fort exploration", "Climb Kannur Lighthouse for insane views", "Lunch at local restaurant", "Café-hop in Kannur's vibrant lanes", "Sunset at Payyambalam Beach", "Dinner", "THEYYAM NIGHT - Fire, dance, devotion, divine blessings"]},
+            {day: "Day 2", title: "Sunrise Theyyam & Coastal Vibes", activities: ["Early rise for Sunrise Theyyam - pure magic!", "Breakfast", "Folk Art Museum exploration", "Visit historic Thalassery Fort", "Walk through Graffiti Street", "Lunch", "Kayak through calm backwaters & mangroves", "Sunset at Mahe Beach + café chill", "Departure for Bangalore", "Early morning arrival in Bangalore"]},
+        ],
+        includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation", "2 Breakfasts", "Kerala State Tax", "Kayaking activity", "Local guide & outdoor leader", "First aid kit"],
+        excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
+        groupSize: "12-20 members",
     },
 };
 
