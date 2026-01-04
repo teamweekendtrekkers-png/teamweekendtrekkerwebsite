@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-04 23:56
+// Last updated: 2026-01-05 01:09
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -215,7 +215,12 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
-        boardingLocations: [],  // Uses common pickup points
+        boardingLocations: [
+            {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:45 PM - 10:00 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
+            {name: "Koramangala", landmark: "Kota Kochari, Opp Forum Mall", time: "9:00 PM - 10:30 PM", mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"},
+            {name: "Silk Board", landmark: "Silk Board Junction", time: "9:15 PM - 10:45 PM", mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"},
+            {name: "Electronic City", landmark: "Infosys Gate / Toll Plaza", time: "9:45 PM - 11:15 PM", mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"},
+        ],
         galleryImages: [],
         groupSize: "12-20 members",
     },
