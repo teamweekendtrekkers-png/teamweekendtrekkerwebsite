@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile Preview Test</title>
+    <style>
+        body { font-family: Arial; background: #333; margin: 0; padding: 20px; }
+        .container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .device { background: #000; border-radius: 30px; padding: 10px; }
+        .device-label { color: #fff; text-align: center; margin-bottom: 10px; font-size: 14px; }
+        .screen { background: #fff; border-radius: 5px; overflow: hidden; }
+        iframe { border: none; display: block; }
+        .iphone { width: 395px; }
+        .iphone .screen { width: 375px; height: 667px; }
+        .android { width: 380px; }
+        .android .screen { width: 360px; height: 640px; }
+        .ipad { width: 788px; }
+        .ipad .screen { width: 768px; height: 500px; }
+    </style>
+</head>
+<body>
+    <h1 style="color:#fff;text-align:center;">📱 Mobile Responsive Test</h1>
+    <div class="container">
+        <div class="device iphone">
+            <div class="device-label">iPhone (375x667)</div>
+            <div class="screen">
+                <iframe src="trip-detail.html?trip=coorg" width="375" height="667"></iframe>
+            </div>
+        </div>
+        <div class="device android">
+            <div class="device-label">Android (360x640)</div>
+            <div class="screen">
+                <iframe src="trip-detail.html?trip=netravati" width="360" height="640"></iframe>
+            </div>
+        </div>
+        <div class="device ipad">
+            <div class="device-label">iPad (768x1024)</div>
+            <div class="screen">
+                <iframe src="trip-detail.html?trip=spiti" width="768" height="500"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
