@@ -2,8 +2,8 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-04 19:30
-// Updated with catalog data - Added Vagamon, fixed itineraries
+// Last updated: 2026-01-04 22:15
+// Updated via Trip Manager Mobile App
 // ============================================
 
 const tripsData = {
@@ -28,6 +28,9 @@ const tripsData = {
         ],
         includes: ["Bangalore to Bangalore transportation (AC vehicle)", "1 Breakfast + 1 Lunch + 1 Dinner", "Camping equipment (tents, sleeping bags)", "Experienced trek lead and support staff", "Forest entry permits", "First aid kit", "Bonfire arrangements"],
         excludes: ["Personal expenses", "Travel insurance", "Any meals not mentioned", "Tips and gratuities", "Anything not mentioned in inclusions"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
     coorg: {
@@ -43,14 +46,17 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
         about: "Experience the Scotland of India! Coorg is a picturesque hill station known for its coffee plantations, misty hills, and rich Kodava culture. The highlight is Mandalpatti Peak offering stunning 360° views of the Western Ghats.\n\nJourney through winding roads surrounded by coffee estates, visit ancient temples, and enjoy local Kodava cuisine. The Jeep ride to Mandalpatti through off-road trails is an adventure in itself!",
-        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja's Seat sunset viewpoint", "Talakaveri - Origin of River Kaveri", "Bhagamandala Temple", "Traditional Kodava cuisine", "Nisargadhama Island (optional)"],
+        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja", ", ", ", ", ", ", ", "],
         itinerary: [
             {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from Majestic Metro Station", "10:30 PM - Koramangala pickup (Kota Kochari)", "10:50 PM - Silk Board pickup", "11:30 PM - Electronic City pickup", "Introduction and trip briefing", "Begin overnight journey to Coorg"]},
-            {day: "Day 1", title: "Explore Coorg - Nature & Adventure", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic 360° views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk & tasting", "6:30 PM - Sunset at Raja's Seat", "8:00 PM - Dinner and overnight stay at homestay"]},
+            {day: "Day 1", title: "Explore Coorg - Nature & Adventure", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic 360° views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk & tasting", "6:30 PM - Sunset at Raja", ", "]},
             {day: "Day 2", title: "Temple Visit & Return", activities: ["7:00 AM - Breakfast at homestay", "8:30 AM - Visit Talakaveri - Origin of River Kaveri", "10:00 AM - Bhagamandala Temple visit", "11:30 AM - Shopping for coffee, spices & chocolates", "12:30 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]},
         ],
         includes: ["AC transportation from Bangalore", "1 Night accommodation (Homestay)", "2 Breakfasts + 1 Lunch + 1 Dinner", "Jeep ride to Mandalpatti", "All sightseeing as per itinerary", "Experienced tour lead"],
         excludes: ["Personal expenses", "Entry fees to monuments", "Travel insurance", "Tips and gratuities", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
     chikmagalur: {
@@ -64,7 +70,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026\nJan 18-19, 2026\nJan 25-26, 2026\nFeb 01-02, 2026\nFeb 08-09, 2026\nDec 27-28"],
+        availableDates: ["Jan 11-12, 2026\\nJan 18-19, 2026\\nJan 25-26, 2026\\nFeb 01-02, 2026\\nFeb 08-09, 2026\\nDec 27-28"],
         about: "Chikmagalur, the land of coffee, offers a perfect weekend escape with its rolling hills, coffee plantations, and serene waterfalls. Home to the highest peak in Karnataka - Mullayanagiri - this destination combines adventure with relaxation.\n\nExperience the aroma of fresh coffee, trek through misty trails, and witness stunning sunsets over the Western Ghats. A perfect blend of nature, adventure, and tranquility!",
         highlights: ["Mullayanagiri Peak - Highest in Karnataka", "Baba Budangiri Hills", "Coffee estate stay experience", "Hebbe Falls trek", "Z-Point sunset views", "Fresh coffee tasting"],
         itinerary: [
@@ -74,6 +80,9 @@ const tripsData = {
         ],
         includes: ["AC transportation roundtrip", "1 Night stay (Homestay/Resort)", "All meals as mentioned", "Sightseeing as per itinerary", "Trek lead and guide", "Bonfire (weather permitting)"],
         excludes: ["Entry fees", "Personal expenses", "Travel insurance", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     kerala: {
@@ -98,6 +107,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
         excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "vagamon-thekkady": {
@@ -122,6 +134,9 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Periyar boat safari ticket", "Spice plantation entry", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Paragliding & adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
     ooty: {
@@ -137,14 +152,17 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
         about: "Escape to the Queen of Hill Stations! Ooty, nestled in the Nilgiri hills, offers colonial charm, toy train rides, tea gardens, and beautiful botanical gardens. Combined with the quieter Coonoor, this trip is perfect for nature lovers.\n\nExperience the famous Nilgiri Mountain Railway, walk through tea estates, and enjoy the pleasant weather year-round!",
-        highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim's Park", "Dolphin's Nose viewpoint", "Lamb's Rock"],
+        highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim", ", ", "s Nose viewpoint", "Lamb"],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["10:00 PM - Pickup from Majestic Metro Station", "10:30 PM - Koramangala pickup", "11:00 PM - Silk Board & Electronic City", "Begin journey to Ooty"]},
-            {day: "Day 1", title: "Ooty Exploration", activities: ["6:00 AM - Arrive in Ooty", "7:30 AM - Freshen up, breakfast", "9:00 AM - Botanical Gardens", "11:00 AM - Doddabetta Peak", "1:00 PM - Lunch", "2:30 PM - Tea factory visit", "4:00 PM - Toy train to Coonoor", "5:30 PM - Sim's Park & Lamb's Rock", "7:00 PM - Return to Ooty", "8:00 PM - Dinner and overnight stay"]},
+            {day: "Day 1", title: "Ooty Exploration", activities: ["6:00 AM - Arrive in Ooty", "7:30 AM - Freshen up, breakfast", "9:00 AM - Botanical Gardens", "11:00 AM - Doddabetta Peak", "1:00 PM - Lunch", "2:30 PM - Tea factory visit", "4:00 PM - Toy train to Coonoor", "5:30 PM - Sim", "s Rock", "7:00 PM - Return to Ooty", "8:00 PM - Dinner and overnight stay"]},
             {day: "Day 2", title: "Lake, Shopping & Return", activities: ["7:00 AM - Breakfast", "8:30 AM - Ooty Lake boating", "10:00 AM - Rose Garden", "11:30 AM - Local market shopping", "1:00 PM - Lunch and departure", "7:00 PM - Arrive in Bangalore"]},
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts and lunches", "Toy train tickets", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees to gardens", "Boating charges", "Personal expenses", "Dinner"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
     spiti: {
@@ -160,7 +178,7 @@ const tripsData = {
         duration: "8D/7N",
         availableDates: ["Jun 07-14, 2026", "Jun 21-28, 2026", "Jul 05-12, 2026", "Jul 19-26, 2026", "Aug 02-09, 2026", "Dec 27-29.2026"],
         about: "Embark on a life-changing expedition to Spiti Valley - the Middle Land between Tibet and India. This cold desert mountain valley offers surreal landscapes, ancient monasteries, and some of the most dramatic roads in the world.\n\nCross high-altitude passes, visit 1000-year-old monasteries, and experience the raw beauty of the Trans-Himalayas. This is for true adventurers seeking an off-beat experience!",
-        highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World's highest post office Hikkim", "Dhankar Monastery", "Tabo Caves"],
+        highlights: ["Chandratal Lake camping", "Key Monastery visit", "Kunzum Pass (4,590m)", "World", ", ", ", "],
         itinerary: [
             {day: "Day 1", title: "Bangalore to Delhi", activities: ["Morning flight to Delhi", "Pickup and transfer to hotel", "Evening briefing session", "Overnight in Delhi"]},
             {day: "Day 2", title: "Delhi to Shimla", activities: ["6:00 AM - Depart for Shimla", "3:00 PM - Arrive in Shimla", "Evening - Mall Road walk", "Overnight in Shimla"]},
@@ -171,6 +189,9 @@ const tripsData = {
         ],
         includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
         excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     kudremukh: {
@@ -194,6 +215,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
     goa: {
@@ -217,6 +241,9 @@ const tripsData = {
         ],
         includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
         excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     dandeli: {
@@ -240,6 +267,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night riverside camp", "All meals", "Rafting, Kayaking, Coracle", "Jungle safari", "Bonfire and BBQ", "All safety equipment"],
         excludes: ["Personal expenses", "Travel insurance", "Additional activities", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     hampi: {
@@ -263,6 +293,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night accommodation", "Breakfasts and lunches", "Coracle ride", "Local guide", "All sightseeing"],
         excludes: ["Entry fees to monuments", "Dinner", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     yercaud: {
@@ -285,6 +318,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts", "Boating tickets", "All sightseeing", "Tour guide"],
         excludes: ["Lunches and dinners", "Entry fees", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "nandi-hills": {
@@ -306,6 +342,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast", "Entry tickets", "Tour guide"],
         excludes: ["Lunch", "Paragliding/Cycling charges", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     gokarna: {
@@ -329,6 +368,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night beach camping", "All meals", "Beach trek guide", "Camping gear", "Bonfire"],
         excludes: ["Water sports", "Personal expenses", "Temple donations", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     wayanad: {
@@ -352,6 +394,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     munnar: {
@@ -375,6 +420,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night hotel stay", "All meals", "Kolukkumalai jeep", "All sightseeing", "National park entry"],
         excludes: ["Personal expenses", "Boating charges", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     theyyam: {
@@ -398,6 +446,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
         excludes: ["Temple donations", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "gokarna-new-year-party": {
@@ -421,6 +472,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "netrani-island-scuba": {
@@ -444,6 +498,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "All meals", "Scuba diving with equipment", "PADI certified instructor", "Boat ride to island", "Temple visit"],
         excludes: ["Underwater photos/videos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     pondicherry: {
@@ -467,6 +524,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfast", "Paradise Beach boat ride", "Auroville entry", "Local guide"],
         excludes: ["Meals not mentioned", "Shopping", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "wayanad-pool-party": {
@@ -490,6 +550,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "madurai-rameswaram": {
@@ -514,6 +577,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "2 Nights hotel stay", "All meals", "Temple guide", "All sightseeing", "Dhanushkodi jeep"],
         excludes: ["Temple donations", "Special pooja charges", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "alleppey-varkala": {
@@ -538,6 +604,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night houseboat (AC)", "1 Night hotel stay", "All meals", "All sightseeing", "Tour guide"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "rameshwaram-dhanushkodi": {
@@ -556,11 +625,14 @@ const tripsData = {
         highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
             {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "8:55 PM - Koramangala pickup (Kota Kochari)", "9:10 PM - Silk Board pickup", "9:50 PM - Electronic City pickup", "10:00 PM - Start overnight journey to Rameshwaram"]},
-            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["Morning - Arrive in Rameshwaram", "Check-in to homestay & freshen up", "Tamil Nadu-style breakfast", "Pamban Bridge - Epic ocean views", "Ramanathaswamy Temple - World's longest corridor", "Lunch at local restaurant", "Jeep ride to Dhanushkodi", "Dhanushkodi Ghost Town & Beach", "Ram Setu Viewpoint - Last point of India", "Dhanushkodi Lighthouse", "Kothanda Ramar Temple", "Return via Pamban Bridge sunset", "Dinner and overnight stay"]},
+            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["Morning - Arrive in Rameshwaram", "Check-in to homestay & freshen up", "Tamil Nadu-style breakfast", "Pamban Bridge - Epic ocean views", "Ramanathaswamy Temple - World", ", ", ", ", ", ", ", ", ", ", ", ", ", ", ", "]},
             {day: "Day 2", title: "Thanjavur Royal Heritage & Return", activities: ["Early breakfast", "Check-out and depart for Thanjavur", "Thanjavur Maratha Palace - Royal grandeur", "Brihadeeswara Temple - UNESCO World Heritage", "Saraswathi Mahal Library (if time permits)", "Thanjavur Art Gallery (if time permits)", "Lunch", "Departure for Bangalore", "6:00 AM next day - Arrive in Bangalore"]},
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation (shared rooms)", "2 Breakfasts", "Tamil Nadu State Tax (₹4,000)", "All entry charges", "Local guide & outdoor leader", "Dhanushkodi jeep ride"],
         excludes: ["Activities charges", "Meals other than breakfast", "Personal expenses", "Insurance (health/medical/life)", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-25 members",
     },
     "goa-waterfalls": {
@@ -584,6 +656,9 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Trek guide", "Spice plantation entry", "All sightseeing"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "dandeli-netrani-scuba": {
@@ -608,6 +683,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights stay (camp + hotel)", "All meals", "Rafting & Kayaking", "Scuba diving with equipment", "Jungle safari", "All activities"],
         excludes: ["Underwater photos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "scuba-day-trip": {
@@ -629,6 +707,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast and lunch", "Scuba diving with equipment", "PADI instructor", "Boat ride", "Temple visit"],
         excludes: ["Underwater photos/videos", "Personal expenses", "Dinner", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "wayanad-3-days": {
@@ -653,6 +734,9 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights resort stay", "All meals", "Chembra trek permit", "Wildlife safari", "All sightseeing", "Bonfire"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "",
     },
     "varkala-kochi-christmas": {
@@ -673,10 +757,13 @@ const tripsData = {
             {day: "Day 0", title: "Night Groove - Wheels Roll!", activities: ["9:00 PM - Pickup from Majestic Metro Station", "9:40 PM - Koramangala pickup (Kota Kochari)", "10:00 PM - Silk Board pickup", "10:40 PM - Electronic City pickup", "Overnight journey with playlists & bonding"]},
             {day: "Day 1", title: "Kochi Calling - Culture & Coastal Charms", activities: ["Morning - Arrive in Kochi", "Check into cozy homestay & refresh", "Traditional Kerala breakfast - appams & chutneys", "Fort Kochi exploration", "Chinese Fishing Nets photo stop", "St. Francis Church visit", "Jew Town & spice markets", "Dutch Palace murals", "Kashi Art Café - art & coffee", "Lunch at Kochi café", "Sunset at Kochi Beach", "Dinner and overnight stay"]},
             {day: "Day 2", title: "Alleppey Magic & Varkala Vibes", activities: ["Breakfast at homestay", "Drive to Alleppey - Venice of the East", "Shikara boat ride through palm-draped backwaters", "Drive to Varkala", "Lunch with cliff views", "Explore Varkala Cliff - shops & cafés", "Optional: Ayurvedic massage", "Sunset at Black Sand Beach", "Beachside dinner & chill", "Overnight in Varkala"]},
-            {day: "Day 3", title: "Jatayu Adventures & Final Feels", activities: ["Sea breeze breakfast", "Beach activities or yoga with a view", "Kayaking through peaceful backwater islands", "Jatayu Earth Center - world's largest bird sculpture", "Panoramic views & exploration", "Begin scenic drive back to Bangalore", "8:00 AM next day - Arrive in Bangalore"]},
+            {day: "Day 3", title: "Jatayu Adventures & Final Feels", activities: ["Sea breeze breakfast", "Beach activities or yoga with a view", "Kayaking through peaceful backwater islands", "Jatayu Earth Center - world", ", ", ", ", ", "]},
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Kerala & TN State Tax", "Toll, parking & entry charges", "Shikara boat ride", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Water/adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance (medical/accidental/life)", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12 members",
     },
     "kannur-theyyam": {
@@ -695,11 +782,14 @@ const tripsData = {
         highlights: ["Theyyam Night Ceremony - Fire ritual", "Sunrise Theyyam experience", "St. Angelo Fort & Kannur Lighthouse", "Payyambalam Beach sunset", "Thalassery Fort & Graffiti Street", "Folk Art Museum", "Backwater kayaking & mangroves", "Mahe Beach sunset"],
         itinerary: [
             {day: "Day 0", title: "Night Departure from Bangalore", activities: ["9:30 PM - Pickup from Bangalore", "Trip briefing and introductions", "Overnight journey to Kannur", "Music, snacks & bonding"]},
-            {day: "Day 1", title: "Temples, Forts & Theyyam Night", activities: ["Morning - Arrive in Kannur", "Freshen up & Kerala breakfast", "Temple trails & ferry ride to Amban Temple", "Taste unique prasadam - tea, steamed pear & coconut", "St. Angelo Fort exploration", "Climb Kannur Lighthouse for insane views", "Lunch at local restaurant", "Café-hop in Kannur's vibrant lanes", "Sunset at Payyambalam Beach", "Dinner", "THEYYAM NIGHT - Fire, dance, devotion, divine blessings"]},
+            {day: "Day 1", title: "Temples, Forts & Theyyam Night", activities: ["Morning - Arrive in Kannur", "Freshen up & Kerala breakfast", "Temple trails & ferry ride to Amban Temple", "Taste unique prasadam - tea, steamed pear & coconut", "St. Angelo Fort exploration", "Climb Kannur Lighthouse for insane views", "Lunch at local restaurant", "Café-hop in Kannur", ", ", ", ", ", "]},
             {day: "Day 2", title: "Sunrise Theyyam & Coastal Vibes", activities: ["Early rise for Sunrise Theyyam - pure magic!", "Breakfast", "Folk Art Museum exploration", "Visit historic Thalassery Fort", "Walk through Graffiti Street", "Lunch", "Kayak through calm backwaters & mangroves", "Sunset at Mahe Beach + café chill", "Departure for Bangalore", "Early morning arrival in Bangalore"]},
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation", "2 Breakfasts", "Kerala State Tax", "Kayaking activity", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
+        boardingLocations: [
+        ],
+        galleryImages: [],
         groupSize: "12-20 members",
     },
 };
@@ -711,147 +801,3 @@ const tripsData = {
 function getTripData(tripId) {
     return tripsData[tripId] || tripsData['netravati'];
 }
-
-// ============================================
-// COMMON DATA - PICKUP POINTS
-// ============================================
-const commonPickupPoints = [
-    {
-        name: "Majestic",
-        landmark: "Metro Station / Shantala Silks",
-        time: "8:30 PM - 10:00 PM",
-        mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"
-    },
-    {
-        name: "Koramangala",
-        landmark: "Kota Kochari, Opp Forum Mall",
-        time: "9:00 PM - 10:30 PM",
-        mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"
-    },
-    {
-        name: "Silk Board",
-        landmark: "Silk Board Junction",
-        time: "9:15 PM - 10:45 PM",
-        mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"
-    },
-    {
-        name: "Electronic City",
-        landmark: "Infosys Gate / Toll Plaza",
-        time: "9:45 PM - 11:15 PM",
-        mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"
-    }
-];
-
-// ============================================
-// COMMON DATA - CANCELLATION POLICY (PTU Style - Shows Fee)
-// ============================================
-const commonCancellationPolicy = [
-    {
-        days: "7+ days before trip",
-        refund: "50%",
-        color: "#22c55e"  // Green - least penalty
-    },
-    {
-        days: "3-6 days before trip",
-        refund: "70%",
-        color: "#f59e0b"  // Orange - medium penalty
-    },
-    {
-        days: "0-2 days before trip",
-        refund: "100%",
-        color: "#ef4444"  // Red - full penalty (no refund)
-    }
-];
-
-// ============================================
-// COMMON DATA - TRIP GUIDELINES (PTU Style)
-// ============================================
-const commonGuidelines = [
-    {
-        icon: "fa-ban",
-        title: "No Alcohol or Smoking",
-        desc: "Consumption of alcohol and smoking is strictly prohibited during the trip. Violation may result in immediate termination without refund."
-    },
-    {
-        icon: "fa-utensils",
-        title: "Dinner Before Boarding",
-        desc: "Please have your dinner before boarding the vehicle. We won't stop for dinner breaks during night journeys."
-    },
-    {
-        icon: "fa-bus",
-        title: "Travel Arrangements",
-        desc: "We use Tempo Travellers or Mini-buses with push-back seats. AC will be on from 7 AM to 7 PM only. Night travel is non-AC."
-    },
-    {
-        icon: "fa-mountain",
-        title: "Embrace the Outdoors",
-        desc: "This is an adventure trip, not a luxury vacation. Expect basic facilities, unpredictable weather, and some physical activity."
-    },
-    {
-        icon: "fa-seedling",
-        title: "Food (Vegetarian)",
-        desc: "All meals provided during the trip are vegetarian. Non-veg food is not allowed on our trips."
-    },
-    {
-        icon: "fa-leaf",
-        title: "Leave No Trace",
-        desc: "Respect nature. Don't litter, don't pluck plants, and carry back all your waste. Let's keep our trails clean."
-    },
-    {
-        icon: "fa-suitcase",
-        title: "Personal Belongings",
-        desc: "Team Weekend Trekkers is not responsible for loss or damage to personal belongings. Keep valuables secure at all times."
-    },
-    {
-        icon: "fa-clock",
-        title: "Potential Delays",
-        desc: "Travel times are estimates. Traffic, weather, and unforeseen circumstances may cause delays. Please be patient and cooperative."
-    }
-];
-
-// ============================================
-// COMMON DATA - FAQs (PTU Style)
-// ============================================
-const commonFAQs = [
-    {
-        q: "How do I book a trip?",
-        a: "You can book directly through our website by selecting your preferred date and number of travelers, then completing the payment. Alternatively, you can WhatsApp us at 7019235581 for assistance."
-    },
-    {
-        q: "Is there a WhatsApp group for the trip?",
-        a: "Yes! Once your booking is confirmed, you'll be added to a WhatsApp group with fellow travelers and the trip coordinator 2-3 days before the trip."
-    },
-    {
-        q: "Is it safe for solo travelers?",
-        a: "Absolutely! Most of our travelers are solo. Our groups are friendly and you'll make great friends. We maintain a balanced male-female ratio on most trips."
-    },
-    {
-        q: "Is it safe for women travelers?",
-        a: "Yes, women's safety is our top priority. We have female travelers on almost every trip, and our coordinators ensure a safe and comfortable environment for everyone."
-    },
-    {
-        q: "Are there any discounts available?",
-        a: "We offer group discounts for 4+ people booking together. Students and repeat travelers may also get special offers. Contact us on WhatsApp for current deals."
-    },
-    {
-        q: "What should I pack for the trip?",
-        a: "Pack light! Essentials include: comfortable clothes, good walking shoes, rain jacket/poncho, water bottle, power bank, personal medicines, toiletries, and a small backpack."
-    },
-    {
-        q: "What is the luggage limit?",
-        a: "One backpack (40-50L) per person. Avoid large suitcases as they're difficult to carry on treks and take up space in the vehicle."
-    },
-    {
-        q: "Do I need to be super fit for treks?",
-        a: "Basic fitness is required. If you can walk 5-10 km and climb stairs without getting exhausted, you're good! Check the difficulty level on each trip page."
-    },
-    {
-        q: "What if I need to cancel my booking?",
-        a: "You can cancel through WhatsApp. Cancellation fees apply: 50% fee (7+ days before), 70% fee (3-6 days before), 100% fee (0-2 days before). Refunds are processed within 5-7 business days."
-    },
-    {
-        q: "What if the trip gets cancelled due to weather?",
-        a: "If we cancel due to bad weather or unforeseen circumstances, you'll get a full refund or option to reschedule to another date. Your safety comes first!"
-    }
-];
-

@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 name: 'Team Weekend Trekkers',
                 
-                description: 'Trek Booking Payment',
+                description: 'Trip Booking Payment',
                 
                 // STUB: Add your logo URL here
                 image: 'https://via.placeholder.com/150x150?text=TWT',
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Additional data to store with payment
                 notes: {
-                    trip_name: params.get('trip') || 'Trek Booking',
+                    trip_name: params.get('trip') || 'Trip Booking',
                     participants: people,
                     booking_date: new Date().toISOString()
                 },
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Open WhatsApp with payment details
                     const whatsappMsg = encodeURIComponent(
-                        `Hi! I've completed my trek booking payment.\n\n` +
+                        `Hi! I've completed my trip booking payment.\n\n` +
                         `Payment ID: ${response.razorpay_payment_id}\n` +
                         `Amount: ₹${total}\n` +
                         `Name: ${fullName}\n` +

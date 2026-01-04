@@ -120,7 +120,7 @@
                             </div>
                             <div class="payment-type-note" id="paymentNote">
                                 <i class="fas fa-info-circle"></i>
-                                <span>Remaining ₹<span id="remainingAmount">1,750</span> to be paid before the trek starts</span>
+                                <span>Remaining ₹<span id="remainingAmount">1,750</span> to be paid before the trip starts</span>
                             </div>
                         </div>
                         
@@ -151,7 +151,7 @@
                                         <li>Take a screenshot of payment confirmation</li>
                                         <li>Send screenshot on WhatsApp to confirm booking</li>
                                     </ol>
-                                    <a href="https://wa.me/917019235581?text=Hi!%20I've%20made%20the%20payment%20for%20my%20trek%20booking.%20Sharing%20the%20screenshot." class="btn btn-whatsapp" target="_blank">
+                                    <a href="https://wa.me/917019235581?text=Hi!%20I've%20made%20the%20payment%20for%20my%20trip%20booking.%20Sharing%20the%20screenshot." class="btn btn-whatsapp" target="_blank">
                                         <i class="fab fa-whatsapp"></i> Send Payment Screenshot
                                     </a>
                                 </div>
@@ -175,7 +175,7 @@
                     <div class="summary-card">
                         <h3>Booking Summary</h3>
                         <div class="summary-trip">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=100" alt="Trek" class="summary-img">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=100" alt="Trip" class="summary-img">
                             <div class="summary-trip-info">
                                 <h4 id="summaryTripName">Netravati Peak Trek</h4>
                                 <p><i class="fas fa-map-marker-alt"></i> Western Ghats, Karnataka</p>
@@ -390,7 +390,7 @@
             // Build email content
             const formData = {
                 access_key: WEB3FORMS_ACCESS_KEY,
-                subject: '🌟 New Trek Booking: ' + window.bookingData.trip,
+                subject: '🌟 New Trip Booking: ' + window.bookingData.trip,
                 from_name: 'Team Weekend Trekkers Website',
                 // Customer Details
                 'Customer Name': document.getElementById('fullName').value.trim(),
@@ -398,9 +398,9 @@
                 'Phone Number': document.getElementById('phone').value.trim(),
                 'Alternate Phone': document.getElementById('altPhone').value.trim() || 'Not provided',
                 // Booking Details
-                'Trek Name': window.bookingData.trip,
+                'Trip Name': window.bookingData.trip,
                 'Location': window.bookingData.location,
-                'Trek Date': window.bookingData.date,
+                'Trip Date': window.bookingData.date,
                 'Number of People': window.bookingData.people,
                 'Total Amount': '₹' + window.bookingData.total.toLocaleString('en-IN'),
                 // Additional Info

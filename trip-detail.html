@@ -33,11 +33,11 @@
     <section class="trip-hero-gallery" id="tripHeroGallery">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="trips.html">Treks</a> / <span id="breadcrumbTitle">Netravati Peak Trek</span>
+                <a href="index.html">Home</a> / <a href="trips.html">Trips</a> / <span id="breadcrumbTitle">Netravati Peak Trek</span>
             </div>
             <div class="gallery-wrapper">
                 <div class="gallery-main" onclick="openLightbox(0)">
-                    <img src="images/trips/netravati.jpg" alt="Trek Main Image" id="galleryMainImg">
+                    <img src="images/trips/netravati.jpg" alt="Trip Main Image" id="galleryMainImg">
                 </div>
                 <div class="gallery-side">
                     <div class="gallery-item" onclick="openLightbox(1)">
@@ -63,11 +63,11 @@
     <!-- Trek At A Glance -->
     <section class="trek-glance">
         <div class="container">
-            <h2>Trek at a glance</h2>
+            <h2>Trip at a glance</h2>
             <div class="glance-grid">
                 <div class="glance-item">
                     <i class="fas fa-clock"></i>
-                    <span class="glance-label">Trek duration</span>
+                    <span class="glance-label">Trip duration</span>
                     <span class="glance-value" id="glanceDuration">2 days / 1 night</span>
                 </div>
                 <div class="glance-item">
@@ -87,7 +87,7 @@
                 </div>
                 <div class="glance-item">
                     <i class="fas fa-route"></i>
-                    <span class="glance-label">Total trek distance</span>
+                    <span class="glance-label">Total distance</span>
                     <span class="glance-value" id="glanceDistance">12 km</span>
                 </div>
                 <div class="glance-item">
@@ -151,7 +151,7 @@
 
                     <!-- About Trek -->
                     <div class="content-section">
-                        <h2>About This Trek</h2>
+                        <h2>About This Trip</h2>
                         <p>Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.</p>
                         <p>The trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.</p>
                     </div>
@@ -336,7 +336,7 @@
                 <!-- Sidebar -->
                 <div class="trip-sidebar">
                     <div class="booking-card">
-                        <h3>Book This Trek</h3>
+                        <h3>Book This Trip</h3>
                         <div class="price-display">
                             <span class="original-price" id="originalPrice">₹4,499</span>
                             <span class="current-price" id="currentPrice">₹3,499</span>
@@ -605,15 +605,20 @@
                 floatingWhatsapp.href = `https://wa.me/7019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(trip.title)}`;
             }
 
-            // Update Pickup Points Table
+            // Update Pickup Points Table - Use trip-specific boardingLocations if available
             const pickupTable = document.querySelector('#pickupTable tbody');
-            if (pickupTable && typeof commonPickupPoints !== 'undefined') {
-                pickupTable.innerHTML = commonPickupPoints.map(point => `
+            if (pickupTable) {
+                // Use trip's boardingLocations if available, otherwise fall back to commonPickupPoints
+                const pickupPoints = (trip.boardingLocations && trip.boardingLocations.length > 0) 
+                    ? trip.boardingLocations 
+                    : (typeof commonPickupPoints !== 'undefined' ? commonPickupPoints : []);
+                
+                pickupTable.innerHTML = pickupPoints.map(point => `
                     <tr>
                         <td><strong>${point.name}</strong></td>
-                        <td>${point.landmark}</td>
-                        <td><span class="pickup-time">${point.time}</span></td>
-                        <td><a href="${point.mapLink}" target="_blank" class="map-link"><i class="fas fa-map-marker-alt"></i> View</a></td>
+                        <td>${point.landmark || ''}</td>
+                        <td><span class="pickup-time">${point.time || ''}</span></td>
+                        <td>${point.mapLink ? `<a href="${point.mapLink}" target="_blank" class="map-link"><i class="fas fa-map-marker-alt"></i> View</a>` : ''}</td>
                     </tr>
                 `).join('');
             }
@@ -695,7 +700,7 @@
             
             // Validate date is selected
             if (!date) {
-                alert('Please select a date for your trek');
+                alert('Please select a date for your trip');
                 dateSelect.focus();
                 dateSelect.classList.add('error');
                 return false;
