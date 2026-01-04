@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-05 02:19
+// Last updated: 2026-01-05 02:38
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -31,8 +31,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
     coorg: {
         title: "Coorg Unplugged: Nature, Culture & Coffee",
@@ -58,8 +58,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
     chikmagalur: {
         title: "Chikmagalur 2 Days Trip",
@@ -85,8 +85,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     kerala: {
         title: "Kerala Backwaters Trip",
@@ -113,8 +113,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "vagamon-thekkady": {
         title: "Vagamon & Thekkady - Kerala Bliss Trip",
@@ -141,8 +141,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
     ooty: {
         title: "Ooty & Coonoor Trip",
@@ -168,8 +168,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
     spiti: {
         title: "Spiti Valley Expedition",
@@ -198,8 +198,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     kudremukh: {
         title: "Kudremukh Trek",
@@ -229,8 +229,8 @@ const tripsData = {
             {name: "Electronic City", landmark: "Infosys Gate / Toll Plaza", time: "9:45 PM - 11:15 PM", mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"},
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
     goa: {
         title: "Goa Beach Backpacking",
@@ -256,8 +256,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     dandeli: {
         title: "Dandeli River Adventure",
@@ -283,8 +283,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     hampi: {
         title: "Hampi - Anjanadri Hills",
@@ -310,8 +310,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     yercaud: {
         title: "Yercaud Hill Station",
@@ -336,8 +336,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
@@ -361,8 +361,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     gokarna: {
         title: "Gokarna Beach Trek",
@@ -388,8 +388,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     wayanad: {
         title: "Wayanad 2 Days Trip",
@@ -415,8 +415,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
@@ -442,8 +442,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     theyyam: {
         title: "Kannur Theyyam Tour",
@@ -469,8 +469,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
@@ -496,8 +496,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "netrani-island-scuba": {
         title: "Netrani Island Scuba Diving",
@@ -523,8 +523,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     pondicherry: {
         title: "Pondicherry Trip",
@@ -550,8 +550,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "wayanad-pool-party": {
         title: "Wayanad Private Pool Party",
@@ -577,8 +577,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: false,
         groupSize: "",
+        isActive: true,
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
@@ -605,8 +605,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
@@ -633,8 +633,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "rameshwaram-dhanushkodi": {
         title: "Rameshwaram-Dhanushkodi-Thanjavur",
@@ -660,8 +660,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-25 members",
+        isActive: true,
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
@@ -687,8 +687,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "dandeli-netrani-scuba": {
         title: "Dandeli & Netrani Scuba Diving",
@@ -715,8 +715,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "scuba-day-trip": {
         title: "1 Day Scuba Diving Trip",
@@ -740,8 +740,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "wayanad-3-days": {
         title: "Wayanad 3 Days Trip",
@@ -768,8 +768,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "",
+        isActive: true,
     },
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Christmas Special",
@@ -796,8 +796,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12 members",
+        isActive: true,
     },
     "kannur-theyyam": {
         title: "Kannur-Thalassery Theyyam Tour",
@@ -823,8 +823,8 @@ const tripsData = {
         boardingLocations: [
         ],
         galleryImages: [],
-        isActive: true,
         groupSize: "12-20 members",
+        isActive: true,
     },
 };
 
