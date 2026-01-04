@@ -453,6 +453,39 @@
             const tripId = getTripFromURL();
             const trip = getTripData(tripId);
 
+            // Handle inactive trips - grey out page and disable booking
+            const isInactive = trip.isActive === false;
+            if (isInactive) {
+                // Add inactive class to body for grey styling
+                document.body.classList.add('trip-inactive-page');
+                
+                // Show inactive banner
+                const banner = document.createElement('div');
+                banner.className = 'inactive-trip-banner';
+                banner.innerHTML = '<i class="fas fa-info-circle"></i> This trip is currently not available for booking. Check back soon!';
+                document.querySelector('.trip-detail-section')?.prepend(banner);
+                
+                // Disable booking form elements
+                const bookingCard = document.querySelector('.booking-card');
+                if (bookingCard) {
+                    bookingCard.classList.add('booking-disabled');
+                    const dateSelect = document.getElementById('dateSelect');
+                    const peopleCount = document.getElementById('peopleCount');
+                    const bookNowBtn = document.getElementById('bookNowBtn');
+                    if (dateSelect) dateSelect.disabled = true;
+                    if (peopleCount) peopleCount.disabled = true;
+                    if (bookNowBtn) {
+                        bookNowBtn.classList.add('btn-disabled');
+                        bookNowBtn.textContent = 'Coming Soon';
+                        bookNowBtn.onclick = (e) => { e.preventDefault(); return false; };
+                    }
+                }
+                
+                // Disable UPI card
+                const upiCard = document.querySelector('.upi-card');
+                if (upiCard) upiCard.style.display = 'none';
+            }
+
             // Update hero section
             const heroSection = document.getElementById('tripHero');
             if (heroSection) {

@@ -411,6 +411,68 @@ img {
     white-space: nowrap;
 }
 
+/* Inactive Trip Detail Page Styles */
+.trip-inactive-page .trip-detail-section {
+    position: relative;
+}
+
+.trip-inactive-page .trip-detail-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.trip-inactive-page .trip-sidebar {
+    position: relative;
+    z-index: 2;
+}
+
+.inactive-trip-banner {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.inactive-trip-banner i {
+    font-size: 1.2rem;
+}
+
+.booking-disabled {
+    opacity: 0.7;
+    filter: grayscale(30%);
+}
+
+.booking-disabled select:disabled {
+    background: #e5e7eb;
+    cursor: not-allowed;
+}
+
+.btn-disabled {
+    background: #9ca3af !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.btn-disabled:hover {
+    background: #9ca3af !important;
+    transform: none !important;
+}
+
 .trip-badge {
     position: absolute;
     top: 15px;
