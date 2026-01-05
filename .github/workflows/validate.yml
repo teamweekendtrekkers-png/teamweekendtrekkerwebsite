@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Job 1: Validate the website
+  # Job 1: Basic Validation
   validate:
     runs-on: ubuntu-latest
     
@@ -31,8 +31,8 @@ jobs:
       with:
         node-version: '20'
     
-    - name: Make validation script executable
-      run: chmod +x validate-website.sh
+    - name: Make validation scripts executable
+      run: chmod +x validate-website.sh tests/*.sh 2>/dev/null || chmod +x validate-website.sh
     
     - name: Run website validation
       run: ./validate-website.sh
@@ -54,24 +54,417 @@ jobs:
         fi
         
         echo "✅ No critical JavaScript issues found"
+
+  # Job 2: Trip Data Validation
+  trip-data-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
     
-    - name: Validate HTML with HTMLHint (optional)
-      continue-on-error: true
+    - name: Validate Trip Data Structure
       run: |
-        npm install -g htmlhint
-        htmlhint "*.html" --config .htmlhintrc || true
+        echo "🗺️ Validating trip data structure..."
+        
+        # Check tripsData exists
+        if grep -q "const tripsData" js/trips-data.js; then
+          echo "✅ tripsData object defined"
+        else
+          echo "❌ tripsData not found"
+          exit 1
+        fi
+        
+        # Count trips
+        TRIP_COUNT=$(grep -c "isActive:" js/trips-data.js || echo "0")
+        echo "📊 Found $TRIP_COUNT trips with isActive flag"
+        
+        if [ "$TRIP_COUNT" -lt 25 ]; then
+          echo "❌ Expected at least 25 trips, found $TRIP_COUNT"
+          exit 1
+        fi
+        
+        # Check required fields exist
+        for field in "title:" "price:" "image:" "duration:" "difficulty:" "location:"; do
+          COUNT=$(grep -c "$field" js/trips-data.js || echo "0")
+          if [ "$COUNT" -gt 0 ]; then
+            echo "✅ Field $field found ($COUNT occurrences)"
+          else
+            echo "❌ Field $field not found"
+            exit 1
+          fi
+        done
+        
+        echo "✅ Trip data structure is valid"
+
+  # Job 3: Common Data Validation  
+  common-data-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
     
-    - name: Summary
+    - name: Validate Common Data Objects
+      run: |
+        echo "📋 Validating common data objects..."
+        
+        # Check commonPickupPoints
+        if grep -q "const commonPickupPoints" js/trips-data.js; then
+          PICKUP_COUNT=$(grep -A 30 "commonPickupPoints" js/trips-data.js | grep -c "name:" || echo "0")
+          echo "✅ commonPickupPoints has $PICKUP_COUNT locations"
+          if [ "$PICKUP_COUNT" -lt 4 ]; then
+            echo "⚠️ Expected at least 4 pickup points"
+          fi
+        else
+          echo "❌ commonPickupPoints not found"
+          exit 1
+        fi
+        
+        # Check commonCancellationPolicy
+        if grep -q "const commonCancellationPolicy" js/trips-data.js; then
+          echo "✅ commonCancellationPolicy defined"
+        else
+          echo "❌ commonCancellationPolicy not found"
+          exit 1
+        fi
+        
+        # Check commonGuidelines
+        if grep -q "const commonGuidelines" js/trips-data.js; then
+          echo "✅ commonGuidelines defined"
+        else
+          echo "❌ commonGuidelines not found"
+          exit 1
+        fi
+        
+        # Check commonFAQs
+        if grep -q "const commonFAQs" js/trips-data.js; then
+          echo "✅ commonFAQs defined"
+        else
+          echo "❌ commonFAQs not found"
+          exit 1
+        fi
+        
+        echo "✅ All common data objects valid"
+
+  # Job 4: JavaScript Validation
+  javascript-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Validate JavaScript Syntax
+      run: |
+        echo "🔧 Validating JavaScript syntax..."
+        
+        for file in js/*.js; do
+          if [ -f "$file" ]; then
+            if node --check "$file" 2>/dev/null; then
+              echo "✅ $file - syntax valid"
+            else
+              echo "❌ $file - syntax error"
+              exit 1
+            fi
+          fi
+        done
+        
+        echo "✅ All JavaScript files have valid syntax"
+
+  # Job 5: HTML Validation
+  html-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate HTML Structure
+      run: |
+        echo "📄 Validating HTML files..."
+        
+        HTML_FILES=("index.html" "trips.html" "trip-detail.html" "checkout.html" "about.html" "contact.html")
+        
+        for file in "${HTML_FILES[@]}"; do
+          if [ -f "$file" ]; then
+            # Check DOCTYPE
+            if head -5 "$file" | grep -qi "<!DOCTYPE html>"; then
+              echo "✅ $file has DOCTYPE"
+            else
+              echo "❌ $file missing DOCTYPE"
+              exit 1
+            fi
+            
+            # Check basic structure
+            if grep -q "<html" "$file" && grep -q "</html>" "$file"; then
+              echo "✅ $file has valid HTML tags"
+            else
+              echo "❌ $file missing HTML tags"
+              exit 1
+            fi
+            
+            # Check viewport meta
+            if grep -q 'viewport' "$file"; then
+              echo "✅ $file has viewport meta"
+            else
+              echo "⚠️ $file missing viewport meta"
+            fi
+          else
+            echo "❌ $file not found"
+            exit 1
+          fi
+        done
+        
+        echo "✅ HTML validation passed"
+
+  # Job 6: CSS Validation
+  css-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate CSS Files
+      run: |
+        echo "🎨 Validating CSS files..."
+        
+        CSS_FILES=("css/style.css" "css/pages.css" "css/responsive.css")
+        
+        for file in "${CSS_FILES[@]}"; do
+          if [ -f "$file" ]; then
+            # Check for balanced braces
+            OPEN=$(grep -o "{" "$file" | wc -l)
+            CLOSE=$(grep -o "}" "$file" | wc -l)
+            
+            if [ "$OPEN" -eq "$CLOSE" ]; then
+              echo "✅ $file has balanced braces ($OPEN pairs)"
+            else
+              echo "❌ $file has unbalanced braces (open: $OPEN, close: $CLOSE)"
+              exit 1
+            fi
+            
+            # Check file not empty
+            if [ -s "$file" ]; then
+              echo "✅ $file is not empty"
+            else
+              echo "❌ $file is empty"
+              exit 1
+            fi
+          else
+            echo "❌ $file not found"
+            exit 1
+          fi
+        done
+        
+        echo "✅ CSS validation passed"
+
+  # Job 7: Inactive Trip Feature Validation
+  inactive-trip-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate Inactive Trip Feature
+      run: |
+        echo "🔒 Validating inactive trip feature..."
+        
+        # Check CSS classes exist
+        if grep -q "trip-inactive" css/style.css; then
+          echo "✅ trip-inactive CSS class defined"
+        else
+          echo "❌ trip-inactive CSS class not found"
+          exit 1
+        fi
+        
+        if grep -q "inactive-trip-banner" css/style.css; then
+          echo "✅ inactive-trip-banner CSS defined"
+        else
+          echo "❌ inactive-trip-banner CSS not found"
+          exit 1
+        fi
+        
+        if grep -q "booking-disabled" css/style.css; then
+          echo "✅ booking-disabled CSS defined"
+        else
+          echo "❌ booking-disabled CSS not found"
+          exit 1
+        fi
+        
+        # Check JS handles inactive trips
+        if grep -q "isActive" trip-detail.html; then
+          echo "✅ trip-detail.html handles inactive trips"
+        else
+          echo "❌ trip-detail.html doesn't handle inactive trips"
+          exit 1
+        fi
+        
+        if grep -q "isActive" trips.html; then
+          echo "✅ trips.html handles inactive trips"
+        else
+          echo "❌ trips.html doesn't handle inactive trips"
+          exit 1
+        fi
+        
+        # Count trips with isActive flag
+        ACTIVE_TRUE=$(grep -c "isActive: true" js/trips-data.js || echo "0")
+        ACTIVE_FALSE=$(grep -c "isActive: false" js/trips-data.js || echo "0")
+        
+        echo "📊 Active trips: $ACTIVE_TRUE"
+        echo "📊 Inactive trips: $ACTIVE_FALSE"
+        
+        echo "✅ Inactive trip feature validation passed"
+
+  # Job 8: Images Validation
+  images-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate Images
+      run: |
+        echo "🖼️ Validating images..."
+        
+        # Count trip images
+        TRIP_IMAGES=$(find images/trips -name "*.jpg" -o -name "*.png" -o -name "*.webp" 2>/dev/null | wc -l)
+        echo "📊 Found $TRIP_IMAGES trip images"
+        
+        if [ "$TRIP_IMAGES" -lt 20 ]; then
+          echo "⚠️ Expected at least 20 trip images"
+        fi
+        
+        # Check for large images (over 500KB)
+        LARGE_IMAGES=$(find images -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) -size +500k 2>/dev/null | wc -l)
+        
+        if [ "$LARGE_IMAGES" -gt 0 ]; then
+          echo "⚠️ Found $LARGE_IMAGES images over 500KB - consider optimizing"
+          find images -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) -size +500k 2>/dev/null
+        else
+          echo "✅ No oversized images"
+        fi
+        
+        echo "✅ Images validation passed"
+
+  # Job 9: Security Check
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Security Checks
+      run: |
+        echo "🔐 Running security checks..."
+        
+        # Check for exposed API keys (pattern matching)
+        if grep -rE "(api_key|apikey|API_KEY|secret_key|SECRET_KEY|password|PASSWORD).*=.*['\"][^'\"]{10,}['\"]" js/*.js 2>/dev/null; then
+          echo "⚠️ Potential exposed secrets found - review above matches"
+        else
+          echo "✅ No obvious exposed secrets"
+        fi
+        
+        # Check for inline scripts with sensitive data
+        if grep -l "rzp_live_\|rzp_test_" *.html 2>/dev/null; then
+          echo "⚠️ Razorpay keys found in HTML - ensure they are public keys only"
+        fi
+        
+        # Check security.js exists
+        if [ -f "js/security.js" ]; then
+          echo "✅ security.js exists"
+        else
+          echo "⚠️ security.js not found"
+        fi
+        
+        echo "✅ Security check completed"
+
+  # Job 10: Mobile Responsive Check
+  mobile-responsive-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check Mobile Responsiveness
+      run: |
+        echo "📱 Checking mobile responsiveness..."
+        
+        # Check viewport meta tags
+        for file in index.html trips.html trip-detail.html checkout.html; do
+          if [ -f "$file" ]; then
+            if grep -q 'viewport.*width=device-width' "$file"; then
+              echo "✅ $file has proper viewport meta"
+            else
+              echo "⚠️ $file may have incorrect viewport"
+            fi
+          fi
+        done
+        
+        # Check for media queries in responsive.css
+        if [ -f "css/responsive.css" ]; then
+          MEDIA_QUERIES=$(grep -c "@media" css/responsive.css || echo "0")
+          echo "📊 Found $MEDIA_QUERIES media queries in responsive.css"
+          
+          if [ "$MEDIA_QUERIES" -lt 3 ]; then
+            echo "⚠️ Expected at least 3 media queries for responsive design"
+          else
+            echo "✅ Adequate media queries for responsive design"
+          fi
+        fi
+        
+        # Check for mobile menu
+        if grep -q "mobile-menu\|hamburger\|nav-toggle" css/style.css; then
+          echo "✅ Mobile menu styles found"
+        else
+          echo "⚠️ Mobile menu styles not found"
+        fi
+        
+        echo "✅ Mobile responsive check completed"
+
+  # Job 11: Run Comprehensive Test Scripts (if available)
+  comprehensive-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Run Test Scripts
+      run: |
+        if [ -d "tests" ] && [ -f "tests/run-all-tests.sh" ]; then
+          chmod +x tests/*.sh
+          ./tests/run-all-tests.sh
+        else
+          echo "ℹ️ No test scripts directory found, skipping"
+        fi
+
+  # Job 12: Test Summary
+  test-summary:
+    needs: [validate, trip-data-validation, common-data-validation, javascript-validation, html-validation, css-validation, inactive-trip-validation, images-validation, security-check, mobile-responsive-check, comprehensive-tests]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Test Summary
       run: |
         echo ""
-        echo "================================================"
-        echo "✅ All validation checks completed!"
-        echo "================================================"
+        echo "╔══════════════════════════════════════════════════════════════╗"
+        echo "║              VALIDATION & TEST SUMMARY                        ║"
+        echo "╚══════════════════════════════════════════════════════════════╝"
+        echo ""
+        echo "Jobs completed. Check individual job results above."
+        echo ""
+        
+        if [ "${{ needs.validate.result }}" == "success" ] && \
+           [ "${{ needs.trip-data-validation.result }}" == "success" ] && \
+           [ "${{ needs.javascript-validation.result }}" == "success" ] && \
+           [ "${{ needs.html-validation.result }}" == "success" ] && \
+           [ "${{ needs.css-validation.result }}" == "success" ]; then
+          echo "✅ All critical validations passed!"
+        else
+          echo "❌ Some validations failed - check job details"
+          exit 1
+        fi
 
-  # Job 2: Deploy to GitHub Pages (only runs if validation passes)
+  # Job 13: Deploy to GitHub Pages (only runs if all validations pass)
   deploy:
-    needs: validate  # This ensures deploy only runs AFTER validate succeeds
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    needs: [validate, trip-data-validation, javascript-validation, html-validation, css-validation, inactive-trip-validation]
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && success()
     runs-on: ubuntu-latest
     environment:
       name: github-pages
