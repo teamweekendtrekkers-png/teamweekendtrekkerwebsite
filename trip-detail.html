@@ -504,24 +504,27 @@
             if (breadcrumbTitle) breadcrumbTitle.textContent = trip.title;
 
             // Update gallery images - use galleryImages array if available
-            const galleryImages = trip.galleryImages && trip.galleryImages.length > 0 
+            const galleryImagesArray = trip.galleryImages && trip.galleryImages.length > 0 
                 ? [trip.image, ...trip.galleryImages] 
                 : [trip.image, trip.image, trip.image, trip.image, trip.image];
             
+            // Store all gallery images globally for lightbox
+            window.allGalleryImages = galleryImagesArray;
+            
             const galleryMainImg = document.getElementById('galleryMainImg');
-            if (galleryMainImg) galleryMainImg.src = galleryImages[0] || trip.image;
+            if (galleryMainImg) galleryMainImg.src = galleryImagesArray[0] || trip.image;
             
             const galleryImg1 = document.getElementById('galleryImg1');
-            if (galleryImg1) galleryImg1.src = galleryImages[1] || trip.image;
+            if (galleryImg1) galleryImg1.src = galleryImagesArray[1] || trip.image;
             
             const galleryImg2 = document.getElementById('galleryImg2');
-            if (galleryImg2) galleryImg2.src = galleryImages[2] || trip.image;
+            if (galleryImg2) galleryImg2.src = galleryImagesArray[2] || trip.image;
             
             const galleryImg3 = document.getElementById('galleryImg3');
-            if (galleryImg3) galleryImg3.src = galleryImages[3] || trip.image;
+            if (galleryImg3) galleryImg3.src = galleryImagesArray[3] || trip.image;
             
             const galleryImg4 = document.getElementById('galleryImg4');
-            if (galleryImg4) galleryImg4.src = galleryImages[4] || trip.image;
+            if (galleryImg4) galleryImg4.src = galleryImagesArray[4] || trip.image;
             
             // Update "more photos" count if we have gallery images
             const morePhotosOverlay = document.querySelector('.gallery-overlay span');
@@ -813,7 +816,8 @@
             const counter = document.getElementById('imageCounter');
             
             currentImageIndex = index;
-            galleryImages = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
+            // Use all gallery images stored globally (includes all 12+ images)
+            galleryImages = window.allGalleryImages || Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
             
             lightboxImg.src = galleryImages[currentImageIndex];
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
