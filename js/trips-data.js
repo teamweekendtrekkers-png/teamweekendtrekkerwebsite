@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-07 00:13
+// Last updated: 2026-01-07 00:14
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -641,7 +641,7 @@ const tripsData = {
         location: "Tamil Nadu",
         badge: "Heritage",
         price: "₹5,999",
-        image: "images/trips/rameshwaram-dhanushkodi.jpg",
+        image: "images/trips/rameshwaram-dhanushkodi_1767725036955.jpg",
         distance: "550 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
