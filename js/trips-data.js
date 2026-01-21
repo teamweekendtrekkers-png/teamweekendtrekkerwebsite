@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-06 23:45
+// Last updated: 2026-01-22 01:17
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -34,31 +34,35 @@ const tripsData = {
         groupSize: "12-20 members",
         isActive: true,
     },
-    coorg: {
-        title: "Coorg Unplugged: Nature, Culture & Coffee",
-        location: "Kodagu, Karnataka",
-        badge: "Road Trip",
-        price: "₹4,444",
-        image: "images/trips/coorg.jpg",
-        distance: "280 km from Bangalore",
-        elevation: "1,450 m",
+    "rameshwaram-dhanushkodi": {
+        title: "Rameshwaram-Dhanushkodi-Thanjavur",
+        location: "Tamil Nadu",
+        badge: "Heritage",
+        price: "₹5,999",
+        image: "images/trips/rameshwaram-dhanushkodi.jpg",
+        distance: "550 km from Bangalore",
+        elevation: "Sea level",
         difficulty: "Easy",
-        bestTime: "Sep - Mar",
+        bestTime: "Oct - Mar",
         duration: "2D/1N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
-        about: "Experience the Scotland of India! Coorg is a picturesque hill station known for its coffee plantations, misty hills, and rich Kodava culture. The highlight is Mandalpatti Peak offering stunning 360° views of the Western Ghats.\n\nJourney through winding roads surrounded by coffee estates, visit ancient temples, and enjoy local Kodava cuisine. The Jeep ride to Mandalpatti through off-road trails is an adventure in itself!",
-        highlights: ["Jeep ride to Mandalpatti Peak", "Coffee plantation walk & tasting", "Abbey Falls visit", "Raja", ", ", ", ", ", ", ", "],
+        availableDates: ["Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
+        about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
+        highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
-            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["10:00 PM - Pickup from Majestic Metro Station", "10:30 PM - Koramangala pickup (Kota Kochari)", "10:50 PM - Silk Board pickup", "11:30 PM - Electronic City pickup", "Introduction and trip briefing", "Begin overnight journey to Coorg"]},
-            {day: "Day 1", title: "Explore Coorg - Nature & Adventure", activities: ["6:00 AM - Arrive in Coorg, freshen up", "7:30 AM - Breakfast at local restaurant", "9:00 AM - Jeep ride to Mandalpatti Peak", "11:00 AM - Enjoy panoramic 360° views at the peak", "1:00 PM - Lunch with local Kodava cuisine", "3:00 PM - Visit Abbey Falls", "5:00 PM - Coffee plantation walk & tasting", "6:30 PM - Sunset at Raja", ", "]},
-            {day: "Day 2", title: "Temple Visit & Return", activities: ["7:00 AM - Breakfast at homestay", "8:30 AM - Visit Talakaveri - Origin of River Kaveri", "10:00 AM - Bhagamandala Temple visit", "11:30 AM - Shopping for coffee, spices & chocolates", "12:30 PM - Lunch and departure", "7:00 PM - Arrive back in Bangalore"]},
+            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "8:55 PM - Koramangala Spiritual vibes, coastal adventures & royal heritage – all packed into one unforgettable getaway! 🛕🌊🏰", "🚀 Day 0: Let the Journey Begin!", "🌙 9:00 PM – Buckle up for an exhilarating overnight road trip from Bangalore 🚐💨", "💤 Cozy up & drift into dreams as tomorrow's adventure calls! ✨🌌"]},
+            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["🌞 Day 1: Dive into Rameshwaram’s Coastal Magic", "🏝️ Morning vibes – Wake up to salty breezes as we arrive in Rameshwaram 🌊☀️", "🏡 Check-in to a comfy homestay & refresh 🛏️🛁", "🍳 Feast on a delicious Tamil Nadu-style breakfast to kickstart the day 😋🍽️", "🌟 Must-Visit Marvels 🌟", "🌉 Pamban Bridge – Soak in epic ocean views from this iconic engineering masterpiece 🌊🚂", "🛕 Ramanathaswamy Temple – Step into one of the sacred 12 Jyotirlingas 🙏", "✨ Wander the world’s longest corridor (1,220 m with 1,212 ornate pillars!) 🏛️", "🕉️ Feel the powerful aura where Lord Rama worshipped Lord Shiva post his Lanka victory 🔥👑", "🚘 Dhanushkodi Adventures Await", "🏚️ Ghost Town & Beach – Stroll through the mystical ruins of Dhanushkodi 🏖️👻", "🚂 Old Railway Station – A hauntingly beautiful glimpse into the past ⏳", "🕍 Kothanda Ramar Temple – Where Rama crowned Vibhishana as Lanka’s king 👑🛕", "🌉 Ram Setu Viewpoint – Marvel at the legendary floating bridge to Lanka 🏗️🌊", "🌅 Dhanushkodi Lighthouse – Climb for jaw-dropping panoramic ocean views 🗺️💙", "🌙 Overnight Stay – Relax, recharge & relive the day’s magic at the hotel 🛏️🌌"]},
+            {day: "Day 2", title: "Thanjavur Royal Heritage & Return", activities: ["🔥🗓️ Day 2: Spiritual Farewell & Royal Encounters", "🌅 Rise early & relish a hearty breakfas🍛", "🏡 Check-out with a heart full of memories 💙", "🚗 Off to Thanjavur!", "🍲 Local Lunch – Indulge in authentic flavors 🍛", "🏰 Thanjavur Maratha Palace – Step into royal grandeur & Maratha history 👑🏰", "🛕 Brihadeeswara Temple – Behold the splendor of this UNESCO marvel 🌍✨", "🌇 Sunset Soak – Witness the majestic temple glow as the sun dips below the horizon 🌞🏯", "📚 Saraswathi Mahal Library – Flip through ancient manuscripts in Asia’s oldest library 📖", "🎨 Thanjavur Art Gallery – Admire Chola bronzes & rich artworks 🎭🖼️", "⛪ Schwartz Church – Visit this historical Maratha-era church ⛪", "🚐 Return Journey – Embark on an overnight ride back to Bangalore with a heart full of epic stories & memories 🌌💙", "✨ A perfect fusion of spirituality, adventure & heritage – this road trip promises to leave you awe-inspired! 🚀🌊🏰💛"]},
         ],
-        includes: ["AC transportation from Bangalore", "1 Night accommodation (Homestay)", "2 Breakfasts + 1 Lunch + 1 Dinner", "Jeep ride to Mandalpatti", "All sightseeing as per itinerary", "Experienced tour lead"],
-        excludes: ["Personal expenses", "Entry fees to monuments", "Travel insurance", "Tips and gratuities", "Anything not mentioned"],
+        includes: [" 🏡 Accommodation – Comfortable shared rooms for a cozy stay.", "🍽️ 2 Breakfasts – Kickstart your mornings with delicious meals.", " 🚐 Travel in Comfort –  Tempo Traveler / Mini-bus with push-back seats (based on group size) for a hassle-free ride (Bangalore to Bangalore).", "🚖 Tamil Nadu State Tax – ₹4,000 per Tempo Traveler covered.", "🎟️ Entry Charges – All applicable entry fees included.", " 🗺️ Local Guide & Outdoor Leader – Knowledgeable experts from Team Weekend Trekkers to enhance your experience.", "🌟 Unforgettable Experiences – Priceless moments, amazing stories, and lifelong memories!"],
+        excludes: ["🚣‍♂️ Activities – Charges not included.", "🍽️ Meals not mentioned – Any additional meals apart from breakfast.", "💸 Personal Expenses – Shopping, tips, and other personal costs.", "🛡️ Insurance – No coverage for health, medical, life, or accidental insurance.", "⚠️ Anything not mentioned above – Additional expenses beyond the listed inclusions."],
         boardingLocations: [
+            {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:50PM - 8:55 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
+            {name: "Koramangala", landmark: "Forum Mall Bus Stop", time: "9:20 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/gFyRSrbDEwKtDTEm6"},
+            {name: "Silk Board", landmark: "Silk Board Junction", time: "9:50 PM - 10:00 PM", mapLink: "https://maps.app.goo.gl/98A2pJN5ojN4MFpn8?g_st=ac"},
+            {name: "Electronic City", landmark: "Electronic city Toll gate - Bus Boarding", time: "10:20 PM - 10:35 PM", mapLink: "https://maps.app.goo.gl/kuWaGU5Ag7QCtBLM9"},
         ],
-        galleryImages: [],
-        groupSize: "12-20 members",
+        galleryImages: ["images/gallery/rameshwaram-dhanushkodi/img_1767723242011.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723245384.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723247913.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723252112.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723259245.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723262866.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723266548.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723268499.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723271878.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723274641.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723278121.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723280681.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723283648.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723286673.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723289999.jpg"],
+        groupSize: "12-25 members",
         isActive: true,
     },
     chikmagalur: {
