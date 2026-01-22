@@ -231,7 +231,8 @@
             return hash.toString(16);
         },
         capture: function() {
-            document.querySelectorAll('.payment-section, .upi-section, #rzpButton, [data-payment]').forEach((el, i) => {
+            // Only capture UPI-critical elements, not dynamic price displays
+            document.querySelectorAll('.upi-id-large, #upiId, [data-upi]').forEach((el, i) => {
                 this.hashes.set('el_' + i, { element: el, hash: this.computeHash(el.outerHTML) });
             });
         },
@@ -244,6 +245,11 @@
                 }
             });
             return intact;
+        },
+        // Re-capture hashes after legitimate user actions
+        recapture: function() {
+            this.hashes.clear();
+            this.capture();
         },
         startMonitoring: function() {
             setTimeout(() => this.capture(), 1000);
