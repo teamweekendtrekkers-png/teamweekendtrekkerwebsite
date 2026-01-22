@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-22 10:35
+// Last updated: 2026-01-22 10:41
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -815,7 +815,7 @@ const tripsData = {
         title: "Kannur-Thalassery Theyyam Tour",
         location: "Kannur, Kerala",
         badge: "Cultural",
-        price: "₹5,899",
+        price: "₹5599",
         image: "images/trips/theyyam.jpg",
         distance: "350 km from Bangalore",
         elevation: "Sea level",
@@ -834,7 +834,7 @@ const tripsData = {
         excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
         boardingLocations: [
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/kannur-theyyam/img_1769058552320.jpg", "images/gallery/kannur-theyyam/img_1769058554371.jpg", "images/gallery/kannur-theyyam/img_1769058558645.jpg", "images/gallery/kannur-theyyam/img_1769058560888.jpg", "images/gallery/kannur-theyyam/img_1769058563106.jpg", "images/gallery/kannur-theyyam/img_1769058564943.jpg", "images/gallery/kannur-theyyam/img_1769058571700.jpg", "images/gallery/kannur-theyyam/img_1769058576005.jpg", "images/gallery/kannur-theyyam/img_1769058579360.jpg", "images/gallery/kannur-theyyam/img_1769058664165.png", "images/gallery/kannur-theyyam/img_1769058667305.jpg", "images/gallery/kannur-theyyam/img_1769058669703.jpg"],
         groupSize: "12-20 members",
         isActive: true,
     },
