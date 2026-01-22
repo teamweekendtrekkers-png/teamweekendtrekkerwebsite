@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-22 01:40
+// Last updated: 2026-01-22 10:32
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -815,14 +815,14 @@ const tripsData = {
         title: "Kannur-Thalassery Theyyam Tour",
         location: "Kannur, Kerala",
         badge: "Cultural",
-        price: "₹5,499",
+        price: "₹5,649",
         image: "images/trips/theyyam.jpg",
         distance: "350 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
         bestTime: "Nov - Apr",
         duration: "2D/1N",
-        availableDates: ["Jan 2-4, 2026", "Jan 9-11, 2026", "Jan 16-18, 2026", "Jan 23-25, 2026", "Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026"],
+        availableDates: ["Jan 2-4, 2026", "Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
         about: "Experience the raw power of Theyyam - Kerala's ancient fire ritual! This offbeat cultural tour takes you through Kannur and Thalassery, where fire, dance, devotion, and divine blessings create a once-in-a-lifetime spectacle.\n\nFrom temple trails and lighthouse climbs to kayaking through mangroves and witnessing the sacred Theyyam ceremony - this is Kerala beyond the backwaters!",
         highlights: ["Theyyam Night Ceremony - Fire ritual", "Sunrise Theyyam experience", "St. Angelo Fort & Kannur Lighthouse", "Payyambalam Beach sunset", "Thalassery Fort & Graffiti Street", "Folk Art Museum", "Backwater kayaking & mangroves", "Mahe Beach sunset"],
         itinerary: [
