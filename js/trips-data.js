@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-01-23 00:33
+// Last updated: 2026-01-22 10:41
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -28,43 +28,10 @@ const tripsData = {
         ],
         includes: ["Bangalore to Bangalore transportation (AC vehicle)", "1 Breakfast + 1 Lunch + 1 Dinner", "Camping equipment (tents, sleeping bags)", "Experienced trek lead and support staff", "Forest entry permits", "First aid kit", "Bonfire arrangements"],
         excludes: ["Personal expenses", "Travel insurance", "Any meals not mentioned", "Tips and gratuities", "Anything not mentioned in inclusions"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
         groupSize: "12-20 members",
-        isActive: true,
-    },
-    "rameshwaram-dhanushkodi": {
-        title: "Rameshwaram-Dhanushkodi-Thanjavur",
-        location: "Tamil Nadu",
-        badge: "Heritage",
-        price: "₹5,999",
-        image: "images/trips/rameshwaram-dhanushkodi.jpg",
-        distance: "550 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Oct - Mar",
-        duration: "2D/1N",
-        availableDates: ["Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
-        about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
-        highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "8:55 PM - Koramangala Spiritual vibes, coastal adventures & royal heritage – all packed into one unforgettable getaway! 🛕🌊🏰", "🚀 Day 0: Let the Journey Begin!", "🌙 9:00 PM – Buckle up for an exhilarating overnight road trip from Bangalore 🚐💨", "💤 Cozy up & drift into dreams as tomorrow's adventure calls! ✨🌌"]},
-            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["🌞 Day 1: Dive into Rameshwaram’s Coastal Magic", "🏝️ Morning vibes – Wake up to salty breezes as we arrive in Rameshwaram 🌊☀️", "🏡 Check-in to a comfy homestay & refresh 🛏️🛁", "🍳 Feast on a delicious Tamil Nadu-style breakfast to kickstart the day 😋🍽️", "🌟 Must-Visit Marvels 🌟", "🌉 Pamban Bridge – Soak in epic ocean views from this iconic engineering masterpiece 🌊🚂", "🛕 Ramanathaswamy Temple – Step into one of the sacred 12 Jyotirlingas 🙏", "✨ Wander the world’s longest corridor (1,220 m with 1,212 ornate pillars!) 🏛️", "🕉️ Feel the powerful aura where Lord Rama worshipped Lord Shiva post his Lanka victory 🔥👑", "🚘 Dhanushkodi Adventures Await", "🏚️ Ghost Town & Beach – Stroll through the mystical ruins of Dhanushkodi 🏖️👻", "🚂 Old Railway Station – A hauntingly beautiful glimpse into the past ⏳", "🕍 Kothanda Ramar Temple – Where Rama crowned Vibhishana as Lanka’s king 👑🛕", "🌉 Ram Setu Viewpoint – Marvel at the legendary floating bridge to Lanka 🏗️🌊", "🌅 Dhanushkodi Lighthouse – Climb for jaw-dropping panoramic ocean views 🗺️💙", "🌙 Overnight Stay – Relax, recharge & relive the day’s magic at the hotel 🛏️🌌"]},
-            {day: "Day 2", title: "Thanjavur Royal Heritage & Return", activities: ["🔥🗓️ Day 2: Spiritual Farewell & Royal Encounters", "🌅 Rise early & relish a hearty breakfas🍛", "🏡 Check-out with a heart full of memories 💙", "🚗 Off to Thanjavur!", "🍲 Local Lunch – Indulge in authentic flavors 🍛", "🏰 Thanjavur Maratha Palace – Step into royal grandeur & Maratha history 👑🏰", "🛕 Brihadeeswara Temple – Behold the splendor of this UNESCO marvel 🌍✨", "🌇 Sunset Soak – Witness the majestic temple glow as the sun dips below the horizon 🌞🏯", "📚 Saraswathi Mahal Library – Flip through ancient manuscripts in Asia’s oldest library 📖", "🎨 Thanjavur Art Gallery – Admire Chola bronzes & rich artworks 🎭🖼️", "⛪ Schwartz Church – Visit this historical Maratha-era church ⛪", "🚐 Return Journey – Embark on an overnight ride back to Bangalore with a heart full of epic stories & memories 🌌💙", "✨ A perfect fusion of spirituality, adventure & heritage – this road trip promises to leave you awe-inspired! 🚀🌊🏰💛"]},
-        ],
-        includes: [" 🏡 Accommodation – Comfortable shared rooms for a cozy stay.", "🍽️ 2 Breakfasts – Kickstart your mornings with delicious meals.", " 🚐 Travel in Comfort –  Tempo Traveler / Mini-bus with push-back seats (based on group size) for a hassle-free ride (Bangalore to Bangalore).", "🚖 Tamil Nadu State Tax – ₹4,000 per Tempo Traveler covered.", "🎟️ Entry Charges – All applicable entry fees included.", " 🗺️ Local Guide & Outdoor Leader – Knowledgeable experts from Team Weekend Trekkers to enhance your experience.", "🌟 Unforgettable Experiences – Priceless moments, amazing stories, and lifelong memories!"],
-        excludes: ["🚣‍♂️ Activities – Charges not included.", "🍽️ Meals not mentioned – Any additional meals apart from breakfast.", "💸 Personal Expenses – Shopping, tips, and other personal costs.", "🛡️ Insurance – No coverage for health, medical, life, or accidental insurance.", "⚠️ Anything not mentioned above – Additional expenses beyond the listed inclusions."],
-        thingsToCarry: [],
-        boardingLocations: [
-            {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:50PM - 8:55 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
-            {name: "Koramangala", landmark: "Forum Mall Bus Stop", time: "9:20 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/gFyRSrbDEwKtDTEm6"},
-            {name: "Silk Board", landmark: "Silk Board Junction", time: "9:50 PM - 10:00 PM", mapLink: "https://maps.app.goo.gl/98A2pJN5ojN4MFpn8?g_st=ac"},
-            {name: "Electronic City", landmark: "Electronic city Toll gate - Bus Boarding", time: "10:20 PM - 10:35 PM", mapLink: "https://maps.app.goo.gl/kuWaGU5Ag7QCtBLM9"},
-        ],
-        galleryImages: ["images/gallery/rameshwaram-dhanushkodi/img_1767723242011.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723245384.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723247913.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723252112.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723259245.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723262866.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723266548.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723268499.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723271878.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723274641.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723278121.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723280681.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723283648.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723286673.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723289999.jpg"],
-        groupSize: "12-25 members",
         isActive: true,
     },
     "rameshwaram-dhanushkodi": {
@@ -88,7 +55,6 @@ const tripsData = {
         ],
         includes: [" 🏡 Accommodation – Comfortable shared rooms for a cozy stay.", "🍽️ 2 Breakfasts – Kickstart your mornings with delicious meals.", " 🚐 Travel in Comfort –  Tempo Traveler / Mini-bus with push-back seats (based on group size) for a hassle-free ride (Bangalore to Bangalore).", "🚖 Tamil Nadu State Tax – ₹4,000 per Tempo Traveler covered.", "🎟️ Entry Charges – All applicable entry fees included.", " 🗺️ Local Guide & Outdoor Leader – Knowledgeable experts from Team Weekend Trekkers to enhance your experience.", "🌟 Unforgettable Experiences – Priceless moments, amazing stories, and lifelong memories!"],
         excludes: ["🚣‍♂️ Activities – Charges not included.", "🍽️ Meals not mentioned – Any additional meals apart from breakfast.", "💸 Personal Expenses – Shopping, tips, and other personal costs.", "🛡️ Insurance – No coverage for health, medical, life, or accidental insurance.", "⚠️ Anything not mentioned above – Additional expenses beyond the listed inclusions."],
-        thingsToCarry: [],
         boardingLocations: [
             {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:50PM - 8:55 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
             {name: "Koramangala", landmark: "Forum Mall Bus Stop", time: "9:20 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/gFyRSrbDEwKtDTEm6"},
@@ -104,7 +70,7 @@ const tripsData = {
         location: "Alleppey, Kerala",
         badge: "Backwaters",
         price: "₹9,877",
-        image: "images/trips/kerala_1769108570496.jpg",
+        image: "images/trips/kerala.jpg",
         distance: "560 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
@@ -121,7 +87,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
         excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
@@ -150,7 +115,6 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Periyar boat safari ticket", "Spice plantation entry", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Paragliding & adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance", "Anything not mentioned"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -178,7 +142,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts and lunches", "Toy train tickets", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees to gardens", "Boating charges", "Personal expenses", "Dinner"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -209,7 +172,6 @@ const tripsData = {
         ],
         includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
         excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -237,7 +199,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
-        thingsToCarry: [],
         boardingLocations: [
             {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:45 PM - 10:00 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
             {name: "Koramangala", landmark: "Kota Kochari, Opp Forum Mall", time: "9:00 PM - 10:30 PM", mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"},
@@ -269,7 +230,6 @@ const tripsData = {
         ],
         includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
         excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -297,7 +257,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night riverside camp", "All meals", "Rafting, Kayaking, Coracle", "Jungle safari", "Bonfire and BBQ", "All safety equipment"],
         excludes: ["Personal expenses", "Travel insurance", "Additional activities", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -325,7 +284,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night accommodation", "Breakfasts and lunches", "Coracle ride", "Local guide", "All sightseeing"],
         excludes: ["Entry fees to monuments", "Dinner", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -352,7 +310,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts", "Boating tickets", "All sightseeing", "Tour guide"],
         excludes: ["Lunches and dinners", "Entry fees", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -378,7 +335,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast", "Entry tickets", "Tour guide"],
         excludes: ["Lunch", "Paragliding/Cycling charges", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -406,7 +362,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night beach camping", "All meals", "Beach trek guide", "Camping gear", "Bonfire"],
         excludes: ["Water sports", "Personal expenses", "Temple donations", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -434,7 +389,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -462,7 +416,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night hotel stay", "All meals", "Kolukkumalai jeep", "All sightseeing", "National park entry"],
         excludes: ["Personal expenses", "Boating charges", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -490,7 +443,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
         excludes: ["Temple donations", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -518,7 +470,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -546,7 +497,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "All meals", "Scuba diving with equipment", "PADI certified instructor", "Boat ride to island", "Temple visit"],
         excludes: ["Underwater photos/videos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -574,7 +524,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfast", "Paradise Beach boat ride", "Auroville entry", "Local guide"],
         excludes: ["Meals not mentioned", "Shopping", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -602,7 +551,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -631,7 +579,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "2 Nights hotel stay", "All meals", "Temple guide", "All sightseeing", "Dhanushkodi jeep"],
         excludes: ["Temple donations", "Special pooja charges", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -660,43 +607,10 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night houseboat (AC)", "1 Night hotel stay", "All meals", "All sightseeing", "Tour guide"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
-    },
-    "rameshwaram-dhanushkodi": {
-        title: "Rameshwaram-Dhanushkodi-Thanjavur",
-        location: "Tamil Nadu",
-        badge: "Heritage",
-        price: "₹5,999",
-        image: "images/trips/rameshwaram-dhanushkodi.jpg",
-        distance: "550 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Oct - Mar",
-        duration: "2D/1N",
-        availableDates: ["Jan 2-4, 2026", "Jan 9-11, 2026", "Jan 16-18, 2026", "Jan 23-25, 2026", "Jan 30-Feb 1, 2026"],
-        about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
-        highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "8:55 PM - Koramangala Spiritual vibes, coastal adventures & royal heritage – all packed into one unforgettable getaway! 🛕🌊🏰", "🚀 Day 0: Let the Journey Begin!", "🌙 9:00 PM – Buckle up for an exhilarating overnight road trip from Bangalore 🚐💨", "💤 Cozy up & drift into dreams as tomorrow's adventure calls! ✨🌌"]},
-            {day: "Day 1", title: "Rameshwaram & Dhanushkodi Coastal Magic", activities: ["🌞 Day 1: Dive into Rameshwaram’s Coastal Magic", "🏝️ Morning vibes – Wake up to salty breezes as we arrive in Rameshwaram 🌊☀️", "🏡 Check-in to a comfy homestay & refresh 🛏️🛁", "🍳 Feast on a delicious Tamil Nadu-style breakfast to kickstart the day 😋🍽️", "🌟 Must-Visit Marvels 🌟", "🌉 Pamban Bridge – Soak in epic ocean views from this iconic engineering masterpiece 🌊🚂", "🛕 Ramanathaswamy Temple – Step into one of the sacred 12 Jyotirlingas 🙏", "✨ Wander the world’s longest corridor (1,220 m with 1,212 ornate pillars!) 🏛️", "🕉️ Feel the powerful aura where Lord Rama worshipped Lord Shiva post his Lanka victory 🔥👑", "🚘 Dhanushkodi Adventures Await", "🏚️ Ghost Town & Beach – Stroll through the mystical ruins of Dhanushkodi 🏖️👻", "🚂 Old Railway Station – A hauntingly beautiful glimpse into the past ⏳", "🕍 Kothanda Ramar Temple – Where Rama crowned Vibhishana as Lanka’s king 👑🛕", "🌉 Ram Setu Viewpoint – Marvel at the legendary floating bridge to Lanka 🏗️🌊", "🌅 Dhanushkodi Lighthouse – Climb for jaw-dropping panoramic ocean views 🗺️💙", "🌙 Overnight Stay – Relax, recharge & relive the day’s magic at the hotel 🛏️🌌"]},
-            {day: "Day 2", title: "Thanjavur Royal Heritage & Return", activities: ["🔥🗓️ Day 2: Spiritual Farewell & Royal Encounters", "🌅 Rise early & relish a hearty breakfas🍛", "🏡 Check-out with a heart full of memories 💙", "🚗 Off to Thanjavur!", "🍲 Local Lunch – Indulge in authentic flavors 🍛", "🏰 Thanjavur Maratha Palace – Step into royal grandeur & Maratha history 👑🏰", "🛕 Brihadeeswara Temple – Behold the splendor of this UNESCO marvel 🌍✨", "🌇 Sunset Soak – Witness the majestic temple glow as the sun dips below the horizon 🌞🏯", "📚 Saraswathi Mahal Library – Flip through ancient manuscripts in Asia’s oldest library 📖", "🎨 Thanjavur Art Gallery – Admire Chola bronzes & rich artworks 🎭🖼️", "⛪ Schwartz Church – Visit this historical Maratha-era church ⛪", "🚐 Return Journey – Embark on an overnight ride back to Bangalore with a heart full of epic stories & memories 🌌💙", "✨ A perfect fusion of spirituality, adventure & heritage – this road trip promises to leave you awe-inspired! 🚀🌊🏰💛"]},
-        ],
-        includes: [" 🏡 Accommodation – Comfortable shared rooms for a cozy stay.", "🍽️ 2 Breakfasts – Kickstart your mornings with delicious meals.", " 🚐 Travel in Comfort –  Tempo Traveler / Mini-bus with push-back seats (based on group size) for a hassle-free ride (Bangalore to Bangalore).", "🚖 Tamil Nadu State Tax – ₹4,000 per Tempo Traveler covered.", "🎟️ Entry Charges – All applicable entry fees included.", " 🗺️ Local Guide & Outdoor Leader – Knowledgeable experts from Team Weekend Trekkers to enhance your experience.", "🌟 Unforgettable Experiences – Priceless moments, amazing stories, and lifelong memories!"],
-        excludes: ["🚣‍♂️ Activities – Charges not included.", "🍽️ Meals not mentioned – Any additional meals apart from breakfast.", "💸 Personal Expenses – Shopping, tips, and other personal costs.", "🛡️ Insurance – No coverage for health, medical, life, or accidental insurance.", "⚠️ Anything not mentioned above – Additional expenses beyond the listed inclusions."],
-        thingsToCarry: [],
-        boardingLocations: [
-            {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:50PM - 8:55 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
-            {name: "Koramangala", landmark: "Forum Mall Bus Stop", time: "9:20 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/gFyRSrbDEwKtDTEm6"},
-            {name: "Silk Board", landmark: "Silk Board Junction", time: "9:50 PM - 10:00 PM", mapLink: "https://maps.app.goo.gl/98A2pJN5ojN4MFpn8?g_st=ac"},
-            {name: "Electronic City", landmark: "Electronic city Toll gate - Bus Boarding", time: "10:20 PM - 10:35 PM", mapLink: "https://maps.app.goo.gl/kuWaGU5Ag7QCtBLM9"},
-        ],
-        galleryImages: ["images/gallery/rameshwaram-dhanushkodi/img_1767723242011.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723245384.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723247913.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723252112.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723259245.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723262866.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723266548.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723268499.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723271878.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723274641.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723278121.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723280681.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723283648.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723286673.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723289999.jpg"],
-        groupSize: "12-25 members",
         isActive: true,
     },
     "goa-waterfalls": {
@@ -720,7 +634,6 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Trek guide", "Spice plantation entry", "All sightseeing"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -749,7 +662,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights stay (camp + hotel)", "All meals", "Rafting & Kayaking", "Scuba diving with equipment", "Jungle safari", "All activities"],
         excludes: ["Underwater photos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -775,7 +687,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast and lunch", "Scuba diving with equipment", "PADI instructor", "Boat ride", "Temple visit"],
         excludes: ["Underwater photos/videos", "Personal expenses", "Dinner", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -804,7 +715,6 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights resort stay", "All meals", "Chembra trek permit", "Wildlife safari", "All sightseeing", "Bonfire"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -833,7 +743,6 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Kerala & TN State Tax", "Toll, parking & entry charges", "Shikara boat ride", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Water/adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance (medical/accidental/life)", "Anything not mentioned"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -861,7 +770,6 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation", "2 Breakfasts", "Kerala State Tax", "Kayaking activity", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
-        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: ["images/gallery/kannur-theyyam/img_1769058552320.jpg", "images/gallery/kannur-theyyam/img_1769058554371.jpg", "images/gallery/kannur-theyyam/img_1769058558645.jpg", "images/gallery/kannur-theyyam/img_1769058560888.jpg", "images/gallery/kannur-theyyam/img_1769058563106.jpg", "images/gallery/kannur-theyyam/img_1769058564943.jpg", "images/gallery/kannur-theyyam/img_1769058571700.jpg", "images/gallery/kannur-theyyam/img_1769058576005.jpg", "images/gallery/kannur-theyyam/img_1769058579360.jpg", "images/gallery/kannur-theyyam/img_1769058664165.png", "images/gallery/kannur-theyyam/img_1769058667305.jpg", "images/gallery/kannur-theyyam/img_1769058669703.jpg"],
