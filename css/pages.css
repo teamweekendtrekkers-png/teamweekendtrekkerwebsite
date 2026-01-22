@@ -658,6 +658,55 @@
     border-radius: 20px;
 }
 
+/* Lightbox Loader */
+.lightbox-loader {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10;
+}
+
+.lightbox-loader.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.lightbox-loader .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #10b981;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.lightbox-loader span {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.lightbox-content img.loading {
+    opacity: 0.3;
+    filter: blur(2px);
+    transition: opacity 0.3s, filter 0.3s;
+}
+
+.lightbox-content img:not(.loading) {
+    opacity: 1;
+    filter: none;
+    transition: opacity 0.3s, filter 0.3s;
+}
+
 /* ===== Perfect For / Suitable For Section ===== */
 .suitable-for-grid {
     display: flex;
