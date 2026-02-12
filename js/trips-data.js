@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-13 01:48
+// Last updated: 2026-02-13 01:51
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -158,7 +158,7 @@ const tripsData = {
         location: "Himachal Pradesh",
         badge: "Expedition",
         price: "₹18,999",
-        image: "images/trips/spiti.jpg",
+        image: "images/trips/spiti_1770927697765.jpg",
         distance: "2,100 km from Bangalore",
         elevation: "4,500 m",
         difficulty: "Challenging",
