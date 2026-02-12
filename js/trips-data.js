@@ -726,7 +726,7 @@ const tripsData = {
         location: "Kerala",
         badge: "Christmas Special",
         price: "₹9,999",
-        image: "images/trips/kerala.jpg",
+        image: "images/trips/kerala_1769108570496.jpg",
         distance: "560 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
