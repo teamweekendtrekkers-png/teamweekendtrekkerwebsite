@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-12 21:13
+// Last updated: 2026-02-12 21:14
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -691,7 +691,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "wayanad-3-days": {
         title: "Wayanad 3 Days Trip",
