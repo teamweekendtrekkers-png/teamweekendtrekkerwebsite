@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-06 17:01
+// Last updated: 2026-02-12 20:58
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -45,7 +45,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Mar",
         duration: "2D/1N",
-        availableDates: ["Jan 30-Feb 1, 2026", "Feb 6-8, 2026", "Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
+        availableDates: ["Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
         about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
         highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
