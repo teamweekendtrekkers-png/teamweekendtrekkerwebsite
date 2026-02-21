@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 17:08
+// Last updated: 2026-02-21 17:50
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -38,66 +38,6 @@ const tripsData = {
         ],
         galleryImages: ["images/gallery/rameshwaram-dhanushkodi/img_1767723242011.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723245384.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723247913.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723252112.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723259245.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723262866.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723266548.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723268499.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723271878.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723274641.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723278121.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723280681.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723283648.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723286673.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723289999.jpg"],
         groupSize: "12-25 members",
-        isActive: true,
-    },
-    kerala: {
-        title: "Kerala Backwaters Trip",
-        location: "Alleppey, Kerala",
-        badge: "Backwaters",
-        featured: false,
-        price: "₹9,877",
-        image: "images/trips/kerala.jpg",
-        distance: "560 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Sep - Mar",
-        duration: "3D/2N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
-        about: "Experience God's Own Country with this immersive Kerala trip covering Alleppey backwaters, Varkala beach, and the majestic Athirappilly Falls. Cruise through serene backwaters on a traditional houseboat and witness Kerala's natural beauty.\n\nFrom the pristine beaches of Varkala to the thundering Athirappilly waterfalls (India's Niagara), this trip offers the perfect blend of relaxation and adventure!",
-        highlights: ["Alleppey houseboat cruise", "Varkala cliff beach", "Athirappilly Falls - Bahubali shooting location", "Traditional Kerala cuisine", "Sunset at Varkala beach", "Backwater village experience"],
-        itinerary: [
-            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction", "9:00 PM - Overnight journey to Alleppey"]},
-            {day: "Day 1", title: "Alleppey Houseboat Experience", activities: ["9:00 AM - Arrive in Alleppey", "10:00 AM - Freshen up, breakfast", "12:00 PM - Board houseboat", "1:00 PM - Kerala lunch on houseboat", "2:00 PM - Cruise through backwaters", "5:00 PM - Evening tea and snacks", "7:00 PM - Sunset on backwaters", "8:00 PM - Dinner and overnight on houseboat"]},
-            {day: "Day 2", title: "Varkala Beach Day", activities: ["7:00 AM - Wake up to backwater views", "8:00 AM - Breakfast and disembark", "10:00 AM - Drive to Varkala", "12:00 PM - Arrive at Varkala cliff", "1:00 PM - Lunch at beach shack", "3:00 PM - Beach time and swimming", "6:00 PM - Sunset at Varkala cliff", "8:00 PM - Dinner, overnight stay"]},
-            {day: "Day 3", title: "Athirappilly Falls & Return", activities: ["6:00 AM - Early breakfast", "7:00 AM - Depart for Athirappilly", "11:00 AM - Arrive at Athirappilly Falls", "1:00 PM - Lunch near falls", "2:00 PM - Depart for Bangalore", "10:00 PM - Arrive in Bangalore"]},
-        ],
-        includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
-        excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
-        groupSize: "",
-        isActive: true,
-    },
-    "vagamon-thekkady": {
-        title: "Vagamon & Thekkady - Kerala Bliss Trip",
-        location: "Kerala",
-        badge: "Hill Station",
-        featured: false,
-        price: "₹7,999",
-        image: "images/trips/vagamon-thekkady_1770927466114.jpg",
-        distance: "480 km from Bangalore",
-        elevation: "1,100 m",
-        difficulty: "Easy",
-        bestTime: "Sep - May",
-        duration: "3D/2N",
-        availableDates: ["Jan 10-13, 2026", "Jan 17-20, 2026", "Jan 24-27, 2026", "Jan 31-Feb 3, 2026", "Feb 7-10, 2026"],
-        about: "Escape to the Scotland of Asia - Vagamon! This offbeat Kerala gem offers rolling meadows, pine forests, and pristine lakes. Combined with the wildlife-rich Thekkady and its famous Periyar Tiger Reserve, this trip is pure bliss for nature lovers.\n\nFrom paragliding over misty hills to spotting elephants on a boat safari, experience Kerala's highlands like never before!",
-        highlights: ["Vagamon Meadows - Rolling green hills", "Pine Valley & Kurisumala", "Thekkady Periyar Lake boat safari", "Spice plantation tour", "Paragliding in Vagamon (optional)", "Elephant Junction visit", "Chain Tree & Suicide Point", "Traditional Kerala cuisine"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure from Bangalore", activities: ["8:30 PM - Pickup from Majestic Metro Station", "9:00 PM - Koramangala pickup (Kota Kochari)", "9:30 PM - Silk Board pickup", "10:00 PM - Electronic City pickup", "Trip briefing & introductions", "Overnight journey to Vagamon"]},
-            {day: "Day 1", title: "Vagamon - Meadows & Mountains", activities: ["Morning - Arrive in Vagamon", "Check-in to resort & freshen up", "Traditional Kerala breakfast", "Vagamon Meadows - Rolling green hills", "Pine Valley walk", "Kurisumala - Cross on hilltop", "Lunch at local restaurant", "Chain Tree & Suicide Point", "Thangalpara - Scenic viewpoint", "Optional: Paragliding (extra cost)", "Sunset at Vagamon Lake", "Dinner and overnight stay"]},
-            {day: "Day 2", title: "Thekkady - Wildlife & Spices", activities: ["Early breakfast", "Drive to Thekkady (2 hours)", "Periyar Tiger Reserve boat safari", "Spot elephants, bison & birds", "Lunch at Thekkady", "Spice plantation guided tour", "Coffee, cardamom, pepper & more", "Elephant Junction visit (optional)", "Local market exploration", "Dinner and overnight in Thekkady"]},
-            {day: "Day 3", title: "Nature Walk & Return", activities: ["Early morning nature walk (optional)", "Breakfast", "Departure for Bangalore", "Scenic drive through Ghats", "7:00 AM next day - Arrive in Bangalore"]},
-        ],
-        includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Periyar boat safari ticket", "Spice plantation entry", "Local guide & outdoor leader", "First aid kit"],
-        excludes: ["Paragliding & adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance", "Anything not mentioned"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "12-20 members",
         isActive: true,
     },
     ooty: {
