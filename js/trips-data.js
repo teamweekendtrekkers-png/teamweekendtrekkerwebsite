@@ -750,7 +750,7 @@ const tripsData = {
         badge: "Eid Special",
         featured: true,
         price: "₹9,999",
-        image: "images/trips/kerala_1769108570496.jpg",
+        image: "images/trips/varkala-kochi-christmas_1771675162168.png",
         distance: "560 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
