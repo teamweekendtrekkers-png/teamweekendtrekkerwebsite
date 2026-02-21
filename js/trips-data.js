@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-19 15:07
+// Last updated: 2026-02-21 15:44
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -11,6 +11,7 @@ const tripsData = {
         title: "Gokarna New Year Party",
         location: "Gokarna, Karnataka",
         badge: "New Year Special",
+        featured: true,
         price: "₹5,400",
         image: "images/trips/gokarna-new-year-party.jpg",
         distance: "480 km from Bangalore",
@@ -28,6 +29,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -38,6 +40,7 @@ const tripsData = {
         title: "Rameshwaram-Dhanushkodi-Thanjavur",
         location: "Tamil Nadu",
         badge: "Heritage",
+        featured: true,
         price: "₹5,999",
         image: "images/trips/rameshwaram-dhanushkodi_1769026188265.jpg",
         distance: "550 km from Bangalore",
@@ -55,6 +58,7 @@ const tripsData = {
         ],
         includes: [" 🏡 Accommodation – Comfortable shared rooms for a cozy stay.", "🍽️ 2 Breakfasts – Kickstart your mornings with delicious meals.", " 🚐 Travel in Comfort –  Tempo Traveler / Mini-bus with push-back seats (based on group size) for a hassle-free ride (Bangalore to Bangalore).", "🚖 Tamil Nadu State Tax – ₹4,000 per Tempo Traveler covered.", "🎟️ Entry Charges – All applicable entry fees included.", " 🗺️ Local Guide & Outdoor Leader – Knowledgeable experts from Team Weekend Trekkers to enhance your experience.", "🌟 Unforgettable Experiences – Priceless moments, amazing stories, and lifelong memories!"],
         excludes: ["🚣‍♂️ Activities – Charges not included.", "🍽️ Meals not mentioned – Any additional meals apart from breakfast.", "💸 Personal Expenses – Shopping, tips, and other personal costs.", "🛡️ Insurance – No coverage for health, medical, life, or accidental insurance.", "⚠️ Anything not mentioned above – Additional expenses beyond the listed inclusions."],
+        thingsToCarry: [],
         boardingLocations: [
             {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:50PM - 8:55 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
             {name: "Koramangala", landmark: "Forum Mall Bus Stop", time: "9:20 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/gFyRSrbDEwKtDTEm6"},
@@ -69,6 +73,7 @@ const tripsData = {
         title: "Kerala Backwaters Trip",
         location: "Alleppey, Kerala",
         badge: "Backwaters",
+        featured: false,
         price: "₹9,877",
         image: "images/trips/kerala.jpg",
         distance: "560 km from Bangalore",
@@ -87,6 +92,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transportation", "1 Night houseboat stay (AC)", "1 Night hotel/resort stay", "All meals during trip", "All sightseeing", "Tour lead"],
         excludes: ["Water sports (optional)", "Personal expenses", "Entry fees", "Travel insurance"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: ["images/gallery/kerala/img_1767555789387.jpg"],
@@ -97,6 +103,7 @@ const tripsData = {
         title: "Vagamon & Thekkady - Kerala Bliss Trip",
         location: "Kerala",
         badge: "Hill Station",
+        featured: false,
         price: "₹7,999",
         image: "images/trips/vagamon-thekkady_1770927466114.jpg",
         distance: "480 km from Bangalore",
@@ -115,6 +122,7 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Periyar boat safari ticket", "Spice plantation entry", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Paragliding & adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance", "Anything not mentioned"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -125,6 +133,7 @@ const tripsData = {
         title: "Ooty & Coonoor Trip",
         location: "Nilgiris, Tamil Nadu",
         badge: "Hill Station",
+        featured: false,
         price: "₹4,499",
         image: "images/trips/ooty.jpg",
         distance: "280 km from Bangalore",
@@ -142,6 +151,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts and lunches", "Toy train tickets", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees to gardens", "Boating charges", "Personal expenses", "Dinner"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -152,6 +162,7 @@ const tripsData = {
         title: "Spiti Valley Expedition",
         location: "Himachal Pradesh",
         badge: "Expedition",
+        featured: false,
         price: "₹18,999",
         image: "images/trips/spiti_1770927697765.jpg",
         distance: "2,100 km from Bangalore",
@@ -172,6 +183,7 @@ const tripsData = {
         ],
         includes: ["Flights (Bangalore-Delhi-Bangalore)", "All road transportation", "7 Nights accommodation", "All meals during trip", "Camping equipment", "Inner line permits", "Experienced expedition leader"],
         excludes: ["Personal expenses", "Travel insurance (mandatory)", "Tips and gratuities", "Anything not mentioned"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -182,6 +194,7 @@ const tripsData = {
         title: "Kudremukh Trek",
         location: "Western Ghats, Karnataka",
         badge: "Trek",
+        featured: false,
         price: "₹3,999",
         image: "images/trips/kudremukh.jpg",
         distance: "18 km trek",
@@ -199,6 +212,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Forest permits", "All meals (2B + 2L + 1D)", "Camping gear", "Trek lead and support", "First aid kit"],
         excludes: ["Personal trekking gear", "Travel insurance", "Personal expenses", "Camera fees"],
+        thingsToCarry: [],
         boardingLocations: [
             {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:45 PM - 10:00 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
             {name: "Koramangala", landmark: "Kota Kochari, Opp Forum Mall", time: "9:00 PM - 10:30 PM", mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"},
@@ -213,6 +227,7 @@ const tripsData = {
         title: "Goa Beach Backpacking",
         location: "North Goa",
         badge: "Backpacking",
+        featured: false,
         price: "₹5,477",
         image: "images/trips/goa.jpg",
         distance: "560 km from Bangalore",
@@ -230,6 +245,7 @@ const tripsData = {
         ],
         includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
         excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -240,6 +256,7 @@ const tripsData = {
         title: "Dandeli River Adventure",
         location: "Dandeli, Karnataka",
         badge: "Adventure",
+        featured: false,
         price: "₹6,997",
         image: "images/trips/dandeli.jpg",
         distance: "480 km from Bangalore",
@@ -257,6 +274,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night riverside camp", "All meals", "Rafting, Kayaking, Coracle", "Jungle safari", "Bonfire and BBQ", "All safety equipment"],
         excludes: ["Personal expenses", "Travel insurance", "Additional activities", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -267,6 +285,7 @@ const tripsData = {
         title: "Hampi - Anjanadri Hills",
         location: "Hampi, Karnataka",
         badge: "Heritage",
+        featured: false,
         price: "₹4,477",
         image: "images/trips/hampi.jpg",
         distance: "350 km from Bangalore",
@@ -284,6 +303,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night accommodation", "Breakfasts and lunches", "Coracle ride", "Local guide", "All sightseeing"],
         excludes: ["Entry fees to monuments", "Dinner", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -294,6 +314,7 @@ const tripsData = {
         title: "Yercaud Hill Station",
         location: "Salem, Tamil Nadu",
         badge: "Road Trip",
+        featured: false,
         price: "₹4,999",
         image: "images/trips/yercaud.jpg",
         distance: "220 km from Bangalore",
@@ -310,6 +331,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfasts", "Boating tickets", "All sightseeing", "Tour guide"],
         excludes: ["Lunches and dinners", "Entry fees", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -320,6 +342,7 @@ const tripsData = {
         title: "Nandi Hills Sunrise",
         location: "Bangalore Rural",
         badge: "Day Trip",
+        featured: true,
         price: "₹1,499",
         image: "images/trips/nandi-hills.jpg",
         distance: "60 km from Bangalore",
@@ -335,6 +358,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast", "Entry tickets", "Tour guide"],
         excludes: ["Lunch", "Paragliding/Cycling charges", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -345,6 +369,7 @@ const tripsData = {
         title: "Gokarna Beach Trek",
         location: "Gokarna, Karnataka",
         badge: "Beach Trek",
+        featured: false,
         price: "₹4,777",
         image: "images/trips/gokarna.jpg",
         distance: "480 km from Bangalore",
@@ -362,6 +387,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night beach camping", "All meals", "Beach trek guide", "Camping gear", "Bonfire"],
         excludes: ["Water sports", "Personal expenses", "Temple donations", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -372,6 +398,7 @@ const tripsData = {
         title: "Wayanad 2 Days Trip",
         location: "Wayanad, Kerala",
         badge: "Hill Station",
+        featured: false,
         price: "₹4,877",
         image: "images/trips/wayanad.jpg",
         distance: "280 km from Bangalore",
@@ -389,6 +416,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -399,6 +427,7 @@ const tripsData = {
         title: "Munnar with Kolukkumalai Sunrise",
         location: "Munnar, Kerala",
         badge: "Hill Station",
+        featured: false,
         price: "₹6,277",
         image: "images/trips/munnar.jpg",
         distance: "480 km from Bangalore",
@@ -416,6 +445,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night hotel stay", "All meals", "Kolukkumalai jeep", "All sightseeing", "National park entry"],
         excludes: ["Personal expenses", "Boating charges", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -426,6 +456,7 @@ const tripsData = {
         title: "Kannur Theyyam Tour",
         location: "Kannur, Kerala",
         badge: "Cultural",
+        featured: false,
         price: "₹5,977",
         image: "images/trips/theyyam.jpg",
         distance: "340 km from Bangalore",
@@ -443,6 +474,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
         excludes: ["Temple donations", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -453,6 +485,7 @@ const tripsData = {
         title: "Gokarna New Year Party",
         location: "Gokarna, Karnataka",
         badge: "New Year Special",
+        featured: true,
         price: "₹5,400",
         image: "images/trips/gokarna-new-year-party.jpg",
         distance: "480 km from Bangalore",
@@ -470,6 +503,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -480,6 +514,7 @@ const tripsData = {
         title: "Netrani Island Scuba Diving",
         location: "Murudeshwar, Karnataka",
         badge: "Adventure",
+        featured: false,
         price: "₹7,477",
         image: "images/trips/netrani-island-scuba.jpg",
         distance: "490 km from Bangalore",
@@ -497,6 +532,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "All meals", "Scuba diving with equipment", "PADI certified instructor", "Boat ride to island", "Temple visit"],
         excludes: ["Underwater photos/videos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -507,6 +543,7 @@ const tripsData = {
         title: "Pondicherry Trip",
         location: "Puducherry",
         badge: "Beach/Cultural",
+        featured: false,
         price: "₹4,977",
         image: "images/trips/pondicherry.jpg",
         distance: "310 km from Bangalore",
@@ -524,6 +561,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "1 Night hotel stay", "Breakfast", "Paradise Beach boat ride", "Auroville entry", "Local guide"],
         excludes: ["Meals not mentioned", "Shopping", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -534,6 +572,7 @@ const tripsData = {
         title: "Wayanad Private Pool Party",
         location: "Wayanad, Kerala",
         badge: "Adventure",
+        featured: false,
         price: "₹6,477",
         image: "images/trips/wayanad-pool-party.jpg",
         distance: "280 km from Bangalore",
@@ -551,6 +590,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
         excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -561,6 +601,7 @@ const tripsData = {
         title: "Madurai-Rameswaram-Thanjavur",
         location: "Tamil Nadu",
         badge: "Heritage",
+        featured: false,
         price: "₹8,977",
         image: "images/trips/madurai-rameswaram.jpg",
         distance: "600 km from Bangalore",
@@ -579,6 +620,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "2 Nights hotel stay", "All meals", "Temple guide", "All sightseeing", "Dhanushkodi jeep"],
         excludes: ["Temple donations", "Special pooja charges", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -589,6 +631,7 @@ const tripsData = {
         title: "Alleppey-Varkala-Athirappilly Falls",
         location: "Kerala",
         badge: "Road Trip",
+        featured: false,
         price: "₹9,877",
         image: "images/trips/alleppey-varkala.jpg",
         distance: "560 km from Bangalore",
@@ -607,6 +650,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night houseboat (AC)", "1 Night hotel stay", "All meals", "All sightseeing", "Tour guide"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -617,6 +661,7 @@ const tripsData = {
         title: "Goa & Karnataka Waterfalls Trek",
         location: "Goa & Karnataka",
         badge: "Adventure",
+        featured: false,
         price: "₹5,477",
         image: "images/trips/goa-waterfalls.jpg",
         distance: "560 km from Bangalore",
@@ -634,6 +679,7 @@ const tripsData = {
         ],
         includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Trek guide", "Spice plantation entry", "All sightseeing"],
         excludes: ["Water sports", "Personal expenses", "Entry fees", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -644,6 +690,7 @@ const tripsData = {
         title: "Dandeli & Netrani Scuba Diving",
         location: "Dandeli & Murudeshwar",
         badge: "Adventure",
+        featured: false,
         price: "₹7,497",
         image: "images/trips/dandeli-netrani-scuba.jpg",
         distance: "490 km from Bangalore",
@@ -662,6 +709,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights stay (camp + hotel)", "All meals", "Rafting & Kayaking", "Scuba diving with equipment", "Jungle safari", "All activities"],
         excludes: ["Underwater photos (₹500 extra)", "Personal expenses", "Travel insurance", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -672,6 +720,7 @@ const tripsData = {
         title: "1 Day Scuba Diving Trip",
         location: "Murudeshwar, Karnataka",
         badge: "Day Trip",
+        featured: false,
         price: "₹3,177",
         image: "images/trips/scuba-day-trip.jpg",
         distance: "490 km from Bangalore",
@@ -687,6 +736,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "Breakfast and lunch", "Scuba diving with equipment", "PADI instructor", "Boat ride", "Temple visit"],
         excludes: ["Underwater photos/videos", "Personal expenses", "Dinner", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -697,6 +747,7 @@ const tripsData = {
         title: "Wayanad 3 Days Trip",
         location: "Wayanad, Kerala",
         badge: "Hill Station",
+        featured: false,
         price: "₹6,977",
         image: "images/trips/wayanad-3-days.jpg",
         distance: "280 km from Bangalore",
@@ -715,6 +766,7 @@ const tripsData = {
         ],
         includes: ["AC transportation", "2 Nights resort stay", "All meals", "Chembra trek permit", "Wildlife safari", "All sightseeing", "Bonfire"],
         excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -725,6 +777,7 @@ const tripsData = {
         title: "Varkala, Kochi & Alleppey - Christmas Special",
         location: "Kerala",
         badge: "Christmas Special",
+        featured: true,
         price: "₹9,999",
         image: "images/trips/kerala_1769108570496.jpg",
         distance: "560 km from Bangalore",
@@ -743,6 +796,7 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "2 Nights accommodation", "3 Breakfasts", "Kerala & TN State Tax", "Toll, parking & entry charges", "Shikara boat ride", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Water/adventure activities", "Meals other than breakfast", "Personal expenses", "Insurance (medical/accidental/life)", "Anything not mentioned"],
+        thingsToCarry: [],
         boardingLocations: [
         ],
         galleryImages: [],
@@ -753,6 +807,7 @@ const tripsData = {
         title: "Kannur-Thalassery Theyyam Tour",
         location: "Kannur, Kerala",
         badge: "Cultural",
+        featured: true,
         price: "₹5899",
         image: "images/trips/theyyam.jpg",
         distance: "350 km from Bangalore",
@@ -770,6 +825,7 @@ const tripsData = {
         ],
         includes: ["Tempo Traveler/Mini-bus (push-back seats)", "1 Night accommodation", "2 Breakfasts", "Kerala State Tax", "Kayaking activity", "Local guide & outdoor leader", "First aid kit"],
         excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
+        thingsToCarry: [],
         boardingLocations: [
             {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:30 PM - 10:00 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
             {name: "Satelite Bus Stand ", landmark: "Adyar Ananda BhavanOld Mysore Road Satellite Bus Stand.", time: "10:30 PM - 10:40 PM", mapLink: "https://maps.app.goo.gl/PwvmhPGenVMhGMqh8"},
@@ -785,9 +841,9 @@ const tripsData = {
 // ============================================
 // GET TRIP DATA FUNCTION
 // ============================================
-// Returns trip data by ID, defaults to 'netravati' if not found
+// Returns trip data by ID, defaults to first trip if not found
 function getTripData(tripId) {
-    return tripsData[tripId] || tripsData['netravati'];
+    return tripsData[tripId] || tripsData[Object.keys(tripsData)[0]];
 }
 
 // ============================================
