@@ -2,40 +2,11 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 15:44
+// Last updated: 2026-02-21 15:55
 // Updated via Trip Manager Mobile App
 // ============================================
 
 const tripsData = {
-    "gokarna-new-year-party": {
-        title: "Gokarna New Year Party",
-        location: "Gokarna, Karnataka",
-        badge: "New Year Special",
-        featured: true,
-        price: "₹5,400",
-        image: "images/trips/gokarna-new-year-party.jpg",
-        distance: "480 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Dec - Jan",
-        duration: "3D/2N",
-        availableDates: ["Dec 30-Jan 01, 2025-26"],
-        about: "Ring in 2026 on a private beach in Gokarna! This exclusive New Year celebration combines pristine beaches, bonfire parties, live DJ, and the magic of counting down to midnight under the stars.\n\nEscape the crowded city celebrations and welcome the new year with sand between your toes, waves crashing nearby, and fellow travelers who share your spirit of adventure!",
-        highlights: ["Private beach New Year party", "Bonfire and DJ night", "Midnight countdown on beach", "Beach camping experience", "Multiple beach visits", "Fireworks celebration"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure (Dec 30)", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Trip introduction and New Year excitement", "9:00 PM - Overnight journey to Gokarna"]},
-            {day: "Day 1", title: "Beach Exploration (Dec 31)", activities: ["6:00 AM - Arrive in Gokarna", "7:00 AM - Check-in to beach camp, freshen up", "8:00 AM - Breakfast", "10:00 AM - Beach hopping: Kudle, Om Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Half Moon & Paradise Beach trek", "6:00 PM - Return to camp, freshen up", "8:00 PM - New Year Eve party begins", "9:00 PM - Bonfire, DJ, dance", "11:00 PM - Beach games and countdown prep", "12:00 AM - HAPPY NEW YEAR! Fireworks & celebration"]},
-            {day: "Day 2", title: "New Year Day & Return (Jan 1)", activities: ["8:00 AM - Late breakfast (recovery time!)", "10:00 AM - Mahabaleshwar Temple visit", "11:30 AM - Gokarna Beach", "1:00 PM - New Year lunch", "2:00 PM - Departure for Bangalore", "10:00 PM - Arrive in Bangalore with amazing memories"]},
-        ],
-        includes: ["AC Sleeper transport", "Beach camp accommodation", "All meals", "New Year party with DJ", "Bonfire arrangements", "Beach trek guide"],
-        excludes: ["Alcoholic beverages", "Personal expenses", "Water sports", "Tips"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "",
-        isActive: false,
-    },
     "rameshwaram-dhanushkodi": {
         title: "Rameshwaram-Dhanushkodi-Thanjavur",
         location: "Tamil Nadu",
