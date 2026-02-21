@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 18:05
+// Last updated: 2026-02-21 22:06
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -67,7 +67,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
-        isActive: true,
+        isActive: false,
     },
     spiti: {
         title: "Spiti Valley Expedition",
