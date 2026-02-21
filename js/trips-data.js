@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 17:02
+// Last updated: 2026-02-21 17:08
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -227,7 +227,7 @@ const tripsData = {
         title: "Dandeli River Adventure",
         location: "Dandeli, Karnataka",
         badge: "Adventure",
-        featured: false,
+        featured: true,
         price: "₹6,997",
         image: "images/trips/dandeli.jpg",
         distance: "480 km from Bangalore",
