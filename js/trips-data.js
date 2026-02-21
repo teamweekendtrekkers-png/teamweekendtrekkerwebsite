@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 16:04
+// Last updated: 2026-02-21 16:07
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -285,7 +285,7 @@ const tripsData = {
         title: "Yercaud Hill Station",
         location: "Salem, Tamil Nadu",
         badge: "Road Trip",
-        featured: true,
+        featured: false,
         price: "₹4,999",
         image: "images/trips/yercaud.jpg",
         distance: "220 km from Bangalore",
@@ -307,7 +307,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
