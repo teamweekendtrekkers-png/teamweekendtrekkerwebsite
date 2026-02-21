@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 16:19
+// Last updated: 2026-02-21 16:24
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -747,7 +747,7 @@ const tripsData = {
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Christmas Special",
         location: "Kerala",
-        badge: "Christmas Special",
+        badge: "Eid Special",
         featured: true,
         price: "₹9,999",
         image: "images/trips/kerala_1769108570496.jpg",
