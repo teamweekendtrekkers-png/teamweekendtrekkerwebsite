@@ -6,12 +6,11 @@
 // in the "Upcoming Adventures" section.
 // 
 // Edit using Trip Manager → ⭐ Featured Trips
-// Last updated: 2026-02-21 16:04
+// Last updated: 2026-02-21 16:07
 // ============================================
 
 const featuredTripIds = [
     "rameshwaram-dhanushkodi",
-    "yercaud",
     "nandi-hills",
     "gokarna-new-year-party",
     "varkala-kochi-christmas",
