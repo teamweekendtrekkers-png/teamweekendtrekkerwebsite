@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 18:00
+// Last updated: 2026-02-21 18:05
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -696,7 +696,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Dec - Mar",
         duration: "3D/2N",
-        availableDates: ["Dec 24-28, 2025", "Jan 8-12, 2026", "Jan 22-26, 2026", "Feb 5-9, 2026"],
+        availableDates: ["Feb 5-9, 2026", "Mar 19-23, 2026"],
         about: "12 strangers. 1 epic escape. Find freedom on Kerala's coast! From the historic charm of Fort Kochi to the peaceful Alleppey backwaters and boho soul of Varkala, this journey is all about new bonds, coastal chill, and unforgettable memories.\n\nExplore Chinese Fishing Nets, cruise through serene backwaters on a shikara, café-hop on Varkala Cliff, and witness the mighty Jatayu Earth Center - the world's largest bird sculpture!",
         highlights: ["Fort Kochi & Chinese Fishing Nets", "Jew Town & Dutch Palace", "Kashi Art Café", "Alleppey Shikara Boat Ride", "Varkala Cliff & Cafés", "Black Sand Beach sunset", "Kayaking through backwaters", "Jatayu Earth Center"],
         itinerary: [
