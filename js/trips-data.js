@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 16:55
+// Last updated: 2026-02-21 17:01
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -104,7 +104,7 @@ const tripsData = {
         title: "Ooty & Coonoor Trip",
         location: "Nilgiris, Tamil Nadu",
         badge: "Hill Station",
-        featured: true,
+        featured: false,
         price: "₹4,499",
         image: "images/trips/ooty.jpg",
         distance: "280 km from Bangalore",
