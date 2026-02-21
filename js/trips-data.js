@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 15:55
+// Last updated: 2026-02-21 16:01
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -307,7 +307,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
