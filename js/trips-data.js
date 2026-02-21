@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 17:01
+// Last updated: 2026-02-21 17:02
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -456,7 +456,7 @@ const tripsData = {
         title: "Gokarna New Year Party",
         location: "Gokarna, Karnataka",
         badge: "New Year Special",
-        featured: true,
+        featured: false,
         price: "₹5,400",
         image: "images/trips/gokarna-new-year-party.jpg",
         distance: "480 km from Bangalore",
@@ -479,7 +479,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "netrani-island-scuba": {
         title: "Netrani Island Scuba Diving",
