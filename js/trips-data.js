@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 16:24
+// Last updated: 2026-02-21 16:35
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -377,7 +377,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - May",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Jan 30-31,2026"],
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 21-22, 2026", "Jan 30-31,2026"],
         about: "Explore the green paradise of Wayanad in Kerala! This hill district offers ancient caves, stunning waterfalls, wildlife sanctuaries, and spice plantations. Perfect for nature lovers and adventure seekers alike.\n\nFrom the historic Edakkal Caves to the misty Chembra Peak, Wayanad offers diverse experiences in a compact destination!",
         highlights: ["Edakkal Caves prehistoric art", "Soochipara Waterfalls", "Wayanad Wildlife Sanctuary", "Banasura Sagar Dam", "Spice plantation visit", "Chembra Peak heart-shaped lake"],
         itinerary: [
