@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 16:07
+// Last updated: 2026-02-21 16:19
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -313,7 +313,7 @@ const tripsData = {
         title: "Nandi Hills Sunrise",
         location: "Bangalore Rural",
         badge: "Day Trip",
-        featured: true,
+        featured: false,
         price: "₹1,499",
         image: "images/trips/nandi-hills.jpg",
         distance: "60 km from Bangalore",
