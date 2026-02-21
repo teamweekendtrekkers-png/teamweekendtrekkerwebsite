@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 17:50
+// Last updated: 2026-02-21 18:00
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -710,7 +710,7 @@ const tripsData = {
         thingsToCarry: [],
         boardingLocations: [
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/varkala-kochi-christmas/img_1771676978497.png", "images/gallery/varkala-kochi-christmas/img_1771676983655.png", "images/gallery/varkala-kochi-christmas/img_1771676987323.png", "images/gallery/varkala-kochi-christmas/img_1771676990840.png", "images/gallery/varkala-kochi-christmas/img_1771676994367.png", "images/gallery/varkala-kochi-christmas/img_1771676997560.png", "images/gallery/varkala-kochi-christmas/img_1771677002985.png", "images/gallery/varkala-kochi-christmas/img_1771677006734.png", "images/gallery/varkala-kochi-christmas/img_1771677010842.png", "images/gallery/varkala-kochi-christmas/img_1771677014893.png", "images/gallery/varkala-kochi-christmas/img_1771677018324.png", "images/gallery/varkala-kochi-christmas/img_1771677021452.png", "images/gallery/varkala-kochi-christmas/img_1771677024669.png"],
         groupSize: "12 members",
         isActive: true,
     },
