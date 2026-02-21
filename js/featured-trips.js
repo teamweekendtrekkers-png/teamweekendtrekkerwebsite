@@ -6,11 +6,12 @@
 // in the "Upcoming Adventures" section.
 // 
 // Edit using Trip Manager → ⭐ Featured Trips
-// Last updated: 2026-02-21 17:02
+// Last updated: 2026-02-21 17:08
 // ============================================
 
 const featuredTripIds = [
     "rameshwaram-dhanushkodi",
+    "dandeli",
     "varkala-kochi-christmas",
     "kannur-theyyam",
 ];
