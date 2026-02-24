@@ -13,7 +13,7 @@ const tripsData = {
         badge: "Heritage",
         featured: true,
         price: "₹5,999",
-        image: "images/trips/rameshwaram-dhanushkodi_1769026188265.jpg",
+        image: "images/trips/rameshwaram-dhanushkodi_1771970617638.jpg",
         distance: "550 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
