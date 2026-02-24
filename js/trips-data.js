@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-02-21 22:06
+// Last updated: 2026-02-24 12:23
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -99,7 +99,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     kudremukh: {
         title: "Kudremukh Trek",
