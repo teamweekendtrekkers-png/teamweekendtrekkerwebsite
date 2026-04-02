@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-03-05 00:33
+// Last updated: 2026-04-02 16:39
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -12,7 +12,7 @@ const tripsData = {
         location: "Tamil Nadu",
         badge: "Heritage",
         featured: true,
-        price: "₹5,999",
+        price: "₹5,990",
         image: "images/trips/rameshwaram-dhanushkodi_1771970617638.jpg",
         distance: "550 km from Bangalore",
         elevation: "Sea level",
@@ -106,7 +106,7 @@ const tripsData = {
         location: "Western Ghats, Karnataka",
         badge: "Trek",
         featured: false,
-        price: "₹3,999",
+        price: "₹3,990",
         image: "images/trips/kudremukh.jpg",
         distance: "18 km trek",
         elevation: "1,894 m",
