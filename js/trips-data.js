@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-04-21 01:49
+// Last updated: 2026-04-21 01:55
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -100,35 +100,6 @@ const tripsData = {
         galleryImages: [],
         groupSize: "",
         isActive: false,
-    },
-    goa: {
-        title: "Goa Beach Backpacking",
-        location: "North Goa",
-        badge: "Backpacking",
-        featured: false,
-        price: "₹5,477",
-        image: "images/trips/goa.jpg",
-        distance: "560 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Oct - Mar",
-        duration: "2D/2N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
-        about: "Experience Goa like a true backpacker! This trip covers the best of North Goa - pristine beaches, vibrant nightlife, historic forts, and delicious seafood. Perfect for those looking to explore Goa beyond the usual tourist spots.\n\nFrom the hippie vibes of Anjuna to the Portuguese charm of Old Goa, experience the diverse flavors of India's party capital!",
-        highlights: ["Calangute & Baga Beach", "Anjuna Flea Market", "Fort Aguada sunset", "Old Goa churches", "Nightlife experience", "Water sports (optional)"],
-        itinerary: [
-            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Introduction", "9:00 PM - Overnight journey to Goa"]},
-            {day: "Day 1", title: "North Goa Exploration", activities: ["8:00 AM - Arrive in Goa", "9:00 AM - Check-in, freshen up", "10:30 AM - Calangute Beach", "1:00 PM - Seafood lunch", "3:00 PM - Fort Aguada", "5:00 PM - Candolim Beach", "7:00 PM - Baga Beach sunset", "9:00 PM - Dinner and nightlife"]},
-            {day: "Day 2", title: "Old Goa & More Beaches", activities: ["8:00 AM - Breakfast", "9:30 AM - Old Goa churches", "11:00 AM - Anjuna Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Vagator Beach & Chapora Fort", "6:00 PM - Sunset point", "8:00 PM - Return journey", "6:00 AM - Arrive Bangalore (next day)"]},
-        ],
-        includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
-        excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "",
-        isActive: true,
     },
     dandeli: {
         title: "Dandeli River Adventure",
@@ -745,6 +716,35 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
+        isActive: true,
+    },
+    goa: {
+        title: "Goa Beach Backpacking",
+        location: "North Goa",
+        badge: "Backpacking",
+        featured: false,
+        price: "₹5,477",
+        image: "images/trips/goa.jpg",
+        distance: "560 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Oct - Mar",
+        duration: "2D/2N",
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        about: "Experience Goa like a true backpacker! This trip covers the best of North Goa - pristine beaches, vibrant nightlife, historic forts, and delicious seafood. Perfect for those looking to explore Goa beyond the usual tourist spots.\n\nFrom the hippie vibes of Anjuna to the Portuguese charm of Old Goa, experience the diverse flavors of India's party capital!",
+        highlights: ["Calangute & Baga Beach", "Anjuna Flea Market", "Fort Aguada sunset", "Old Goa churches", "Nightlife experience", "Water sports (optional)"],
+        itinerary: [
+            {day: "Day 0", title: "Departure from Bangalore", activities: ["8:00 PM - Pickup from Bangalore", "8:30 PM - Introduction", "9:00 PM - Overnight journey to Goa"]},
+            {day: "Day 1", title: "North Goa Exploration", activities: ["8:00 AM - Arrive in Goa", "9:00 AM - Check-in, freshen up", "10:30 AM - Calangute Beach", "1:00 PM - Seafood lunch", "3:00 PM - Fort Aguada", "5:00 PM - Candolim Beach", "7:00 PM - Baga Beach sunset", "9:00 PM - Dinner and nightlife"]},
+            {day: "Day 2", title: "Old Goa & More Beaches", activities: ["8:00 AM - Breakfast", "9:30 AM - Old Goa churches", "11:00 AM - Anjuna Beach", "1:00 PM - Lunch at beach shack", "3:00 PM - Vagator Beach & Chapora Fort", "6:00 PM - Sunset point", "8:00 PM - Return journey", "6:00 AM - Arrive Bangalore (next day)"]},
+        ],
+        includes: ["Sleeper bus transport", "1 Night accommodation", "Breakfast", "All sightseeing transport", "Tour coordinator"],
+        excludes: ["Meals (except breakfast)", "Water sports", "Entry fees", "Personal expenses", "Nightclub entry"],
+        thingsToCarry: [],
+        boardingLocations: [
+        ],
+        galleryImages: [],
+        groupSize: "",
         isActive: true,
     },
 };
