@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-04-21 00:32
+// Last updated: 2026-04-21 01:47
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -390,7 +390,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
