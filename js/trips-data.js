@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-04-21 01:55
+// Last updated: 2026-04-28 12:12
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -664,7 +664,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Nov - Apr",
         duration: "2D/1N",
-        availableDates: ["Feb 13-15, 2026", "Feb 20-22, 2026", "Feb 27- Mar1, 2026"],
+        availableDates: ["Apr 24-26, 2026", "May 1-3, 2026", "May 8-9, 2026"],
         about: "Experience the raw power of Theyyam - Kerala's ancient fire ritual! This offbeat cultural tour takes you through Kannur and Thalassery, where fire, dance, devotion, and divine blessings create a once-in-a-lifetime spectacle.\n\nFrom temple trails and lighthouse climbs to kayaking through mangroves and witnessing the sacred Theyyam ceremony - this is Kerala beyond the backwaters!",
         highlights: ["Theyyam Night Ceremony - Fire ritual", "Sunrise Theyyam experience", "St. Angelo Fort & Kannur Lighthouse", "Payyambalam Beach sunset", "Thalassery Fort & Graffiti Street", "Folk Art Museum", "Backwater kayaking & mangroves", "Mahe Beach sunset"],
         itinerary: [
