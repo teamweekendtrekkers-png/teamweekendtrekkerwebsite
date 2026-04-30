@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-04-28 13:06
+// Last updated: 2026-04-30 12:40
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -270,7 +270,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
@@ -299,7 +299,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     theyyam: {
         title: "Kannur Theyyam Tour",
@@ -444,7 +444,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
@@ -504,7 +504,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
@@ -533,7 +533,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "dandeli-netrani-scuba": {
         title: "Dandeli & Netrani Scuba Diving",
@@ -563,7 +563,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "scuba-day-trip": {
         title: "1 Day Scuba Diving Trip",
@@ -620,7 +620,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Labour Day special ",
@@ -716,7 +716,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "12-20 members",
-        isActive: true,
+        isActive: false,
     },
     goa: {
         title: "Goa Beach Backpacking",
@@ -745,7 +745,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
+        isActive: false,
     },
 };
 
