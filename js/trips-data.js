@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-04-30 12:40
+// Last updated: 2026-05-08 13:05
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -623,9 +623,9 @@ const tripsData = {
         isActive: false,
     },
     "varkala-kochi-christmas": {
-        title: "Varkala, Kochi & Alleppey - Labour Day special ",
+        title: "Varkala, Kochi & Alleppey - Long Weekend Special ",
         location: "Kerala",
-        badge: "Eid Special",
+        badge: "Long Weekend Special ",
         featured: true,
         price: "₹9,999",
         image: "images/trips/varkala-kochi-christmas_1771675162168.png",
@@ -634,7 +634,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Dec - June",
         duration: "3D/2N",
-        availableDates: ["May1-4, 2026"],
+        availableDates: ["June 25-28, 2026"],
         about: "12 strangers. 1 epic escape. Find freedom on Kerala's coast! From the historic charm of Fort Kochi to the peaceful Alleppey backwaters and boho soul of Varkala, this journey is all about new bonds, coastal chill, and unforgettable memories.\n\nExplore Chinese Fishing Nets, cruise through serene backwaters on a shikara, café-hop on Varkala Cliff, and witness the mighty Jatayu Earth Center - the world's largest bird sculpture!",
         highlights: ["Fort Kochi & Chinese Fishing Nets", "Jew Town & Dutch Palace", "Kashi Art Café", "Alleppey Shikara Boat Ride", "Varkala Cliff & Cafés", "Black Sand Beach sunset", "Kayaking through backwaters", "Jatayu Earth Center"],
         itinerary: [
