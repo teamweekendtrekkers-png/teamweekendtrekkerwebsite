@@ -115,7 +115,9 @@
         const grid = document.getElementById('tripsDynamicGrid');
         if (!grid) return;
         let html = '';
-        Object.entries(tripsData).forEach(([id, trip]) => {
+        const tripScore = t => (t.featured === true && t.isActive !== false) ? 2 : (t.isActive !== false ? 1 : 0);
+        const sortedEntries = Object.entries(tripsData).sort(([, a], [, b]) => tripScore(b) - tripScore(a));
+        sortedEntries.forEach(([id, trip]) => {
             const category = getTripCategory(id, trip);
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';

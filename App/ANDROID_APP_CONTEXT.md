@@ -29,6 +29,21 @@
 - **Sort Options:** Price (Low-High, High-Low), Popularity, Date
 - **Trip Cards:** Image, Title, Price, Duration, Difficulty badge, Rating
 - **Inactive Trip Handling:** Use `isActive` flag to grey out unavailable trips
+- **Featured-First Ordering:** Sort trips so `featured = true` trips appear at top, inactive trips at bottom
+
+#### Featured-First Sort Order
+Trips must be displayed in this priority order:
+1. **Featured active** — `featured == true && isActive == true` (shown first)
+2. **Non-featured active** — `featured == false && isActive == true`
+3. **Inactive** — `isActive == false` (shown last with "Coming Soon" overlay)
+
+```kotlin
+// Sort trips: featured active → active → inactive
+val sortedTrips = trips.sortedWith(
+    compareByDescending<Trip> { it.featured && it.isActive }
+    .thenByDescending { it.isActive }
+)
+```
 
 #### Grey Out Inactive Trips Implementation
 ```kotlin
@@ -175,7 +190,8 @@ data class Trip(
     val faqs: List<FAQ>,
     val rating: Float,
     val reviewCount: Int,
-    val isActive: Boolean
+    val isActive: Boolean,
+    val featured: Boolean = false
 )
 
 data class ItineraryDay(

@@ -9,6 +9,7 @@
 const tripsData = {
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
+        featured: false,
         location: "Gokarna, Karnataka",
         badge: "New Year Special",
         price: "₹5,400",
@@ -36,6 +37,7 @@ const tripsData = {
     },
     "rameshwaram-dhanushkodi": {
         title: "Rameshwaram-Dhanushkodi-Thanjavur",
+        featured: true,
         location: "Tamil Nadu",
         badge: "Heritage",
         price: "₹5,999",
@@ -67,6 +69,7 @@ const tripsData = {
     },
     kerala: {
         title: "Kerala Backwaters Trip",
+        featured: false,
         location: "Alleppey, Kerala",
         badge: "Backwaters",
         price: "₹9,877",
@@ -95,6 +98,7 @@ const tripsData = {
     },
     "vagamon-thekkady": {
         title: "Vagamon & Thekkady - Kerala Bliss Trip",
+        featured: false,
         location: "Kerala",
         badge: "Hill Station",
         price: "₹7,999",
@@ -123,6 +127,7 @@ const tripsData = {
     },
     ooty: {
         title: "Ooty & Coonoor Trip",
+        featured: false,
         location: "Nilgiris, Tamil Nadu",
         badge: "Hill Station",
         price: "₹4,499",
@@ -150,6 +155,7 @@ const tripsData = {
     },
     spiti: {
         title: "Spiti Valley Expedition",
+        featured: false,
         location: "Himachal Pradesh",
         badge: "Expedition",
         price: "₹18,999",
@@ -180,6 +186,7 @@ const tripsData = {
     },
     kudremukh: {
         title: "Kudremukh Trek",
+        featured: false,
         location: "Western Ghats, Karnataka",
         badge: "Trek",
         price: "₹3,999",
@@ -211,6 +218,7 @@ const tripsData = {
     },
     goa: {
         title: "Goa Beach Backpacking",
+        featured: false,
         location: "North Goa",
         badge: "Backpacking",
         price: "₹5,477",
@@ -238,6 +246,7 @@ const tripsData = {
     },
     dandeli: {
         title: "Dandeli River Adventure",
+        featured: true,
         location: "Dandeli, Karnataka",
         badge: "Adventure",
         price: "₹6,997",
@@ -265,6 +274,7 @@ const tripsData = {
     },
     hampi: {
         title: "Hampi - Anjanadri Hills",
+        featured: false,
         location: "Hampi, Karnataka",
         badge: "Heritage",
         price: "₹4,477",
@@ -292,6 +302,7 @@ const tripsData = {
     },
     yercaud: {
         title: "Yercaud Hill Station",
+        featured: false,
         location: "Salem, Tamil Nadu",
         badge: "Road Trip",
         price: "₹4,999",
@@ -318,6 +329,7 @@ const tripsData = {
     },
     "nandi-hills": {
         title: "Nandi Hills Sunrise",
+        featured: false,
         location: "Bangalore Rural",
         badge: "Day Trip",
         price: "₹1,499",
@@ -343,6 +355,7 @@ const tripsData = {
     },
     gokarna: {
         title: "Gokarna Beach Trek",
+        featured: false,
         location: "Gokarna, Karnataka",
         badge: "Beach Trek",
         price: "₹4,777",
@@ -370,6 +383,7 @@ const tripsData = {
     },
     wayanad: {
         title: "Wayanad 2 Days Trip",
+        featured: false,
         location: "Wayanad, Kerala",
         badge: "Hill Station",
         price: "₹4,877",
@@ -397,6 +411,7 @@ const tripsData = {
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
+        featured: false,
         location: "Munnar, Kerala",
         badge: "Hill Station",
         price: "₹6,277",
@@ -424,6 +439,7 @@ const tripsData = {
     },
     theyyam: {
         title: "Kannur Theyyam Tour",
+        featured: false,
         location: "Kannur, Kerala",
         badge: "Cultural",
         price: "₹5,977",
@@ -451,6 +467,7 @@ const tripsData = {
     },
     "gokarna-new-year-party": {
         title: "Gokarna New Year Party",
+        featured: false,
         location: "Gokarna, Karnataka",
         badge: "New Year Special",
         price: "₹5,400",
@@ -478,6 +495,7 @@ const tripsData = {
     },
     "netrani-island-scuba": {
         title: "Netrani Island Scuba Diving",
+        featured: false,
         location: "Murudeshwar, Karnataka",
         badge: "Adventure",
         price: "₹7,477",
@@ -505,6 +523,7 @@ const tripsData = {
     },
     pondicherry: {
         title: "Pondicherry Trip",
+        featured: false,
         location: "Puducherry",
         badge: "Beach/Cultural",
         price: "₹4,977",
@@ -532,6 +551,7 @@ const tripsData = {
     },
     "wayanad-pool-party": {
         title: "Wayanad Private Pool Party",
+        featured: false,
         location: "Wayanad, Kerala",
         badge: "Adventure",
         price: "₹6,477",
@@ -559,6 +579,7 @@ const tripsData = {
     },
     "madurai-rameswaram": {
         title: "Madurai-Rameswaram-Thanjavur",
+        featured: false,
         location: "Tamil Nadu",
         badge: "Heritage",
         price: "₹8,977",
@@ -587,6 +608,7 @@ const tripsData = {
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
+        featured: false,
         location: "Kerala",
         badge: "Road Trip",
         price: "₹9,877",
@@ -615,6 +637,7 @@ const tripsData = {
     },
     "goa-waterfalls": {
         title: "Goa & Karnataka Waterfalls Trek",
+        featured: false,
         location: "Goa & Karnataka",
         badge: "Adventure",
         price: "₹5,477",
@@ -642,6 +665,7 @@ const tripsData = {
     },
     "dandeli-netrani-scuba": {
         title: "Dandeli & Netrani Scuba Diving",
+        featured: false,
         location: "Dandeli & Murudeshwar",
         badge: "Adventure",
         price: "₹7,497",
@@ -670,6 +694,7 @@ const tripsData = {
     },
     "scuba-day-trip": {
         title: "1 Day Scuba Diving Trip",
+        featured: false,
         location: "Murudeshwar, Karnataka",
         badge: "Day Trip",
         price: "₹3,177",
@@ -695,6 +720,7 @@ const tripsData = {
     },
     "wayanad-3-days": {
         title: "Wayanad 3 Days Trip",
+        featured: false,
         location: "Wayanad, Kerala",
         badge: "Hill Station",
         price: "₹6,977",
@@ -723,6 +749,7 @@ const tripsData = {
     },
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Christmas Special",
+        featured: true,
         location: "Kerala",
         badge: "Christmas Special",
         price: "₹9,999",
@@ -751,6 +778,7 @@ const tripsData = {
     },
     "kannur-theyyam": {
         title: "Kannur-Thalassery Theyyam Tour",
+        featured: true,
         location: "Kannur, Kerala",
         badge: "Cultural",
         price: "₹5899",
