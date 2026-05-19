@@ -259,3 +259,49 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== Mobile Floating Book Now Button ===== */
+/* Hidden on desktop; shown only on mobile/tablet via JS .visible class */
+.mobile-book-float {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .mobile-book-float {
+        display: block;
+        position: fixed;
+        bottom: 90px; /* sits above the WhatsApp float button */
+        left: 20px;
+        z-index: 998;
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-book-float.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .mobile-book-float a {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--secondary, #e67e22);
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 16px rgba(230, 126, 34, 0.5);
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .mobile-book-float a:hover,
+    .mobile-book-float a:active {
+        background: #d35400;
+    }
+}

@@ -339,7 +339,7 @@
 
                 <!-- Sidebar -->
                 <div class="trip-sidebar">
-                    <div class="booking-card">
+                    <div class="booking-card" id="bookingCard">
                         <h3>Book This Trip</h3>
                         <div class="price-display">
                             <span class="original-price" id="originalPrice">₹4,499</span>
@@ -442,6 +442,14 @@
         <i class="fab fa-whatsapp"></i>
         <span>Chat with us</span>
     </a>
+
+    <!-- Mobile floating Book Now button (mobile only, hidden on desktop) -->
+    <div id="mobileBookBtn" class="mobile-book-float">
+        <a href="#bookingCard" onclick="scrollToBooking(event)">
+            <span id="floatPrice"></span>
+            <span class="float-cta">Book Now &nbsp;<i class="fas fa-arrow-right"></i></span>
+        </a>
+    </div>
 
     <script src="js/main.js"></script>
     <script src="js/trips-data.js?v=1767556524"></script>
@@ -752,6 +760,9 @@
             document.getElementById('originalPrice').textContent = '₹' + originalPrice.toLocaleString('en-IN');
             document.getElementById('currentPrice').textContent = trip.price;
             document.getElementById('discountBadge').textContent = discount + '% OFF';
+            // Mirror price into mobile float button
+            const floatPrice = document.getElementById('floatPrice');
+            if (floatPrice) floatPrice.textContent = trip.price + ' ·';
             document.getElementById('totalAmount').textContent = trip.price;
             // Store price for calculations
             window.tripPrice = priceNum;
@@ -875,6 +886,28 @@
         });
 
         document.addEventListener('DOMContentLoaded', updateTripPage);
+
+        function scrollToBooking(e) {
+            e.preventDefault();
+            const card = document.getElementById('bookingCard');
+            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Show float btn on mobile after scrolling past hero; hide when booking card is visible
+        (function () {
+            var hero = document.getElementById('tripHeroGallery');
+            var btn  = document.getElementById('mobileBookBtn');
+            var card = document.getElementById('bookingCard');
+            if (!btn) return;
+            window.addEventListener('scroll', function () {
+                if (window.innerWidth > 1024) { btn.classList.remove('visible'); return; }
+                var heroBottom  = hero ? hero.getBoundingClientRect().bottom : 0;
+                var cardTop     = card ? card.getBoundingClientRect().top    : Infinity;
+                var pastHero    = heroBottom < 0;
+                var cardVisible = cardTop < window.innerHeight * 0.85;
+                btn.classList.toggle('visible', pastHero && !cardVisible);
+            }, { passive: true });
+        })();
     </script>
     <script src="js/security.js"></script>
 </body>
