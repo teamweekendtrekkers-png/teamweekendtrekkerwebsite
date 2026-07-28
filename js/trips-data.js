@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-29 00:27
+// Last updated: 2026-07-29 00:34
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -366,19 +366,19 @@ const tripsData = {
         isActive: false,
     },
     wayanad: {
-        title: "Wayanad 2 Days Trip",
-        location: "Wayanad, Kerala",
+        title: "Offbeat Sakleshpur,Madikeri & Doddhabetta Trek",
+        location: "Madikeri, Kerala",
         badge: "Hill Station",
         featured: false,
-        price: "₹4,877",
+        price: "₹4,299",
         image: "images/trips/wayanad_1785264689988.jpg",
         distance: "280 km from Bangalore",
         elevation: "700-2,100 m",
         difficulty: "Easy",
         bestTime: "Oct - May",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 21-22, 2026", "Jan 30-31,2026"],
-        about: "Explore the green paradise of Wayanad in Kerala! This hill district offers ancient caves, stunning waterfalls, wildlife sanctuaries, and spice plantations. Perfect for nature lovers and adventure seekers alike.\n\nFrom the historic Edakkal Caves to the misty Chembra Peak, Wayanad offers diverse experiences in a compact destination!",
+        availableDates: ["Aug 1-2, 2026", "Aug 8-9, 2026", "Aug 15-16, 2026", "Aug 22-23, 2026", "Aug 29-30, 2026"],
+        about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
         highlights: ["Edakkal Caves prehistoric art", "Soochipara Waterfalls", "Wayanad Wildlife Sanctuary", "Banasura Sagar Dam", "Spice plantation visit", "Chembra Peak heart-shaped lake"],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
