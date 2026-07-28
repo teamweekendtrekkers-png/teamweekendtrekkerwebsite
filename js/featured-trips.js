@@ -6,7 +6,7 @@
 // in the "Upcoming Adventures" section.
 // 
 // Edit using Trip Manager → ⭐ Featured Trips
-// Last updated: 2026-05-21 00:48
+// Last updated: 2026-07-29 00:27
 // ============================================
 
 const featuredTripIds = [
