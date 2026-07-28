@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-29 00:34
+// Last updated: 2026-07-29 00:40
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -369,7 +369,7 @@ const tripsData = {
         title: "Offbeat Sakleshpur,Madikeri & Doddhabetta Trek",
         location: "Madikeri, Kerala",
         badge: "Hill Station",
-        featured: false,
+        featured: true,
         price: "₹4,299",
         image: "images/trips/wayanad_1785264689988.jpg",
         distance: "280 km from Bangalore",
@@ -379,7 +379,7 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Aug 1-2, 2026", "Aug 8-9, 2026", "Aug 15-16, 2026", "Aug 22-23, 2026", "Aug 29-30, 2026"],
         about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
-        highlights: ["Edakkal Caves prehistoric art", "Soochipara Waterfalls", "Wayanad Wildlife Sanctuary", "Banasura Sagar Dam", "Spice plantation visit", "Chembra Peak heart-shaped lake"],
+        highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
         itinerary: [
             {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
             {day: "Day 1", title: "Wayanad Exploration", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Freshen up, breakfast", "8:00 AM - Edakkal Caves trek", "11:00 AM - Soochipara Waterfalls", "1:00 PM - Kerala lunch", "2:30 PM - Banasura Sagar Dam", "4:30 PM - Spice plantation tour", "6:00 PM - Check-in to resort", "8:00 PM - Dinner"]},
@@ -392,7 +392,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: false,
+        isActive: true,
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
