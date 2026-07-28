@@ -371,7 +371,7 @@ const tripsData = {
         badge: "Hill Station",
         featured: false,
         price: "₹4,877",
-        image: "images/trips/wayanad.jpg",
+        image: "images/trips/wayanad_1785264601535.jpg",
         distance: "280 km from Bangalore",
         elevation: "700-2,100 m",
         difficulty: "Easy",
