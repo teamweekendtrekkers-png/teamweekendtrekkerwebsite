@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-29 00:40
+// Last updated: 2026-07-29 00:58
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -12,14 +12,14 @@ const tripsData = {
         location: "Tamil Nadu",
         badge: "Heritage",
         featured: true,
-        price: "₹5,990",
+        price: "₹5,999",
         image: "images/trips/rameshwaram-dhanushkodi_1771970617638.jpg",
         distance: "550 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
-        bestTime: "Oct - Mar",
+        bestTime: "July - Mar",
         duration: "2D/1N",
-        availableDates: ["June 26-28, 2026", "July 3-5, 2026", "July 10-12, 2026", "July 17-19, 2026", "July 24-26, 2026", "July 31- Aug 2, 2026"],
+        availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
         about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
         highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
@@ -40,6 +40,35 @@ const tripsData = {
         groupSize: "12-25 members",
         isActive: true,
     },
+    wayanad: {
+        title: "Offbeat Sakleshpur,Madikeri & Doddhabetta Trek",
+        location: "Madikeri, Kerala",
+        badge: "Trekking ",
+        featured: true,
+        price: "₹4,299",
+        image: "images/trips/wayanad_1785264689988.jpg",
+        distance: "280 km from Bangalore",
+        elevation: "700-2,100 m",
+        difficulty: "Easy",
+        bestTime: "July - Jan",
+        duration: "2D/1N",
+        availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
+        about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
+        highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
+        itinerary: [
+            {day: "🌙 DAY 0", title: "Friday Night Departure", activities: ["The adventure begins as we leave Bangalore behind and head toward the misty hills of Coorg. 🚐✨", "Enjoy late-night chai breaks ☕, music 🎶, fun conversations & road-trip vibes while the city lights slowly make way for the peaceful Western Ghats. 🌿ey"]},
+            {day: "🌿 DAY 1 ", title: " Trek, Waterfalls & Campfire", activities: ["Wake up to the fresh mountain air of Coorg. ☀️", "🏡 Check into the homestay, freshen up & enjoy a delicious breakfast before starting the day's adventure. 🍳", "🥾 *DODDABETTA TREK*", "Walk through dense forests, coffee plantations, rolling hills & scenic mountain trails before reaching breathtaking viewpoints overlooking Coorg. *(Approx. 5.5 km each way)* 🌿☁️", "🍱 Enjoy a packed lunch amidst nature.", "🛕 Visit the peaceful *Shiva Temple* and soak in the serene surroundings. 🙏✨", "💦 *HIDDEN WATERFALLS*", "Cool off with a refreshing dip in crystal-clear mountain waters surrounded by untouched greenery — one of the most beautiful hidden gems of the trip. 💚✨", "🏡 Return to the homestay by evening.", "🍽️ Relish a delicious dinner before gathering around the campfire for music, games, stories & unforgettable moments beneath the stars. 🔥✨"]},
+            {day: "🌄 DAY 2 ", title: "Waterfalls, Jeep Ride & Heritage Trail", activities: ["🌅 Wake up to the refreshing mountain breeze.", "🍳 Enjoy breakfast and check out.", "💦 Visit Mallalli Waterfalls", "Witness one of Karnataka's most spectacular waterfalls surrounded by lush forests and mist-covered cliffs.", "🚙 Patla Betta Off-Road Jeep Ride", "Experience an adrenaline-filled jeep ride through rugged mountain trails leading to stunning viewpoints.", "🍛 Lunch en route (Self-sponsored).", "🏰 Visit Manjarabad Fort", "Explore the famous star-shaped fort in Sakleshpur and enjoy panoramic views of the Western Ghats.", "🏛️ Visit the magnificent Belur Temple, renowned for its stunning Hoysala architecture.", "OR", "🌊 Head to Yagachi Adventure Camp for optional water sports and thrilling adventure activities.", "━━━━━━━━━━━━━━━", "🌙 Return Journey", "Begin the journey back to Bangalore with muddy shoes, beautiful memories, full camera galleries & stories you'll cherish forever. 💚✨", "🏡 Reach Bangalore by around 10:00 PM"]},
+        ],
+        includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
+        excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
+        thingsToCarry: [],
+        boardingLocations: [
+        ],
+        galleryImages: [],
+        groupSize: "12-25",
+        isActive: true,
+    },
     "varkala-kochi-christmas": {
         title: "Varkala, Kochi & Alleppey - Long Weekend Special ",
         location: "Kerala",
@@ -52,7 +81,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Dec - June",
         duration: "3D/2N",
-        availableDates: ["June 25-28, 2026"],
+        availableDates: ["Sept 11-14, 2026"],
         about: "12 strangers. 1 epic escape. Find freedom on Kerala's coast! From the historic charm of Fort Kochi to the peaceful Alleppey backwaters and boho soul of Varkala, this journey is all about new bonds, coastal chill, and unforgettable memories.\n\nExplore Chinese Fishing Nets, cruise through serene backwaters on a shikara, café-hop on Varkala Cliff, and witness the mighty Jatayu Earth Center - the world's largest bird sculpture!",
         highlights: ["Fort Kochi & Chinese Fishing Nets", "Jew Town & Dutch Palace", "Kashi Art Café", "Alleppey Shikara Boat Ride", "Varkala Cliff & Cafés", "Black Sand Beach sunset", "Kayaking through backwaters", "Jatayu Earth Center"],
         itinerary: [
@@ -74,7 +103,7 @@ const tripsData = {
         title: "Kannur-Thalassery Theyyam Tour",
         location: "Kannur, Kerala",
         badge: "Cultural",
-        featured: true,
+        featured: false,
         price: "₹5899",
         image: "images/trips/theyyam.jpg",
         distance: "350 km from Bangalore",
@@ -364,35 +393,6 @@ const tripsData = {
         galleryImages: [],
         groupSize: "",
         isActive: false,
-    },
-    wayanad: {
-        title: "Offbeat Sakleshpur,Madikeri & Doddhabetta Trek",
-        location: "Madikeri, Kerala",
-        badge: "Hill Station",
-        featured: true,
-        price: "₹4,299",
-        image: "images/trips/wayanad_1785264689988.jpg",
-        distance: "280 km from Bangalore",
-        elevation: "700-2,100 m",
-        difficulty: "Easy",
-        bestTime: "Oct - May",
-        duration: "2D/1N",
-        availableDates: ["Aug 1-2, 2026", "Aug 8-9, 2026", "Aug 15-16, 2026", "Aug 22-23, 2026", "Aug 29-30, 2026"],
-        about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
-        highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
-            {day: "Day 1", title: "Wayanad Exploration", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Freshen up, breakfast", "8:00 AM - Edakkal Caves trek", "11:00 AM - Soochipara Waterfalls", "1:00 PM - Kerala lunch", "2:30 PM - Banasura Sagar Dam", "4:30 PM - Spice plantation tour", "6:00 PM - Check-in to resort", "8:00 PM - Dinner"]},
-            {day: "Day 2", title: "Safari & Return", activities: ["6:00 AM - Wildlife safari", "8:30 AM - Breakfast", "10:00 AM - Pookode Lake", "11:30 AM - Shopping", "1:00 PM - Lunch and departure", "8:00 PM - Arrive in Bangalore"]},
-        ],
-        includes: ["AC transportation", "1 Night resort stay", "All meals", "Wildlife safari", "All sightseeing", "Tour guide"],
-        excludes: ["Entry fees", "Boating charges", "Personal expenses", "Tips"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "",
-        isActive: true,
     },
     munnar: {
         title: "Munnar with Kolukkumalai Sunrise",
