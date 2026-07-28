@@ -46,7 +46,7 @@ const tripsData = {
         badge: "Trekking ",
         featured: true,
         price: "₹4,299",
-        image: "images/trips/wayanad_1785264689988.jpg",
+        image: "images/trips/wayanad_1785268798536.png",
         distance: "280 km from Bangalore",
         elevation: "700-2,100 m",
         difficulty: "Easy",
