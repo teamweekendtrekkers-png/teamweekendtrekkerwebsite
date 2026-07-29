@@ -6,12 +6,13 @@
 // in the "Upcoming Adventures" section.
 // 
 // Edit using Trip Manager → ⭐ Featured Trips
-// Last updated: 2026-07-30 02:36
+// Last updated: 2026-07-30 02:43
 // ============================================
 
 const featuredTripIds = [
     "rameshwaram-dhanushkodi",
     "wayanad",
+    "wayanad-pool-party",
 ];
 
 // Function to get featured trips data
