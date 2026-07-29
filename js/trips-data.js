@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-30 02:13
+// Last updated: 2026-07-30 02:36
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -324,15 +324,15 @@ const tripsData = {
         duration: "2D/1N",
         availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
         about: "Escape to the heart of the Western Ghats with a weekend packed with adventure, waterfalls, rainforest trails, scenic viewpoints, an off-road jeep ride, and peaceful Malenadu landscapes. Trek to Kodachadri Peak, unwind at Hidlumane Falls, and return with unforgettable memories.",
-        highlights: ["Private pool party", "BBQ dinner night", "Music and DJ", "Wayanad sightseeing", "Premium resort stay", "Edakkal Caves trek"],
+        highlights: ["🌿 Kodachadri Trek – Trek through misty forests to a breathtaking summit.", "💦 Hidlumane Falls – Refresh at a beautiful multi-tiered waterfall.", "🚙 Jeep Ride (Optional) – Thrilling off-road adventure through forest trails.", "💧 Devagange Ponds – Relax by peaceful natural poo", "🏯 Nagara Fort – Explore a historic fort with scenic views.", "🎬 Malgudi Museum (Optional) – Relive the charm of R.K. Narayan's Malgudi.", "🌿 Rainforest Trails – Walk through lush forests and streams.", "📸 Mountain Views – Capture stunning Western Ghats landscapes.", "🏡 Homestay Stay – Enjoy local food and a peaceful stay.", "🔥 Campfire Night – Good food, music, and great company.", "💚 Perfect Weekend – Adventure, nature, and unforgettable memories."],
         itinerary: [
-            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Party mood begins in the bus!", "10:00 PM - Overnight journey"]},
-            {day: "Day 1", title: "Pool Party Day", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Check-in to resort", "7:30 AM - Breakfast", "9:00 AM - Edakkal Caves trek", "12:00 PM - Return to resort, lunch", "2:00 PM - Pool party begins!", "2:30 PM - Pool games, music, fun", "5:00 PM - Snacks by the pool", "7:00 PM - Freshen up", "8:00 PM - BBQ dinner with bonfire", "10:00 PM - Music, dance, party night"]},
-            {day: "Day 2", title: "Sightseeing & Return", activities: ["8:00 AM - Late breakfast", "9:30 AM - Soochipara Waterfalls", "11:30 AM - Pookode Lake", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
+            {day: "🌙 DAY 0 ", title: " Friday Night Journey", activities: ["🚐 Start overnight journey from Bangalore toward the Western Ghats 🌿", "🎶 Highway songs, chai breaks, fun conversations & peaceful road-trip vibes as the city lights slowly disappear and the mountains take over ✨"]},
+            {day: "🌿 DAY 1 ", title: "Kodachadri Trek & Hidlumane Falls Experience", activities: ["☀️ Reach the homestay early morning", "🏡 Freshen up & enjoy breakfast before starting the adventure 🍳✨", "🌳 Begin the Kodachadri Trek through dense rainforest trails, flowing streams, mist-covered paths & beautiful mountain landscapes ☁️🌧️", "💦 HIDLUMANE WATERFALLS", "Cold waterfall breeze, fresh mountain water & untouched greenery — one of the most refreshing moments of the trek 💚✨", "⛰️ KODACHADRI SUMMIT", "As the climb gets higher, clouds slowly surround the mountains ☁️ Reach the peak and soak in endless Western Ghats views, cool breeze & unforgettable photo moments 📸✨", "🚙 OFF-ROAD JEEP RIDE", "The famous Kodachadri jeep ride is pure fun 🔥 Muddy forest roads, bumpy trails & adventure packed into every turn 🌧️✨", "🏡 Return to the homestay by evening", "🍽️ Enjoy dinner, relax with the group & spend a peaceful night surrounded by nature 🌿💚"]},
+            {day: "🌄 DAY 2 ", title: "Scenic Stops & Return Journey", activities: ["The trek may be over… but the journey isn’t done yet 💚", "🌅 Wake up to a peaceful Malenadu morning", "🍳 Enjoy breakfast & check out by 8:00 AM", "💧 DEVAGANGE NATURAL PONDS🌿", "A hidden natural gem surrounded by greenery 💚", "Relax, click photos 📸, dip your feet & soak in calm Malenadu vibes away from the crowd ✨", "🏯 NAGARA FORT (Bidanur Fort)", "Step into history at this majestic 17th-century fort surrounded by greenery & scenic reservoir views 🌧️💚", "Explore ancient ruins, old stone pathways & beautiful viewpoints filled with timeless charm ✨", "🎬 Optional Stop — Malgudi Museum(time permitting) 📚", "A nostalgic little detour into the world of R.K. Narayan’s Malgudi — simple, charming & full of old-school vibes ✨", "🍛 Stop at Shivamogga for lunch (self-sponsored) before starting the return journey 🚐", "🌙 Return Journey", "Head back toward Bangalore with muddy shoes, happy hearts, full camera galleries 📸 & unforgettable mountain memories 💚✨", "🏡 Reach Bangalore by around 10:00 PM"]},
         ],
-        includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
-        excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
-        thingsToCarry: [],
+        includes: ["🚐 Transportation  ✔️ Non A/C seater vehicle  ✔️ Tempo Traveler / Mini Bus / Bus depending on group size ", "🍽️Meals  ✔️ South Indian Vegetarian meals  ✔️ Day 1 → Breakfast, Packed Lunch & Dinner  ✔️ Day 2 → Breakfast  ", "🏡 Accommodation  ✔️ Basic homestay accommodation  ✔️ Shared rooms / Dormitory / Tents  ", "💦 Falls Entry Fee  ", "🎟️ Forest Entry Fee  ", "🧭 Experienced Local Guide & Trip Leader"],
+        excludes: ["Any other expenses incurred apart from inclusions  ", "Any meals not mentioned in inclusions  ", "Off road jeep ride", "Any additional expenses due to emergencies / natural calamities  "],
+        thingsToCarry: ["🌧️🎒 Trip Packing Checklist• 🎒 Backpack• 💧 Water Bottle• 🧥 Raincoat / Poncho• 👕 Extra Clothes• 🧦 Extra Socks• 👟 Trekking Shoes• 🩴 Flip-flops• 📱 Power Bank• 📸 Camera (Optional)• 💵 Cash• 💊 Personal Medicines• 🧴 Toiletries• 🛍️ Zip-lock Bags (for electronics)"],
         boardingLocations: [
         ],
         galleryImages: [],
