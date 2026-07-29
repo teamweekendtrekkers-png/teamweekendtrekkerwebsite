@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-29 01:59
+// Last updated: 2026-07-29 20:02
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -78,7 +78,7 @@ const tripsData = {
         title: "Varkala, Kochi & Alleppey - Long Weekend Special ",
         location: "Kerala",
         badge: "Long Weekend Special ",
-        featured: true,
+        featured: false,
         price: "₹9,999",
         image: "images/trips/varkala-kochi-christmas_1771675162168.png",
         distance: "560 km from Bangalore",
@@ -120,9 +120,9 @@ const tripsData = {
         about: "🌴 Experience the soul of Kerala on a unique weekend getaway featuring the magical Theyyam ritual, ancient temples, scenic beaches, ferry rides, heritage forts, authentic local cuisine, and unforgettable coastal sunsets.",
         highlights: ["🔥 Experience the magical Theyyam performance & receive divine blessings", "🙏 Visit the famous Parassinikadavu Sri Muthappan Temple", "🍛 Taste the unique Muthappan Temple prasadam & traditional temple lunch", "🏰 Explore the historic St. Angelo Fort", "🌊 Climb the Kannur Lighthouse for stunning Arabian Sea views", "🎭 Learn the history of Theyyam at the Folk Art Museum", "🌅 Watch a breathtaking sunset at Payyambalam Beach", "🎨 Walk through the colourful Graffiti Street"],
         itinerary: [
-            {day: "🌙 Day 0  ", title: "Journey Starts", activities: ["🚐 We’ll leave Bangalore at night in a comfortable vehicle and begin our journey towards Kannur.", "Use this time to relax, enjoy the road trip with the group, and get some sleep — by morning, we’ll be waking up near the beautiful Kerala coast. 💤"]},
-            {day: "🌞 Day 1 ", title: "Exploring Kannur & Theyyam Night", activities: ["🏖️ We reach Kannur in the morning, head to our homestay, and freshen up.", "🍳 After a simple and tasty Kerala breakfast, we start our day slowly and comfortably.", "🙏 Our first stop is the famous Parassinikadavu Sri Muthappan Temple, known for its peaceful atmosphere and unique traditions.", "🚤 We’ll also take a short ferry ride through calm backwaters — a very relaxing experience surrounded by nature.", "🍛 Here you can taste the temple prasadam — tea, steamed pear, and coconut 🥥", "🍌 We’ll also experience a traditional temple-style lunch with Kerala rice and banana sambar.", "🏰 Later, we visit the historic St. Angelo Fort, followed by Kannur Lighthouse, where you can enjoy beautiful views of the Arabian Sea.", "🌅 By evening, we unwind at Payyambalam Beach, enjoying the sunset and the relaxed coastal vibe.", "🍰 We’ll spend some time exploring local cafés and street food spots in Kannur before heading back to the homestay.", "🏡 You’ll get time to rest and freshen up before the main highlight of the trip.", "🔥 Main Highlight — THEYAMM EXPERIENCE", "At night, we visit a local temple where Theyyam is performed.", "You’ll witness powerful rituals, fire performances, traditional music, and the deep spiritual energy of this ancient art form — all from very close.", "This is a full-night cultural experience, something truly rare and unforgettable.", "After the performances, we return to the homestay early morning for some rest."]},
-            {day: "🌄 Day 2 ", title: " Culture, Beaches & Return", activities: ["🔥 If you wish, you can watch the early morning Theyyam again before leaving.", "☀️ After breakfast, we check out from the homestay and continue exploring.", "📜 We visit the Folk Art Museum, where you’ll learn more about Theyyam and Kerala’s traditional art forms 🎭", "🎨 Then we walk through the colorful Graffiti Street, which is great for photos.", "🏖️ Next, we visit Muzhappilangad Drive-in Beach, a unique beach where vehicles can drive along the shoreline.", "🍴 We’ll stop for authentic Kerala food at a local restaurant.", "🏯 We also explore the historic Thalassery Fort, spend some relaxed time there, and take photos.", "🌙 By evening, we begin our journey back to Bangalore — carrying beautiful memories, new friendships, and blessings from the Theyyam experience 💙"]},
+            {day: "🌙 Day 0", title: "Journey Starts", activities: ["🚐 We’ll leave Bangalore at night in a comfortable vehicle and begin our journey towards Kannur.", "Use this time to relax, enjoy the road trip with the group, and get some sleep — by morning, we’ll be waking up near the beautiful Kerala coast. 💤"]},
+            {day: "🌞 Day 1", title: "Exploring Kannur & Theyyam Night", activities: ["🏖️ We reach Kannur in the morning, head to our homestay, and freshen up.", "🍳 After a simple and tasty Kerala breakfast, we start our day slowly and comfortably.", "🙏 Our first stop is the famous Parassinikadavu Sri Muthappan Temple, known for its peaceful atmosphere and unique traditions.", "🚤 We’ll also take a short ferry ride through calm backwaters — a very relaxing experience surrounded by nature.", "🍛 Here you can taste the temple prasadam — tea, steamed pear, and coconut 🥥", "🍌 We’ll also experience a traditional temple-style lunch with Kerala rice and banana sambar.", "🏰 Later, we visit the historic St. Angelo Fort, followed by Kannur Lighthouse, where you can enjoy beautiful views of the Arabian Sea.", "🌅 By evening, we unwind at Payyambalam Beach, enjoying the sunset and the relaxed coastal vibe.", "🍰 We’ll spend some time exploring local cafés and street food spots in Kannur before heading back to the homestay.", "🏡 You’ll get time to rest and freshen up before the main highlight of the trip.", "🔥 Main Highlight — THEYAMM EXPERIENCE", "At night, we visit a local temple where Theyyam is performed.", "You’ll witness powerful rituals, fire performances, traditional music, and the deep spiritual energy of this ancient art form — all from very close.", "This is a full-night cultural experience, something truly rare and unforgettable.", "After the performances, we return to the homestay early morning for some rest."]},
+            {day: "🌄 Day 2", title: " Culture, Beaches & Return", activities: ["🔥 If you wish, you can watch the early morning Theyyam again before leaving.", "☀️ After breakfast, we check out from the homestay and continue exploring.", "📜 We visit the Folk Art Museum, where you’ll learn more about Theyyam and Kerala’s traditional art forms 🎭", "🎨 Then we walk through the colorful Graffiti Street, which is great for photos.", "🏖️ Next, we visit Muzhappilangad Drive-in Beach, a unique beach where vehicles can drive along the shoreline.", "🍴 We’ll stop for authentic Kerala food at a local restaurant.", "🏯 We also explore the historic Thalassery Fort, spend some relaxed time there, and take photos.", "🌙 By evening, we begin our journey back to Bangalore — carrying beautiful memories, new friendships, and blessings from the Theyyam experience 💙"]},
         ],
         includes: ["🏨 1 Night Accommodation (Sharing Basis)", "🚐  Private Vehicle for the Entire Trip", "🍽️ 2 Breakfast🍛 1 Lunch (Temple Prasadam)", "🧑‍💼 Experienced Trip Captain", "🛣️ Toll, Parking, Driver Allowance & Fuel Charges,Kerala State Tax (₹6000 per tempo traveler)", "🗺️ Sightseeing as per the Itinerary", "✔️ A once-in-a-lifetime experience! ✨"],
         excludes: ["Lunch & dinner", "Entry fees", "Personal expenses", "Insurance", "Anything not mentioned"],
@@ -542,7 +542,7 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: false,
+        isActive: true,
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
