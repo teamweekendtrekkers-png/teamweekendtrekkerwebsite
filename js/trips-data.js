@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-29 20:02
+// Last updated: 2026-07-30 02:13
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -310,6 +310,35 @@ const tripsData = {
         groupSize: "",
         isActive: true,
     },
+    "wayanad-pool-party": {
+        title: "Kodachadri & Hidlumane Falls Trek..🧭",
+        location: "Shivmogga, Karnataka ",
+        badge: "Trekking ",
+        featured: false,
+        price: "₹4,299",
+        image: "images/trips/wayanad-pool-party_1785335515681.png",
+        distance: "450 km from Bangalore",
+        elevation: "1,200-1,800 m",
+        difficulty: "Moderate",
+        bestTime: "July - Dec",
+        duration: "2D/1N",
+        availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
+        about: "Escape to the heart of the Western Ghats with a weekend packed with adventure, waterfalls, rainforest trails, scenic viewpoints, an off-road jeep ride, and peaceful Malenadu landscapes. Trek to Kodachadri Peak, unwind at Hidlumane Falls, and return with unforgettable memories.",
+        highlights: ["Private pool party", "BBQ dinner night", "Music and DJ", "Wayanad sightseeing", "Premium resort stay", "Edakkal Caves trek"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Party mood begins in the bus!", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Pool Party Day", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Check-in to resort", "7:30 AM - Breakfast", "9:00 AM - Edakkal Caves trek", "12:00 PM - Return to resort, lunch", "2:00 PM - Pool party begins!", "2:30 PM - Pool games, music, fun", "5:00 PM - Snacks by the pool", "7:00 PM - Freshen up", "8:00 PM - BBQ dinner with bonfire", "10:00 PM - Music, dance, party night"]},
+            {day: "Day 2", title: "Sightseeing & Return", activities: ["8:00 AM - Late breakfast", "9:30 AM - Soochipara Waterfalls", "11:30 AM - Pookode Lake", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
+        ],
+        includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
+        excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
+        thingsToCarry: [],
+        boardingLocations: [
+        ],
+        galleryImages: [],
+        groupSize: "12",
+        isActive: true,
+    },
     ooty: {
         title: "Ooty & Coonoor Trip",
         location: "Nilgiris, Tamil Nadu",
@@ -514,35 +543,6 @@ const tripsData = {
         galleryImages: [],
         groupSize: "",
         isActive: false,
-    },
-    "wayanad-pool-party": {
-        title: "Wayanad Private Pool Party",
-        location: "Wayanad, Kerala",
-        badge: "Adventure",
-        featured: false,
-        price: "₹6,477",
-        image: "images/trips/wayanad-pool-party_1785335515681.png",
-        distance: "280 km from Bangalore",
-        elevation: "700-2,100 m",
-        difficulty: "Easy",
-        bestTime: "Sep - May",
-        duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
-        about: "Combine the beauty of Wayanad hills with an exclusive private pool party experience! Stay at a premium resort with private pool access, enjoy unlimited fun with music, games, and BBQ night.\n\nThis trip is perfect for friend groups and corporate outings looking for a mix of adventure and relaxation in the lap of nature.",
-        highlights: ["Private pool party", "BBQ dinner night", "Music and DJ", "Wayanad sightseeing", "Premium resort stay", "Edakkal Caves trek"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Party mood begins in the bus!", "10:00 PM - Overnight journey"]},
-            {day: "Day 1", title: "Pool Party Day", activities: ["5:30 AM - Arrive in Wayanad", "6:30 AM - Check-in to resort", "7:30 AM - Breakfast", "9:00 AM - Edakkal Caves trek", "12:00 PM - Return to resort, lunch", "2:00 PM - Pool party begins!", "2:30 PM - Pool games, music, fun", "5:00 PM - Snacks by the pool", "7:00 PM - Freshen up", "8:00 PM - BBQ dinner with bonfire", "10:00 PM - Music, dance, party night"]},
-            {day: "Day 2", title: "Sightseeing & Return", activities: ["8:00 AM - Late breakfast", "9:30 AM - Soochipara Waterfalls", "11:30 AM - Pookode Lake", "1:00 PM - Lunch", "2:00 PM - Departure for Bangalore", "9:00 PM - Arrive in Bangalore"]},
-        ],
-        includes: ["AC transportation", "Premium resort with pool", "All meals", "BBQ dinner", "Pool access", "Sightseeing"],
-        excludes: ["Alcoholic beverages", "Personal expenses", "Entry fees", "Tips"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "",
-        isActive: true,
     },
     "alleppey-varkala": {
         title: "Alleppey-Varkala-Athirappilly Falls",
