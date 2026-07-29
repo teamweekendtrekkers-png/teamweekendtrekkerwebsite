@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-30 02:43
+// Last updated: 2026-07-30 02:56
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -98,10 +98,10 @@ const tripsData = {
         excludes: ["Any other expenses incurred apart from inclusions  ", "Any meals not mentioned in inclusions  ", "Off road jeep ride", "Any additional expenses due to emergencies / natural calamities  "],
         thingsToCarry: ["🌧️🎒 Trip Packing Checklist• 🎒 Backpack• 💧 Water Bottle• 🧥 Raincoat / Poncho• 👕 Extra Clothes• 🧦 Extra Socks• 👟 Trekking Shoes• 🩴 Flip-flops• 📱 Power Bank• 📸 Camera (Optional)• 💵 Cash• 💊 Personal Medicines• 🧴 Toiletries• 🛍️ Zip-lock Bags (for electronics)"],
         boardingLocations: [
-            {name: "Majestic", landmark: "Metro Station / Shantala Silks", time: "8:30 PM - 10:00 PM", mapLink: "https://maps.google.com/?q=Majestic+Metro+Station+Bangalore"},
-            {name: "Koramangala", landmark: "Kota Kochari, Opp Forum Mall", time: "9:00 PM - 10:30 PM", mapLink: "https://maps.google.com/?q=Forum+Mall+Koramangala+Bangalore"},
-            {name: "Silk Board", landmark: "Silk Board Junction", time: "9:15 PM - 10:45 PM", mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"},
-            {name: "Electronic City", landmark: "Infosys Gate / Toll Plaza", time: "9:45 PM - 11:15 PM", mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"},
+            {name: "1️⃣  Shantala Silk and Sarees Majestic  ", landmark: "Near Metro Station", time: "9:00 PM - 9:30 PM", mapLink: "https://maps.app.goo.gl/UtPPeQvWtyVz44GC7"},
+            {name: "2️⃣ Rajajinagar", landmark: "Near kapoor cafe", time: "10:00 PM", mapLink: "https://maps.app.goo.gl/dvaMcyfduH2ptLB7A"},
+            {name: "3️⃣ Yeshwanthpur", landmark: "Govardhan Theatre", time: "10:35 PM", mapLink: "https://maps.app.goo.gl/5PcwLgKHo7jiHTVM8"},
+            {name: "4️⃣Goraguntepalya", landmark: "Fortis Hospital", time: "10:50 PM", mapLink: "https://maps.app.goo.gl/mvodFMunygmZ2o3k7"},
         ],
         galleryImages: ["images/gallery/wayanad-pool-party/img_1785359493901.jpg", "images/gallery/wayanad-pool-party/img_1785359498995.png", "images/gallery/wayanad-pool-party/img_1785359512524.jpg", "images/gallery/wayanad-pool-party/img_1785359539753.jpg", "images/gallery/wayanad-pool-party/img_1785359544966.jpg", "images/gallery/wayanad-pool-party/img_1785359558117.jpg", "images/gallery/wayanad-pool-party/img_1785359563207.jpg", "images/gallery/wayanad-pool-party/img_1785359573416.jpg", "images/gallery/wayanad-pool-party/img_1785359599478.jpg", "images/gallery/wayanad-pool-party/img_1785359604621.jpg"],
         groupSize: "12",
