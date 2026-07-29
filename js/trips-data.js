@@ -521,7 +521,7 @@ const tripsData = {
         badge: "Adventure",
         featured: false,
         price: "₹6,477",
-        image: "images/trips/wayanad-pool-party.jpg",
+        image: "images/trips/wayanad-pool-party_1785335515681.png",
         distance: "280 km from Bangalore",
         elevation: "700-2,100 m",
         difficulty: "Easy",
