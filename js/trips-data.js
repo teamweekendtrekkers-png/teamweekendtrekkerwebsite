@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-30 02:56
+// Last updated: 2026-07-31 16:19
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -45,7 +45,7 @@ const tripsData = {
         location: "Madikeri, Kerala",
         badge: "Trekking ",
         featured: true,
-        price: "₹4,299",
+        price: "₹4,499",
         image: "images/trips/wayanad_1785268798536.png",
         distance: "280 km from Bangalore",
         elevation: "700-2,100 m",
