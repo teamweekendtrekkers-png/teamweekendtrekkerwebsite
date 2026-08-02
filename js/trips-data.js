@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-07-31 16:19
+// Last updated: 2026-08-02 13:45
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -79,7 +79,7 @@ const tripsData = {
         location: "Shivmogga, Karnataka ",
         badge: "Trekking ",
         featured: true,
-        price: "₹4,299",
+        price: "₹3999",
         image: "images/trips/wayanad-pool-party_1785335515681.png",
         distance: "450 km from Bangalore",
         elevation: "1,200-1,800 m",
