@@ -2,7 +2,7 @@
 // TEAM WEEKEND TREKKERS - TRIP DATABASE
 // ============================================
 // 
-// Last updated: 2026-08-10 03:59
+// Last updated: 2026-08-10 04:09
 // Updated via Trip Manager Mobile App
 // ============================================
 
@@ -38,6 +38,35 @@ const tripsData = {
         ],
         galleryImages: ["images/gallery/rameshwaram-dhanushkodi/img_1767723242011.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723245384.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723247913.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723252112.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723259245.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723262866.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723266548.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723268499.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723271878.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723274641.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723278121.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723280681.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723283648.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723286673.jpg", "images/gallery/rameshwaram-dhanushkodi/img_1767723289999.jpg"],
         groupSize: "12-25 members",
+        isActive: true,
+    },
+    theyyam: {
+        title: "Neelakurinji & Nelji Hills Escape ",
+        location: "Madikeri, Karnataka ",
+        badge: "Cultural",
+        featured: false,
+        price: "₹4199",
+        image: "images/trips/theyyam_1786313751785.png",
+        distance: "340 km from Bangalore",
+        elevation: "Sea level",
+        difficulty: "Easy",
+        bestTime: "Aug - Sept",
+        duration: "2D/1N",
+        availableDates: ["Aug 07-09, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
+        about: " THE NELJI HILLS EXPERIENCE\n\nExplore one of Coorg's highest peaks on the Nelji Twin Hills Trek, set along the Karnataka–Kerala border. ⛰️\n\nThe 5+5 km trail passes through open grasslands before reaching a summit with sweeping views across the Western Ghats.\n\n🌸 During the rare Neelakurinji bloom season, the hills take on an unforgettable charm.",
+        highlights: ["Live Theyyam performance", "Kannur Fort (St. Angelo)", "Payyambalam Beach", "Muzhappilangad Drive-in Beach", "Traditional Kerala meals", "Folklore museum"],
+        itinerary: [
+            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
+            {day: "Day 1", title: "Kannur & Theyyam", activities: ["6:00 AM - Arrive in Kannur", "7:00 AM - Freshen up, breakfast", "9:00 AM - Kannur Fort", "11:00 AM - Payyambalam Beach", "1:00 PM - Traditional Kerala lunch", "3:00 PM - Muzhappilangad Beach", "5:00 PM - Folklore museum", "7:00 PM - Theyyam temple visit", "8:00 PM - Witness Theyyam ritual", "10:00 PM - Dinner and rest"]},
+            {day: "Day 2", title: "More Theyyam & Return", activities: ["5:00 AM - Early morning Theyyam", "8:00 AM - Breakfast", "9:30 AM - Temple visits", "11:00 AM - Local market", "12:30 PM - Lunch", "1:30 PM - Departure", "9:00 PM - Arrive in Bangalore"]},
+        ],
+        includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
+        excludes: ["Temple donations", "Personal expenses", "Tips"],
+        thingsToCarry: [],
+        boardingLocations: [
+        ],
+        galleryImages: [],
+        groupSize: "12",
         isActive: true,
     },
     wayanad: {
@@ -341,35 +370,6 @@ const tripsData = {
         ],
         galleryImages: [],
         groupSize: "",
-        isActive: true,
-    },
-    theyyam: {
-        title: "Kannur Theyyam Tour",
-        location: "Kannur, Kerala",
-        badge: "Cultural",
-        featured: false,
-        price: "₹4199",
-        image: "images/trips/theyyam_1786313751785.png",
-        distance: "340 km from Bangalore",
-        elevation: "Sea level",
-        difficulty: "Easy",
-        bestTime: "Oct - May",
-        duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Aug 07-09, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
-        about: " THE NELJI HILLS EXPERIENCE\n\nExplore one of Coorg's highest peaks on the Nelji Twin Hills Trek, set along the Karnataka–Kerala border. ⛰️\n\nThe 5+5 km trail passes through open grasslands before reaching a summit with sweeping views across the Western Ghats.\n\n🌸 During the rare Neelakurinji bloom season, the hills take on an unforgettable charm.",
-        highlights: ["Live Theyyam performance", "Kannur Fort (St. Angelo)", "Payyambalam Beach", "Muzhappilangad Drive-in Beach", "Traditional Kerala meals", "Folklore museum"],
-        itinerary: [
-            {day: "Day 0", title: "Night Departure", activities: ["9:00 PM - Pickup from Bangalore", "9:30 PM - Trip briefing", "10:00 PM - Overnight journey"]},
-            {day: "Day 1", title: "Kannur & Theyyam", activities: ["6:00 AM - Arrive in Kannur", "7:00 AM - Freshen up, breakfast", "9:00 AM - Kannur Fort", "11:00 AM - Payyambalam Beach", "1:00 PM - Traditional Kerala lunch", "3:00 PM - Muzhappilangad Beach", "5:00 PM - Folklore museum", "7:00 PM - Theyyam temple visit", "8:00 PM - Witness Theyyam ritual", "10:00 PM - Dinner and rest"]},
-            {day: "Day 2", title: "More Theyyam & Return", activities: ["5:00 AM - Early morning Theyyam", "8:00 AM - Breakfast", "9:30 AM - Temple visits", "11:00 AM - Local market", "12:30 PM - Lunch", "1:30 PM - Departure", "9:00 PM - Arrive in Bangalore"]},
-        ],
-        includes: ["AC Sleeper transport", "1 Night stay", "All meals", "Theyyam temple visits", "All sightseeing", "Local guide"],
-        excludes: ["Temple donations", "Personal expenses", "Tips"],
-        thingsToCarry: [],
-        boardingLocations: [
-        ],
-        galleryImages: [],
-        groupSize: "12",
         isActive: true,
     },
     ooty: {
