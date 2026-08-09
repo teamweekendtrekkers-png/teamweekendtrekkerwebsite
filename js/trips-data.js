@@ -467,7 +467,7 @@ const tripsData = {
         badge: "Cultural",
         featured: false,
         price: "₹5,977",
-        image: "images/trips/theyyam.jpg",
+        image: "images/trips/theyyam_1786313751785.png",
         distance: "340 km from Bangalore",
         elevation: "Sea level",
         difficulty: "Easy",
