@@ -49,6 +49,21 @@
         </div>
     </section>
 
+    <!-- Upcoming Batches -->
+    <section class="upcoming-batches" aria-labelledby="upcoming-batches-title">
+        <div class="container">
+            <p class="section-kicker">Scheduled departures</p>
+            <h2 class="section-title" id="upcoming-batches-title">Upcoming Batches</h2>
+            <p class="section-subtitle">Plan your next escape with our nearest available trip dates</p>
+            <div class="upcoming-batches-grid" id="upcoming-batches-grid" aria-live="polite">
+                <div class="loading-placeholder">Loading upcoming departures...</div>
+            </div>
+            <div class="center-btn upcoming-batches-action">
+                <a href="trips.html" class="btn btn-outline">See All Departures</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Stats Section -->
     <section class="stats">
         <div class="container">
@@ -253,48 +268,9 @@
 
     <script src="js/trips-data.js?v=1767556524"></script>
     <script src="js/featured-trips.js"></script>
+    <script src="js/trip-date-utils.js"></script>
+    <script src="js/homepage-trips.js"></script>
     <script src="js/main.js"></script>
     <script src="js/security.js"></script>
-    <script>
-    // Load Featured Trips on Homepage
-    document.addEventListener('DOMContentLoaded', function() {
-        const grid = document.getElementById('featured-trips-grid');
-        if (!grid) return;
-        
-        // Get featured trips
-        const featuredTrips = getFeaturedTrips();
-        
-        if (featuredTrips.length === 0) {
-            grid.innerHTML = '<p>No featured trips available.</p>';
-            return;
-        }
-        
-        // Generate trip cards
-        grid.innerHTML = featuredTrips.map(trip => {
-            const isInactive = trip.isActive === false;
-            const inactiveClass = isInactive ? 'trip-inactive' : '';
-            return `
-            <div class="trip-card ${inactiveClass}">
-                <div class="trip-image">
-                    <img src="${trip.image}" alt="${trip.title}">
-                    <span class="trip-badge">${trip.badge || 'Trip'}</span>
-                    ${isInactive ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}
-                </div>
-                <div class="trip-content">
-                    <h3>${trip.title}</h3>
-                    <p class="trip-location"><i class="fas fa-map-marker-alt"></i> ${trip.location}</p>
-                    <div class="trip-meta">
-                        <span><i class="fas fa-clock"></i> ${trip.duration || 'Multiple Days'}</span>
-                        <span><i class="fas fa-signal"></i> ${trip.difficulty || 'Moderate'}</span>
-                    </div>
-                    <div class="trip-footer">
-                        <span class="trip-price">${trip.price}</span>
-                        <a href="trip-detail.html?trip=${trip.id}" class="btn btn-small">Explore</a>
-                    </div>
-                </div>
-            </div>
-        `}).join('');
-    });
-    </script>
 </body>
 </html>

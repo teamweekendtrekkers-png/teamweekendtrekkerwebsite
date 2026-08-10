@@ -41,6 +41,10 @@
     .carry-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .upcoming-batches-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 /* Mobile Landscape */
@@ -93,6 +97,18 @@
     
     .section-title {
         font-size: 1.8rem;
+    }
+
+    .upcoming-batches {
+        padding: 60px 0;
+    }
+
+    .upcoming-batches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .batch-card-header {
+        min-height: 82px;
     }
     
     .trip-hero h1 {
@@ -173,6 +189,25 @@
     
     .trips-grid {
         grid-template-columns: 1fr;
+    }
+
+    .batch-card-header,
+    .batch-trip-list {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .batch-trip-row {
+        align-items: flex-start;
+    }
+
+    .upcoming-empty {
+        padding: 30px 20px;
+    }
+
+    .trip-date-tag,
+    .trip-date-more {
+        min-height: 30px;
     }
     
     .overview-cards {
