@@ -98,6 +98,7 @@
 
     <script src="js/main.js"></script>
     <script src="js/trips-data.js?v=1767556524"></script>
+    <script src="js/trip-date-utils.js"></script>
     <script>
     // Utility: Get trip category for filter
     function getTripCategory(tripId, trip) {
@@ -124,7 +125,7 @@
             html += `
             <div class="trip-card ${inactiveClass}" data-category="${category}">
                 <div class="trip-image">
-                    <img src="${trip.image}" alt="${trip.title}">
+                    <img src="${trip.image}" alt="${trip.title}" loading="lazy">
                     <span class="trip-badge">${trip.badge}</span>
                     ${isInactive ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}
                 </div>
@@ -135,6 +136,7 @@
                         <span><i class="fas fa-clock"></i> ${trip.duration || ''}</span>
                         <span><i class="fas fa-signal"></i> ${trip.difficulty || ''}</span>
                     </div>
+                    ${TripDateUtils.renderTripDateTags(trip)}
                     <div class="trip-footer">
                         <span class="trip-price">${trip.price}</span>
                         <a href="trip-detail.html?trip=${id}" class="btn btn-small">Explore</a>

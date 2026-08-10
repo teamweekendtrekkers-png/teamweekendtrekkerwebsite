@@ -171,6 +171,9 @@ jobs:
         
         echo "✅ All JavaScript files have valid syntax"
 
+    - name: Test Trip Date Utilities
+      run: node --test tests/*.test.js
+
   # Job 5: HTML Validation
   html-validation:
     runs-on: ubuntu-latest

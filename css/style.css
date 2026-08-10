@@ -241,7 +241,8 @@ img {
 
 /* ===== Hero Section ===== */
 .hero {
-    min-height: 100vh;
+    min-height: 72vh;
+    min-block-size: 560px;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     background-image: url('../images/wix/hero1.jpg');
     background-size: cover;
@@ -337,6 +338,157 @@ img {
     color: var(--gray);
     margin-bottom: 40px;
     font-size: 1.1rem;
+}
+
+/* ===== Upcoming Batches ===== */
+.upcoming-batches {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #f5f8f4 0%, #ffffff 100%);
+}
+
+.section-kicker {
+    margin-bottom: 8px;
+    color: var(--secondary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.upcoming-batches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.batch-card {
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid rgba(26, 71, 42, 0.12);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.batch-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 92px;
+    padding: 20px 22px;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.batch-card-header > i {
+    color: #f5b041;
+    font-size: 1.35rem;
+}
+
+.batch-date,
+.batch-weekday {
+    display: block;
+}
+
+.batch-date {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.batch-weekday {
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.batch-trip-list {
+    padding: 0 22px;
+}
+
+.batch-trip-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 84px;
+    padding: 16px 0;
+    border-bottom: 1px solid #edf0ec;
+}
+
+.batch-trip-row:last-child {
+    border-bottom: 0;
+}
+
+.batch-trip-copy {
+    min-width: 0;
+}
+
+.batch-trip-title {
+    display: block;
+    color: var(--dark);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+    transition: color 0.2s ease;
+}
+
+.batch-trip-title:hover,
+.batch-trip-title:focus-visible {
+    color: var(--secondary);
+}
+
+.batch-trip-status {
+    display: inline-flex;
+    margin-top: 7px;
+    padding: 3px 9px;
+    color: #176b42;
+    background: #dff4e9;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.batch-trip-price {
+    flex-shrink: 0;
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.upcoming-batches-action {
+    margin-top: 36px;
+}
+
+.upcoming-empty {
+    grid-column: 1 / -1;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 38px;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid rgba(26, 71, 42, 0.12);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.upcoming-empty > i {
+    margin-bottom: 14px;
+    color: var(--secondary);
+    font-size: 2rem;
+}
+
+.upcoming-empty h3 {
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.upcoming-empty p {
+    margin-bottom: 22px;
+    color: var(--gray);
 }
 
 /* ===== Trips Section ===== */
@@ -517,6 +669,66 @@ img {
 .trip-meta i {
     margin-right: 5px;
     color: var(--primary);
+}
+
+.trip-dates {
+    min-height: 72px;
+    margin-bottom: 16px;
+}
+
+.trip-dates-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    color: var(--gray);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.trip-dates-label i {
+    color: var(--primary);
+}
+
+.trip-date-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.trip-date-tag,
+.trip-date-more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.trip-date-tag {
+    color: var(--primary-dark);
+    background: #f6fbf7;
+    border: 1px dashed rgba(26, 71, 42, 0.48);
+}
+
+.trip-date-more {
+    color: #8a4a0b;
+    background: #fff1df;
+}
+
+.trip-dates-empty {
+    display: flex;
+    align-items: center;
+}
+
+.trip-dates-empty .trip-dates-label {
+    margin-bottom: 0;
+    color: #7a6347;
 }
 
 .trip-footer {
