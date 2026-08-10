@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const projectRoot = path.resolve(__dirname, '..');
 
@@ -41,4 +42,24 @@ test('trip detail continues to populate dates and route bookings to checkout', (
     assert.match(tripDetail, /trip\.availableDates\.map\(date =>/);
     assert.match(tripDetail, /id="dateSelect"/);
     assert.match(tripDetail, /checkout\.html\?trip=\$\{tripId\}&date=\$\{encodeURIComponent\(date\)\}&people=\$\{people\}/);
+});
+
+test('deployment validation accepts a homepage with only external JavaScript', () => {
+    const bash = process.platform === 'win32'
+        ? path.join(process.env.ProgramFiles || 'C:\\Program Files', 'Git', 'bin', 'bash.exe')
+        : 'bash';
+    const result = spawnSync(bash, ['./validate-website.sh'], {
+        cwd: projectRoot,
+        encoding: 'utf8',
+        env: {
+            ...process.env,
+            PATH: `${path.dirname(process.execPath)}${path.delimiter}${process.env.PATH || ''}`
+        }
+    });
+
+    assert.equal(
+        result.status,
+        0,
+        `validate-website.sh failed:\n${result.stdout || ''}${result.stderr || ''}`
+    );
 });

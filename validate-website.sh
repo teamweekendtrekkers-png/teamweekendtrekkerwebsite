@@ -140,7 +140,7 @@ if command -v node &> /dev/null; then
     for html_file in "${HTML_FILES[@]}"; do
         if [ -f "$html_file" ]; then
             # Extract JavaScript from <script> tags (not src) and validate
-            INLINE_JS=$(sed -n '/<script>/,/<\/script>/p' "$html_file" | grep -v '<script>' | grep -v '</script>')
+            INLINE_JS=$(sed -n '/<script>/,/<\/script>/p' "$html_file" | grep -v '<script>' | grep -v '</script>' || true)
             if [ -n "$INLINE_JS" ]; then
                 echo "$INLINE_JS" > /tmp/inline_check.js
                 if ! node -c /tmp/inline_check.js 2>/dev/null; then
