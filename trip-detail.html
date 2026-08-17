@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-trip-id="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netravati Peak Trek - Team Weekend Trekkers</title>
+    <!-- TRIP_BASE -->
+    <!-- TRIP_META_START -->
+    <title>Trip Details - Team Weekend Trekkers</title>
+    <meta name="description" content="Explore trip details, itineraries, dates and booking information from Team Weekend Trekkers.">
+    <link rel="canonical" href="https://www.teamweekendtrekkers.com/trip-detail.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Team Weekend Trekkers">
+    <meta property="og:title" content="Trip Details - Team Weekend Trekkers">
+    <meta property="og:description" content="Explore trip details, itineraries, dates and booking information from Team Weekend Trekkers.">
+    <meta property="og:url" content="https://www.teamweekendtrekkers.com/trip-detail.html">
+    <meta property="og:image" content="https://www.teamweekendtrekkers.com/images/logo.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trip Details - Team Weekend Trekkers">
+    <meta name="twitter:description" content="Explore trip details, itineraries, dates and booking information from Team Weekend Trekkers.">
+    <meta name="twitter:image" content="https://www.teamweekendtrekkers.com/images/logo.jpg">
+    <!-- TRIP_META_END -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -456,14 +471,99 @@
     <script>
         // Get trip from URL parameter
         function getTripFromURL() {
+            // Generated social-preview pages identify their trip in the HTML so
+            // their crawler metadata and browser content cannot drift apart.
+            const generatedTripId = document.documentElement.dataset.tripId;
+            if (generatedTripId) return generatedTripId;
+
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('trip') || 'netravati';
+            const queryTripId = urlParams.get('trip');
+            if (queryTripId) return queryTripId;
+
+            // Path fallback keeps manually hosted generated pages functional.
+            const pathParts = window.location.pathname.split('/').filter(Boolean);
+            const tripsIndex = pathParts.lastIndexOf('trips');
+            if (tripsIndex >= 0 && pathParts[tripsIndex + 1]) {
+                try {
+                    return decodeURIComponent(pathParts[tripsIndex + 1]);
+                } catch (_) {
+                    // Invalid URL encoding falls through to the unavailable state.
+                }
+            }
+
+            return null;
+        }
+
+        function setMetaContent(selector, value) {
+            const element = document.querySelector(selector);
+            if (element) element.setAttribute('content', value);
+        }
+
+        function updateTripMetadata(trip, tripId) {
+            const pageTitle = `${trip.title} - Team Weekend Trekkers`;
+            const rawDescription = trip.about || `Explore ${trip.title} with Team Weekend Trekkers.`;
+            const compactDescription = rawDescription.replace(/\s+/g, ' ').trim();
+            const descriptionCharacters = Array.from(compactDescription);
+            let description = compactDescription;
+            if (descriptionCharacters.length > 160) {
+                const shortened = descriptionCharacters.slice(0, 157).join('');
+                const lastSpace = shortened.lastIndexOf(' ');
+                description = `${lastSpace >= 120 ? shortened.slice(0, lastSpace) : shortened}...`;
+            }
+            const pageUrl = new URL(`trips/${encodeURIComponent(tripId)}/`, document.baseURI).href;
+            const imageUrl = new URL(trip.image || 'images/logo.jpg', document.baseURI).href;
+
+            document.title = pageTitle;
+            setMetaContent('meta[name="description"]', description);
+            setMetaContent('meta[property="og:title"]', pageTitle);
+            setMetaContent('meta[property="og:description"]', description);
+            setMetaContent('meta[property="og:url"]', pageUrl);
+            setMetaContent('meta[property="og:image"]', imageUrl);
+            setMetaContent('meta[name="twitter:title"]', pageTitle);
+            setMetaContent('meta[name="twitter:description"]', description);
+            setMetaContent('meta[name="twitter:image"]', imageUrl);
+
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.setAttribute('href', pageUrl);
+        }
+
+        function hasTripData(tripId) {
+            return Object.prototype.hasOwnProperty.call(tripsData, tripId);
+        }
+
+        function redirectLegacyTripURL() {
+            if (document.documentElement.dataset.tripId) return false;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const tripId = urlParams.get('trip');
+            const localHosts = new Set(['localhost', '127.0.0.1', '::1']);
+            if (
+                !tripId ||
+                !hasTripData(tripId) ||
+                !/^https?:$/.test(window.location.protocol) ||
+                localHosts.has(window.location.hostname)
+            ) {
+                return false;
+            }
+
+            const target = new URL(`trips/${encodeURIComponent(tripId)}/`, document.baseURI);
+            urlParams.delete('trip');
+            target.search = urlParams.toString();
+            target.hash = window.location.hash;
+            window.location.replace(target.href);
+            return true;
         }
 
         // Update page with trip data
         function updateTripPage() {
             const tripId = getTripFromURL();
+            if (!hasTripData(tripId)) {
+                window.location.replace(new URL('trips.html', document.baseURI).href);
+                return;
+            }
             const trip = getTripData(tripId);
+
+            updateTripMetadata(trip, tripId);
 
             // Handle inactive trips - grey out page and disable booking
             const isInactive = trip.isActive === false;
@@ -507,9 +607,6 @@
             // Update title
             const titleEl = document.getElementById('tripTitle');
             if (titleEl) titleEl.textContent = trip.title;
-
-            // Update document title
-            document.title = `${trip.title} - Team Weekend Trekkers`;
 
             // Update breadcrumb
             const breadcrumbTitle = document.getElementById('breadcrumbTitle');
@@ -885,7 +982,9 @@
             if (e.key === 'ArrowRight') changeImage(1);
         });
 
-        document.addEventListener('DOMContentLoaded', updateTripPage);
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!redirectLegacyTripURL()) updateTripPage();
+        });
 
         function scrollToBooking(e) {
             e.preventDefault();

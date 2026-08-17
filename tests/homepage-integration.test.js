@@ -13,18 +13,22 @@ function readProjectFile(relativePath) {
 test('homepage loads tested date utilities before its trip renderer', () => {
     const index = readProjectFile('index.html');
     const dateUtilityPosition = index.indexOf('js/trip-date-utils.js');
+    const tripLinksPosition = index.indexOf('js/trip-links.js');
     const homepageRendererPosition = index.indexOf('js/homepage-trips.js');
 
     assert.match(index, /id="upcoming-batches-grid"/);
     assert.ok(dateUtilityPosition > -1);
+    assert.ok(tripLinksPosition > dateUtilityPosition);
     assert.ok(homepageRendererPosition > dateUtilityPosition);
+    assert.ok(homepageRendererPosition > tripLinksPosition);
 });
 
 test('homepage renderer keeps featured-trip selection and detail links intact', () => {
     const renderer = readProjectFile('js/homepage-trips.js');
 
     assert.match(renderer, /getFeaturedTrips\(\)/);
-    assert.match(renderer, /trip-detail\.html\?trip=/);
+    assert.match(renderer, /TripLinks\.detailUrl\(trip\.id\)/);
+    assert.doesNotMatch(renderer, /trip-detail\.html\?trip=/);
     assert.doesNotMatch(renderer, /checkout\.html/);
 });
 
@@ -32,6 +36,8 @@ test('all-trips page keeps filters and displays shared date tags', () => {
     const tripsPage = readProjectFile('trips.html');
 
     assert.match(tripsPage, /TripDateUtils\.renderTripDateTags\(trip\)/);
+    assert.match(tripsPage, /<script src="js\/trip-links\.js"><\/script>/);
+    assert.match(tripsPage, /TripLinks\.detailUrl\(id\)/);
     assert.match(tripsPage, /function initFilters\(\)/);
     assert.match(tripsPage, /document\.addEventListener\('DOMContentLoaded', loadTrips\)/);
 });
@@ -42,6 +48,8 @@ test('trip detail continues to populate dates and route bookings to checkout', (
     assert.match(tripDetail, /trip\.availableDates\.map\(date =>/);
     assert.match(tripDetail, /id="dateSelect"/);
     assert.match(tripDetail, /checkout\.html\?trip=\$\{tripId\}&date=\$\{encodeURIComponent\(date\)\}&people=\$\{people\}/);
+    assert.match(tripDetail, /function redirectLegacyTripURL\(\)/);
+    assert.match(tripDetail, /Object\.prototype\.hasOwnProperty\.call\(tripsData, tripId\)/);
 });
 
 test('deployment validation accepts a homepage with only external JavaScript', () => {

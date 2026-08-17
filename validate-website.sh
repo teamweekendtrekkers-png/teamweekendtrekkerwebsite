@@ -46,6 +46,8 @@ REQUIRED_FILES=(
     "js/main.js"
     "js/trips-data.js"
     "js/featured-trips.js"
+    "js/trip-links.js"
+    "scripts/generate-trip-pages.js"
     "images/logo.jpg"
 )
 
@@ -121,7 +123,7 @@ fi
 echo ""
 echo -e "${BLUE}[3/8] Validating JavaScript files...${NC}"
 
-JS_FILES=(js/main.js js/trips-data.js js/featured-trips.js js/razorpay.js js/security.js)
+JS_FILES=(js/main.js js/trips-data.js js/featured-trips.js js/trip-links.js js/razorpay.js js/security.js scripts/generate-trip-pages.js)
 JS_ERRORS=0
 
 if command -v node &> /dev/null; then

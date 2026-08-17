@@ -99,6 +99,7 @@
     <script src="js/main.js"></script>
     <script src="js/trips-data.js?v=1767556524"></script>
     <script src="js/trip-date-utils.js"></script>
+    <script src="js/trip-links.js"></script>
     <script>
     // Utility: Get trip category for filter
     function getTripCategory(tripId, trip) {
@@ -139,7 +140,7 @@
                     ${TripDateUtils.renderTripDateTags(trip)}
                     <div class="trip-footer">
                         <span class="trip-price">${trip.price}</span>
-                        <a href="trip-detail.html?trip=${id}" class="btn btn-small">Explore</a>
+                        <a href="${TripLinks.detailUrl(id)}" class="btn btn-small">Explore</a>
                     </div>
                 </div>
             </div>

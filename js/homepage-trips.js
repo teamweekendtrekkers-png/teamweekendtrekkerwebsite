@@ -28,7 +28,7 @@
             const tripRows = batch.trips.map(trip => `
                 <li class="batch-trip-row">
                     <div class="batch-trip-copy">
-                        <a href="trip-detail.html?trip=${encodeURIComponent(trip.id)}" class="batch-trip-title">
+                        <a href="${TripLinks.detailUrl(trip.id)}" class="batch-trip-title">
                             ${escapeHTML(String(trip.title || '').trim())}
                         </a>
                         <span class="batch-trip-status">Upcoming</span>
@@ -85,7 +85,7 @@
                         ${TripDateUtils.renderTripDateTags(trip, referenceDate)}
                         <div class="trip-footer">
                             <span class="trip-price">${escapeHTML(trip.price || '')}</span>
-                            <a href="trip-detail.html?trip=${encodeURIComponent(trip.id)}" class="btn btn-small">Explore</a>
+                            <a href="${TripLinks.detailUrl(trip.id)}" class="btn btn-small">Explore</a>
                         </div>
                     </div>
                 </article>`;
