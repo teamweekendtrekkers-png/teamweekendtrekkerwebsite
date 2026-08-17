@@ -19,7 +19,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Aug - Sept",
         duration: "2D/1N",
-        availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
+        availableDates: ["Aug 21-23, 2026", "Aug 28-30, 2026", "Sep 4-6, 2026", "Sep 11-13, 2026"],
         about: " THE NELJI HILLS EXPERIENCE\n\nExplore one of Coorg's highest peaks on the Nelji Twin Hills Trek, set along the Karnataka–Kerala border. ⛰️\n\nThe 5+5 km trail passes through open grasslands before reaching a summit with sweeping views across the Western Ghats.\n\n\uD83C\uDF38 During the rare Neelakurinji bloom season, the hills take on an unforgettable charm.",
         highlights: ["\uD83C\uDF38 Rare Neelakurinji Blooms — Experience the hills during the special bloom season", "⛰️ Nelji Twin Hills Trek — 5+5 km adventure through scenic grasslands", "\uD83C\uDF04 Karnataka–Kerala Border Views — Panoramic Western Ghats landscapes from the summit", "\uD83C\uDF71 Summit Lunch Experience — Enjoy a packed lunch surrounded by mountains", "\uD83D\uDCA6 Chelavara Waterfalls — Discover a beautiful waterfall tucked away in forest", "\uD83D\uDED5 Igguthappa Temple — Explore one of Coorg’s revered temples", "\uD83C\uDFEF Sri Venugopala Swamy Temple — Historic temple beside the KRS backwaters", "\uD83E\uDEA8 Iconic Stone Chariot — A unique architectural highlight of the temple"],
         itinerary: [
@@ -36,7 +36,7 @@ const tripsData = {
             {name: "3️⃣ Nayanda Halli", landmark: "Divinity Global Mall", time: "10:50 PM", mapLink: "https://maps.app.goo.gl/tJHuQfjQCc43mM2y8"},
             {name: "4️⃣ Kengeri Metro Station", landmark: "Kengeri Bus Terminal ", time: "11:05 PM", mapLink: "https://maps.app.goo.gl/QmLRb8tPn64LFSu2A"},
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/theyyam/img_1787001797214.jpg", "images/gallery/theyyam/img_1787001799941.jpg", "images/gallery/theyyam/img_1787001803137.jpg", "images/gallery/theyyam/img_1787001805535.jpg"],
         groupSize: "12",
         isActive: true,
     },
