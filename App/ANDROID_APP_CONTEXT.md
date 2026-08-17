@@ -393,11 +393,11 @@ POST   /api/trips/{id}/reviews       # Add review
 
 ## 8. Cancellation Policy (Standard)
 
-| Time Before Trip | Refund |
-|------------------|--------|
-| 6+ days | 75% refund (25% fee) |
-| 4-6 days | 50% refund |
-| < 3 days | No refund |
+| Time Before Departure | Cancellation Fee |
+|-----------------------|------------------|
+| 6+ days | 25% |
+| 4 days | 50% |
+| < 3 days | 100% |
 
 ---
 
