@@ -144,7 +144,7 @@ const tripsData = {
         title: "Varkala, Kochi & Alleppey - Long Weekend Special ",
         location: "Kerala",
         badge: "Long Weekend Special ",
-        featured: false,
+        featured: true,
         price: "₹9,999",
         image: "images/trips/varkala-kochi-christmas_1771675162168.png",
         distance: "560 km from Bangalore",
