@@ -466,7 +466,7 @@ const tripsData = {
             {name: "3️⃣ YESHWANTHPUR \uD83D\uDE89", landmark: "\uD83D\uDCCD Govardhan Theatre", time: "11:00 PM", mapLink: "https://maps.app.goo.gl/5PcwLgKHo7jiHTVM8"},
             {name: "5️⃣ GORAGUNTEPALYA \uD83C\uDFE5", landmark: "\uD83D\uDCCD Fortis Hospital", time: "11:15 PM", mapLink: "https://maps.app.goo.gl/mvodFMunygmZ2o3k7"},
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/yercaud/img_1787085352255.jpg", "images/gallery/yercaud/img_1787085359352.jpg", "images/gallery/yercaud/img_1787085363549.jpg", "images/gallery/yercaud/img_1787085367767.jpg", "images/gallery/yercaud/img_1787085372376.jpg", "images/gallery/yercaud/img_1787085376452.jpg", "images/gallery/yercaud/img_1787085381061.jpg"],
         groupSize: "12-25",
         isActive: true,
     },
