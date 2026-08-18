@@ -15,6 +15,7 @@ const featuredTripIds = [
     "rameshwaram-dhanushkodi",
     "wayanad-pool-party",
     "varkala-kochi-christmas",
+    "yercaud",
 ];
 
 // Function to get featured trips data
