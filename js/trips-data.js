@@ -10,9 +10,9 @@ const tripsData = {
     theyyam: {
         title: "Neelakurinji & Nelji Hills Escape ",
         location: "Madikeri, Karnataka ",
-        badge: "Cultural",
+        badge: "Seasonal",
         featured: true,
-        price: "₹4399",
+        price: "₹4,399",
         image: "images/trips/theyyam_1786994002748.png",
         distance: "300 km from Bangalore",
         elevation: "800-2100",
