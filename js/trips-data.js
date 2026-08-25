@@ -19,7 +19,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Aug - Sept",
         duration: "2D/1N",
-        availableDates: ["Aug 21-23, 2026", "Aug 28-30, 2026", "Sep 4-6, 2026"],
+        availableDates: ["Aug 28-30, 2026", "Sep 4-6, 2026", "Sep 11-13, 2026"],
         about: " THE NELJI HILLS EXPERIENCE\n\nExplore one of Coorg's highest peaks on the Nelji Twin Hills Trek, set along the Karnataka–Kerala border. ⛰️\n\nThe 5+5 km trail passes through open grasslands before reaching a summit with sweeping views across the Western Ghats.\n\n\uD83C\uDF38 During the rare Neelakurinji bloom season, the hills take on an unforgettable charm.",
         highlights: ["\uD83C\uDF38 Rare Neelakurinji Blooms — Experience the hills during the special bloom season", "⛰️ Nelji Twin Hills Trek — 5+5 km adventure through scenic grasslands", "\uD83C\uDF04 Karnataka–Kerala Border Views — Panoramic Western Ghats landscapes from the summit", "\uD83C\uDF71 Summit Lunch Experience — Enjoy a packed lunch surrounded by mountains", "\uD83D\uDCA7 Chiklihole Reservoir — Peaceful landscapes and scenic views", "\uD83D\uDED5 Tibetan Golden Temple — Explore the beautiful Namdroling Monastery at Bylakuppe", "\uD83D\uDE98 Payana Car Museum — Discover a unique collection of vintage & classic cars", "\uD83E\uDEA8 Iconic Stone Chariot — A unique architectural highlight of the temple"],
         itinerary: [
@@ -52,7 +52,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "July - Jan",
         duration: "2D/1N",
-        availableDates: ["Aug 7-9, 2026", "Aug 14-16, 2026", "Aug 21-23, 2026", "Aug 28-30, 2026"],
+        availableDates: ["Aug 28-30, 2026", "Sep 4-6, 2026", "Sep 11-13, 2026", "Sep 18-20, 2026"],
         about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
         highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
         itinerary: [
