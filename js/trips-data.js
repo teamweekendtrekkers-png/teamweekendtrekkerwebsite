@@ -11,7 +11,7 @@ const tripsData = {
         title: "Neelakurinji & Nelji Hills Escape ",
         location: "Madikeri, Karnataka ",
         badge: "Seasonal",
-        featured: true,
+        featured: false,
         price: "₹4,399",
         image: "images/trips/theyyam_1786994002748.png",
         distance: "300 km from Bangalore",
@@ -52,7 +52,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sept - Nov",
         duration: "2D/1N",
-        availableDates: ["Sep 11-13, 2026", "Sep 18-20, 2026", "Sep 25-27, 2026"],
+        availableDates: ["Sep 25-27, 2026", "Oct 2-4, 2026", "Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026"],
         about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
         highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
         itinerary: [

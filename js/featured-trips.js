@@ -10,7 +10,6 @@
 // ============================================
 
 const featuredTripIds = [
-    "theyyam",
     "wayanad",
     "rameshwaram-dhanushkodi",
     "wayanad-pool-party",
