@@ -52,7 +52,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sept - Nov",
         duration: "2D/1N",
-        availableDates: ["Sep 25-27, 2026", "Oct 2-4, 2026", "Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026"],
+        availableDates: ["Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026"],
         about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
         highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
         itinerary: [
@@ -119,7 +119,7 @@ const tripsData = {
         difficulty: "Moderate",
         bestTime: "July - Dec",
         duration: "2D/1N",
-        availableDates: ["Sep 18-20, 2026", "Sep 25-27, 2026", "Sep 11-13, 2026"],
+        availableDates: ["Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026"],
         about: "Escape to the heart of the Western Ghats with a weekend packed with adventure, waterfalls, rainforest trails, scenic viewpoints, an off-road jeep ride, and peaceful Malenadu landscapes. Trek to Kodachadri Peak, unwind at Hidlumane Falls, and return with unforgettable memories.",
         highlights: ["\uD83C\uDF3F Kodachadri Trek – Trek through misty forests to a breathtaking summit.", "\uD83D\uDCA6 Hidlumane Falls – Refresh at a beautiful multi-tiered waterfall.", "\uD83D\uDE99 Jeep Ride (Optional) – Thrilling off-road adventure through forest trails.", "\uD83D\uDCA7 Devagange Ponds – Relax by peaceful natural poo", "\uD83C\uDFEF Nagara Fort – Explore a historic fort with scenic views.", "\uD83C\uDFAC Malgudi Museum (Optional) – Relive the charm of R.K. Narayan's Malgudi.", "\uD83C\uDF3F Rainforest Trails – Walk through lush forests and streams.", "\uD83D\uDCF8 Mountain Views – Capture stunning Western Ghats landscapes.", "\uD83C\uDFE1 Homestay Stay – Enjoy local food and a peaceful stay.", "\uD83D\uDD25 Campfire Night – Good food, music, and great company.", "\uD83D\uDC9A Perfect Weekend – Adventure, nature, and unforgettable memories."],
         itinerary: [
@@ -182,7 +182,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Nov - Apr",
         duration: "2D/1N",
-        availableDates: ["Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026", "Dec 18-20, 2026", "Dec 25-27, 2026"],
+        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026", "Dec 18-20, 2026", "Dec 25-27, 2026", "Jan 1-3, 2027"],
         about: "\uD83C\uDF34 Experience the soul of Kerala on a unique weekend getaway featuring the magical Theyyam ritual, ancient temples, scenic beaches, ferry rides, heritage forts, authentic local cuisine, and unforgettable coastal sunsets.",
         highlights: ["\uD83D\uDD25 Experience the magical Theyyam performance & receive divine blessings", "\uD83D\uDE4F Visit the famous Parassinikadavu Sri Muthappan Temple", "\uD83C\uDF5B Taste the unique Muthappan Temple prasadam & traditional temple lunch", "\uD83C\uDFF0 Explore the historic St. Angelo Fort", "\uD83C\uDF0A Climb the Kannur Lighthouse for stunning Arabian Sea views", "\uD83C\uDFAD Learn the history of Theyyam at the Folk Art Museum", "\uD83C\uDF05 Watch a breathtaking sunset at Payyambalam Beach", "\uD83C\uDFA8 Walk through the colourful Graffiti Street"],
         itinerary: [
@@ -449,7 +449,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Aug - Oct",
         duration: "2D/1N",
-        availableDates: ["Aug 21-23, 2026", "Aug 28-30, 2026", "Sep 4-6, 2026", "Sep 11-13, 2026", "Sep 18-20, 2026", "Sep 25-27, 2026"],
+        availableDates: ["Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026"],
         about: "Escape into the misty Western Ghats for a weekend packed with waterfalls, mountain peaks, coffee estates and breathtaking sunsets. \uD83D\uDC9A\nChase the roaring Hebbe & Jhari Waterfalls, explore Mullayanagiri, witness a magical Kemmanagundi sunset, relax in a beautiful coffee estate, and end the day with campfire, music & great company. \uD83D\uDD25\n✨ A perfect weekend of mountains, waterfalls, adventure and Malnad vibes!",
         highlights: ["☕ Coffee Estate Stay – Wake up amidst the misty coffee plantations.", "\uD83D\uDCA6 Hebbe Waterfalls – Scenic forest trails, jeep adventure & refreshing waterfalls.", "\uD83C\uDF04 Kemmanagundi Sunset – Watch the Western Ghats glow at golden hour.", "\uD83C\uDFD4️ Mullayanagiri Peak – Experience Karnataka's highest peak.", "\uD83C\uDF0A Jhari Waterfalls – Off-road jeep ride & a refreshing waterfall experience.", "\uD83D\uDD25 Campfire Night – Music, dance, games & unforgettable conversations.", "\uD83D\uDEA3 Yagachi Backwaters – Optional water adventure activities.", "\uD83C\uDFDB️ Belur Temple – Explore the magnificent Hoysala architecture"],
         itinerary: [
