@@ -152,7 +152,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Jan",
         duration: "3D/2N",
-        availableDates: ["Oct 23-26, 2026", "Dec 24-27, 2026"],
+        availableDates: ["Oct 16-19, 2026", "Dec 24-27, 2026"],
         about: "12 strangers. 1 epic escape. Find freedom on Kerala's coast! From the historic charm of Fort Kochi to the peaceful Alleppey backwaters and boho soul of Varkala, this journey is all about new bonds, coastal chill, and unforgettable memories.\n\nExplore Chinese Fishing Nets, cruise through serene backwaters on a shikara, café-hop on Varkala Cliff, and witness the mighty Jatayu Earth Center - the world's largest bird sculpture!",
         highlights: ["Fort Kochi & Chinese Fishing Nets", "Jew Town & Dutch Palace", "Kashi Art Café", "Alleppey Shikara Boat Ride", "Varkala Cliff & Cafés", "Black Sand Beach sunset", "Kayaking through backwaters", "Jatayu Earth Center"],
         itinerary: [
