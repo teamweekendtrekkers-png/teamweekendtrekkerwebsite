@@ -1,0 +1,32 @@
+/* Custom labels may be longer than the original fixed text. */
+.carry-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.carry-item,
+.suitable-tag {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.suitable-tag span {
+    min-width: 0;
+}
+
+.suitable-tag i {
+    flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+    .carry-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .carry-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

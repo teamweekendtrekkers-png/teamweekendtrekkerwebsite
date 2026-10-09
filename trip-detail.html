@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/trip-detail-lists.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -279,7 +280,7 @@
                     <!-- Things to Carry -->
                     <div class="content-section">
                         <h2>Things to Carry</h2>
-                        <div class="carry-grid">
+                        <div class="carry-grid" id="thingsToCarryGrid">
                             <div class="carry-item"><i class="fas fa-shoe-prints"></i> Trekking shoes</div>
                             <div class="carry-item"><i class="fas fa-tint"></i> 2L water bottle</div>
                             <div class="carry-item"><i class="fas fa-lightbulb"></i> Torch/Headlamp</div>
@@ -467,6 +468,7 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/trip-detail-lists.js?v=1"></script>
     <script src="js/trips-data.js?v=1786999503"></script>
     <script>
         // Get trip from URL parameter
@@ -564,6 +566,7 @@
             const trip = getTripData(tripId);
 
             updateTripMetadata(trip, tripId);
+            TripDetailLists.render(trip, document);
 
             // Handle inactive trips - grey out page and disable booking
             const isInactive = trip.isActive === false;
