@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/trip-detail-lists.css">
+    <link rel="stylesheet" href="css/trip-brochure.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -393,6 +394,11 @@
                                 Book Now
                             </a>
                         </form>
+                        <div class="trip-brochure-actions">
+                            <button type="button" class="btn btn-secondary btn-full" id="tripBrochureButton">
+                                <i class="fas fa-file-pdf" aria-hidden="true"></i> Brochure (PDF)
+                            </button>
+                        </div>
                         <div class="quick-contact">
                             <p>Have questions?</p>
                             <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20Netravati%20Peak%20Trek" class="btn btn-whatsapp btn-full" target="_blank">
@@ -466,6 +472,17 @@
             <span class="float-cta">Book Now &nbsp;<i class="fas fa-arrow-right"></i></span>
         </a>
     </div>
+
+    <dialog id="tripBrochureDialog" class="trip-brochure-dialog" aria-labelledby="tripBrochureHeading">
+        <h2 id="tripBrochureHeading">Trip brochure</h2>
+        <p id="tripBrochureStatus" role="status" aria-live="polite"></p>
+        <div id="tripBrochurePreview" class="trip-brochure-preview"></div>
+        <div class="trip-brochure-controls">
+            <button type="button" class="btn btn-primary" id="tripBrochureDownload" disabled>Download PDF</button>
+            <button type="button" class="btn btn-secondary" id="tripBrochureShare" hidden>Share PDF</button>
+            <button type="button" class="btn btn-secondary" id="tripBrochureClose">Close</button>
+        </div>
+    </dialog>
 
     <script src="js/main.js"></script>
     <script src="js/trip-detail-lists.js?v=1"></script>
@@ -1011,6 +1028,8 @@
             }, { passive: true });
         })();
     </script>
+    <script src="js/trip-date-utils.js"></script>
+    <script src="js/trip-brochure.js"></script>
     <script src="js/security.js"></script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+.trip-brochure-actions { margin-top: 14px; }
+.trip-brochure-dialog { width: min(720px, calc(100% - 24px)); max-height: 85vh; border: 0; border-radius: 16px; padding: 24px; color: #17442d; }
+.trip-brochure-dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
+.trip-brochure-preview { max-height: 52vh; overflow-y: auto; overflow-wrap: anywhere; margin: 16px 0; padding: 4px 12px 4px 0; }
+.trip-brochure-preview h3 { margin: 16px 0 8px; }
+.trip-brochure-preview p { white-space: pre-wrap; margin: 6px 0; color: #25382e; }
+.trip-brochure-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.trip-brochure-controls [hidden] { display: none; }
+.trip-brochure-controls button:disabled { opacity: 0.6; cursor: wait; }
