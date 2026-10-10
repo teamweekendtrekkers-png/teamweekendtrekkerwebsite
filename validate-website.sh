@@ -144,14 +144,15 @@ if command -v node &> /dev/null; then
             # Extract JavaScript from <script> tags (not src) and validate
             INLINE_JS=$(sed -n '/<script>/,/<\/script>/p' "$html_file" | grep -v '<script>' | grep -v '</script>' || true)
             if [ -n "$INLINE_JS" ]; then
-                echo "$INLINE_JS" > /tmp/inline_check.js
-                if ! node -c /tmp/inline_check.js 2>/dev/null; then
+                INLINE_JS_FILE=$(mktemp "${TMPDIR:-/tmp}/twt-inline-check.XXXXXX.js")
+                echo "$INLINE_JS" > "$INLINE_JS_FILE"
+                if ! node -c "$INLINE_JS_FILE" 2>/dev/null; then
                     echo -e "  ${RED}❌ $html_file: Inline JavaScript syntax error${NC}"
-                    node -c /tmp/inline_check.js 2>&1 | head -3
+                    node -c "$INLINE_JS_FILE" 2>&1 | head -3
                     JS_ERRORS=$((JS_ERRORS + 1))
                     ERRORS=$((ERRORS + 1))
                 fi
-                rm -f /tmp/inline_check.js
+                rm -f "$INLINE_JS_FILE"
             fi
         fi
     done

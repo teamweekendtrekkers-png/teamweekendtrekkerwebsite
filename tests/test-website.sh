@@ -394,11 +394,12 @@ else
     fail "trip-detail.html doesn't handle inactive trips"
 fi
 
-# Check trips.html handles inactive trips
-if grep -q "trip.isActive" trips.html; then
-    pass "trips.html handles inactive trips"
+# Check trips.html loads the shared module that handles inactive trips
+if grep -q 'src="js/trip-discovery.js"' trips.html && \
+   grep -q 'trip.isActive === false' js/trip-discovery.js; then
+    pass "trips.html loads shared inactive-trip handling"
 else
-    warn "trips.html may not handle inactive trips"
+    fail "trips.html inactive-trip handling is missing"
 fi
 
 # ============================================

@@ -298,10 +298,14 @@ jobs:
           exit 1
         fi
         
-        if grep -q "isActive" trips.html; then
-          echo "✅ trips.html handles inactive trips"
+        # The catalogue delegates rendering/filtering to the shared discovery
+        # module. Verify both the integration point and the implementation so
+        # this gate follows the production architecture.
+        if grep -q 'src="js/trip-discovery.js"' trips.html && \
+           grep -q 'trip.isActive === false' js/trip-discovery.js; then
+          echo "✅ trips.html loads shared inactive-trip handling"
         else
-          echo "❌ trips.html doesn't handle inactive trips"
+          echo "❌ trips.html inactive-trip handling is missing"
           exit 1
         fi
         
