@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hero": {
+    "backgroundImage": "images/wix/hero1.jpg",
+    "title": "Explore. Travel. Experience.",
+    "tagline": "🧗 Trips | Tours | Unique Experiences 🏕️",
+    "description": "A Travel community for the travellers, By the travellers"
+  },
+  "upcomingBatches": {
+    "enabled": true,
+    "title": "Upcoming Batches",
+    "subtitle": "Plan your next escape with our nearest available trip dates",
+    "maxBatches": 3,
+    "tripSelection": "all",
+    "tripIds": [],
+    "departureSelection": "all",
+    "departures": [],
+    "fields": {
+      "price": true, "status": true, "weekday": true,
+      "location": false, "duration": false, "difficulty": false, "image": false
+    }
+  }
+}

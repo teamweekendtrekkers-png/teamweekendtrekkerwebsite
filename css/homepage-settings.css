@@ -4,3 +4,23 @@
 .batch-trip-thumbnail { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
 .hero-content { max-width: 100%; overflow-wrap: anywhere; }
 .upcoming-batches[hidden] { display: none; }
+/* Progressive enhancement: without JS the original review grid remains usable. */
+.stats[hidden], .why-us[hidden], .testimonials[hidden], .cta-section[hidden], .review-slider-controls[hidden], .review-slider-button[hidden] { display: none; }
+.stats-grid, .features-grid { grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.stats-grid { grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); }
+.testimonials-grid.reviews-slider { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px 4px 20px; scrollbar-width: thin; scrollbar-color: var(--primary) transparent; }
+.reviews-slider .testimonial-card { flex: 0 0 calc((100% - 40px) / 3); min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; overflow-wrap: anywhere; }
+.reviews-slider .testimonial-card:hover { transform: none; }
+.reviews-slider .testimonial-card p { white-space: pre-line; }
+.review-google-link { margin-top: auto; padding-top: 16px; font-weight: 600; color: var(--primary); }
+.reviewer-avatar { position: relative; width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: #eaf2ed; color: #194d32; display: grid; place-items: center; font-weight: 700; overflow: hidden; }
+.reviewer-avatar .reviewer-photo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.review-slider-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; flex-wrap: wrap; }
+.review-slider-button { border: 1px solid var(--primary); border-radius: 999px; min-width: 44px; min-height: 44px; padding: 8px 16px; background: white; color: var(--primary); cursor: pointer; font: inherit; }
+.review-slider-button:hover { background: #edf5ef; }
+.review-slider-button:focus-visible, .reviews-slider:focus-visible, .review-google-link:focus-visible { outline: 3px solid #f18b20; outline-offset: 3px; }
+.review-slider-status { font-size: .85rem; color: #56645d; }
+.reviews-empty { padding: 20px; text-align: center; width: 100%; }
+@media (max-width: 900px) { .reviews-slider .testimonial-card { flex-basis: calc((100% - 20px) / 2); } }
+@media (max-width: 600px) { .reviews-slider .testimonial-card { flex-basis: 92%; } }
+@media (prefers-reduced-motion: reduce) { .reviews-slider { scroll-behavior: auto; } }

@@ -1,8 +1,9 @@
 (function (root, factory) {
-    const api = factory(typeof module === 'object' && module.exports ? require('./trip-date-utils') : root.TripDateUtils);
+    const node = typeof module === 'object' && module.exports;
+    const api = factory(node ? require('./trip-date-utils') : root.TripDateUtils, node ? require('./homepage-sections') : root.HomepageSections);
     if (typeof module === 'object' && module.exports) module.exports = api;
     else root.HomepageSettings = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, sections) {
     'use strict';
     const defaults = {
         version: 1,
@@ -19,6 +20,7 @@
         }
     };
     const clone = value => JSON.parse(JSON.stringify(value));
+    defaults.sections = clone(sections.defaults);
     function safeImage(value) {
         if (typeof value !== 'string' || /[\s"'()<>\\\u0000-\u001f]/.test(value)) return false;
         if (/^https:\/\/[^/]+\//i.test(value)) {
@@ -49,6 +51,7 @@
         for (const key of Object.keys(result.upcomingBatches.fields)) {
             if (batches.fields && typeof batches.fields[key] === 'boolean') result.upcomingBatches.fields[key] = batches.fields[key];
         }
+        result.sections = sections.normalize(raw.sections, safeImage);
         return result;
     }
     function selectedTrips(trips, config, referenceDate) {
@@ -81,6 +84,7 @@
         }
         const section = document.querySelector('.upcoming-batches');
         if (section) section.hidden = !normalized.upcomingBatches.enabled;
+        sections.apply(normalized.sections, document);
         return normalized;
     }
     async function load(fetcher) {

@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const settings = require('../js/homepage-settings');
 const dates = require('../js/trip-date-utils');
-const defaults = require('../js/homepage-config.json');
+// Fixed characterization fixture, never the manager-editable published content.
+const defaults = require('./fixtures/homepage-defaults.json');
 const now = new Date('2026-08-13T12:00:00Z');
 const trips = [
     { id: 'a', title: 'Alpha <script>', price: '₹999', location: 'Hill & Lake', duration: '2 days', difficulty: 'Easy', image: 'images/a.jpg', availableDates: ['Aug 14-16, 2026', 'Aug 21-23, 2026', 'Aug 28-30, 2026', 'Sep 4-6, 2026'] },
@@ -13,11 +14,12 @@ const trips = [
 ];
 const config = () => structuredClone(defaults);
 
-test('committed defaults retain automatic first-three batches exactly', () => {
-    assert.deepEqual(defaults, settings.defaults);
+test('fixed legacy defaults retain automatic first-three batches exactly', () => {
+    // Existing config stays byte-for-byte unchanged; new sections get safe defaults.
+    assert.deepEqual(settings.normalize(defaults), settings.defaults);
     assert.deepEqual(settings.buildBatches(trips, defaults, now), dates.buildUpcomingBatches(trips, now, 3));
-    assert.deepEqual(settings.normalize(null), defaults);
-    assert.deepEqual(settings.normalize({ version: 2 }), defaults);
+    assert.deepEqual(settings.normalize(null), settings.defaults);
+    assert.deepEqual(settings.normalize({ version: 2 }), settings.defaults);
 });
 test('selected trips filter by ID, preserve catalog ordering, and never mutate trips', () => {
     const before = JSON.stringify(trips), custom = config();
@@ -73,9 +75,9 @@ test('hero and section copy use safe text and preserve action links', () => {
 });
 test('404, API, JSON and offline errors fall back to legacy defaults', async () => {
     for (const fetcher of [async () => ({ ok: false }), async () => { throw Error('offline'); }, async () => ({ ok: true, json: async () => { throw Error('bad JSON'); } })]) {
-        assert.deepEqual(await settings.load(fetcher), defaults);
+        assert.deepEqual(await settings.load(fetcher), settings.defaults);
     }
-    assert.deepEqual(await settings.load(async (url, options) => { assert.equal(url, 'js/homepage-config.json'); assert.equal(options.cache, 'no-cache'); return { ok: true, json: async () => defaults }; }), defaults);
+    assert.deepEqual(await settings.load(async (url, options) => { assert.equal(url, 'js/homepage-config.json'); assert.equal(options.cache, 'no-cache'); return { ok: true, json: async () => defaults }; }), settings.defaults);
 });
 test('actual renderer respects detail toggles and retains featured cards / safe detail links', async () => {
     const custom = config(); Object.assign(custom.upcomingBatches.fields, { price: false, status: false, weekday: false, location: true, duration: true, difficulty: true, image: true });
