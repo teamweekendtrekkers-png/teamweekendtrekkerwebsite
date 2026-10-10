@@ -1,7 +1,7 @@
 {
   "version": 1,
   "hero": {
-    "backgroundImage": "images/wix/hero1.jpg",
+    "backgroundImage": "images/trips/homepage_1791650644735.jpg",
     "title": "Explore. Travel. Experience.",
     "tagline": "🧗 Trips | Tours | Unique Experiences 🏕️",
     "description": "A Travel community for the travellers, By the travellers"
@@ -11,13 +11,22 @@
     "title": "Upcoming Batches",
     "subtitle": "Plan your next escape with our nearest available trip dates",
     "maxBatches": 3,
-    "tripSelection": "all",
-    "tripIds": [],
+    "tripSelection": "selected",
+    "tripIds": [
+      "rameshwaram-dhanushkodi",
+      "wayanad",
+      "varkala-kochi-christmas"
+    ],
     "departureSelection": "all",
     "departures": [],
     "fields": {
-      "price": true, "status": true, "weekday": true,
-      "location": false, "duration": false, "difficulty": false, "image": false
+      "price": true,
+      "status": true,
+      "weekday": true,
+      "location": false,
+      "duration": false,
+      "difficulty": false,
+      "image": false
     }
   }
 }
