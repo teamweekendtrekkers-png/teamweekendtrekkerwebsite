@@ -1,0 +1,6 @@
+/* Added detail fields are opt-in; default card layout stays unchanged. */
+.batch-trip-copy { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.batch-trip-detail { display: block; color: var(--gray); font-size: 0.8rem; margin-top: 4px; }
+.batch-trip-thumbnail { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.hero-content { max-width: 100%; overflow-wrap: anywhere; }
+.upcoming-batches[hidden] { display: none; }

@@ -6,11 +6,17 @@
         return Object.entries(tripsData).map(([id, trip]) => ({ id, ...trip }));
     }
 
-    function renderUpcomingBatches(referenceDate) {
+    function renderUpcomingBatches(referenceDate, config) {
         const grid = document.getElementById('upcoming-batches-grid');
         if (!grid || typeof TripDateUtils === 'undefined') return;
 
-        const batches = TripDateUtils.buildUpcomingBatches(getAllTrips(), referenceDate, 3);
+        const allTrips = getAllTrips();
+        const batches = typeof HomepageSettings === 'undefined'
+            ? TripDateUtils.buildUpcomingBatches(allTrips, referenceDate, 3)
+            : HomepageSettings.buildBatches(allTrips, config, referenceDate);
+        const fields = typeof HomepageSettings === 'undefined'
+            ? { price: true, status: true, weekday: true }
+            : HomepageSettings.normalize(config).upcomingBatches.fields;
         const escapeHTML = TripDateUtils.escapeHTML;
 
         if (batches.length === 0) {
@@ -25,16 +31,25 @@
         }
 
         grid.innerHTML = batches.map(batch => {
-            const tripRows = batch.trips.map(trip => `
+            const tripRows = batch.trips.map(trip => {
+                const details = allTrips.find(item => item.id === trip.id) || {};
+                const extra = ['location', 'duration', 'difficulty'].filter(field => fields[field] && details[field])
+                    .map(field => `<span class="batch-trip-detail">${escapeHTML(String(details[field]))}</span>`).join('');
+                const image = fields.image && typeof HomepageSettings !== 'undefined' && HomepageSettings.safeImage(details.image)
+                    ? `<img class="batch-trip-thumbnail" src="${escapeHTML(details.image)}" alt="" loading="lazy">` : '';
+                return `
                 <li class="batch-trip-row">
+                    ${image}
                     <div class="batch-trip-copy">
                         <a href="${TripLinks.detailUrl(trip.id)}" class="batch-trip-title">
                             ${escapeHTML(String(trip.title || '').trim())}
                         </a>
-                        <span class="batch-trip-status">Upcoming</span>
+                        ${fields.status ? '<span class="batch-trip-status">Upcoming</span>' : ''}
+                        ${extra}
                     </div>
-                    <span class="batch-trip-price">${escapeHTML(trip.price || '')}</span>
-                </li>`).join('');
+                    ${fields.price ? `<span class="batch-trip-price">${escapeHTML(trip.price || '')}</span>` : ''}
+                </li>`;
+            }).join('');
 
             return `
                 <article class="batch-card">
@@ -42,7 +57,7 @@
                         <i class="far fa-calendar-alt" aria-hidden="true"></i>
                         <div>
                             <time datetime="${batch.datetime}" class="batch-date">${escapeHTML(batch.dateLabel)}</time>
-                            <span class="batch-weekday">${escapeHTML(batch.weekdayLabel)}</span>
+                            ${fields.weekday ? `<span class="batch-weekday">${escapeHTML(batch.weekdayLabel)}</span>` : ''}
                         </div>
                     </header>
                     <ul class="batch-trip-list">${tripRows}</ul>
@@ -92,9 +107,15 @@
         }).join('');
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', async function () {
         const referenceDate = new Date();
-        renderUpcomingBatches(referenceDate);
         renderFeaturedTrips(referenceDate);
+        if (typeof HomepageSettings !== 'undefined') {
+            const config = await HomepageSettings.load(window.fetch.bind(window));
+            HomepageSettings.apply(config, document);
+            renderUpcomingBatches(referenceDate, config);
+        } else {
+            renderUpcomingBatches(referenceDate);
+        }
     });
 }());
