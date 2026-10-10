@@ -1,9 +1,9 @@
 (function (root, factory) {
     const node = typeof module === 'object' && module.exports;
-    const api = factory(node ? require('./trip-date-utils') : root.TripDateUtils, node ? require('./homepage-sections') : root.HomepageSections);
+    const api = factory(node ? require('./trip-date-utils') : root.TripDateUtils, node ? require('./homepage-sections') : root.HomepageSections, node ? require('./footer-settings') : root.FooterSettings);
     if (typeof module === 'object' && module.exports) module.exports = api;
     else root.HomepageSettings = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, sections) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, sections, footer) {
     'use strict';
     const defaults = {
         version: 1,
@@ -12,6 +12,7 @@
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
             description: 'A Travel community for the travellers, By the travellers'
         },
+        discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true },
         upcomingBatches: {
             enabled: true, title: 'Upcoming Batches',
             subtitle: 'Plan your next escape with our nearest available trip dates',
@@ -21,6 +22,7 @@
     };
     const clone = value => JSON.parse(JSON.stringify(value));
     defaults.sections = clone(sections.defaults);
+    defaults.footer = clone(footer.defaults);
     function safeImage(value) {
         if (typeof value !== 'string' || /[\s"'()<>\\\u0000-\u001f]/.test(value)) return false;
         if (/^https:\/\/[^/]+\//i.test(value)) {
@@ -37,6 +39,9 @@
             if (typeof hero[key] === 'string' && hero[key].trim()) result.hero[key] = hero[key].trim();
         }
         if (safeImage(hero.backgroundImage)) result.hero.backgroundImage = hero.backgroundImage;
+        for (const key of Object.keys(result.discovery)) {
+            if (raw.discovery && typeof raw.discovery[key] === 'boolean') result.discovery[key] = raw.discovery[key];
+        }
         const batches = raw.upcomingBatches || {};
         for (const key of ['title', 'subtitle']) {
             if (typeof batches[key] === 'string' && batches[key].trim()) result.upcomingBatches[key] = batches[key].trim();
@@ -52,6 +57,7 @@
             if (batches.fields && typeof batches.fields[key] === 'boolean') result.upcomingBatches.fields[key] = batches.fields[key];
         }
         result.sections = sections.normalize(raw.sections, safeImage);
+        result.footer = footer.normalize(raw.footer);
         return result;
     }
     function selectedTrips(trips, config, referenceDate) {

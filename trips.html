@@ -6,6 +6,8 @@
     <title>All Trips - Team Weekend Trekkers</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/footer-settings.css">
+    <link rel="stylesheet" href="css/trip-discovery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -36,6 +38,8 @@
     <!-- Filter Section -->
     <section class="filter-section">
         <div class="container">
+            <div class="discovery-controls" id="trip-discovery-controls" role="search" aria-label="Find a trip" hidden></div>
+            <p class="filter-context">Or browse by trip type</p>
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="trek">Trips</button>
@@ -48,6 +52,10 @@
 
     <section class="trips-section">
         <div class="container">
+            <div class="catalogue-status">
+                <p id="trip-results-status" aria-live="polite">Loading trips…</p>
+                <label class="coming-soon-toggle"><input type="checkbox" id="show-coming-soon"> Show coming soon</label>
+            </div>
             <div class="trips-grid" id="tripsDynamicGrid">
                 <!-- Trip cards loaded dynamically from trips-data.js -->
             </div>
@@ -57,7 +65,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
+                <div class="footer-col" data-footer-brand>
                     <h4>Team Weekend Trekkers</h4>
                     <p>A Travel community for the travellers, By the travellers.</p>
                     <div class="social-links">
@@ -65,7 +73,7 @@
                         <a href="https://wa.me/917019235581" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-navigation>
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -74,12 +82,12 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
                     <p><i class="fab fa-whatsapp"></i> +91 917019235581</p>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
                     <p class="upi-id-display" id="upi-footer">Loading...</p>
                     <button class="btn btn-small copy-upi" onclick="copyUPI()"><i class="fas fa-copy"></i> Copy UPI</button>
@@ -97,80 +105,13 @@
     </a>
 
     <script src="js/main.js"></script>
+    <script src="js/footer-settings.js"></script>
     <script src="js/trips-data.js?v=1786999503"></script>
     <script src="js/trip-date-utils.js"></script>
     <script src="js/trip-links.js"></script>
-    <script>
-    // Utility: Get trip category for filter
-    function getTripCategory(tripId, trip) {
-        if (trip.badge && trip.badge.toLowerCase().includes('trek')) return 'trek';
-        if (trip.badge && trip.badge.toLowerCase().includes('road')) return 'roadtrip';
-        if (trip.badge && trip.badge.toLowerCase().includes('expedition')) return 'expedition';
-        if (trip.badge && trip.badge.toLowerCase().includes('backpack')) return 'backpacking';
-        if (trip.badge && trip.badge.toLowerCase().includes('hill')) return 'backpacking';
-        if (trip.badge && trip.badge.toLowerCase().includes('adventure')) return 'trek';
-        if (trip.badge && trip.badge.toLowerCase().includes('backwater')) return 'backpacking';
-        return 'other';
-    }
-    // Render all trips
-    function loadTrips() {
-        const grid = document.getElementById('tripsDynamicGrid');
-        if (!grid) return;
-        let html = '';
-        const tripScore = t => (t.featured === true && t.isActive !== false) ? 2 : (t.isActive !== false ? 1 : 0);
-        const sortedEntries = Object.entries(tripsData).sort(([, a], [, b]) => tripScore(b) - tripScore(a));
-        sortedEntries.forEach(([id, trip]) => {
-            const category = getTripCategory(id, trip);
-            const isInactive = trip.isActive === false;
-            const inactiveClass = isInactive ? 'trip-inactive' : '';
-            html += `
-            <div class="trip-card ${inactiveClass}" data-category="${category}">
-                <div class="trip-image">
-                    <img src="${trip.image}" alt="${trip.title}" loading="lazy">
-                    <span class="trip-badge">${trip.badge}</span>
-                    ${isInactive ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}
-                </div>
-                <div class="trip-content">
-                    <h3>${trip.title}</h3>
-                    <p class="trip-location"><i class="fas fa-map-marker-alt"></i> ${trip.location}</p>
-                    <div class="trip-meta">
-                        <span><i class="fas fa-clock"></i> ${trip.duration || ''}</span>
-                        <span><i class="fas fa-signal"></i> ${trip.difficulty || ''}</span>
-                    </div>
-                    ${TripDateUtils.renderTripDateTags(trip)}
-                    <div class="trip-footer">
-                        <span class="trip-price">${trip.price}</span>
-                        <a href="${TripLinks.detailUrl(id)}" class="btn btn-small">Explore</a>
-                    </div>
-                </div>
-            </div>
-            `;
-        });
-        grid.innerHTML = html;
-        // Initialize filters after cards are loaded
-        initFilters();
-    }
-    // Filter functionality
-    function initFilters() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const tripCards = document.querySelectorAll('.trip-card');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.dataset.filter;
-                tripCards.forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    }
-    document.addEventListener('DOMContentLoaded', loadTrips);
-    </script>
+    <script src="js/homepage-sections.js"></script>
+    <script src="js/homepage-settings.js"></script>
+    <script src="js/trip-discovery.js"></script>
     <script>
     // UPI Protection - Display masked, copy actual
     (function() {

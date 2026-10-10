@@ -1,0 +1,22 @@
+/* Scoped to the two editable homepage sections; no booking or review overrides. */
+.homepage-info-section { padding: clamp(48px, 6vw, 80px) 0; }
+.how-it-works { background: #f2f7f3; }
+.why-choose-us { background: #fff; }
+.homepage-info-header { text-align: center; max-width: 760px; margin: 0 auto 36px; }
+.homepage-info-section .section-title { font-size: clamp(1.75rem, 3vw, 2.2rem); overflow-wrap: anywhere; }
+.homepage-info-section .section-eyebrow { display: inline-block; padding: 5px 12px; margin-bottom: 12px; border-radius: 999px; background: #e3eee5; color: #194d32; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; overflow-wrap: anywhere; }
+.why-choose-us .section-eyebrow { background: #fff0df; color: #8c4209; }
+.homepage-info-section .section-eyebrow:empty, .homepage-info-section .section-subtitle:empty { display: none; }
+.homepage-info-section .section-subtitle { margin-bottom: 0; }
+.homepage-info-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding: 0; margin: 0; list-style: none; }
+.homepage-info-card { --card-accent: #17643b; --card-tint: #f1f8f3; position: relative; min-width: 0; padding: 30px 24px; border: 1px solid var(--card-accent); border-radius: 20px; background: var(--card-tint); overflow-wrap: anywhere; }
+.homepage-info-card.accent-blue { --card-accent: #245bb5; --card-tint: #f2f6ff; }
+.homepage-info-card.accent-orange { --card-accent: #a6500d; --card-tint: #fff7ee; }
+.how-it-works .homepage-info-card { text-align: center; }
+.homepage-info-icon { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; min-height: 48px; margin-bottom: 16px; padding: 8px; border-radius: 50%; background: #fff; color: var(--card-accent); font-size: 1.6rem; line-height: 1; }
+.homepage-step-number { position: absolute; right: 16px; top: 16px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--card-accent); color: #fff; font-size: .8rem; font-weight: 700; }
+.homepage-info-value { display: block; color: var(--primary); font-size: clamp(1.6rem, 2.5vw, 2rem); font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+.homepage-info-card h3 { font-size: 1.15rem; color: var(--primary); margin: 0 0 12px; }
+.homepage-info-card p { color: #526058; margin: 0; white-space: pre-line; }
+@media (max-width: 900px) { .homepage-info-grid { gap: 16px; } .homepage-info-card { padding: 24px 18px; } }
+@media (max-width: 650px) { .homepage-info-grid { grid-template-columns: minmax(0, 1fr); } .homepage-info-header { margin-bottom: 24px; } }

@@ -181,6 +181,12 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
         '<base href="../../">',
         'TRIP_BASE marker',
     );
+    page = replaceExactlyOnce(
+        page,
+        '<h1 id="tripTitle">Trip details</h1>',
+        `<h1 id="tripTitle">${escapeHtml(trip.title.trim())}</h1>`,
+        'trip heading',
+    );
     return replaceMetadataBlock(page, metadata);
 }
 

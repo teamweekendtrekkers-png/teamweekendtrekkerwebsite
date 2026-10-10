@@ -34,3 +34,18 @@ test('keeps legacy query links in local and file previews', () => {
         );
     }
 });
+
+test('departure links preserve original labels and use the correct query separator', () => {
+    const date = 'Oct 30–Nov 1, 2026';
+    assert.equal(TripLinks.departureUrl('wayanad', date, { protocol: 'https:', hostname: 'example.com' }),
+        'trips/wayanad/?date=Oct%2030%E2%80%93Nov%201%2C%202026');
+    assert.equal(TripLinks.departureUrl('wayanad', date, { protocol: 'http:', hostname: 'localhost' }),
+        'trip-detail.html?trip=wayanad&date=Oct%2030%E2%80%93Nov%201%2C%202026');
+    for (const value of ['', ' ', null, undefined, 123]) {
+        assert.equal(TripLinks.departureUrl('wayanad', value), TripLinks.detailUrl('wayanad'));
+    }
+    const url = new URL(TripLinks.departureUrl('a & b', 'Oct 16-18, 2026&people=99#x', { protocol: 'https:', hostname: 'example.com' }), 'https://example.com/');
+    assert.equal(url.searchParams.get('date'), 'Oct 16-18, 2026&people=99#x');
+    assert.equal(url.searchParams.has('people'), false);
+    assert.equal(url.hash, '');
+});

@@ -23,6 +23,9 @@
         [/snack|energy bar|food/i, 'fa-cookie'],
         [/medicin|first aid/i, 'fa-capsules'],
         [/camera/i, 'fa-camera'],
+        [/power bank|charg/i, 'fa-battery-full'],
+        [/cash|money/i, 'fa-money-bill-wave'],
+        [/toiletr|soap|sunscreen/i, 'fa-soap'],
     ];
     const audienceIcons = [
         [/solo/i, 'fa-user'],
@@ -45,12 +48,38 @@
         return match ? match[1] : (field === 'thingsToCarry' ? 'fa-suitcase' : 'fa-users');
     }
 
+    function splitLegacyPackingItem(label) {
+        // Existing structured items and ordinary multiline prose are unchanged.
+        if (label.length < 200) return [label];
+        const bullets = [...label.matchAll(/[•▪●]\s*(?=\S)/gu)].map(match => match.index);
+        const lineBullets = [...label.matchAll(/(?:^|\n)[ \t]*(?:[-*]\s+|\d+[.)]\s+)/gu)]
+            .map(match => match.index);
+        // Only recognise an emoji when followed by a known packing-item label.
+        // This avoids treating scenic/expressive emoji in arbitrary prose as bullets.
+        const packingLabels = '(?:Small\\s+)?Backpack|(?:Good\\s+)?Trekking\\s+Shoes|Water\\s+Bottle|Raincoat|Extra(?:\\s+Pair\\s+of)?\\s+Clothes|Extra\\s+Socks|Flip[-\\s]?flops|Slippers|Power\\s+Bank|Mobile\\s+Charger|Phone\\s*&|Camera|(?:Extra\\s+)?Cash|Personal\\s+(?:Medicines|Toiletries)|Toiletries|(?:Plastic\\s+)?(?:Waterproof\\s*\\/\\s*)?Zip[-\\s]?lock\\s+Bags|Cap\\s*(?:&|\\/|$)|Sunglasses|Sunscreen|Energy\\s+Snacks|Small\\s+Waterproof\\s+Bags';
+        const packingMarkers = new RegExp('(?:🎒|💧|🧥|👕|🧦|👟|🥾|🩴|📱|🔋|📷|📸|💵|💊|🧴|🛍|🧢|🕶|🩹|🗑|🌧)\\uFE0F?\\s*(?=' + packingLabels + ')', 'giu');
+        const emojiBullets = [...label.matchAll(packingMarkers)].map(match => match.index);
+        const boundaries = bullets.length >= 3 ? bullets : (lineBullets.length >= 3 ? lineBullets : emojiBullets);
+        if (boundaries.length < 3) return [label];
+        const notes = [...label.matchAll(/(?:✨\s*(?:Pack light|Travel light)|⚠️?\s*Trek Essentials)/giu)].map(match => match.index);
+        const starts = [...new Set([0, ...boundaries, ...notes])].sort((left, right) => left - right);
+        // Slices preserve every word, punctuation mark and emoji. No source data
+        // is rewritten: this is a display-only repair for legacy pasted checklists.
+        return starts.map((start, index) => label.slice(start, starts[index + 1]).trim()).filter(Boolean);
+    }
+
+    function getDisplayItems(trip, field) {
+        const items = getItems(trip, field);
+        return field === 'thingsToCarry' ? items.flatMap(splitLegacyPackingItem) : items;
+    }
+
     function renderList(document, containerId, trip, field, className) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        const elements = getItems(trip, field).map(label => {
+        const elements = getDisplayItems(trip, field).map(label => {
             const element = document.createElement('div');
-            element.className = className;
+            const longPackingText = field === 'thingsToCarry' && (label.length > 220 || /^.{0,24}(?:things to carry|trip packing checklist|trek essentials|pack light|travel light)/iu.test(label));
+            element.className = className + (longPackingText ? ' carry-item-long' : '');
             const icon = document.createElement('i');
             icon.className = `fas ${iconFor(label, field)}`;
             icon.setAttribute('aria-hidden', 'true');
@@ -68,5 +97,5 @@
         renderList(document, 'suitableForGrid', trip, 'perfectFor', 'suitable-tag');
     }
 
-    return { defaults, getItems, iconFor, render };
+    return { defaults, getItems, getDisplayItems, splitLegacyPackingItem, iconFor, render };
 }));

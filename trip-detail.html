@@ -22,8 +22,11 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/footer-settings.css">
     <link rel="stylesheet" href="css/trip-detail-lists.css">
     <link rel="stylesheet" href="css/trip-brochure.css">
+    <link rel="stylesheet" href="css/trip-sections.css">
+    <link rel="stylesheet" href="css/trip-decision.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -52,6 +55,14 @@
             <div class="breadcrumb">
                 <a href="index.html">Home</a> / <a href="trips.html">Trips</a> / <span id="breadcrumbTitle">Netravati Peak Trek</span>
             </div>
+            <header class="trip-heading">
+                <p class="trip-heading-location" id="tripHeadingLocation" hidden></p>
+                <h1 id="tripTitle">Trip details</h1>
+                <p class="trip-heading-summary" id="tripHeadingSummary" hidden></p>
+                <p class="trip-heading-departure" id="tripHeadingDeparture" hidden></p>
+                <p class="trip-selected-departure" id="tripSelectedDeparture" hidden></p>
+                <a class="trip-dates-shortcut" href="#bookingCard">View dates &amp; prices <span aria-hidden="true">↓</span></a>
+            </header>
             <div class="gallery-wrapper">
                 <div class="gallery-main" onclick="openLightbox(0)">
                     <img src="images/trips/netravati.jpg" alt="Trip Main Image" id="galleryMainImg">
@@ -104,7 +115,7 @@
                 </div>
                 <div class="glance-item">
                     <i class="fas fa-route"></i>
-                    <span class="glance-label">Total distance</span>
+                    <span class="glance-label">Distance</span>
                     <span class="glance-value" id="glanceDistance">12 km</span>
                 </div>
                 <div class="glance-item">
@@ -123,6 +134,12 @@
                     <span class="glance-value" id="glanceBestTime">Oct - Feb</span>
                 </div>
             </div>
+            <nav class="trip-section-links" id="tripSectionLinks" aria-label="Trip information shortcuts">
+                <a href="#bookingCard">Dates &amp; prices</a>
+                <a href="#tripItinerary">Itinerary</a>
+                <a href="#tripIncludes">Inclusions &amp; exclusions</a>
+                <a href="#tripPickup">Pickup points</a>
+            </nav>
         </div>
     </section>
 
@@ -146,40 +163,19 @@
             <div class="trip-layout">
                 <!-- Main Content -->
                 <div class="trip-main">
-                    <!-- Overview Cards -->
-                    <div class="overview-cards">
-                        <div class="overview-card">
-                            <i class="fas fa-hiking"></i>
-                            <span class="label">Distance</span>
-                            <span class="value">15-20 km</span>
-                        </div>
-                        <div class="overview-card">
-                            <i class="fas fa-mountain"></i>
-                            <span class="label">Elevation</span>
-                            <span class="value">1,420 m</span>
-                        </div>
-                        <div class="overview-card">
-                            <i class="fas fa-signal"></i>
-                            <span class="label">Difficulty</span>
-                            <span class="value">Moderate</span>
-                        </div>
-                        <div class="overview-card">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="label">Best Time</span>
-                            <span class="value">Oct - Feb</span>
-                        </div>
-                    </div>
-
                     <!-- About Trek -->
-                    <div class="content-section">
-                        <h2>About This Trip</h2>
+                    <details class="content-section trip-section" data-trip-section="about" open>
+                        <summary><h2>About This Trip</h2></summary>
+                        <div class="trip-section-body">
                         <p>Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.</p>
                         <p>The trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.</p>
-                    </div>
+                        </div>
+                    </details>
 
                     <!-- Highlights -->
-                    <div class="content-section">
-                        <h2>What Makes It Special</h2>
+                    <details class="content-section trip-section" data-trip-section="highlights" open>
+                        <summary><h2>What Makes It Special</h2></summary>
+                        <div class="trip-section-body">
                         <ul class="highlights-list">
                             <li><i class="fas fa-check-circle"></i> Hidden waterfalls along the trail</li>
                             <li><i class="fas fa-check-circle"></i> Night camping under stars</li>
@@ -188,10 +184,11 @@
                             <li><i class="fas fa-check-circle"></i> 360° panoramic views from the peak</li>
                             <li><i class="fas fa-check-circle"></i> Away from tourist crowds</li>
                         </ul>
-                    </div>
+                        </div>
+                    </details>
 
                     <!-- Itinerary -->
-                    <div class="content-section">
+                    <div class="content-section" id="tripItinerary">
                         <h2>Day-wise Itinerary</h2>
                         <div class="itinerary-accordion">
                             <div class="accordion-item active">
@@ -250,8 +247,9 @@
                     </div>
 
                     <!-- Includes/Excludes -->
-                    <div class="content-section">
-                        <h2>What's Included & Excluded</h2>
+                    <details class="content-section trip-section" id="tripIncludes" data-trip-section="includes" open>
+                        <summary><h2>What's Included & Excluded</h2></summary>
+                        <div class="trip-section-body">
                         <div class="includes-grid">
                             <div class="includes-box">
                                 <h3><i class="fas fa-check-circle"></i> Includes</h3>
@@ -276,7 +274,8 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                        </div>
+                    </details>
 
                     <!-- Things to Carry -->
                     <div class="content-section">
@@ -305,7 +304,7 @@
                     </div>
 
                     <!-- Pickup Points Section -->
-                    <div class="content-section">
+                    <div class="content-section" id="tripPickup">
                         <h2><i class="fas fa-map-marker-alt"></i> Bangalore Pickup Points</h2>
                         <p class="section-note">All pickups are on the night of Day 0. Please reach 15 minutes before departure time.</p>
                         <div class="pickup-table-wrapper">
@@ -359,25 +358,18 @@
                     <div class="booking-card" id="bookingCard">
                         <h3>Book This Trip</h3>
                         <div class="price-display">
-                            <span class="original-price" id="originalPrice">₹4,499</span>
                             <span class="current-price" id="currentPrice">₹3,499</span>
-                            <span class="discount" id="discountBadge">22% OFF</span>
                         </div>
+                        <p class="booking-price-note">Per person · See inclusions and exclusions for package details.</p>
                         <form class="booking-form" id="bookingForm">
                             <div class="form-group">
-                                <label>Select Date</label>
+                                <label for="dateSelect">Select Date</label>
                                 <select name="date" id="dateSelect" required>
                                     <option value="">Choose a date</option>
-                                    <option value="Jan 4-5, 2026">Jan 4-5, 2026</option>
-                                    <option value="Jan 11-12, 2026">Jan 11-12, 2026</option>
-                                    <option value="Jan 18-19, 2026">Jan 18-19, 2026</option>
-                                    <option value="Jan 25-26, 2026">Jan 25-26, 2026</option>
-                                    <option value="Feb 1-2, 2026">Feb 1-2, 2026</option>
-                                    <option value="Feb 8-9, 2026">Feb 8-9, 2026</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Number of People</label>
+                                <label for="peopleCount">Number of People</label>
                                 <select name="people" id="peopleCount" required>
                                     <option value="1">1 Person</option>
                                     <option value="2">2 People</option>
@@ -426,7 +418,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
+                <div class="footer-col" data-footer-brand>
                     <h4>Team Weekend Trekkers</h4>
                     <p>A Travel community for the travellers, By the travellers.</p>
                     <div class="social-links">
@@ -434,7 +426,7 @@
                         <a href="https://wa.me/917019235581" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-navigation>
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -443,12 +435,12 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
                     <p><i class="fab fa-whatsapp"></i> +91 917019235581</p>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
                     <p class="upi-id-display">••••••6581@ybl</p>
                     <button class="btn btn-small copy-upi" onclick="secureCopyUPI()"><i class="fas fa-copy"></i> Copy</button>
@@ -485,7 +477,9 @@
     </dialog>
 
     <script src="js/main.js"></script>
-    <script src="js/trip-detail-lists.js?v=1"></script>
+    <script src="js/footer-settings.js"></script>
+    <script src="js/trip-detail-lists.js?v=2"></script>
+    <script src="js/trip-sections.js?v=1"></script>
     <script src="js/trips-data.js?v=1786999503"></script>
     <script>
         // Get trip from URL parameter
@@ -584,6 +578,7 @@
 
             updateTripMetadata(trip, tripId);
             TripDetailLists.render(trip, document);
+            TripSections.apply(trip, document, window);
 
             // Handle inactive trips - grey out page and disable booking
             const isInactive = trip.isActive === false;
@@ -697,15 +692,6 @@
             // Update price
             const priceEl = document.getElementById('tripPrice');
             if (priceEl) priceEl.textContent = trip.price;
-
-            // Update overview cards
-            const overviewCards = document.querySelectorAll('.overview-card');
-            if (overviewCards.length >= 4) {
-                overviewCards[0].querySelector('.value').textContent = trip.distance;
-                overviewCards[1].querySelector('.value').textContent = trip.elevation;
-                overviewCards[2].querySelector('.value').textContent = trip.difficulty;
-                overviewCards[3].querySelector('.value').textContent = trip.bestTime;
-            }
 
             // Update About section
             const aboutSection = document.querySelector('.content-section p');
@@ -866,17 +852,28 @@
             // Update date dropdown with available dates
             const dateSelect = document.getElementById('dateSelect');
             if (dateSelect && trip.availableDates && trip.availableDates.length > 0) {
-                dateSelect.innerHTML = '<option value="">Choose a date</option>' + 
-                    trip.availableDates.map(date => `<option value="${date}">${date}</option>`).join('');
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'Choose a date';
+                dateSelect.replaceChildren(placeholder, ...trip.availableDates.map(date => {
+                    const option = document.createElement('option');
+                    // Keep the original string for booking; never interpret date labels as HTML.
+                    option.value = date;
+                    option.textContent = date;
+                    return option;
+                }));
+            } else if (dateSelect) {
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'New dates coming soon';
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                dateSelect.replaceChildren(placeholder);
             }
 
             // Update booking sidebar prices and meta
             const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
-            const originalPrice = Math.round(priceNum * 1.28); // Calculate ~22% higher as original
-            const discount = Math.round((1 - priceNum / originalPrice) * 100);
-            document.getElementById('originalPrice').textContent = '₹' + originalPrice.toLocaleString('en-IN');
             document.getElementById('currentPrice').textContent = trip.price;
-            document.getElementById('discountBadge').textContent = discount + '% OFF';
             // Mirror price into mobile float button
             const floatPrice = document.getElementById('floatPrice');
             if (floatPrice) floatPrice.textContent = trip.price + ' ·';
@@ -886,6 +883,7 @@
             // Update total when people count changes
             document.getElementById('peopleCount').addEventListener('change', updateTotal);
             updateTotal();
+            TripDecision.apply(trip, document, window);
         }
         function updateTotal() {
             const people = parseInt(document.getElementById('peopleCount').value) || 1;
@@ -1029,6 +1027,7 @@
         })();
     </script>
     <script src="js/trip-date-utils.js"></script>
+    <script src="js/trip-decision.js"></script>
     <script src="js/trip-brochure.js"></script>
     <script src="js/security.js"></script>
 </body>

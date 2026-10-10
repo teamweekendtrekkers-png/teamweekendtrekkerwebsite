@@ -3,51 +3,67 @@
 
     function getAllTrips() {
         if (typeof tripsData !== 'object' || tripsData === null) return [];
-        return Object.entries(tripsData).map(([id, trip]) => ({ id, ...trip }));
+        return Object.entries(tripsData).map(([id, trip]) => ({ ...trip, id }));
     }
 
-    function renderUpcomingBatches(referenceDate, config) {
+    function renderUpcomingBatches(referenceDate, config, state, resetFilters) {
         const grid = document.getElementById('upcoming-batches-grid');
         if (!grid || typeof TripDateUtils === 'undefined') return;
 
         const allTrips = getAllTrips();
-        const batches = typeof HomepageSettings === 'undefined'
+        const filteredTrips = typeof TripDiscovery !== 'undefined' && typeof HomepageSettings !== 'undefined'
+            ? TripDiscovery.filterTrips(HomepageSettings.selectedTrips(allTrips, config, referenceDate), state || {}, referenceDate)
+            : allTrips;
+        const batches = typeof HomepageSettings !== 'undefined' && typeof TripDiscovery !== 'undefined'
+            ? (HomepageSettings.normalize(config).upcomingBatches.enabled ? TripDateUtils.buildUpcomingBatches(filteredTrips, referenceDate, HomepageSettings.normalize(config).upcomingBatches.maxBatches) : [])
+            : typeof HomepageSettings === 'undefined'
             ? TripDateUtils.buildUpcomingBatches(allTrips, referenceDate, 3)
             : HomepageSettings.buildBatches(allTrips, config, referenceDate);
         const fields = typeof HomepageSettings === 'undefined'
             ? { price: true, status: true, weekday: true }
             : HomepageSettings.normalize(config).upcomingBatches.fields;
         const escapeHTML = TripDateUtils.escapeHTML;
+        const filtered = state && (state.query || state.experience !== 'all' || state.departure);
+        const status = document.getElementById('homepage-discovery-status');
+        if (status) status.textContent = batches.length ? `Showing ${batches.length} nearest ${batches.length === 1 ? 'departure' : 'departures'}${filtered ? ' matching your filters' : ''}` : '';
 
         if (batches.length === 0) {
             grid.innerHTML = `
                 <div class="upcoming-empty">
                     <i class="far fa-calendar-check" aria-hidden="true"></i>
-                    <h3>New departures are on the way</h3>
-                    <p>Browse every adventure now and check back soon for the next batch dates.</p>
+                    <h3>${filtered ? 'No matching departures' : 'New departures are on the way'}</h3>
+                    <p>${filtered ? 'Try another experience or departure date within our selected upcoming trips.' : 'Browse every adventure now and check back soon for the next batch dates.'}</p>
+                    ${filtered ? '<button type="button" class="discovery-reset" data-reset-home>Reset filters</button>' : ''}
                     <a href="trips.html" class="btn btn-primary">Browse All Trips</a>
                 </div>`;
+            if (typeof grid.querySelector === 'function') {
+                const reset = grid.querySelector('[data-reset-home]'); if (reset) reset.onclick = resetFilters;
+            }
             return;
         }
 
         grid.innerHTML = batches.map(batch => {
             const tripRows = batch.trips.map(trip => {
                 const details = allTrips.find(item => item.id === trip.id) || {};
+                const range = TripDateUtils.getUpcomingDateRanges(details, referenceDate).find(item => item.key === batch.key);
+                const href = range && typeof TripLinks.departureUrl === 'function' ? TripLinks.departureUrl(trip.id, range.originalLabel) : TripLinks.detailUrl(trip.id);
                 const extra = ['location', 'duration', 'difficulty'].filter(field => fields[field] && details[field])
                     .map(field => `<span class="batch-trip-detail">${escapeHTML(String(details[field]))}</span>`).join('');
-                const image = fields.image && typeof HomepageSettings !== 'undefined' && HomepageSettings.safeImage(details.image)
-                    ? `<img class="batch-trip-thumbnail" src="${escapeHTML(details.image)}" alt="" loading="lazy">` : '';
+                const imagePath = typeof TripDiscovery !== 'undefined' ? TripDiscovery.imagePath(details) : details.image;
+                const image = fields.image && typeof HomepageSettings !== 'undefined' && HomepageSettings.safeImage(imagePath)
+                    ? `<img class="batch-trip-thumbnail" src="${escapeHTML(imagePath)}" alt="" loading="lazy">` : '';
                 return `
                 <li class="batch-trip-row">
                     ${image}
                     <div class="batch-trip-copy">
-                        <a href="${TripLinks.detailUrl(trip.id)}" class="batch-trip-title">
+                        <a href="${escapeHTML(href)}" class="batch-trip-title">
                             ${escapeHTML(String(trip.title || '').trim())}
                         </a>
-                        ${fields.status ? '<span class="batch-trip-status">Upcoming</span>' : ''}
+                        ${fields.status ? '<span class="batch-trip-status">Scheduled</span>' : ''}
                         ${extra}
+                        ${fields.location && details.departureCity ? `<span class="batch-trip-detail">Departs from ${escapeHTML(details.departureCity)}</span>` : ''}
                     </div>
-                    ${fields.price ? `<span class="batch-trip-price">${escapeHTML(trip.price || '')}</span>` : ''}
+                    ${fields.price ? `<span class="batch-trip-price">${escapeHTML(trip.price || '')}${trip.price ? '<small>per person</small>' : ''}</span>` : ''}
                 </li>`;
             }).join('');
 
@@ -78,6 +94,7 @@
         }
 
         grid.innerHTML = featuredTrips.map(trip => {
+            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate);
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';
             const title = String(trip.title || '').trim();
@@ -105,6 +122,7 @@
                     </div>
                 </article>`;
         }).join('');
+        if (typeof TripDiscovery !== 'undefined') TripDiscovery.attachImageFallbacks(grid);
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
@@ -113,7 +131,23 @@
         if (typeof HomepageSettings !== 'undefined') {
             const config = await HomepageSettings.load(window.fetch.bind(window));
             HomepageSettings.apply(config, document);
-            renderUpcomingBatches(referenceDate, config);
+            const primary = document.querySelector('.hero .btn-primary');
+            if (primary) primary.href = config.upcomingBatches.enabled ? '#upcoming-batches' : 'trips.html';
+            const trust = document.getElementById('hero-trust'), rating = document.getElementById('hero-trust-rating'), link = document.getElementById('hero-trust-link');
+            if (trust) trust.hidden = !config.sections.reviews.enabled;
+            if (rating) rating.textContent = '⭐ ' + config.sections.reviews.rating + '/5 on Google';
+            if (link) link.href = config.sections.reviews.googleMapsUrl;
+            let controls;
+            const update = state => renderUpcomingBatches(referenceDate, config, state, () => controls && controls.reset());
+            if (typeof TripDiscovery !== 'undefined') controls = TripDiscovery.mountControls(document.getElementById('homepage-discovery-controls'), HomepageSettings.selectedTrips(getAllTrips(), config, referenceDate), config.discovery, referenceDate, update);
+            const panel = document.getElementById('homepage-discovery-panel');
+            if (panel) {
+                panel.hidden = !config.discovery.enabled || typeof TripDiscovery === 'undefined';
+                const mobile = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 600px)') : null;
+                panel.open = !mobile || !mobile.matches;
+                if (mobile) mobile.addEventListener('change', event => { panel.open = !event.matches; });
+            }
+            update({ query: '', experience: 'all', departure: '' });
         } else {
             renderUpcomingBatches(referenceDate);
         }

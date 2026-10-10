@@ -7,7 +7,10 @@
     <meta name="description" content="A Travel community for the travellers, By the travellers. Weekend trips, tours & unique experiences from Bangalore.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/footer-settings.css">
     <link rel="stylesheet" href="css/homepage-settings.css">
+    <link rel="stylesheet" href="css/homepage-info.css">
+    <link rel="stylesheet" href="css/trip-discovery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -39,23 +42,33 @@
             <p class="hero-tagline">🧗 Trips | Tours | Unique Experiences 🏕️</p>
             <p class="hero-desc">A Travel community for the travellers, By the travellers</p>
             <div class="hero-buttons">
-                <a href="trips.html" class="btn btn-primary">Explore Trips</a>
+                <a href="trips.html" class="btn btn-primary">Explore Upcoming Trips</a>
                 <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20booking%20a%20trip" target="_blank" class="btn btn-secondary">
                     <i class="fab fa-whatsapp"></i> Chat With Us
                 </a>
-                <a href="https://www.instagram.com/teamweekendtrekkers" target="_blank" class="btn btn-instagram">
+                <a href="https://www.instagram.com/teamweekendtrekkers" target="_blank" rel="noopener noreferrer" class="hero-social">
                     <i class="fab fa-instagram"></i> Follow Us
                 </a>
             </div>
         </div>
     </section>
 
+    <div class="hero-trust" id="hero-trust" hidden>
+        <span class="hero-trust-rating" id="hero-trust-rating"></span>
+        <a id="hero-trust-link" target="_blank" rel="noopener noreferrer">Read traveller reviews on Google ↗</a>
+    </div>
+
     <!-- Upcoming Batches -->
-    <section class="upcoming-batches" aria-labelledby="upcoming-batches-title">
+    <section class="upcoming-batches" id="upcoming-batches" aria-labelledby="upcoming-batches-title">
         <div class="container">
             <p class="section-kicker">Scheduled departures</p>
             <h2 class="section-title" id="upcoming-batches-title">Upcoming Batches</h2>
             <p class="section-subtitle">Plan your next escape with our nearest available trip dates</p>
+            <details class="homepage-discovery-panel" id="homepage-discovery-panel" open hidden>
+                <summary>Filter these departures</summary>
+                <div class="discovery-controls" id="homepage-discovery-controls" role="search" aria-label="Find an upcoming trip" hidden></div>
+            </details>
+            <p class="discovery-result-summary" id="homepage-discovery-status" aria-live="polite"></p>
             <div class="upcoming-batches-grid" id="upcoming-batches-grid" aria-live="polite">
                 <div class="loading-placeholder">Loading upcoming departures...</div>
             </div>
@@ -104,26 +117,63 @@
         </div>
     </section>
 
-    <!-- Why Choose Us -->
-    <section class="why-us">
+    <!-- Editable travel steps and reasons -->
+    <section class="homepage-info-section how-it-works" aria-labelledby="how-it-works-title">
         <div class="container">
-            <h2 class="section-title">Why Travel With Us?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🗺️</div>
-                    <h3>Offbeat Destinations</h3>
-                    <p>We go where Google Maps doesn't. Hidden waterfalls, untouched valleys, and secret viewpoints away from tourist crowds.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
-                    <h3>All-Inclusive</h3>
-                    <p>Transport, stay, permits, food, guides & entry tickets - everything handled. No hidden charges, no surprises.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎉</div>
-                    <h3>Vibe Over Volume</h3>
-                    <p>Small groups, music, bonfire nights & new friendships. Every trip feels like traveling with old friends.</p>
-                </div>
+            <header class="homepage-info-header">
+                <p class="section-eyebrow">Your next adventure, made simple</p>
+                <h2 class="section-title" id="how-it-works-title">How It Works</h2>
+                <p class="section-subtitle">Three simple steps from your everyday routine to a memorable weekend.</p>
+            </header>
+            <ol class="homepage-info-grid">
+                <li class="homepage-info-card accent-blue">
+                    <span class="homepage-info-icon">📱</span>
+                    <span class="homepage-step-number">1</span>
+                    <h3>Pick a Weekend</h3>
+                    <p>Browse our trips and choose the destination and departure that suit you.</p>
+                </li>
+                <li class="homepage-info-card accent-orange">
+                    <span class="homepage-info-icon">🎟️</span>
+                    <span class="homepage-step-number">2</span>
+                    <h3>Book Your Spot</h3>
+                    <p>Check the itinerary and price, then book online or chat with our team for help.</p>
+                </li>
+                <li class="homepage-info-card accent-green">
+                    <span class="homepage-info-icon">🎒</span>
+                    <span class="homepage-step-number">3</span>
+                    <h3>Show Up & Explore</h3>
+                    <p>Pack your essentials, meet your travel crew and make memories along the way.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="homepage-info-section why-choose-us" aria-labelledby="why-choose-us-title">
+        <div class="container">
+            <header class="homepage-info-header">
+                <p class="section-eyebrow">The Weekend Trekkers way</p>
+                <h2 class="section-title" id="why-choose-us-title">Why Thousands Choose Us</h2>
+                <p class="section-subtitle">Thoughtful trips. Shared experiences. A team you can talk to.</p>
+            </header>
+            <div class="homepage-info-grid">
+                <article class="homepage-info-card accent-orange">
+                    <span class="homepage-info-icon">₹</span>
+                    <span class="homepage-info-value">Upfront</span>
+                    <h3>Clear Trip Details</h3>
+                    <p>See the price, inclusions and exclusions before you book.</p>
+                </article>
+                <article class="homepage-info-card accent-blue">
+                    <span class="homepage-info-icon">🗺️</span>
+                    <span class="homepage-info-value">For you</span>
+                    <h3>Thoughtfully Planned</h3>
+                    <p>Explore the day-wise itinerary and find the trip that matches your travel style.</p>
+                </article>
+                <article class="homepage-info-card accent-green">
+                    <span class="homepage-info-icon">💬</span>
+                    <span class="homepage-info-value">Real people</span>
+                    <h3>A Friendly Team</h3>
+                    <p>Have a question? Connect with us on WhatsApp before your next adventure.</p>
+                </article>
             </div>
         </div>
     </section>
@@ -132,6 +182,7 @@
     <section class="testimonials">
         <div class="container">
             <h2 class="section-title">Google Reviews <span class="rating-badge">⭐ 4.8</span></h2>
+            <p class="section-subtitle">Selected traveller reviews · Follow each review link to Google</p>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="testimonial-header">
@@ -224,7 +275,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
+                <div class="footer-col" data-footer-brand>
                     <h4>Team Weekend Trekkers</h4>
                     <p>A Travel community for the travellers, By the travellers. 🧗 Trips | Tours | Unique Experiences 🏕️</p>
                     <div class="social-links">
@@ -232,7 +283,7 @@
                         <a href="https://wa.me/917019235581" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-navigation>
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -241,13 +292,13 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
                     <p><i class="fab fa-whatsapp"></i> +91 917019235581</p>
                     <p><i class="fab fa-instagram"></i> @teamweekendtrekkers</p>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
                     <p class="upi-id-display">••••••6581@ybl</p>
                     <button class="btn btn-small copy-upi" onclick="secureCopyUPI()">
@@ -272,7 +323,9 @@
     <script src="js/trip-date-utils.js"></script>
     <script src="js/trip-links.js"></script>
     <script src="js/homepage-sections.js"></script>
+    <script src="js/footer-settings.js"></script>
     <script src="js/homepage-settings.js"></script>
+    <script src="js/trip-discovery.js"></script>
     <script src="js/homepage-trips.js"></script>
     <script src="js/main.js"></script>
     <script src="js/security.js"></script>

@@ -34,12 +34,14 @@ test('homepage renderer keeps featured-trip selection and detail links intact', 
 
 test('all-trips page keeps filters and displays shared date tags', () => {
     const tripsPage = readProjectFile('trips.html');
-
-    assert.match(tripsPage, /TripDateUtils\.renderTripDateTags\(trip\)/);
+    const discovery = readProjectFile('js/trip-discovery.js');
+    assert.match(discovery, /dates\.renderTripDateTags\(/);
     assert.match(tripsPage, /<script src="js\/trip-links\.js"><\/script>/);
-    assert.match(tripsPage, /TripLinks\.detailUrl\(id\)/);
-    assert.match(tripsPage, /function initFilters\(\)/);
-    assert.match(tripsPage, /document\.addEventListener\('DOMContentLoaded', loadTrips\)/);
+    assert.match(discovery, /links\.detailUrl\(trip\.id\)/);
+    assert.match(discovery, /function initCatalog\(document\)/);
+    assert.match(tripsPage, /id="show-coming-soon"/);
+    assert.match(tripsPage, /id="trip-discovery-controls"/);
+    assert.match(tripsPage, /js\/trip-discovery\.js/);
 });
 
 test('trip detail continues to populate dates and route bookings to checkout', () => {

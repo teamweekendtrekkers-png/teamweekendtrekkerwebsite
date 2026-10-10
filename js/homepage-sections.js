@@ -48,8 +48,8 @@
             {
                 "id": "inclusive",
                 "icon": "✅",
-                "title": "All-Inclusive",
-                "text": "Transport, stay, permits, food, guides & entry tickets - everything handled. No hidden charges, no surprises.",
+                "title": "Trip Arrangements",
+                "text": "Transport, stays and trip arrangements handled. See each package for inclusions.",
                 "visible": true
             },
             {
@@ -57,6 +57,73 @@
                 "icon": "🎉",
                 "title": "Vibe Over Volume",
                 "text": "Small groups, music, bonfire nights & new friendships. Every trip feels like traveling with old friends.",
+                "visible": true
+            }
+        ]
+    },
+    "howItWorks": {
+        "enabled": true,
+        "eyebrow": "Your next adventure, made simple",
+        "title": "How It Works",
+        "subtitle": "Three simple steps from your everyday routine to a memorable weekend.",
+        "items": [
+            {
+                "id": "pick",
+                "icon": "📱",
+                "title": "Pick a Weekend",
+                "text": "Browse our trips and choose the destination and departure that suit you.",
+                "accent": "blue",
+                "visible": true
+            },
+            {
+                "id": "book",
+                "icon": "🎟️",
+                "title": "Book Your Spot",
+                "text": "Check the itinerary and price, then book online or chat with our team for help.",
+                "accent": "orange",
+                "visible": true
+            },
+            {
+                "id": "explore",
+                "icon": "🎒",
+                "title": "Show Up & Explore",
+                "text": "Pack your essentials, meet your travel crew and make memories along the way.",
+                "accent": "green",
+                "visible": true
+            }
+        ]
+    },
+    "whyChooseUs": {
+        "enabled": true,
+        "eyebrow": "The Weekend Trekkers way",
+        "title": "Why Thousands Choose Us",
+        "subtitle": "Thoughtful trips. Shared experiences. A team you can talk to.",
+        "items": [
+            {
+                "id": "pricing",
+                "icon": "₹",
+                "value": "Upfront",
+                "title": "Clear Trip Details",
+                "text": "See the price, inclusions and exclusions before you book.",
+                "accent": "orange",
+                "visible": true
+            },
+            {
+                "id": "planned",
+                "icon": "🗺️",
+                "value": "For you",
+                "title": "Thoughtfully Planned",
+                "text": "Explore the day-wise itinerary and find the trip that matches your travel style.",
+                "accent": "blue",
+                "visible": true
+            },
+            {
+                "id": "support",
+                "icon": "💬",
+                "value": "Real people",
+                "title": "A Friendly Team",
+                "text": "Have a question? Connect with us on WhatsApp before your next adventure.",
+                "accent": "green",
                 "visible": true
             }
         ]
@@ -162,7 +229,7 @@
             const section = result[name];
             for (const key of Object.keys(section)) {
                 if (typeof section[key] === 'boolean' && typeof input[key] === 'boolean') section[key] = input[key];
-                else if (typeof section[key] === 'string' && typeof input[key] === 'string' && input[key].trim() && input[key].length <= 2000) {
+                else if (typeof section[key] === 'string' && typeof input[key] === 'string' && (input[key].trim() || ['eyebrow', 'subtitle'].includes(key)) && input[key].length <= 2000) {
                     if (key !== 'googleMapsUrl' || safeGoogleMapsUrl(input[key])) section[key] = input[key].trim();
                 }
             }
@@ -178,6 +245,7 @@
                 for (const key of Object.keys(template)) {
                     if (key === 'visible') output[key] = item[key] !== false;
                     else if (key === 'rating') output[key] = Number.isInteger(item[key]) && item[key] >= 1 && item[key] <= 5 ? item[key] : 5;
+                    else if (key === 'accent') output[key] = ['blue', 'orange', 'green'].includes(item[key]) ? item[key] : 'green';
                     else output[key] = typeof item[key] === 'string' ? item[key].slice(0, key === 'text' ? 10000 : 2000) : '';
                 }
                 if (name === 'reviews') {
@@ -185,7 +253,12 @@
                     if (!safeGoogleMapsUrl(output.googleMapsUrl)) output.googleMapsUrl = '';
                 }
                 return output;
-            }).filter(item => name === 'stats' ? item.value.trim() && item.label.trim() : name === 'whyUs' ? item.title.trim() && item.text.trim() : item.name.trim() && item.text.trim());
+            }).filter(item => name === 'stats' ? item.value.trim() && item.label.trim() : ['whyUs', 'howItWorks', 'whyChooseUs'].includes(name) ? item.title.trim() && item.text.trim() : item.name.trim() && item.text.trim());
+        }
+        // Preserve an intentionally hidden legacy section until each replacement
+        // has its own explicit visibility setting. Never mutate saved legacy data.
+        for (const name of ['howItWorks', 'whyChooseUs']) {
+            if (!raw[name] && raw.whyUs && raw.whyUs.enabled === false) result[name].enabled = false;
         }
         return result;
     }
@@ -203,18 +276,28 @@
             node.href = url; node.target = '_blank'; node.rel = 'noopener noreferrer'; return node;
         };
         const setText = (selector, text) => { const node = document.querySelector(selector); if (node) node.textContent = text; };
-        for (const [name, selector] of [['stats', '.stats'], ['whyUs', '.why-us'], ['reviews', '.testimonials'], ['cta', '.cta-section']]) {
+        for (const [name, selector] of [['stats', '.stats'], ['howItWorks', '.how-it-works'], ['whyChooseUs', '.why-choose-us'], ['reviews', '.testimonials'], ['cta', '.cta-section']]) {
             const node = document.querySelector(selector); if (node) node.hidden = !sections[name].enabled;
         }
         const stats = document.querySelector('.stats-grid');
         if (stats) stats.replaceChildren(...visibleItems(sections.stats).map(item => {
-            const node = make('div', 'stat-item'); node.append(make('span', 'stat-number', item.value), make('span', 'stat-label', item.label)); return node;
+            const node = make('div', 'stat-item'); node.append(make('span', 'stat-number', item.id === 'rating' ? sections.reviews.rating + '⭐' : item.value), make('span', 'stat-label', item.label)); return node;
         }));
-        setText('.why-us .section-title', sections.whyUs.title);
-        const features = document.querySelector('.features-grid');
-        if (features) features.replaceChildren(...visibleItems(sections.whyUs).map(item => {
-            const node = make('div', 'feature-card'); node.append(make('div', 'feature-icon', item.icon), make('h3', '', item.title), make('p', '', item.text)); return node;
-        }));
+        for (const [name, selector] of [['howItWorks', '.how-it-works'], ['whyChooseUs', '.why-choose-us']]) {
+            const section = sections[name];
+            setText(selector + ' .section-title', section.title);
+            setText(selector + ' .section-eyebrow', section.eyebrow);
+            setText(selector + ' .section-subtitle', section.subtitle);
+            const cards = document.querySelector(selector + ' .homepage-info-grid');
+            if (cards) cards.replaceChildren(...visibleItems(section).map((item, index) => {
+                const card = make(name === 'howItWorks' ? 'li' : 'article', 'homepage-info-card accent-' + item.accent);
+                card.append(make('span', 'homepage-info-icon', item.icon));
+                if (name === 'howItWorks') card.append(make('span', 'homepage-step-number', String(index + 1)));
+                else if (item.value) card.append(make('span', 'homepage-info-value', item.value));
+                card.append(make('h3', '', item.title), make('p', '', item.text));
+                return card;
+            }));
+        }
         const reviews = sections.reviews;
         const title = document.querySelector('.testimonials .section-title');
         if (title) title.replaceChildren(document.createTextNode(reviews.title + ' '), make('span', 'rating-badge', '⭐ ' + reviews.rating));
@@ -251,22 +334,20 @@
         grid.setAttribute('tabindex', '0'); grid.setAttribute('role', 'region'); grid.setAttribute('aria-label', 'Traveller reviews. Swipe or use arrow keys.');
         const controls = document.createElement('div'); controls.className = 'review-slider-controls';
         const button = (label, text) => { const node = document.createElement('button'); node.type = 'button'; node.className = 'review-slider-button'; node.textContent = text; node.setAttribute('aria-label', label); controls.append(node); return node; };
-        const previous = button('Previous reviews', '←'), next = button('Next reviews', '→'), pause = button('Pause automatic review sliding', 'Pause');
+        const previous = button('Previous reviews', '←'), next = button('Next reviews', '→');
         const status = document.createElement('span'); status.className = 'review-slider-status'; status.setAttribute('aria-live', 'polite'); controls.append(status);
         grid.after(controls);
         const media = view.matchMedia('(prefers-reduced-motion: reduce)');
-        let userPaused = false, hovering = false, focused = false, interacted = false, timer, frame;
+        let hovering = false, focused = false, dragging = false, timer, frame;
         const canSlide = () => grid.scrollWidth > grid.clientWidth + 2 && config.enabled;
         const stop = () => { if (timer) view.clearInterval(timer); timer = null; };
         const sync = () => {
-            stop(); controls.hidden = !canSlide(); pause.hidden = !config.autoPlay || media.matches;
-            pause.textContent = userPaused || interacted ? 'Play' : 'Pause';
-            pause.setAttribute('aria-label', userPaused || interacted ? 'Play automatic review sliding' : 'Pause automatic review sliding');
-            if (canSlide() && config.autoPlay && !media.matches && !userPaused && !hovering && !focused && !interacted && !document.hidden)
+            stop(); controls.hidden = !canSlide();
+            if (canSlide() && config.autoPlay && !media.matches && !hovering && !focused && !dragging && !document.hidden)
                 timer = view.setInterval(() => move(1, false), config.intervalSeconds * 1000);
         };
         const move = (direction, manual = true) => {
-            if (manual) { interacted = true; sync(); }
+            if (manual) sync();
             const end = grid.scrollWidth - grid.clientWidth;
             const offset = direction > 0 && grid.scrollLeft >= end - 3 ? 0 : direction < 0 && grid.scrollLeft <= 3 ? end : grid.scrollLeft + direction * (grid.firstElementChild.getBoundingClientRect().width + 20);
             grid.scrollTo({ left: Math.max(0, Math.min(end, offset)), behavior: media.matches ? 'auto' : 'smooth' });
@@ -280,18 +361,19 @@
             });
         };
         const key = event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
-        const enter = () => { hovering = true; sync(); }, leave = () => { hovering = false; sync(); };
+        const enter = event => { if (event.pointerType === 'mouse') { hovering = true; sync(); } }, leave = () => { hovering = false; sync(); };
         const focus = () => { focused = true; sync(); }, blur = () => { focused = grid.contains(document.activeElement) || controls.contains(document.activeElement); sync(); };
-        const interact = () => { interacted = true; sync(); };
+        const interact = () => { dragging = true; sync(); }, release = () => { if (dragging) { dragging = false; sync(); } };
         previous.onclick = () => move(-1); next.onclick = () => move(1);
-        pause.onclick = () => { userPaused = !(userPaused || interacted); interacted = false; sync(); };
         grid.addEventListener('keydown', key); grid.addEventListener('scroll', scroll, { passive: true }); grid.addEventListener('pointerdown', interact);
-        for (const node of [grid, controls]) { node.addEventListener('mouseenter', enter); node.addEventListener('mouseleave', leave); node.addEventListener('focusin', focus); node.addEventListener('focusout', blur); }
+        view.addEventListener('pointerup', release); view.addEventListener('pointercancel', release);
+        for (const node of [grid, controls]) { node.addEventListener('pointerenter', enter); node.addEventListener('pointerleave', leave); node.addEventListener('focusin', focus); node.addEventListener('focusout', blur); }
         document.addEventListener('visibilitychange', sync); media.addEventListener('change', sync); view.addEventListener('resize', sync);
         grid._reviewCleanup = () => {
             stop(); if (frame) view.cancelAnimationFrame(frame); controls.remove();
             grid.removeEventListener('keydown', key); grid.removeEventListener('scroll', scroll); grid.removeEventListener('pointerdown', interact);
-            for (const node of [grid, controls]) { node.removeEventListener('mouseenter', enter); node.removeEventListener('mouseleave', leave); node.removeEventListener('focusin', focus); node.removeEventListener('focusout', blur); }
+            view.removeEventListener('pointerup', release); view.removeEventListener('pointercancel', release);
+            for (const node of [grid, controls]) { node.removeEventListener('pointerenter', enter); node.removeEventListener('pointerleave', leave); node.removeEventListener('focusin', focus); node.removeEventListener('focusout', blur); }
             document.removeEventListener('visibilitychange', sync); media.removeEventListener('change', sync); view.removeEventListener('resize', sync);
         };
         scroll(); sync();

@@ -1,0 +1,60 @@
+/* Scoped trip-page hierarchy. Existing gallery, booking, UPI and accordion styles remain intact. */
+.trip-heading { margin: 4px 0 24px; max-width: 960px; }
+.trip-heading h1 {
+    margin: 0 0 12px;
+    color: var(--primary, #164c30);
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.trip-heading-location {
+    margin: 0 0 8px;
+    color: var(--gray, #64748b);
+    font-size: .95rem;
+}
+.trip-heading-summary { margin: 0 0 12px; max-width: 72ch; color: #475569; }
+.trip-heading-departure { margin: 0 0 8px; font-weight: 600; color: var(--primary, #164c30); }
+.trip-selected-departure { margin: 0 0 12px; font-size: .95rem; font-weight: 600; color: var(--primary, #164c30); }
+.trip-dates-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 24px;
+    background: var(--secondary, #ed7d23);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.trip-section-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.trip-section-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 9px 15px;
+    border: 1px solid #cbd9d1;
+    border-radius: 24px;
+    background: #fff;
+    color: var(--primary, #164c30);
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+.trip-section-links a:hover { background: #eaf2ed; }
+.trip-dates-shortcut:focus-visible, .trip-section-links a:focus-visible {
+    outline: 3px solid var(--primary, #164c30);
+    outline-offset: 3px;
+}
+.glance-item[hidden] { display: none; }
+.booking-price-note { color: var(--gray, #64748b); font-size: .85rem; line-height: 1.5; margin: -10px 0 22px; }
+#bookingCard, #tripItinerary, #tripIncludes, #tripPickup { scroll-margin-top: 110px; }
+#thingsToCarryGrid .carry-item-long { grid-column: 1 / -1; text-align: left; }
+#thingsToCarryGrid .carry-item-long span { width: 100%; }
+@media (max-width: 768px) {
+    .trip-heading { margin-bottom: 20px; }
+    .trip-section-links { gap: 8px; }
+    .trip-section-links a { padding-inline: 12px; }
+    #bookingCard, #tripItinerary, #tripIncludes, #tripPickup { scroll-margin-top: 120px; }
+}
+@media print { .trip-dates-shortcut, .trip-section-links { display: none; } }

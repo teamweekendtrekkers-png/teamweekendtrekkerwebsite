@@ -32,8 +32,17 @@
             : `trips/${encodedTripId}/`;
     }
 
+    // Carry the chosen departure without changing legacy detail links or routes.
+    // The destination page validates the date against the trip's upcoming ranges.
+    function departureUrl(tripId, date, locationLike) {
+        const url = detailUrl(tripId, locationLike);
+        if (typeof date !== 'string' || !date.trim()) return url;
+        return `${url}${url.includes('?') ? '&' : '?'}date=${encodeURIComponent(date)}`;
+    }
+
     return {
         detailUrl,
+        departureUrl,
         isLocalPreview
     };
 }));

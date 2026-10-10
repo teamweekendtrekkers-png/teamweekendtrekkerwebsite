@@ -12,7 +12,11 @@ test('legacy config keeps existing six reviews, statistics, reasons, CTA, dates 
     assert.equal(result.sections.reviews.items.length, 6);
     for (const item of sections.defaults.reviews.items) { assert(html.includes(item.name)); assert(html.includes(item.text)); }
     for (const item of sections.defaults.stats.items) { assert(html.includes(item.value)); assert(html.includes(item.label)); }
-    for (const item of sections.defaults.whyUs.items) { assert(html.includes(item.title)); assert(html.includes(item.text)); }
+    for (const name of ['howItWorks', 'whyChooseUs']) {
+        assert(html.includes(sections.defaults[name].title));
+        for (const item of sections.defaults[name].items) { assert(html.includes(item.title)); assert(html.includes(item.text)); }
+    }
+    assert(!html.includes('Why Travel With Us?'));
     assert(html.indexOf('js/homepage-sections.js') < html.indexOf('js/homepage-settings.js'));
 });
 test('selection, order, add/remove and explicit empty selections do not mutate input', () => {
@@ -50,12 +54,12 @@ test('renderer uses text nodes, validates links, hides sections, and retains boo
     const nodes = new Map();
     const document = { createElement: tag => new Node(tag), createTextNode: text => ({textContent:text}), querySelector(selector) { if (!nodes.has(selector)) nodes.set(selector, new Node('div')); return nodes.get(selector); } };
     const raw = structuredClone(sections.defaults);
-    raw.stats.enabled = false; raw.whyUs.title = '<script>evil()</script>';
+    raw.stats.enabled = false; raw.howItWorks.title = '<script>evil()</script>';
     raw.reviews.items[0].text = '<img src=x onerror=evil()>'; raw.reviews.items[0].googleMapsUrl = 'https://maps.app.goo.gl/individual';
     raw.reviews.items = raw.reviews.items.slice(0,1);
     sections.apply(normalize(raw), document);
     assert.equal(nodes.get('.stats').hidden, true);
-    assert.equal(nodes.get('.why-us .section-title').textContent, raw.whyUs.title);
+    assert.equal(nodes.get('.how-it-works .section-title').textContent, raw.howItWorks.title);
     const card = nodes.get('.testimonials-grid').children[0];
     assert.equal(card.children[2].textContent, raw.reviews.items[0].text);
     assert.equal(card.children[3].href, raw.reviews.items[0].googleMapsUrl);

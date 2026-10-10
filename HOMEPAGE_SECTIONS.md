@@ -1,14 +1,19 @@
 # Editable homepage sections
 
 In the updated Trip Manager, open **Homepage Customization**, scroll below the
-Upcoming Batches preview, and expand **Statistics**, **Why Travel With Us**,
-**Google Reviews**, or **Bottom Call to Action**. Changes remain a draft until
+Upcoming Batches preview, and expand **Statistics**, **How It Works**,
+**Why Thousands Choose Us**, **Google Reviews**, or **Bottom Call to Action**. Changes remain a draft until
 **Publish homepage** is confirmed. The existing deployment link tracks that
 homepage commit. Reload/back navigation asks before discarding unsaved edits.
 
 - Statistics: edit values/labels, show/hide, add/remove and move items (up to 8).
-- Why Travel With Us: edit heading, emoji, card titles/descriptions; show/hide,
-  add/remove and order cards (up to 8).
+- How It Works: edit heading, optional small badge/supporting text, emoji,
+  step titles/descriptions and blue/orange/green card colour; show/hide,
+  add/remove and order up to 8 steps. Visible steps are numbered automatically.
+- Why Thousands Choose Us: the same controls plus an optional highlighted value
+  per card (up to 8). Keep business claims accurate; values can be left blank.
+  These two responsive sections replace Why Travel With Us. They are page
+  sections, not tabs that conceal content, and remain readable without JavaScript.
 - Reviews: edit heading, overall rating, Google Maps destination and button
   label. Add genuine review text/name, date label, stars and optional HTTPS
   photo/individual Google review link (up to 30). Show review chooses which
@@ -28,10 +33,11 @@ individual review unless you supply that review's share URL.
 ## Slider and compatibility
 
 The slider shows three cards on desktop, two on tablets and one with a next-card
-peek on phones. Visitors can swipe/scroll, use arrows or keyboard arrows, and
-pause/play automatic sliding. Automatic sliding is configurable (4–30 seconds),
-stops after manual interaction, pauses on hover/focus or a hidden document, and
-is disabled for reduced-motion preferences. Single/empty selections do not
+peek on phones. Reviews autoplay without a public Play/Pause button. Visitors
+can still swipe/scroll or use arrows and keyboard arrows. Automatic sliding is
+configurable in the manager (4–30 seconds), pauses temporarily on mouse hover,
+focus, dragging or a hidden document, and resumes when those interactions end.
+Reduced-motion preferences disable autoplay. Single/empty selections do not
 show unnecessary controls; the Google link remains available when no reviews
 are selected. Failed photos fall back to initials.
 
@@ -46,10 +52,14 @@ simultaneous edits to the same item list conservatively block with a conflict
 instead of dropping changes. Trip data, brochures, hero/batch controls,
 payments, booking routes, settings storage and dependencies are unchanged.
 
-Existing version-1 config files are unchanged and receive all original section
-content as defaults. Disabling a section/list item is explicit; an empty list is
+Existing version-1 config files are unchanged and receive new section defaults.
+The old `sections.whyUs` content remains preserved in saved settings for recovery,
+but is no longer displayed or edited. If that section was hidden, the two new
+sections inherit its hidden state until individually configured. Neither the
+hero image nor trip/departure selections nor Google review data are reset.
+Disabling a section/list item is explicit; an empty list is
 not repopulated. The static homepage remains a usable fallback without JS.
-After the first publication of the new `sections` fields, older managers will
+After publishing `sections.howItWorks` / `sections.whyChooseUs`, older managers will
 safely reject homepage editing rather than erase unfamiliar fields. Install the
 updated manager before editing these sections; other trip management continues
 to use its unchanged schema. Publishing/reloading resets field state to the
@@ -68,6 +78,8 @@ PUPPETEER_MODULE=/absolute/path/to/puppeteer CHROME_BIN=/absolute/path/to/chrome
 The browser gate serves only local files and overrides configuration locally.
 It checks responsive sliding, accessibility interactions, text/URL safety,
 selection, empty/hidden states, photo fallback and unchanged action destinations.
+It also checks both new sections, visible step numbering/order, optional badge
+and subtitle removal, custom values, literal text safety and no-JavaScript fallback.
 It makes no website publication or Google review writes.
 
 CI behavior tests use an immutable `tests/fixtures/homepage-defaults.json`, not

@@ -1,0 +1,9 @@
+/* Footer-only rules: checkout payment controls are intentionally out of scope. */
+.footer .footer-grid { grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 32px; }
+.footer .footer-col[hidden], .footer .social-links[hidden] { display: none; }
+.footer .footer-col, .footer .footer-bottom { min-width: 0; overflow-wrap: anywhere; }
+.footer [data-footer-brand] > p { white-space: pre-line; }
+.footer [data-footer-contact] a { color: inherit; }
+.footer [data-footer-contact] a:hover { color: var(--secondary); }
+.footer a:focus-visible, .footer button:focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; }
+@media (max-width: 480px) { .footer .footer-grid { grid-template-columns: minmax(0, 1fr); } }

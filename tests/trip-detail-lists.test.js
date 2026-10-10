@@ -65,7 +65,7 @@ test('labels render as text and icons are selected from fixed rules', () => {
         assert.equal(container.children[0].children.length, 2);
     }
     assert.equal(lists.iconFor('Trekking shoes', 'thingsToCarry'), 'fa-shoe-prints');
-    assert.equal(lists.iconFor('Power bank', 'thingsToCarry'), 'fa-suitcase');
+    assert.equal(lists.iconFor('Power bank', 'thingsToCarry'), 'fa-battery-full');
     assert.equal(lists.iconFor('Family', 'perfectFor'), 'fa-home');
     assert.equal(lists.iconFor('Photographers', 'perfectFor'), 'fa-users');
 });
@@ -83,7 +83,7 @@ test('template and generated social-preview routes invoke the new renderer', () 
     assert.match(template, /id="thingsToCarryGrid"/);
     assert.match(template, /id="suitableForGrid"/);
     assert.match(template, /TripDetailLists\.render\(trip, document\)/);
-    assert.ok(template.indexOf('src="js/trip-detail-lists.js?v=1"') < template.indexOf('TripDetailLists.render'));
+    assert.ok(template.indexOf('src="js/trip-detail-lists.js?v=2"') < template.indexOf('TripDetailLists.render'));
     const page = renderTripPage({
         template, tripId: 'custom-trip', projectRoot: root, siteOrigin: readSiteOrigin(root),
         trip: { title: 'Custom trip', about: 'A weekend away.', image: 'images/logo.jpg' },
@@ -100,8 +100,37 @@ test('current authoritative trips render custom packing lists and retain audienc
         lists.render(trip, document);
         assert.deepEqual(
             document.containers.thingsToCarryGrid.children.map(item => item.children[1].textContent),
-            lists.getItems(trip, 'thingsToCarry'),
+            lists.getDisplayItems(trip, 'thingsToCarry'),
         );
         assert.ok(document.containers.suitableForGrid.children.length > 0);
     }
+});
+
+test('legacy emoji and explicit bullet packing lists split for display without changing their text or source', () => {
+    const trips = readTripsData(root);
+    for (const trip of Object.values(trips)) {
+        const before = JSON.stringify(trip);
+        const raw = lists.getItems(trip, 'thingsToCarry');
+        const displayed = lists.getDisplayItems(trip, 'thingsToCarry');
+        assert.equal(displayed.join('').replace(/\s/g, ''), raw.join('').replace(/\s/g, ''));
+        assert.equal(JSON.stringify(trip), before);
+    }
+    assert.ok(lists.getDisplayItems(trips.wayanad, 'thingsToCarry').length >= 12);
+    assert.ok(lists.getDisplayItems(trips.wayanad, 'thingsToCarry').some(label => /^📸\s*Camera/.test(label)));
+    assert.ok(lists.getDisplayItems(trips['wayanad-pool-party'], 'thingsToCarry').length >= 10);
+    const numbered = ['Packing list', ...Array.from({length: 4}, (_, i) => `${i + 1}. Pack a useful personal item and keep it dry and safe throughout the journey.`)].join('\n');
+    assert.equal(lists.splitLegacyPackingItem(numbered).length, 5);
+});
+
+test('arbitrary long prose and short multiline items are never destructively split', () => {
+    for (const prose of [
+        'Waterfalls 💧 look beautiful. Bring a camera 📷 and enjoy the view. '.repeat(8),
+        'A long description\nwith ordinary line breaks and no packing bullets. '.repeat(6),
+        'Snacks 🥾\nKeep dry',
+        'Trekking shoes, a raincoat, snacks and water. '.repeat(8),
+    ]) assert.deepEqual(lists.splitLegacyPackingItem(prose), [prose]);
+    const unsafe = '<img src=x onerror=alert(1)>'.repeat(10);
+    const document = documentFixture();
+    lists.render({thingsToCarry: [unsafe]}, document);
+    assert.equal(document.containers.thingsToCarryGrid.children[0].children[1].textContent, unsafe);
 });

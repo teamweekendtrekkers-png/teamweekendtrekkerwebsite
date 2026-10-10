@@ -77,6 +77,7 @@ test('generates one crawler-readable page for every managed trip', () => {
         const expectedTitle = escapeHtml(`${trip.title.trim()} - Team Weekend Trekkers`);
 
         assert.match(page, new RegExp(`data-trip-id="${tripId}"`));
+        assert.ok(page.includes(`<h1 id="tripTitle">${escapeHtml(trip.title.trim())}</h1>`));
         assert.match(head, /<base href="\.\.\/\.\.\/">/);
         assert.ok(head.indexOf('<base href="../../">') < head.indexOf('css/style.css'));
         assert.ok(metadata.includes(`<title>${expectedTitle}</title>`));
@@ -127,6 +128,7 @@ test('escapes manager-controlled metadata and supports app-style underscore IDs'
     const metadata = metadataFrom(page);
 
     assert.match(page, /data-trip-id="trip_1780000000000"/);
+    assert.ok(page.includes('<h1 id="tripTitle">Rock &amp; &quot;Roll&quot; &lt;Trek&gt;</h1>'));
     assert.ok(metadata.includes('Rock &amp; &quot;Roll&quot; &lt;Trek&gt;'));
     assert.ok(metadata.includes('&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt; &amp; more'));
     assert.doesNotMatch(metadata, /<script>alert/);
