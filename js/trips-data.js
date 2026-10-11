@@ -68,7 +68,7 @@ const tripsData = {
         ],
         includes: ["\uD83D\uDE90 Non-A/C Tempo Traveller / Mini Bus (Based on Group Size)", "\uD83C\uDFE1 Comfortable Cottage Accommodation (Sharing Basis)", "✔️ Day 1 – Breakfast, Packed Lunch & Dinner", "✔️ Day 2 – Breakfast", "\uD83E\uDDED Experienced Local Guide & Trip Leader", "\uD83D\uDC9A An unforgettable  experience!"],
         excludes: ["❌ Lunch on Day 2", "❌ Entry Tickets ", "❌ Adventure Activities at Yagachi", "❌ Personal Expenses", "❌ Anything not mentioned under Includes"],
-        thingsToCarry: ["Trekking shoes", "2L water bottle", "Torch/Headlamp", "Warm jacket", "ID proof (original)", "Energy bars/snacks", "Personal medicines", "Camera (optional)"],
+        thingsToCarry: ["Trekking shoes", "2L water bottle", "Torch/Headlamp", "Warm jacket", "ID proof (original)"],
         perfectFor: ["Solo Travelers", "Friends", "First Timers", "Family"],
         expandedSections: [],
         boardingLocations: [
