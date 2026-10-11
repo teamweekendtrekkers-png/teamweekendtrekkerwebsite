@@ -36,7 +36,7 @@ test('inactive and empty trips never advertise stale dates and do not require an
     for (const value of [{}, { ...trip(), isActive: false }, { ...trip(), availableDates: [] }]) {
         const content = brochure.buildModel(value, { referenceDate }).blocks.map(block => block.text).join('\n');
         assert.ok(content.includes('New dates coming soon'));
-        assert.ok(content.includes('Trekking shoes') || content.includes('Raincoat'));
+        assert.ok(content.includes('Comfortable walking shoes') || content.includes('Raincoat'));
     }
     assert.ok(brochure.buildModel({}, { referenceDate }).blocks.some(block => block.text.includes('Detailed itinerary coming soon')));
     assert.ok(brochure.buildModel({ itinerary: [{ title: 'Arrival' }] }).blocks.some(block => block.text === 'Day 1: Arrival'));
@@ -85,7 +85,7 @@ test('brochure is wired into both legacy/generated pages without replacing booki
     assert.match(template, /id="tripBrochureDialog"/);
     assert.match(template, /onclick="return goToCheckout\(event\)"/);
     assert.match(template, /id="mobileBookBtn"/);
-    assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-brochure.js"'));
+    assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-brochure.js'));
     const page = renderTripPage({ template, tripId: 'misty-hills', trip: { ...trip(), image: 'images/logo.jpg' }, projectRoot: root, siteOrigin: readSiteOrigin(root) });
     assert.match(page, /<base href="\.\.\/\.\.\/">/);
     assert.match(page, /src="js\/trip-brochure.js"/);

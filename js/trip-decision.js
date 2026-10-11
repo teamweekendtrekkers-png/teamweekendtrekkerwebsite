@@ -48,9 +48,9 @@
         if (!nav) return;
         installedDocuments.add(document);
         nav.addEventListener('click', event => {
-            const link = event.target.closest('a[href^="#"]');
+            const link = event.target.closest('a[href*="#"]');
             if (!link || !nav.contains(link)) return;
-            const target = document.getElementById(link.getAttribute('href').slice(1));
+            const target = document.getElementById(new URL(link.href, document.baseURI).hash.slice(1));
             // Leave native anchor/keyboard navigation intact while revealing
             // the content of the independently collapsible inclusions panel.
             if (target && target.tagName === 'DETAILS') target.open = true;

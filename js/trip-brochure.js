@@ -40,7 +40,7 @@
         section('Boarding points', boarding.filter(point => point && text(point.name) && text(point.time)).map(point => [text(point.name), text(point.time), text(point.landmark)].filter(Boolean).join(' — ')));
         section('Things to carry', lists.getItems(trip, 'thingsToCarry').map(value => '• ' + value));
         section('Perfect for', lists.getItems(trip, 'perfectFor'));
-        const id = text(trip.id);
+        const id = text(trip.publicSlug || trip.id);
         const bookingUrl = /^[a-z0-9][a-z0-9_-]*$/.test(id) ? `https://www.teamweekendtrekkers.com/trips/${encodeURIComponent(id)}/` : 'https://www.teamweekendtrekkers.com/trips.html';
         section('Booking & enquiries', [bookingUrl, ...(text(options.whatsapp) ? ['WhatsApp: +' + text(options.whatsapp).replace(/[^0-9]/g, '')] : []), 'Dates, prices and availability can change. Confirm before booking.']);
         if (blocks.reduce((sum, block) => sum + block.text.length, 0) > 500000) throw new Error('This itinerary is too large to export. Please shorten it.');

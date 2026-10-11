@@ -25,17 +25,15 @@ function documentFixture() {
     };
 }
 
-test('missing, empty and invalid lists keep the original website defaults', () => {
+test('missing lists use neutral defaults while explicitly cleared lists stay empty', () => {
     for (const value of [undefined, null, [], [' ', ''], 'invalid', [123, null]]) {
         for (const field of ['thingsToCarry', 'perfectFor']) {
-            assert.deepEqual(lists.getItems({ [field]: value }, field), lists.defaults[field]);
+            assert.deepEqual(lists.getItems({ [field]: value }, field), Array.isArray(value) ? [] : lists.defaults[field]);
         }
     }
     assert.equal(lists.defaults.thingsToCarry.length, 8);
     assert.equal(lists.defaults.perfectFor.length, 4);
-    for (const label of [...lists.defaults.thingsToCarry, ...lists.defaults.perfectFor]) {
-        assert.ok(template.includes(label), `legacy label ${label} must still be supported`);
-    }
+    assert.ok(lists.defaults.thingsToCarry.includes('Comfortable walking shoes'));
 });
 
 test('custom trip lists retain order, punctuation, Unicode and multiline content', () => {

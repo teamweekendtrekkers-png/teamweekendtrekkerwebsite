@@ -65,7 +65,7 @@ test('shared cards safely escape content, show per-person pricing and preserve s
     assert.match(html, /&lt;script&gt;/); assert.doesNotMatch(html, /<script>/);
     assert.match(html, /A &amp; B/); assert.match(html, /Departs from &lt;Bengaluru&gt;/);
     assert.match(html, /src="images\/cover.webp"/); assert.match(html, /data-image-fallback="images\/coast.jpg"/);
-    assert.match(html, /per person/); assert.match(html, /View Dates &amp; Details|View Dates & Details/);
+    assert.match(html, /per person/); assert.match(html, /View trip/);
     assert.match(html, /date=Aug%2021-23%2C%202026/);
     const legacy = discovery.renderCard({id:'legacy',title:'Legacy',image:'images/legacy.jpg', availableDates:[]}, now);
     assert.match(legacy, /New dates coming soon/); assert.doesNotMatch(legacy, /Moderate|Bengaluru/);
