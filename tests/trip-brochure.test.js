@@ -88,7 +88,7 @@ test('brochure is wired into both legacy/generated pages without replacing booki
     assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-brochure.js'));
     const page = renderTripPage({ template, tripId: 'misty-hills', trip: { ...trip(), image: 'images/logo.jpg' }, projectRoot: root, siteOrigin: readSiteOrigin(root) });
     assert.match(page, /<base href="\.\.\/\.\.\/">/);
-    assert.match(page, /src="js\/trip-brochure.js"/);
+    assert.match(page, /src="js\/trip-brochure.js(?:\?v=\d+)?"/);
 });
 
 test('all 25 authoritative trips build brochures without losing itinerary activities or mutating data', () => {
