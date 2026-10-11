@@ -12,7 +12,6 @@
 const featuredTripIds = [
     "wayanad",
     "rameshwaram-dhanushkodi",
-    "wayanad-pool-party",
     "varkala-kochi-christmas",
     "yercaud",
 ];
