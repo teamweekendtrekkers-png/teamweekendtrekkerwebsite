@@ -200,18 +200,30 @@
         return Date.UTC(values.year, values.month - 1, values.day);
     }
 
+    function departureMinutes(trip) {
+        const explicit = /^(\d{2}):(\d{2})$/.exec(trip && trip.departureTime || '');
+        if (explicit && Number(explicit[1]) < 24 && Number(explicit[2]) < 60) return Number(explicit[1]) * 60 + Number(explicit[2]);
+        const pickup = trip && Array.isArray(trip.boardingLocations) ? trip.boardingLocations.find(point => /^\d{1,2}:\d{2}\s*[AP]M$/i.test(String(point.time || '').trim())) : null;
+        const clock = pickup && /^(\d{1,2}):(\d{2})\s*([AP]M)$/i.exec(pickup.time.trim());
+        if (clock && Number(clock[1]) >= 1 && Number(clock[1]) <= 12 && Number(clock[2]) < 60) return (Number(clock[1]) % 12 + (clock[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + Number(clock[2]);
+        return 22 * 60;
+    }
+    function bookingCutoff(trip, range) {
+        // Label start is the departure day. IST is UTC+05:30; bookings close 24 hours afterwards.
+        return new Date(range.start.getTime() + (departureMinutes(trip) - 330) * 60000 + 86400000);
+    }
     function getUpcomingDateRanges(trip, referenceDate) {
         if (!trip || trip.isActive === false || !Array.isArray(trip.availableDates)) {
             return [];
         }
 
-        const today = getIndiaTodayTimestamp(referenceDate);
+        const now = referenceDate instanceof Date && !Number.isNaN(referenceDate.getTime()) ? referenceDate.getTime() : Date.now();
         const seen = new Set();
 
         return trip.availableDates
             .map(parseTripDateRange)
             .filter(dateRange => {
-                if (!dateRange || dateRange.end.getTime() < today || seen.has(dateRange.key)) {
+                if (!dateRange || bookingCutoff(trip, dateRange).getTime() <= now || seen.has(dateRange.key)) {
                     return false;
                 }
                 seen.add(dateRange.key);
@@ -304,6 +316,8 @@
     }
 
     return {
+        departureMinutes,
+        bookingCutoff,
         parseTripDateRange,
         getUpcomingDateRanges,
         getTripDateTags,

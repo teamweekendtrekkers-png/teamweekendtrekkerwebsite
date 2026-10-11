@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/trip-discovery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
+<link rel="stylesheet" href="css/customer-experience.css?v=2">
 </head>
 <body>
     <!-- Navigation -->
@@ -30,7 +31,7 @@
                 <li><a href="trips.html">Trips</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20booking%20a%20trip" target="_blank" class="btn-nav">Book Now</a></li>
+                <li><a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20booking%20a%20trip" target="_blank" class="btn-nav">Ask on WhatsApp</a></li>
             </ul>
         </div>
     </nav>
@@ -38,11 +39,11 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-overlay"></div>
-        <div class="hero-content">
+        <div class="hero-content"><div id="hero-trust" class="hero-trust" hidden><span id="hero-trust-rating"></span><a id="hero-trust-link" target="_blank" rel="noopener">Read traveller reviews ↗</a></div>
             <h1>Explore. Travel. Experience.</h1>
             <p class="hero-tagline">🧗 Trips | Tours | Unique Experiences 🏕️</p>
             <p class="hero-desc">A travel community for travellers, by travellers</p>
-            <div class="hero-buttons">
+            <form class="hero-search" action="trips.html" role="search"><label class="sr-only" for="heroTripSearch">Search destinations or trips</label><input id="heroTripSearch" name="q" type="search" placeholder="Search destinations or trips…" autocomplete="off" aria-controls="heroSearchResults"><button aria-label="Search trips" type="submit"><i class="fas fa-search" aria-hidden="true"></i></button></form><div id="heroSearchResults" class="hero-search-results" hidden></div><div class="hero-buttons">
                 <a href="trips.html" class="btn btn-primary">Explore Upcoming Trips</a>
                 <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20booking%20a%20trip" target="_blank" class="btn btn-secondary">
                     <i class="fab fa-whatsapp"></i> Chat With Us
@@ -54,10 +55,7 @@
         </div>
     </section>
 
-    <div class="hero-trust" id="hero-trust" hidden>
-        <span class="hero-trust-rating" id="hero-trust-rating"></span>
-        <a id="hero-trust-link" target="_blank" rel="noopener noreferrer">Read traveller reviews on Google ↗</a>
-    </div>
+
 
     <!-- Upcoming Batches -->
     <section class="upcoming-batches" id="upcoming-batches" aria-labelledby="upcoming-batches-title">
@@ -74,7 +72,7 @@
                 <div class="loading-placeholder">Loading upcoming departures...</div>
             </div>
             <div class="center-btn upcoming-batches-action">
-                <a href="trips.html" class="btn btn-outline">See All Departures</a>
+                <button id="moreDepartures" type="button" class="btn btn-secondary" aria-expanded="false" hidden>Show more departures</button> <a href="trips.html" class="btn btn-outline">View All Trips</a>
             </div>
         </div>
     </section>
@@ -106,7 +104,7 @@
     <!-- Featured Trips -->
     <section class="trips-section">
         <div class="container">
-            <h2 class="section-title">Upcoming Adventures</h2>
+            <h2 class="section-title">Explore Destinations</h2>
             <p class="section-subtitle">We Provide Real Adventures, Not Just Tours</p>
             <div class="trips-grid" id="featured-trips-grid">
                 <!-- Featured trips will be loaded dynamically -->
@@ -262,7 +260,7 @@
     <section class="cta-section">
         <div class="container">
             <h2>Ready for Your Next Adventure?</h2>
-            <p>Join 7,200+ happy travellers who've explored with us</p>
+            <p>Join 10,000+ happy travellers who've explored with us</p>
             <div class="cta-buttons">
                 <a href="trips.html" class="btn btn-primary">Browse Trips</a>
                 <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20booking%20a%20trip" target="_blank" class="btn btn-whatsapp">
@@ -323,7 +321,7 @@
     <script src="js/responsive-images.js?v=1"></script>
     <script src="js/site-presentation.js?v=1"></script>
     <script src="js/mobile-experience.js?v=1"></script>
-    <script src="js/trips-data.js?v=1786999503"></script>
+    <script src="js/trips-data.js?v=1791748800"></script>
     <script src="js/featured-trips.js"></script>
     <script src="js/trip-date-utils.js"></script>
     <script src="js/trip-links.js"></script>
@@ -331,7 +329,7 @@
     <script src="js/footer-settings.js"></script>
     <script src="js/homepage-settings.js"></script>
     <script src="js/trip-discovery.js"></script>
-    <script src="js/homepage-trips.js"></script>
+    <script src="js/homepage-trips.js"></script><script src="js/homepage-search.js"></script>
     <script src="js/main.js"></script>
     <script src="js/security.js"></script>
 </body>

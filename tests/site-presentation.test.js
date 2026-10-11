@@ -1,7 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const presentation=require('../js/site-presentation');
 test('appearance accepts only approved palettes, safe photos and bounded motion',()=>{
- const valid={preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
+ const valid={preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMobileFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
  assert.deepEqual(presentation.normalize(valid),valid);
  for(const preset of ['__proto__','constructor','evil'])assert.equal(presentation.normalize({preset}).preset,'forest');
  for(const image of ['javascript:alert(1)','images/../secret','https://user:pass@example.com/a','https://[/bad','images/a.jpg")'])assert.equal(presentation.normalize({heroMobileImage:image,heroSlides:[image]}).heroMobileImage,'');

@@ -109,8 +109,8 @@
         {
           "id": "book",
           "icon": "🎟️",
-          "title": "Book Your Spot",
-          "text": "Check the itinerary and price, then book online or chat with our team for help.",
+          "title": "Request Your Spot",
+          "text": "Send your trip request. Our team checks availability before you pay.",
           "accent": "orange",
           "visible": true
         },
@@ -233,7 +233,7 @@
     "cta": {
       "enabled": true,
       "title": "Ready for Your Next Adventure?",
-      "description": "Join 7,200+ happy travellers who've explored with us",
+      "description": "Join 10,000+ happy travellers who have explored with us",
       "primaryLabel": "Browse Trips",
       "secondaryLabel": "WhatsApp Us"
     }

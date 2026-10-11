@@ -8,6 +8,8 @@
 
 const tripsData = {
     theyyam: {
+        publicSlug: "neelakurinji-nelji-hills-trek",
+        previousSlugs: ["theyyam"],
         title: "Neelakurinji & Nelji Hills Escape ",
         location: "Madikeri, Karnataka ",
         badge: "Seasonal",
@@ -43,6 +45,8 @@ const tripsData = {
         isActive: true,
     },
     wayanad: {
+        publicSlug: "sakleshpur-coorg-doddhabetta-trek",
+        previousSlugs: ["wayanad"],
         title: "Offbeat Sakleshpur, Coorg & Doddhabetta Trek",
         location: "Coorg, Karnataka ",
         badge: "Trekking ",
@@ -120,6 +124,8 @@ const tripsData = {
         isActive: true,
     },
     "wayanad-pool-party": {
+        publicSlug: "kodachadri-hidlumane-falls-trek",
+        previousSlugs: ["wayanad-pool-party"],
         title: "Kodachadri & Hidlumane Falls Trek..\uD83E\uDDED",
         location: "Shivmogga, Karnataka ",
         badge: "Trekking ",
@@ -469,6 +475,8 @@ const tripsData = {
         isActive: false,
     },
     yercaud: {
+        publicSlug: "chikmagaluru-peaks-falls-coffee-trails",
+        previousSlugs: ["yercaud"],
         title: "☕⛰️ CHIKMAGALURU: PEAKS, FALLS & COFFEE TRAILS \uD83C\uDF3F",
         location: "Chikkamagaluru, Karnataka ",
         badge: "Hills Station ",

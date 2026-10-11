@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    let expandedDepartures = false;
 
     function getAllTrips() {
         if (typeof tripsData !== 'object' || tripsData === null) return [];
@@ -15,7 +16,7 @@
             ? TripDiscovery.filterTrips(HomepageSettings.selectedTrips(allTrips, config, referenceDate), state || {}, referenceDate)
             : allTrips;
         const batches = typeof HomepageSettings !== 'undefined' && typeof TripDiscovery !== 'undefined'
-            ? (HomepageSettings.normalize(config).upcomingBatches.enabled ? TripDateUtils.buildUpcomingBatches(filteredTrips, referenceDate, HomepageSettings.normalize(config).upcomingBatches.maxBatches) : [])
+            ? (HomepageSettings.normalize(config).upcomingBatches.enabled ? TripDateUtils.buildUpcomingBatches(filteredTrips, referenceDate, 50) : [])
             : typeof HomepageSettings === 'undefined'
             ? TripDateUtils.buildUpcomingBatches(allTrips, referenceDate, 3)
             : HomepageSettings.buildBatches(allTrips, config, referenceDate);
@@ -25,9 +26,10 @@
         const escapeHTML = TripDateUtils.escapeHTML;
         const filtered = state && (state.query || state.experience !== 'all' || state.departure);
         const status = document.getElementById('homepage-discovery-status');
-        if (status) status.textContent = batches.length ? `Showing ${batches.length} nearest ${batches.length === 1 ? 'departure' : 'departures'}${filtered ? ' matching your filters' : ''}` : '';
+        if (status) status.textContent = batches.length ? `Showing ${expandedDepartures ? batches.length : Math.min(2,batches.length)} of ${batches.length} ${batches.length === 1 ? 'departure' : 'departures'}${filtered ? ' matching your filters' : ''}` : '';
 
         if (batches.length === 0) {
+            const more = document.getElementById('moreDepartures'); if (more) more.hidden = true;
             grid.innerHTML = `
                 <div class="upcoming-empty">
                     <i class="far fa-calendar-check" aria-hidden="true"></i>
@@ -42,7 +44,7 @@
             return;
         }
 
-        grid.innerHTML = batches.map(batch => {
+        grid.innerHTML = batches.map((batch, batchIndex) => {
             const tripRows = batch.trips.map(trip => {
                 const details = allTrips.find(item => item.id === trip.id) || {};
                 const range = TripDateUtils.getUpcomingDateRanges(details, referenceDate).find(item => item.key === batch.key);
@@ -68,7 +70,7 @@
             }).join('');
 
             return `
-                <article class="batch-card">
+                <article class="batch-card" ${batchIndex >= 2 ? (expandedDepartures ? 'data-later-batch' : 'hidden data-later-batch') : ''}>
                     <header class="batch-card-header">
                         <i class="far fa-calendar-alt" aria-hidden="true"></i>
                         <div>
@@ -79,6 +81,8 @@
                     <ul class="batch-trip-list">${tripRows}</ul>
                 </article>`;
         }).join('');
+        const more = document.getElementById('moreDepartures');
+        if (more) { more.hidden = batches.length <= 2; more.setAttribute('aria-expanded',String(expandedDepartures)); more.textContent=expandedDepartures?'Show fewer departures':'Show more departures'; more.onclick=()=>{const expanded=more.getAttribute('aria-expanded')==='true';expandedDepartures=!expanded;grid.querySelectorAll('[data-later-batch]').forEach(card=>card.hidden=expanded);more.setAttribute('aria-expanded',String(!expanded));more.textContent=expanded?'Show more departures':'Show fewer departures';if(status)status.textContent='Showing '+(expanded?Math.min(2,batches.length):batches.length)+' of '+batches.length+' departures';}; }
     }
 
     function renderFeaturedTrips(referenceDate) {
@@ -139,15 +143,16 @@
             if (link) link.href = config.sections.reviews.googleMapsUrl;
             let controls;
             const update = state => renderUpcomingBatches(referenceDate, config, state, () => controls && controls.reset());
-            if (typeof TripDiscovery !== 'undefined') controls = TripDiscovery.mountControls(document.getElementById('homepage-discovery-controls'), HomepageSettings.selectedTrips(getAllTrips(), config, referenceDate), config.discovery, referenceDate, update);
+            // Homepage discovery is the single hero search across all published trips.
             const panel = document.getElementById('homepage-discovery-panel');
             if (panel) {
-                panel.hidden = !config.discovery.enabled || typeof TripDiscovery === 'undefined';
+                panel.hidden = true;
                 const mobile = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 600px)') : null;
                 panel.open = !mobile || !mobile.matches;
                 if (mobile) mobile.addEventListener('change', event => { panel.open = !event.matches; });
             }
             update({ query: '', experience: 'all', departure: '' });
+            setInterval(()=>{renderFeaturedTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});},30000);
         } else {
             renderUpcomingBatches(referenceDate);
         }

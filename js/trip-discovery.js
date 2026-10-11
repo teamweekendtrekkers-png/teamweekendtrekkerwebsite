@@ -132,7 +132,15 @@
             current.category = button.dataset.filter;
             document.querySelectorAll('[data-filter]').forEach(other => { other.classList.toggle('active', other === button); other.setAttribute('aria-pressed', String(other === button)); }); render();
         }));
+        const container=document.getElementById('trip-discovery-controls');
+        if(container){
+            const advanced=document.createElement('details');advanced.className='catalogue-filters';advanced.innerHTML='<summary>Filters</summary>';
+            container.querySelectorAll('.discovery-field:not(.discovery-search),.discovery-reset').forEach(node=>advanced.append(node));container.append(advanced);
+            const query=new URLSearchParams(root.location.search).get('q');const search=container.querySelector('input[type="search"]');
+            if(query&&search){search.value=query.slice(0,200);search.dispatchEvent(new root.Event('input'));}
+        }
         render();
+        setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
     return { experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
 }));

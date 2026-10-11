@@ -1,0 +1,88 @@
+(function(){
+ 'use strict';
+ const money=value=>'₹'+Number(value).toLocaleString('en-IN',{maximumFractionDigits:2});
+ let config=null,code='',busy=false;
+ const byId=id=>document.getElementById(id);
+ function currentTrip(){const id=getTripFromURL();return typeof tripsData==='object'&&Object.prototype.hasOwnProperty.call(tripsData,id)?tripsData[id]:null;}
+ function dateValid(){const trip=currentTrip();return trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
+ function message(text){byId('couponFeedback').textContent=text;}
+ function recalculate(){
+  const data=window.bookingData;if(!data||!config)return;
+  const subtotal=data.price*data.people;
+  const quote=code?BookingRules.quote(config,code,getTripFromURL(),subtotal):{valid:false,discount:0,total:subtotal};
+  if(code&&!quote.valid){code='';message(quote.message);}
+  data.subtotal=subtotal;data.discount=quote.discount;data.coupon=quote.valid?quote.code:'';data.total=quote.total;
+  byId('summarySubtotal').textContent=money(subtotal);
+  byId('summaryTotal').textContent=money(data.total);
+  byId('couponSavings').textContent='−'+money(data.discount);
+  byId('couponSavingsRow').hidden=!quote.valid;
+  byId('removeCoupon').hidden=!quote.valid;
+  byId('hiddenTotal').value=data.total;
+  updatePaymentAmount();
+ }
+ function upiId(){return config?.payment.upiId||window.TravelSecurity?.getUPI?.()||'';}
+ function helpLinks(){
+  const data=window.bookingData;
+  const href='https://wa.me/917019235581?text='+encodeURIComponent(`Hi! I would like to check availability or trip details for ${data.trip}, ${data.date}, ${data.people} traveller(s).`);
+  document.querySelectorAll('[data-trip-help],.support-card a').forEach(link=>{link.href=href;link.rel='noopener';});
+ }
+ async function refresh(){
+  config=await BookingRules.load(window.fetch.bind(window));
+  byId('couponEntry').hidden=!config.showCoupons;
+  if(!config.showCoupons&&code){code='';message('Coupon offers were updated. Please review your total.');}
+  byId('receiverLine').hidden=!config.payment.showReceiverName||!config.payment.receiverName;
+  byId('receiverName').textContent=config.payment.receiverName;
+  const razorpay=document.getElementById('rzpButton')?.closest('.payment-option');
+  if(razorpay)razorpay.hidden=!config.payment.showRazorpay;
+  // The legacy Razorpay integration is a placeholder, not a live payment gateway.
+  if(config.payment.showRazorpay){byId('rzpButton').disabled=true;byId('rzpButton').textContent='Ask our team for an online payment link';}
+  recalculate();
+ }
+ function invalidRequest(){
+  byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='This departure is no longer accepting requests. Please choose another date.';
+  byId('submitDetailsBtn').disabled=true;byId('paymentSection').style.display='none';
+ }
+ document.addEventListener('DOMContentLoaded',async()=>{
+  const submit=byId('submitDetailsBtn');submit.disabled=true;
+  const trip=currentTrip();
+  if(!trip||!dateValid()){invalidRequest();return;}
+  const summary=document.querySelector('.summary-card');
+  summary.querySelector('h3').textContent='Your Weekend Plan';
+  document.querySelector('.summary-trip-info p').textContent=trip.location||'';
+  byId('requestViewTrip').href=TripLinks.detailUrl(getTripFromURL());
+  byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
+  byId('changeBooking').href=TripLinks.departureUrl(getTripFromURL(),getDateFromURL())+'&people='+window.bookingData.people;
+  const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
+  const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
+  [anchor,byId('participants').closest('.form-group'),byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
+  byId('fullName').autocomplete='name';byId('email').autocomplete='email';byId('phone').autocomplete='tel';byId('altPhone').autocomplete='tel';
+  document.querySelector('.support-card').classList.remove('support-locked');summary.append(document.querySelector('.support-card'));
+  byId('checkoutForm').addEventListener('submit',event=>{event.preventDefault();window.submitDetails();});
+  byId('applyCoupon').addEventListener('click',async()=>{try{await refresh();if(!config.showCoupons)return;const result=BookingRules.quote(config,byId('couponCode').value,getTripFromURL(),window.bookingData.price*window.bookingData.people);message(result.message);if(result.valid){code=result.code;recalculate();}}catch{message('Offers could not be loaded. Please try again.');}});
+  byId('removeCoupon').addEventListener('click',()=>{code='';byId('couponCode').value='';message('Coupon removed.');recalculate();});
+  byId('couponCode').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();byId('applyCoupon').click();}});
+  const originalSubmit=window.submitDetails;
+  window.submitDetails=async()=>{
+   if(busy)return;busy=true;submit.disabled=true;
+   try{
+    await refresh();
+    if(!dateValid()){invalidRequest();return;}
+    if(!validateForm())return;
+    // Quotes are requests only: the team verifies coupons and availability before any payment.
+    await originalSubmit();
+   }catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Unable to verify current booking settings. Please retry or contact us on WhatsApp.';}
+   finally{busy=false;if(dateValid()&&byId('checkoutForm').style.display!=='none')submit.disabled=false;}
+  };
+  byId('copyPaymentUpi').addEventListener('click',async()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}try{await navigator.clipboard.writeText(value);byId('paymentFeedback').textContent='UPI ID copied. Pay only after availability is confirmed.';}catch{byId('paymentFeedback').textContent='UPI ID: '+value;}});
+  byId('openPaymentUpi').addEventListener('click',()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}const query=new URLSearchParams({pa:value,pn:config.payment.receiverName||'Team Weekend Trekkers',cu:'INR',tn:'Trip request: '+window.bookingData.trip});byId('paymentFeedback').textContent='Pay only after our team confirms availability and the payable amount.';window.location.href='upi://pay?'+query.toString();});
+  const originalSuccess=window.showPaymentSection;
+  window.showPaymentSection=()=>{originalSuccess();byId('requestStatus').textContent='Availability confirmation pending';const dialog=byId('requestReceived');if(!dialog.open)dialog.showModal();helpLinks();};
+  byId('popupCopyUpi').addEventListener('click',async()=>{byId('copyPaymentUpi').click();const value=upiId();byId('popupPaymentFeedback').textContent=value?'UPI ID: '+value+'. Pay after team confirmation.':'Ask our team for the current UPI ID.';});
+  byId('popupOpenUpi').addEventListener('click',()=>byId('openPaymentUpi').click());
+  byId('closeRequestPopup').addEventListener('click',()=>byId('requestReceived').close());
+  try{await refresh();helpLinks();submit.disabled=false;}
+  catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Booking settings could not be loaded. Reload this page or ask us on WhatsApp.';}
+  setInterval(()=>{if(!dateValid())invalidRequest();},30000);
+  window.addEventListener('pageshow',()=>{if(!dateValid())invalidRequest();});
+ });
+}());

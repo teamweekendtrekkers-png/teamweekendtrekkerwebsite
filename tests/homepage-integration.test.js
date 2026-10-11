@@ -47,7 +47,7 @@ test('all-trips page keeps filters and displays shared date tags', () => {
 test('trip detail continues to populate dates and route bookings to checkout', () => {
     const tripDetail = readProjectFile('trip-detail.html');
 
-    assert.match(tripDetail, /trip\.availableDates\.map\(date =>/);
+    assert.match(tripDetail, /TripDateUtils\.getUpcomingDateRanges\(trip\)/);
     assert.match(tripDetail, /id="dateSelect"/);
     assert.match(tripDetail, /checkout\.html\?trip=\$\{tripId\}&date=\$\{encodeURIComponent\(date\)\}&people=\$\{people\}/);
     assert.match(tripDetail, /function redirectLegacyTripURL\(\)/);

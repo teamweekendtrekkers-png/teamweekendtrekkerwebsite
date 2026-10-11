@@ -63,16 +63,16 @@ test('generates one crawler-readable page for every managed trip', () => {
     assert.equal(generatedPages.length, tripIds.length);
     assert.deepEqual(
         fs.readdirSync(outputDirectory).sort(),
-        [...tripIds].sort(),
+        [...new Set(tripIds.flatMap(id => [id, trips[id].publicSlug || id, ...(trips[id].previousSlugs || [])]))].sort(),
     );
 
     for (const tripId of tripIds) {
         const trip = trips[tripId];
-        const pagePath = path.join(outputDirectory, tripId, 'index.html');
+        const pagePath = path.join(outputDirectory, trips[tripId].publicSlug || tripId, 'index.html');
         const page = fs.readFileSync(pagePath, 'utf8');
         const head = headFrom(page);
         const metadata = metadataFrom(page);
-        const pageUrl = `${siteOrigin}/trips/${encodeURIComponent(tripId)}/`;
+        const pageUrl = `${siteOrigin}/trips/${encodeURIComponent(trips[tripId].publicSlug || tripId)}/`;
         const imageUrl = new URL(`/${trip.image}`, siteOrigin).href;
         const expectedTitle = escapeHtml(`${trip.title.trim()} - Team Weekend Trekkers`);
 
@@ -184,11 +184,12 @@ test('generated section shortcuts stay on their trip despite the root base URL',
     assert.ok(fragments.includes('bookingCard'));
     assert.ok(fragments.includes('tripItinerary'));
     for (const tripId of Object.keys(trips)) {
-        const page = fs.readFileSync(path.join(outputDirectory, tripId, 'index.html'), 'utf8');
-        const pageUrl = new URL('/trips/' + tripId + '/', siteOrigin);
+        const page = fs.readFileSync(path.join(outputDirectory, trips[tripId].publicSlug || tripId, 'index.html'), 'utf8');
+        const slug = trips[tripId].publicSlug || tripId;
+        const pageUrl = new URL('/trips/' + slug + '/', siteOrigin);
         const baseUrl = new URL('../../', pageUrl);
         for (const fragment of fragments) {
-            const href = 'trips/' + tripId + '/#' + fragment;
+            const href = 'trips/' + slug + '/#' + fragment;
             assert.ok(page.includes('href="' + href + '"'));
             const target = new URL(href, baseUrl);
             assert.equal(target.pathname, pageUrl.pathname);
