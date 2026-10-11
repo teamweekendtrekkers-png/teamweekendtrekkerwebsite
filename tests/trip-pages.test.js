@@ -178,3 +178,21 @@ test('deployment generates trip pages before uploading the Pages artifact', () =
     assert.ok(generationStep >= 0, 'deployment must run the trip-page generator');
     assert.ok(uploadStep > generationStep, 'generation must happen before artifact upload');
 });
+
+test('generated section shortcuts stay on their trip despite the root base URL', () => {
+    const fragments = [...template.matchAll(/href="#([^"]+)"/g)].map(match => match[1]);
+    assert.ok(fragments.includes('bookingCard'));
+    assert.ok(fragments.includes('tripItinerary'));
+    for (const tripId of Object.keys(trips)) {
+        const page = fs.readFileSync(path.join(outputDirectory, tripId, 'index.html'), 'utf8');
+        const pageUrl = new URL('/trips/' + tripId + '/', siteOrigin);
+        const baseUrl = new URL('../../', pageUrl);
+        for (const fragment of fragments) {
+            const href = 'trips/' + tripId + '/#' + fragment;
+            assert.ok(page.includes('href="' + href + '"'));
+            const target = new URL(href, baseUrl);
+            assert.equal(target.pathname, pageUrl.pathname);
+            assert.equal(target.hash, '#' + fragment);
+        }
+    }
+});

@@ -187,6 +187,10 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
         `<h1 id="tripTitle">${escapeHtml(trip.title.trim())}</h1>`,
         'trip heading',
     );
+    // The root base URL serves shared assets; fragment links must keep this trip.
+    page = page.replace(/href=(["'])#([^"']*)\1/g, (_match, quote, fragment) => {
+        return `href=${quote}trips/${encodeURIComponent(safeTripId)}/#${fragment}${quote}`;
+    });
     return replaceMetadataBlock(page, metadata);
 }
 
