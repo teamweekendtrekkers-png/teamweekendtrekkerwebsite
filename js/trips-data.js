@@ -845,17 +845,17 @@ const commonCancellationPolicy = [
     {
         days: "6+ days before departure",
         refund: "25%",
-        color: "#22c55e"  // Green - least penalty
+        color: "#17643B"  // Green - least penalty
     },
     {
-        days: "4 days before departure",
+        days: "4–5 days before departure",
         refund: "50%",
-        color: "#f59e0b"  // Orange - medium penalty
+        color: "#A6500D"  // Orange - medium penalty
     },
     {
-        days: "< 3 days before departure",
+        days: "0–3 days before departure",
         refund: "100%",
-        color: "#ef4444"  // Red - full penalty (no refund)
+        color: "#B42318"  // Red - full penalty (no refund)
     }
 ];
 
@@ -919,11 +919,11 @@ const commonFAQs = [
     },
     {
         q: "Is it safe for solo travelers?",
-        a: "Absolutely! Most of our travelers are solo. Our groups are friendly and you'll make great friends. We maintain a balanced male-female ratio on most trips."
+        a: "Solo travellers are welcome. Ask us about the group, accommodation and trip difficulty before booking."
     },
     {
         q: "Is it safe for women travelers?",
-        a: "Yes, women's safety is our top priority. We have female travelers on almost every trip, and our coordinators ensure a safe and comfortable environment for everyone."
+        a: "Contact us about accommodation arrangements, coordinator support and any specific concerns before booking. Follow the coordinator’s instructions throughout the trip."
     },
     {
         q: "Are there any discounts available?",
@@ -943,7 +943,7 @@ const commonFAQs = [
     },
     {
         q: "What if I need to cancel my booking?",
-        a: "You can cancel through WhatsApp. Cancellation fees apply: 25% fee (6+ days before departure), 50% fee (4 days before departure), and 100% fee (< 3 days before departure). Refunds are processed within 5-7 business days."
+        a: "You can cancel through WhatsApp. Cancellation fees apply: 25% fee (6+ days before departure), 50% fee (4–5 days before departure), and 100% fee (0–3 days before departure). Refunds are processed within 5-7 business days."
     },
     {
         q: "What if the trip gets cancelled due to weather?",

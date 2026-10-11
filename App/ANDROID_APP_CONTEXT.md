@@ -396,8 +396,8 @@ POST   /api/trips/{id}/reviews       # Add review
 | Time Before Departure | Cancellation Fee |
 |-----------------------|------------------|
 | 6+ days | 25% |
-| 4 days | 50% |
-| < 3 days | 100% |
+| 4–5 days | 50% |
+| 0–3 days | 100% |
 
 ---
 

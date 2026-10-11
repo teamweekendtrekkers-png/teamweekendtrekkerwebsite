@@ -115,9 +115,10 @@ test('legacy emoji and explicit bullet packing lists split for display without c
         assert.equal(displayed.join('').replace(/\s/g, ''), raw.join('').replace(/\s/g, ''));
         assert.equal(JSON.stringify(trip), before);
     }
-    assert.ok(lists.getDisplayItems(trips.wayanad, 'thingsToCarry').length >= 12);
-    assert.ok(lists.getDisplayItems(trips.wayanad, 'thingsToCarry').some(label => /^📸\s*Camera/.test(label)));
-    assert.ok(lists.getDisplayItems(trips['wayanad-pool-party'], 'thingsToCarry').length >= 10);
+    const emojiList = ['🎒 Backpack with a waterproof cover for your personal belongings.', '🥾 Trekking Shoes with good grip for the walking sections.', '💧 Water Bottle with enough drinking water for the day.', '📸 Camera (optional) with charged batteries and a dry pouch.'].join(' ');
+    assert.equal(lists.getDisplayItems({thingsToCarry: [emojiList]}, 'thingsToCarry').length, 4);
+    assert.ok(lists.getDisplayItems({thingsToCarry: [emojiList]}, 'thingsToCarry').some(label => /^📸\s*Camera/.test(label)));
+    assert.deepEqual(lists.getDisplayItems({thingsToCarry: ['Raincoat']}, 'thingsToCarry'), ['Raincoat']);
     const numbered = ['Packing list', ...Array.from({length: 4}, (_, i) => `${i + 1}. Pack a useful personal item and keep it dry and safe throughout the journey.`)].join('\n');
     assert.equal(lists.splitLegacyPackingItem(numbered).length, 5);
 });

@@ -1,0 +1,11 @@
+{
+  "name": "team-weekend-trekkers-website",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "optimize-images": "node scripts/optimize-images.js"
+  },
+  "dependencies": {
+    "sharp": "0.35.5"
+  }
+}

@@ -23,8 +23,8 @@ function loadCommonData(relativePath) {
 
 const expectedPolicy = [
     { days: '6+ days before departure', refund: '25%' },
-    { days: '4 days before departure', refund: '50%' },
-    { days: '< 3 days before departure', refund: '100%' },
+    { days: '4–5 days before departure', refund: '50%' },
+    { days: '0–3 days before departure', refund: '100%' },
 ];
 
 test('all managed website data copies use the requested cancellation fees', () => {
@@ -39,8 +39,8 @@ test('all managed website data copies use the requested cancellation fees', () =
         const cancellationFaq = commonFAQs.find(({ q }) => /cancel my booking/i.test(q));
         assert.ok(cancellationFaq, `${relativePath} is missing the cancellation FAQ`);
         assert.match(cancellationFaq.a, /25% fee \(6\+ days before departure\)/);
-        assert.match(cancellationFaq.a, /50% fee \(4 days before departure\)/);
-        assert.match(cancellationFaq.a, /100% fee \(< 3 days before departure\)/);
+        assert.match(cancellationFaq.a, /50% fee \(4–5 days before departure\)/);
+        assert.match(cancellationFaq.a, /100% fee \(0–3 days before departure\)/);
     }
 });
 
@@ -50,12 +50,12 @@ test('public cancellation copy is consistent and rendered as fees', () => {
     const androidContext = read('App/ANDROID_APP_CONTEXT.md');
 
     assert.match(contact, /6\+ days before departure — 25%/);
-    assert.match(contact, /4 days before departure — 50%/);
-    assert.match(contact, /less than 3 days before departure — 100%/);
+    assert.match(contact, /4–5 days before departure — 50%/);
+    assert.match(contact, /0–3 days before departure — 100%/);
     assert.match(tripDetail, /Cancellation Fee: \$\{policy\.refund\}/);
     assert.match(androidContext, /\| 6\+ days \| 25% \|/);
-    assert.match(androidContext, /\| 4 days \| 50% \|/);
-    assert.match(androidContext, /\| < 3 days \| 100% \|/);
+    assert.match(androidContext, /\| 4–5 days \| 50% \|/);
+    assert.match(androidContext, /\| 0–3 days \| 100% \|/);
 
     for (const source of [read('js/trips-data.js'), read('App/js/trips-data.js'), contact]) {
         assert.doesNotMatch(source, /70% fee|80% refund|3-6 days before trip|0-2 days before trip/);

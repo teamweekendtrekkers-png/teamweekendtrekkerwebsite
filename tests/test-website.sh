@@ -316,7 +316,7 @@ section "8/12" "Internal Links Validation"
 for file in "${HTML_FILES[@]}"; do
     if [[ -f "$file" ]]; then
         # Extract href values for internal links
-        LINKS=$(grep -oP 'href="[^"#]*\.html[^"]*"' "$file" 2>/dev/null | grep -v "http" | sed 's/href="//g' | sed 's/"//g' | sort -u)
+        LINKS=$(grep -oP 'href="[^"#]*\.html[^"]*"' "$file" 2>/dev/null | grep -v "http" | sed 's/href="//g' | sed 's/"//g' | sed 's/[?#].*//' | sort -u)
         
         BROKEN=0
         for link in $LINKS; do
@@ -342,7 +342,7 @@ section "9/12" "Resource References Validation"
 for file in "${HTML_FILES[@]}"; do
     if [[ -f "$file" ]]; then
         # Check JS references
-        JS_REFS=$(grep -oP 'src="js/[^"]*"' "$file" 2>/dev/null | sed 's/src="//g' | sed 's/"//g' | sed 's/?.*//g' | sort -u)
+        JS_REFS=$(grep -oP 'src="js/[^"]*"' "$file" 2>/dev/null | sed 's/src="//g' | sed 's/"//g' | sed 's/[?#].*//' | sort -u)
         for ref in $JS_REFS; do
             if [[ -f "$ref" ]]; then
                 pass "$file -> $ref exists"
@@ -352,7 +352,7 @@ for file in "${HTML_FILES[@]}"; do
         done
         
         # Check CSS references
-        CSS_REFS=$(grep -oP 'href="css/[^"]*"' "$file" 2>/dev/null | sed 's/href="//g' | sed 's/"//g' | sort -u)
+        CSS_REFS=$(grep -oP 'href="css/[^"]*"' "$file" 2>/dev/null | sed 's/href="//g' | sed 's/"//g' | sed 's/[?#].*//' | sort -u)
         for ref in $CSS_REFS; do
             if [[ -f "$ref" ]]; then
                 pass "$file -> $ref exists"
@@ -490,3 +490,4 @@ else
     echo ""
     exit 0
 fi
+

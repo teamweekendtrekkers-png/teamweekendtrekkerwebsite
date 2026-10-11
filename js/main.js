@@ -1,25 +1,7 @@
 // ===== Main JavaScript =====
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Navigation Toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle) {
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-    
-    // Close mobile menu on link click
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
-    });
-    
+    // Navigation is managed by mobile-experience.js.
     // Accordion functionality
     const accordionHeaders = document.querySelectorAll('.accordion-header');
     accordionHeaders.forEach(header => {

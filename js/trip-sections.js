@@ -5,7 +5,7 @@
     else root.TripSections = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this, function () {
     'use strict';
-    const keys = Object.freeze(['about', 'highlights', 'includes']);
+    const keys = Object.freeze(['about', 'highlights', 'includes', 'thingsToCarry']);
     const installedWindows = new WeakSet();
 
     function expandedSections(trip) {

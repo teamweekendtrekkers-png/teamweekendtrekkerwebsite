@@ -1,0 +1,71 @@
+/* Calm brand surfaces; colour communicates actions and status. */
+:root { --secondary:#B8540B; --accent:#17643B; --brand-surface:#EDF5EF; --info:#245BB5; --warning:#A6500D; --danger:#B42318; }
+.hero { position:relative; isolation:isolate; overflow:hidden; min-height:0; aspect-ratio:16/7; max-height:640px; }
+.hero-photo-layer { position:absolute; inset:0; z-index:-2; background-size:cover; transition:opacity 1.5s ease; }
+.hero::before { z-index:-1; }
+.hero-content { position:relative; z-index:1; }
+.trip-card .trip-image { aspect-ratio:16/9; height:auto; }
+.trip-image img { display:block; height:100%; width:100%; object-fit:cover; }
+picture { display:contents; }
+.glance-grid,.how-it-works,.why-choose-us,.upcoming-batches { background:var(--brand-surface); }
+.content-section,.testimonial-card,.review-card,.booking-card { background:#fff; }
+.trip-badge { background:var(--brand-surface); color:var(--primary); border:1px solid currentColor; }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-secondary { background:var(--secondary); color:#fff; }
+input,select,textarea { font-size:1rem; }
+button,.btn,summary { min-height:44px; }
+.nav-backdrop { display:none; position:fixed; inset:0; background:rgba(15,23,19,.48); border:0; z-index:999; }
+body.nav-open { overflow:hidden; }
+.gallery-counter { position:absolute; right:12px; bottom:12px; background:rgba(0,0,0,.75); color:white; border:1px solid rgba(255,255,255,.5); border-radius:24px; padding:8px 14px; font-size:14px; cursor:pointer; z-index:2; }
+.gallery-main:focus-visible { outline:3px solid var(--info); outline-offset:3px; }
+.mobile-book-float .mobile-whatsapp { display:none; }
+.gallery-main { touch-action:pan-y; }
+@media(max-width:767px) {
+ .container { padding-inline:16px; }
+ .hero { aspect-ratio:4/5; max-height:560px; min-height:440px; }
+ .hero h1 { font-size:clamp(2rem,8vw,2.6rem); line-height:1.13; }
+ .hero-desc { font-size:1rem; max-width:32ch; margin-inline:auto; }
+ .hero .hero-buttons { gap:10px; }
+ .hero-tagline { font-size:14px; }
+ .nav-open .nav-backdrop { display:block; }
+ .nav-menu { z-index:1001; max-height:calc(100dvh - 80px); overflow-y:auto; }
+ .nav-toggle { z-index:1002; min-height:48px; min-width:48px; }
+ .nav-menu a { min-height:48px; display:flex; align-items:center; font-size:16px; }
+ .gallery-wrapper { display:block; height:auto; }
+ .gallery-main { height:auto; aspect-ratio:4/3; }
+ .gallery-side { display:none; }
+ .gallery-main img { height:100%; }
+ .trek-glance { padding:20px 0; }
+ .glance-grid { gap:12px; padding:12px; border-radius:12px; }
+ .glance-item h4,.glance-item p,.trip-meta,.trip-date-tag { font-size:14px; }
+ .content-section { margin-bottom:16px; padding:18px; }
+ .content-section h2,.trip-section summary { font-size:20px; }
+ .carry-grid,.guidelines-grid { grid-template-columns:1fr; gap:12px; }
+ .trip-main { min-width:0; }
+ #pickupTable,#pickupTable tbody { display:block; width:100%; }
+ #pickupTable thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+ #pickupTable tr { display:grid; grid-template-columns:1fr 1fr; padding:12px; border:1px solid #dce5df; border-radius:12px; margin-bottom:12px; background:white; }
+ #pickupTable td { padding:6px; border:0; min-width:0; overflow-wrap:anywhere; font-size:14px; }
+ #pickupTable td::before { content:attr(data-label); display:block; color:#59645e; font-size:14px; }
+ #pickupTable .map-link { display:flex; align-items:center; min-height:44px; color:var(--info); }
+ .mobile-book-float { opacity:1; transform:none; pointer-events:auto; position:fixed; display:flex; inset:auto 0 0; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:white; box-shadow:0 -4px 20px rgba(0,0,0,.12); z-index:900; border-radius:0; gap:8px; }
+ .mobile-book-float>a:first-child { flex:1; display:flex; flex-direction:row; justify-content:space-between; gap:10px; background:var(--primary); color:white; border-radius:12px; padding:10px 14px; min-height:48px; font-size:14px; }
+ .mobile-book-float .mobile-whatsapp { display:flex; width:48px; min-width:48px; min-height:48px; align-items:center; justify-content:center; border:1px solid #17643B; border-radius:12px; color:#17643B; background:#fff; }
+ body:has(#mobileBookBtn) { padding-bottom:calc(85px + env(safe-area-inset-bottom)); }
+ body:has(#mobileBookBtn) .whatsapp-float { display:none; }
+ #floatPrice { font-size:14px; font-weight:700; }
+ .float-cta { font-size:14px; }
+ .mobile-section summary { font-size:20px; font-weight:700; cursor:pointer; }
+ .discovery-field span,.discovery-field label,.trip-card-summary { font-size:14px; }
+ .trip-detail-heading .trip-summary-facts { gap:8px; font-size:14px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ html { scroll-behavior:auto; }
+ *,*::before,*::after { transition-duration:0s!important; animation-duration:0s!important; }
+}
+@media print {
+ .hero-photo-layer,.mobile-book-float,.nav-backdrop,.gallery-counter { display:none!important; }
+ body { padding-bottom:0; }
+}
+
+.mobile-book-date { display:block; font-size:12px; font-weight:400; max-width:160px; }

@@ -32,8 +32,8 @@ test('legacy and malformed preferences collapse safely without mutating data', (
     assert.deepEqual(sections.expandedSections(null), []);
 });
 
-test('all eight combinations of independent trip preferences are honored', () => {
-    for (let mask = 0; mask < 8; mask++) {
+test('all independent combinations of independent trip preferences are honored', () => {
+    for (let mask = 0; mask < (1 << sections.keys.length); mask++) {
         const expanded = sections.keys.filter((_, index) => mask & (1 << index));
         const f = fixture();
         sections.apply({expandedSections: expanded}, f.document, f.window);
@@ -51,15 +51,15 @@ test('printing opens every section and restores visitor state even after cancell
     f.listeners.beforeprint(); // Browsers may dispatch repeatedly.
     assert.ok(f.panels.every(panel => panel.open));
     f.listeners.afterprint();
-    assert.deepEqual(f.panels.map(panel => panel.open), [false, true, false]);
+    assert.deepEqual(f.panels.map(panel => panel.open), [false, true, false, false]);
     f.listeners.afterprint();
     f.panels[2].open = true;
     f.listeners.beforeprint(); f.listeners.afterprint();
-    assert.deepEqual(f.panels.map(panel => panel.open), [false, true, true]);
+    assert.deepEqual(f.panels.map(panel => panel.open), [false, true, true, false]);
 });
 
 test('native semantic controls are scoped away from itinerary, booking, and brochures', () => {
-    assert.equal((template.match(/<details class="content-section trip-section"/g) || []).length, 3);
+    assert.equal((template.match(/<details class="content-section trip-section"/g) || []).length, sections.keys.length);
     for (const key of sections.keys) assert.ok(template.includes(`data-trip-section="${key}" open>`));
     assert.match(template, /TripSections\.apply\(trip, document, window\)/);
     assert.ok(template.indexOf('src="js/trip-sections.js?v=1"') < template.indexOf('TripSections.apply'));
