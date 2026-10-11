@@ -462,9 +462,15 @@ jobs:
         
         if [ "${{ needs.validate.result }}" == "success" ] && \
            [ "${{ needs.trip-data-validation.result }}" == "success" ] && \
+           [ "${{ needs.common-data-validation.result }}" == "success" ] && \
            [ "${{ needs.javascript-validation.result }}" == "success" ] && \
            [ "${{ needs.html-validation.result }}" == "success" ] && \
-           [ "${{ needs.css-validation.result }}" == "success" ]; then
+           [ "${{ needs.css-validation.result }}" == "success" ] && \
+           [ "${{ needs.inactive-trip-validation.result }}" == "success" ] && \
+           [ "${{ needs.images-validation.result }}" == "success" ] && \
+           [ "${{ needs.security-check.result }}" == "success" ] && \
+           [ "${{ needs.mobile-responsive-check.result }}" == "success" ] && \
+           [ "${{ needs.comprehensive-tests.result }}" == "success" ]; then
           echo "✅ All critical validations passed!"
         else
           echo "❌ Some validations failed - check job details"
@@ -473,7 +479,7 @@ jobs:
 
   # Job 13: Deploy to GitHub Pages (only runs if all validations pass)
   deploy:
-    needs: [validate, trip-data-validation, javascript-validation, html-validation, css-validation, inactive-trip-validation]
+    needs: [test-summary]
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && success()
     runs-on: ubuntu-latest
     environment:
@@ -520,3 +526,4 @@ jobs:
         echo "🚀 Website deployed successfully!"
         echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "================================================"
+
