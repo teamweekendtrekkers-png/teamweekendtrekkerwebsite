@@ -10,7 +10,7 @@
     "backgroundImage": "images/trips/homepage_1791650644735.jpg",
     "title": "Explore. Travel. Experience.",
     "tagline": "🧗 Trips | Tours | Unique Experiences 🏕️",
-    "description": "A Travel community for the travellers, By the travellers"
+    "description": "A travel community for travellers, by travellers"
   },
   "upcomingBatches": {
     "enabled": true,
@@ -240,7 +240,7 @@
   },
   "footer": {
     "brandName": "Team Weekend Trekkers",
-    "description": "A Travel community for the travellers, By the travellers. 🧗 Trips | Tours | Unique Experiences 🏕️",
+    "description": "A travel community for travellers, by travellers. 🧗 Trips | Tours | Unique Experiences 🏕️",
     "quickLinksTitle": "Quick Links",
     "homeLabel": "Home",
     "tripsLabel": "All Trips",

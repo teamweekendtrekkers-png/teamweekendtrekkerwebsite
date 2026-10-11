@@ -171,6 +171,9 @@ jobs:
         
         echo "✅ All JavaScript files have valid syntax"
 
+    - name: Install image pipeline dependencies
+      run: npm install --no-audit --no-fund --package-lock=false
+
     - name: Test Trip Date Utilities
       run: node --test tests/*.test.js
 
@@ -489,9 +492,18 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
+    - name: Install image optimiser
+      run: npm install --no-audit --no-fund --package-lock=false
+
+    - name: Generate responsive WebP and AVIF photos
+      run: npm run optimize-images
+
     - name: Generate crawler-readable trip pages
       run: node scripts/generate-trip-pages.js
     
+    - name: Remove build dependencies from the Pages artifact
+      run: node -e "require('node:fs').rmSync('node_modules', {recursive:true, force:true})"
+
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:

@@ -78,6 +78,7 @@ test('cover image recovery tries main image then logo and stops after a missing 
     const image = {
         dataset:{imageFallback:'images/missing-main.jpg'}, complete:false, naturalWidth:0,
         getAttribute:() => 'images/missing-cover.jpg',
+        removeAttribute(name) { assert.equal(name, 'srcset'); },
         set src(value) { attempts.push(value); },
         addEventListener(name, handler) { listeners.set(name,handler); },
         removeEventListener(name, handler) { if (listeners.get(name) === handler) listeners.delete(name); },
@@ -94,6 +95,7 @@ test('successful main fallback removes listeners and never requests the logo', (
     const image = {
         dataset:{imageFallback:'images/main.jpg'}, complete:false, naturalWidth:0,
         getAttribute:() => 'images/missing-cover.jpg',
+        removeAttribute(name) { assert.equal(name, 'srcset'); },
         set src(value) { attempts.push(value); },
         addEventListener(name, handler) { listeners.set(name,handler); },
         removeEventListener(name, handler) { if (listeners.get(name) === handler) listeners.delete(name); },

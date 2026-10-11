@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="css/trip-sections.css">
     <link rel="stylesheet" href="css/trip-decision.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/site-polish.css?v=1">
 </head>
 <body>
     <nav class="navbar">
@@ -278,8 +279,8 @@
                     </details>
 
                     <!-- Things to Carry -->
-                    <div class="content-section">
-                        <h2>Things to Carry</h2>
+                    <details class="content-section trip-section" data-trip-section="thingsToCarry" open>
+                        <summary><span>Things to Carry</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary>
                         <div class="carry-grid" id="thingsToCarryGrid">
                             <div class="carry-item"><i class="fas fa-shoe-prints"></i> Trekking shoes</div>
                             <div class="carry-item"><i class="fas fa-tint"></i> 2L water bottle</div>
@@ -290,18 +291,18 @@
                             <div class="carry-item"><i class="fas fa-capsules"></i> Personal medicines</div>
                             <div class="carry-item"><i class="fas fa-camera"></i> Camera (optional)</div>
                         </div>
-                    </div>
+                    </details>
 
                     <!-- Perfect For Section -->
-                    <div class="content-section">
-                        <h2>Perfect For</h2>
+                    <details class="content-section mobile-section" open>
+                        <summary>Perfect For</summary>
                         <div class="suitable-for-grid" id="suitableForGrid">
                             <div class="suitable-tag"><i class="fas fa-user"></i> Solo Travelers</div>
                             <div class="suitable-tag"><i class="fas fa-user-friends"></i> Friends</div>
                             <div class="suitable-tag"><i class="fas fa-star"></i> First Timers</div>
                             <div class="suitable-tag"><i class="fas fa-home"></i> Family</div>
                         </div>
-                    </div>
+                    </details>
 
                     <!-- Pickup Points Section -->
                     <div class="content-section" id="tripPickup">
@@ -325,8 +326,8 @@
                     </div>
 
                     <!-- Cancellation Policy Section -->
-                    <div class="content-section">
-                        <h2><i class="fas fa-shield-alt"></i> Cancellation Policy</h2>
+                    <details class="content-section mobile-section" open>
+                        <summary><i class="fas fa-shield-alt"></i> Cancellation Policy</summary>
                         <div class="policy-cards" id="policyCards">
                             <!-- Populated by JavaScript -->
                         </div>
@@ -334,23 +335,23 @@
                             <p><i class="fas fa-info-circle"></i> Refunds are processed within 5-7 business days.</p>
                             <p><i class="fas fa-exchange-alt"></i> Date changes are free if requested 7+ days before the trip.</p>
                         </div>
-                    </div>
+                    </details>
 
                     <!-- Trek Guidelines Section -->
-                    <div class="content-section">
-                        <h2><i class="fas fa-clipboard-list"></i> Trip Guidelines</h2>
+                    <details class="content-section mobile-section" open>
+                        <summary><i class="fas fa-clipboard-list"></i> Trip Guidelines</summary>
                         <div class="guidelines-grid" id="guidelinesGrid">
                             <!-- Populated by JavaScript -->
                         </div>
-                    </div>
+                    </details>
 
                     <!-- FAQ Section -->
-                    <div class="content-section">
-                        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+                    <details class="content-section mobile-section" open>
+                        <summary><i class="fas fa-question-circle"></i> Frequently Asked Questions</summary>
                         <div class="faq-accordion" id="faqAccordion">
                             <!-- Populated by JavaScript -->
                         </div>
-                    </div>
+                    </details>
                 </div>
 
                 <!-- Sidebar -->
@@ -420,7 +421,7 @@
             <div class="footer-grid">
                 <div class="footer-col" data-footer-brand>
                     <h4>Team Weekend Trekkers</h4>
-                    <p>A Travel community for the travellers, By the travellers.</p>
+                    <p>A travel community for travellers, by travellers.</p>
                     <div class="social-links">
                         <a href="https://instagram.com/teamweekendtrekkers" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/917019235581" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -438,7 +439,7 @@
                 <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
-                    <p><i class="fab fa-whatsapp"></i> +91 917019235581</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 7019235581</p>
                 </div>
                 <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
@@ -476,6 +477,10 @@
         </div>
     </dialog>
 
+    <script src="js/image-manifest.js"></script>
+    <script src="js/responsive-images.js?v=1"></script>
+    <script src="js/site-presentation.js?v=1"></script>
+    <script src="js/mobile-experience.js?v=1"></script>
     <script src="js/main.js"></script>
     <script src="js/footer-settings.js"></script>
     <script src="js/trip-detail-lists.js?v=2"></script>
@@ -636,19 +641,12 @@
             window.allGalleryImages = galleryImagesArray;
             
             const galleryMainImg = document.getElementById('galleryMainImg');
-            if (galleryMainImg) galleryMainImg.src = galleryImagesArray[0] || trip.image;
-            
-            const galleryImg1 = document.getElementById('galleryImg1');
-            if (galleryImg1) galleryImg1.src = galleryImagesArray[1] || trip.image;
-            
-            const galleryImg2 = document.getElementById('galleryImg2');
-            if (galleryImg2) galleryImg2.src = galleryImagesArray[2] || trip.image;
-            
-            const galleryImg3 = document.getElementById('galleryImg3');
-            if (galleryImg3) galleryImg3.src = galleryImagesArray[3] || trip.image;
-            
-            const galleryImg4 = document.getElementById('galleryImg4');
-            if (galleryImg4) galleryImg4.src = galleryImagesArray[4] || trip.image;
+            ResponsiveImages.set(galleryMainImg, galleryImagesArray[0] || trip.image, {eager: true, focal: trip.imageFocalPoint});
+            if (window.matchMedia('(min-width: 768px)').matches) {
+                for (let index = 1; index <= 4; index++) {
+                    ResponsiveImages.set(document.getElementById('galleryImg' + index), galleryImagesArray[index] || trip.image, {focal: trip.imageFocalPoint, sizes: '20vw'});
+                }
+            }
             
             // Update "more photos" count if we have gallery images
             const morePhotosOverlay = document.querySelector('.gallery-overlay span');
@@ -884,6 +882,7 @@
             document.getElementById('peopleCount').addEventListener('change', updateTotal);
             updateTotal();
             TripDecision.apply(trip, document, window);
+            MobileExperience.trip(trip);
         }
         function updateTotal() {
             const people = parseInt(document.getElementById('peopleCount').value) || 1;
@@ -964,7 +963,7 @@
             galleryImages = window.allGalleryImages || Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
             
             showLoader();
-            lightboxImg.src = galleryImages[currentImageIndex];
+            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, sizes: '100vw'});
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -986,7 +985,7 @@
             const counter = document.getElementById('imageCounter');
             
             showLoader();
-            lightboxImg.src = galleryImages[currentImageIndex];
+            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, sizes: '100vw'});
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
         }
 

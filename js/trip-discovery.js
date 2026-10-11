@@ -55,7 +55,7 @@
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
         const label = experience(trip) === 'other' ? String(trip.badge || 'Trip') : experiences[experience(trip)];
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
-            <div class="trip-image"><img src="${escape(imagePath(trip))}" data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><span class="trip-badge">${escape(label)}</span>${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
+            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><span class="trip-badge">${escape(label)}</span>${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
             <div class="trip-content"><h3>${escape(title)}</h3>
             ${trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
@@ -73,7 +73,7 @@
             // second handler. A failed final logo terminates the finite queue.
             delete image.dataset.imageFallback;
             const cleanup = () => { image.removeEventListener('error', recover); image.removeEventListener('load', cleanup); };
-            const recover = () => { const fallback = queue.shift(); if (fallback) image.src = fallback; else cleanup(); };
+            const recover = () => { const fallback = queue.shift(); if (fallback) { image.removeAttribute('srcset'); image.src = fallback; } else cleanup(); };
             image.addEventListener('error', recover);
             image.addEventListener('load', cleanup);
             if (image.complete) { if (image.naturalWidth) cleanup(); else recover(); }

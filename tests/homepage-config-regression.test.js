@@ -40,7 +40,7 @@ test('the whole homepage behavior suite passes even when published settings are 
     // A child node:test run must select its own TAP reporter instead of
     // inheriting the parent runner's binary IPC serialization mode.
     delete environment.NODE_TEST_CONTEXT;
-    const output = execFileSync(process.execPath, ['-e', script], {
+    const output = execFileSync(process.execPath, ['--test-reporter=tap', '-e', script], {
         cwd: path.resolve(__dirname), encoding:'utf8', timeout:15000, env:environment,
     });
     assert.match(output, /# fail 0/);

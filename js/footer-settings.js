@@ -16,7 +16,7 @@
     'use strict';
     const defaults = {
     "brandName": "Team Weekend Trekkers",
-    "description": "A Travel community for the travellers, By the travellers. 🧗 Trips | Tours | Unique Experiences 🏕️",
+    "description": "A travel community for travellers, by travellers. 🧗 Trips | Tours | Unique Experiences 🏕️",
     "quickLinksTitle": "Quick Links",
     "homeLabel": "Home",
     "tripsLabel": "All Trips",

@@ -10,7 +10,7 @@
         hero: {
             backgroundImage: 'images/wix/hero1.jpg', title: 'Explore. Travel. Experience.',
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
-            description: 'A Travel community for the travellers, By the travellers'
+            description: 'A travel community for travellers, by travellers'
         },
         discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true },
         upcomingBatches: {
@@ -20,6 +20,8 @@
             fields: { price: true, status: true, weekday: true, location: false, duration: false, difficulty: false, image: false }
         }
     };
+    const presentation = typeof module === 'object' && module.exports ? require('./site-presentation') : globalThis.SitePresentation;
+    defaults.presentation = presentation ? presentation.defaults : {};
     const clone = value => JSON.parse(JSON.stringify(value));
     defaults.sections = clone(sections.defaults);
     defaults.footer = clone(footer.defaults);
@@ -56,6 +58,7 @@
         for (const key of Object.keys(result.upcomingBatches.fields)) {
             if (batches.fields && typeof batches.fields[key] === 'boolean') result.upcomingBatches.fields[key] = batches.fields[key];
         }
+        result.presentation = presentation ? presentation.normalize(raw.presentation) : {};
         result.sections = sections.normalize(raw.sections, safeImage);
         result.footer = footer.normalize(raw.footer);
         return result;
@@ -91,6 +94,7 @@
         const section = document.querySelector('.upcoming-batches');
         if (section) section.hidden = !normalized.upcomingBatches.enabled;
         sections.apply(normalized.sections, document);
+        if (presentation) presentation.apply(normalized, document, typeof window !== 'undefined' ? window : null);
         return normalized;
     }
     async function load(fetcher) {
