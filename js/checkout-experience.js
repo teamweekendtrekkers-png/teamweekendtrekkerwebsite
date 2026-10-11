@@ -1,20 +1,22 @@
 (function(){
  'use strict';
- const money=value=>'₹'+Number(value).toLocaleString('en-IN',{maximumFractionDigits:2});
+ const money=value=>'₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:Number.isInteger(Number(value))?0:2,maximumFractionDigits:2});
  let config=null,code='',busy=false;
  const byId=id=>document.getElementById(id);
  function currentTrip(){const id=getTripFromURL();return typeof tripsData==='object'&&Object.prototype.hasOwnProperty.call(tripsData,id)?tripsData[id]:null;}
- function dateValid(){const trip=currentTrip();return trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
+ function dateValid(){const trip=currentTrip();return new URLSearchParams(location.search).getAll('date').length===1&&trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
  function message(text){byId('couponFeedback').textContent=text;}
  function recalculate(){
   const data=window.bookingData;if(!data||!config)return;
   const subtotal=data.price*data.people;
   const quote=code?BookingRules.quote(config,code,getTripFromURL(),subtotal):{valid:false,discount:0,total:subtotal};
-  if(code&&!quote.valid){code='';message(quote.message);}
+  if(code&&!quote.valid){code='';message(quote.message);byId('offerUpdate').hidden=false;byId('offerUpdate').textContent=quote.message+' Please review your updated total.';}
   data.subtotal=subtotal;data.discount=quote.discount;data.coupon=quote.valid?quote.code:'';data.total=quote.total;
   byId('summarySubtotal').textContent=money(subtotal);
   byId('summaryTotal').textContent=money(data.total);
   byId('couponSavings').textContent='−'+money(data.discount);
+  byId('couponSavingsRow').querySelector('span').textContent=quote.valid?'Coupon '+quote.code:'Coupon savings';
+  if(quote.valid)byId('priceBreakdown').open=true;
   byId('couponSavingsRow').hidden=!quote.valid;
   byId('removeCoupon').hidden=!quote.valid;
   byId('hiddenTotal').value=data.total;
@@ -29,7 +31,7 @@
  async function refresh(){
   config=await BookingRules.load(window.fetch.bind(window));
   byId('couponEntry').hidden=!config.showCoupons;
-  if(!config.showCoupons&&code){code='';message('Coupon offers were updated. Please review your total.');}
+  if(!config.showCoupons&&code){code='';byId('offerUpdate').hidden=false;byId('offerUpdate').textContent='Coupon offers were updated. Please review your total.';}
   byId('receiverLine').hidden=!config.payment.showReceiverName||!config.payment.receiverName;
   byId('receiverName').textContent=config.payment.receiverName;
   const razorpay=document.getElementById('rzpButton')?.closest('.payment-option');
@@ -50,6 +52,9 @@
   summary.querySelector('h3').textContent='Your Weekend Plan';
   document.querySelector('.summary-trip-info p').textContent=trip.location||'';
   byId('requestViewTrip').href=TripLinks.detailUrl(getTripFromURL());
+  const breakdown=document.createElement('details');breakdown.id='priceBreakdown';breakdown.className='price-breakdown';breakdown.open=!matchMedia('(max-width:767px)').matches;
+  const label=document.createElement('summary');label.textContent='Price breakdown · '+trip.price+' / person';breakdown.append(label);
+  const priceRow=document.querySelector('.summary-details .summary-row:nth-child(3)'),subtotalRow=byId('summarySubtotal').closest('.summary-row');priceRow.before(breakdown);breakdown.append(priceRow,subtotalRow,byId('couponSavingsRow'));
   byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
   byId('changeBooking').href=TripLinks.departureUrl(getTripFromURL(),getDateFromURL())+'&people='+window.bookingData.people;
   const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
@@ -58,14 +63,16 @@
   byId('fullName').autocomplete='name';byId('email').autocomplete='email';byId('phone').autocomplete='tel';byId('altPhone').autocomplete='tel';
   document.querySelector('.support-card').classList.remove('support-locked');summary.append(document.querySelector('.support-card'));
   byId('checkoutForm').addEventListener('submit',event=>{event.preventDefault();window.submitDetails();});
-  byId('applyCoupon').addEventListener('click',async()=>{try{await refresh();if(!config.showCoupons)return;const result=BookingRules.quote(config,byId('couponCode').value,getTripFromURL(),window.bookingData.price*window.bookingData.people);message(result.message);if(result.valid){code=result.code;recalculate();}}catch{message('Offers could not be loaded. Please try again.');}});
+  byId('applyCoupon').addEventListener('click',async()=>{try{await refresh();if(!config.showCoupons)return;const result=BookingRules.quote(config,byId('couponCode').value,getTripFromURL(),window.bookingData.price*window.bookingData.people);code=result.valid?result.code:'';recalculate();message(result.message);}catch{message('Offers could not be loaded. Please try again.');}});
   byId('removeCoupon').addEventListener('click',()=>{code='';byId('couponCode').value='';message('Coupon removed.');recalculate();});
   byId('couponCode').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();byId('applyCoupon').click();}});
   const originalSubmit=window.submitDetails;
   window.submitDetails=async()=>{
    if(busy)return;busy=true;submit.disabled=true;
    try{
+    const previousTotal=window.bookingData.total,previousCoupon=window.bookingData.coupon;
     await refresh();
+    if(previousCoupon&&previousTotal!==window.bookingData.total){byId('offerUpdate').hidden=false;byId('offerUpdate').textContent='Your coupon offer changed. Review the updated total and submit again when ready.';return;}
     if(!dateValid()){invalidRequest();return;}
     if(!validateForm())return;
     // Quotes are requests only: the team verifies coupons and availability before any payment.

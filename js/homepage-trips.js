@@ -23,10 +23,11 @@
         const fields = typeof HomepageSettings === 'undefined'
             ? { price: true, status: true, weekday: true }
             : HomepageSettings.normalize(config).upcomingBatches.fields;
+        const visibleCount = typeof HomepageSettings === 'undefined' ? 2 : HomepageSettings.normalize(config).upcomingBatches.maxBatches;
         const escapeHTML = TripDateUtils.escapeHTML;
         const filtered = state && (state.query || state.experience !== 'all' || state.departure);
         const status = document.getElementById('homepage-discovery-status');
-        if (status) status.textContent = batches.length ? `Showing ${expandedDepartures ? batches.length : Math.min(2,batches.length)} of ${batches.length} ${batches.length === 1 ? 'departure' : 'departures'}${filtered ? ' matching your filters' : ''}` : '';
+        if (status) status.textContent = batches.length ? `Showing ${expandedDepartures ? batches.length : Math.min(visibleCount,batches.length)} of ${batches.length} ${batches.length === 1 ? 'departure' : 'departures'}${filtered ? ' matching your filters' : ''}` : '';
 
         if (batches.length === 0) {
             const more = document.getElementById('moreDepartures'); if (more) more.hidden = true;
@@ -70,7 +71,7 @@
             }).join('');
 
             return `
-                <article class="batch-card" ${batchIndex >= 2 ? (expandedDepartures ? 'data-later-batch' : 'hidden data-later-batch') : ''}>
+                <article class="batch-card" ${batchIndex >= visibleCount ? (expandedDepartures ? 'data-later-batch' : 'hidden data-later-batch') : ''}>
                     <header class="batch-card-header">
                         <i class="far fa-calendar-alt" aria-hidden="true"></i>
                         <div>
@@ -82,7 +83,7 @@
                 </article>`;
         }).join('');
         const more = document.getElementById('moreDepartures');
-        if (more) { more.hidden = batches.length <= 2; more.setAttribute('aria-expanded',String(expandedDepartures)); more.textContent=expandedDepartures?'Show fewer departures':'Show more departures'; more.onclick=()=>{const expanded=more.getAttribute('aria-expanded')==='true';expandedDepartures=!expanded;grid.querySelectorAll('[data-later-batch]').forEach(card=>card.hidden=expanded);more.setAttribute('aria-expanded',String(!expanded));more.textContent=expanded?'Show more departures':'Show fewer departures';if(status)status.textContent='Showing '+(expanded?Math.min(2,batches.length):batches.length)+' of '+batches.length+' departures';}; }
+        if (more) { more.hidden = batches.length <= visibleCount; more.setAttribute('aria-expanded',String(expandedDepartures)); more.textContent=expandedDepartures?'Show fewer departures':'Show more departures'; more.onclick=()=>{const expanded=more.getAttribute('aria-expanded')==='true';expandedDepartures=!expanded;grid.querySelectorAll('[data-later-batch]').forEach(card=>card.hidden=expanded);more.setAttribute('aria-expanded',String(!expanded));more.textContent=expanded?'Show more departures':'Show fewer departures';if(status)status.textContent='Showing '+(expanded?Math.min(visibleCount,batches.length):batches.length)+' of '+batches.length+' departures';}; }
     }
 
     function renderFeaturedTrips(referenceDate) {
