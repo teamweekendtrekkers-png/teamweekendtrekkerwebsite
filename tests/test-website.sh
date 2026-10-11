@@ -352,7 +352,7 @@ for file in "${HTML_FILES[@]}"; do
         done
         
         # Check CSS references
-        CSS_REFS=$(grep -oP 'href="css/[^"]*"' "$file" 2>/dev/null | sed 's/href="//g' | sed 's/"//g' | sort -u)
+        CSS_REFS=$(grep -oP 'href="css/[^"]*"' "$file" 2>/dev/null | sed 's/href="//g' | sed 's/"//g' | sed 's/[?#].*//' | sort -u)
         for ref in $CSS_REFS; do
             if [[ -f "$ref" ]]; then
                 pass "$file -> $ref exists"
