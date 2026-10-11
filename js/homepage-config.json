@@ -6,6 +6,14 @@
     "showExperienceFilter": true,
     "showWeekendFilter": true
   },
+  "presentation": {
+    "preset": "forest",
+    "heroMobileImage": "",
+    "heroFocalPoint": "center",
+    "heroMobileFocalPoint": "center",
+    "heroSlides": [],
+    "heroMotion": false
+  },
   "hero": {
     "backgroundImage": "images/trips/homepage_1791650644735.jpg",
     "title": "Explore. Travel. Experience.",
@@ -255,7 +263,7 @@
     "instagramLabel": "",
     "email": "",
     "showSocialLinks": true,
-    "showUpi": true,
+    "showUpi": false,
     "upiTitle": "Pay via UPI",
     "copyUpiLabel": "Copy UPI ID",
     "copyright": "© {year} {brand}. All rights reserved."
