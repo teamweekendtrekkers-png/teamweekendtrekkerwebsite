@@ -40,3 +40,5 @@ body{background:var(--page-cream)}
 @media(max-width:767px){.summary-trip{display:flex!important;flex-direction:row!important;text-align:left!important;gap:12px;align-items:center}.summary-trip-info{min-width:0}.summary-trip-info h4{margin:0;font-size:16px}.summary-trip img{width:80px;height:60px;flex-shrink:0}.trip-hero-gallery h1{font-size:26px}.checkout-header{padding-bottom:20px}.checkout-header p{font-size:14px}}
 
 .price-breakdown{margin-block:8px}.price-breakdown summary{cursor:pointer;padding:10px 0;min-height:48px;font-size:14px;color:#174b32}#offerUpdate{background:#fff0e4;color:#922d14;padding:12px;border-radius:8px}
+
+@media(max-width:767px){.checkout-page .whatsapp-float{display:none!important}}

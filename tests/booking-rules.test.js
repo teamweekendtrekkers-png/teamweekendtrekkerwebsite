@@ -47,3 +47,14 @@ test('checkout opens success/payment instructions only after a successful form r
   assert.equal(successes,response?.ok&&response?.success?1:0);assert.equal(alerts,successes?0:1);
  }
 });
+test('submission stops for changed offers, expired dates or unavailable settings',async()=>{
+ const text=fs.readFileSync(path.join(__dirname,'../js/checkout-experience.js'),'utf8');
+ const wrapper=text.slice(text.indexOf('const originalSubmit=window.submitDetails;'),text.indexOf("byId('copyPaymentUpi').addEventListener"));
+ for(const scenario of ['unchanged','changed','expired','offline']){
+  let sends=0;const elements={checkoutForm:{style:{display:''}},offerUpdate:{hidden:true},bookingIssue:{hidden:true}};
+  const context={busy:false,submit:{disabled:false},window:{bookingData:{total:100,coupon:'TEST'},submitDetails:async()=>sends++},byId:id=>elements[id],dateValid:()=>scenario!=='expired',invalidRequest:()=>{elements.bookingIssue.hidden=false;},validateForm:()=>true,refresh:async()=>{if(scenario==='offline')throw Error('offline');if(scenario==='changed')context.window.bookingData.total=120;}};
+  vm.createContext(context);vm.runInContext(wrapper,context);await context.window.submitDetails();
+  assert.equal(sends,scenario==='unchanged'?1:0);
+  if(scenario==='changed')assert.equal(elements.offerUpdate.hidden,false);
+ }
+});
