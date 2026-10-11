@@ -1,12 +1,12 @@
 (function (root, factory) {
-    const api = factory();
+    const api = factory(root);
 
     if (typeof module === 'object' && module.exports) {
         module.exports = api;
     }
 
     root.TripLinks = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (root) {
     'use strict';
 
     const LOCAL_HOSTS = new Set([
@@ -26,10 +26,13 @@
     }
 
     function detailUrl(tripId, locationLike) {
+        const record = typeof tripsData === 'object' ? tripsData[tripId] : null;
+        const slug = record && record.publicSlug || String(tripId);
         const encodedTripId = encodeURIComponent(String(tripId));
+        const encodedSlug = encodeURIComponent(slug);
         return isLocalPreview(locationLike)
             ? `trip-detail.html?trip=${encodedTripId}`
-            : `trips/${encodedTripId}/`;
+            : `trips/${encodedSlug}/`;
     }
 
     // Carry the chosen departure without changing legacy detail links or routes.

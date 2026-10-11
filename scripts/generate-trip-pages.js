@@ -137,7 +137,7 @@ function buildMetadata({ tripId, trip, imagePath, siteOrigin }) {
         trip.about,
         `Explore ${trip.title.trim()} with Team Weekend Trekkers.`,
     );
-    const pageUrl = `${siteOrigin}/trips/${encodeURIComponent(tripId)}/`;
+    const pageUrl = `${siteOrigin}/trips/${encodeURIComponent(trip.publicSlug || tripId)}/`;
     const imageUrl = new URL(`/${imagePath}`, siteOrigin).href;
 
     return [
@@ -161,6 +161,7 @@ function buildMetadata({ tripId, trip, imagePath, siteOrigin }) {
 
 function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
     const safeTripId = validateTripId(tripId);
+    validateTripId(trip.publicSlug || safeTripId);
     const imagePath = validateTripImage(projectRoot, safeTripId, trip.image);
     const metadata = buildMetadata({
         tripId: safeTripId,
@@ -189,7 +190,19 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
     );
     // The root base URL serves shared assets; fragment links must keep this trip.
     page = page.replace(/href=(["'])#([^"']*)\1/g, (_match, quote, fragment) => {
-        return `href=${quote}trips/${encodeURIComponent(safeTripId)}/#${fragment}${quote}`;
+        return `href=${quote}trips/${encodeURIComponent(trip.publicSlug || safeTripId)}/#${fragment}${quote}`;
+    });
+    let imageManifest = {};
+    try { const text = fs.readFileSync(path.join(projectRoot, 'js/image-manifest.js'), 'utf8'); const match = text.match(/window\.IMAGE_MANIFEST = (\{[\s\S]*\});/); if (match) imageManifest = JSON.parse(match[1]); } catch {}
+    const photos = [...new Set([trip.cardImage || trip.galleryImages?.[0] || trip.image, ...(trip.galleryImages || []), trip.image].filter(Boolean))];
+    page = page.replace(/<img\b[^>]*\bid="(galleryMainImg|galleryImg[1-4])"[^>]*>/g, (tag, id) => {
+        const index = id === 'galleryMainImg' ? 0 : Number(id.slice(-1));
+        const photo = photos[index] || photos[0];
+        if (!photo || !require('../js/homepage-settings').safeImage(photo)) return tag;
+        const variants = imageManifest[photo]?.webp || [];
+        const source = (variants.find(item => item.width >= (index === 0 ? 960 : 640)) || variants.at(-1))?.path || photo;
+        const candidates = variants.length ? ' srcset="' + variants.map(item => escapeHtml(item.path) + ' ' + item.width + 'w').join(', ') + '" sizes="(max-width:767px) 100vw, 70vw"' : '';
+        return tag.replace(/>$/, ' src="' + escapeHtml(source) + '"' + candidates + ' decoding="async" loading="' + (index === 0 ? 'eager' : 'lazy') + '">');
     });
     return replaceMetadataBlock(page, metadata);
 }
@@ -220,6 +233,8 @@ function generateTripPages({ projectRoot, outputDir }) {
     ensureEmptyOutputDirectory(resolvedOutputDir);
 
     const generated = [];
+    const owners = new Map();
+    for (const [id, trip] of entries) { for (const slug of [trip.publicSlug || id, id, ...(trip.previousSlugs || [])]) { validateTripId(slug); if (owners.has(slug) && owners.get(slug) !== id) throw new Error(`URL slug collision: ${slug}`); owners.set(slug,id); } }
     for (const [tripId, trip] of entries) {
         const safeTripId = validateTripId(tripId);
         const page = renderTripPage({
@@ -229,13 +244,22 @@ function generateTripPages({ projectRoot, outputDir }) {
             projectRoot: resolvedProjectRoot,
             siteOrigin,
         });
-        const tripDirectory = path.join(resolvedOutputDir, safeTripId);
+        const publicSlug = validateTripId(trip.publicSlug || safeTripId);
+        const tripDirectory = path.join(resolvedOutputDir, publicSlug);
         fs.mkdirSync(tripDirectory);
         const outputPath = path.join(tripDirectory, 'index.html');
         fs.writeFileSync(outputPath, page, { encoding: 'utf8', flag: 'wx' });
         generated.push(outputPath);
+        for (const alias of new Set([safeTripId, ...(trip.previousSlugs || [])])) {
+            if (alias === publicSlug) continue;
+            const aliasDirectory=path.join(resolvedOutputDir,validateTripId(alias));fs.mkdirSync(aliasDirectory);
+            const target=siteOrigin+'/trips/'+encodeURIComponent(publicSlug)+'/';
+            const redirect='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trip moved</title><link rel="canonical" href="'+escapeHtml(target)+'"><meta http-equiv="refresh" content="0;url='+escapeHtml(target)+'"></head><body><a href="'+escapeHtml(target)+'">View this trip</a><script>location.replace('+JSON.stringify(target)+'+location.search+location.hash);</script></body></html>';
+            fs.writeFileSync(path.join(aliasDirectory,'index.html'),redirect,{flag:'wx'});
+        }
     }
 
+    fs.writeFileSync(path.join(path.dirname(resolvedOutputDir),'sitemap.xml'),'<\u003fxml version="1.0" encoding="UTF-8"\u003f><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+entries.map(([id,trip])=>'<url><loc>'+escapeHtml(siteOrigin+'/trips/'+encodeURIComponent(trip.publicSlug||id)+'/')+'</loc></url>').join('')+'</urlset>');
     return generated;
 }
 

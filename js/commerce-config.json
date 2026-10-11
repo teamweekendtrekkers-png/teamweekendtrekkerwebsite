@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "payment": {
+    "upiId": "",
+    "receiverName": "",
+    "showReceiverName": true,
+    "showRazorpay": false
+  },
+  "showCoupons": true,
+  "coupons": []
+}

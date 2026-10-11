@@ -88,7 +88,7 @@
         const hero = document.querySelector('.hero');
         if (hero) {
             const images = [normalized.hero.backgroundImage];
-            if (normalized.hero.backgroundImage !== defaults.hero.backgroundImage) images.push(defaults.hero.backgroundImage);
+
             hero.style.backgroundImage = images.map(path => `url("${path}")`).join(', ');
         }
         const section = document.querySelector('.upcoming-batches');
@@ -98,6 +98,8 @@
         return normalized;
     }
     async function load(fetcher) {
+        const embedded = typeof document !== 'undefined' && document.getElementById('homepage-initial-config');
+        if (embedded) { try { return normalize(JSON.parse(embedded.textContent)); } catch (_) {} }
         try {
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), 5000);

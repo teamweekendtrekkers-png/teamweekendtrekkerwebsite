@@ -504,6 +504,9 @@ jobs:
     - name: Generate responsive WebP and AVIF photos
       run: npm run optimize-images
 
+    - name: Prepare selected homepage cover and settings
+      run: node scripts/prepare-homepage.js
+
     - name: Generate crawler-readable trip pages
       run: node scripts/generate-trip-pages.js
     

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="css/trip-decision.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
+<link rel="stylesheet" href="css/customer-experience.css?v=2">
 </head>
 <body>
     <nav class="navbar">
@@ -45,7 +46,7 @@
                 <li><a href="trips.html" class="active">Trips</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="https://wa.me/917019235581" target="_blank" class="btn-nav">Book Now</a></li>
+                <li><a href="https://wa.me/917019235581" target="_blank" class="btn-nav">Ask on WhatsApp</a></li>
             </ul>
         </div>
     </nav>
@@ -54,7 +55,7 @@
     <section class="trip-hero-gallery" id="tripHeroGallery">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="trips.html">Trips</a> / <span id="breadcrumbTitle">Netravati Peak Trek</span>
+                <a href="index.html">Home</a> / <a href="trips.html">Trips</a> / <span id="breadcrumbTitle">Trip details</span>
             </div>
             <header class="trip-heading">
                 <p class="trip-heading-location" id="tripHeadingLocation" hidden></p>
@@ -66,20 +67,20 @@
             </header>
             <div class="gallery-wrapper">
                 <div class="gallery-main" onclick="openLightbox(0)">
-                    <img src="images/trips/netravati.jpg" alt="Trip Main Image" id="galleryMainImg">
+                    <img alt="Trip Main Image" id="galleryMainImg">
                 </div>
                 <div class="gallery-side">
                     <div class="gallery-item" onclick="openLightbox(1)">
-                        <img src="images/trips/netravati.jpg" alt="Trek Photo 2" id="galleryImg1">
+                        <img alt="Trek Photo 2" id="galleryImg1">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(2)">
-                        <img src="images/trips/netravati.jpg" alt="Trek Photo 3" id="galleryImg2">
+                        <img alt="Trek Photo 3" id="galleryImg2">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(3)">
-                        <img src="images/trips/netravati.jpg" alt="Trek Photo 4" id="galleryImg3">
+                        <img alt="Trek Photo 4" id="galleryImg3">
                     </div>
                     <div class="gallery-item gallery-more" onclick="openLightbox(4)">
-                        <img src="images/trips/netravati.jpg" alt="Trek Photo 5" id="galleryImg4">
+                        <img alt="Trek Photo 5" id="galleryImg4">
                         <div class="gallery-overlay">
                             <span>+3 More</span>
                         </div>
@@ -154,7 +155,7 @@
                 <div class="spinner"></div>
                 <span>Loading photo...</span>
             </div>
-            <img src="" alt="Gallery Image" id="lightboxImage" onload="hideLoader()" onerror="hideLoader()">
+            <img alt="Gallery Image" id="lightboxImage">
         </div>
         <div class="lightbox-counter" id="imageCounter">1 / 6</div>
     </div>
@@ -485,7 +486,7 @@
     <script src="js/footer-settings.js"></script>
     <script src="js/trip-detail-lists.js?v=2"></script>
     <script src="js/trip-sections.js?v=1"></script>
-    <script src="js/trips-data.js?v=1786999503"></script>
+    <script src="js/trips-data.js?v=1791748800"></script>
     <script>
         // Get trip from URL parameter
         function getTripFromURL() {
@@ -528,7 +529,7 @@
                 const lastSpace = shortened.lastIndexOf(' ');
                 description = `${lastSpace >= 120 ? shortened.slice(0, lastSpace) : shortened}...`;
             }
-            const pageUrl = new URL(`trips/${encodeURIComponent(tripId)}/`, document.baseURI).href;
+            const pageUrl = new URL(`trips/${encodeURIComponent(trip.publicSlug || tripId)}/`, document.baseURI).href;
             const imageUrl = new URL(trip.image || 'images/logo.jpg', document.baseURI).href;
 
             document.title = pageTitle;
@@ -564,7 +565,7 @@
                 return false;
             }
 
-            const target = new URL(`trips/${encodeURIComponent(tripId)}/`, document.baseURI);
+            const target = new URL(`trips/${encodeURIComponent(tripsData[tripId].publicSlug || tripId)}/`, document.baseURI);
             urlParams.delete('trip');
             target.search = urlParams.toString();
             target.hash = window.location.hash;
@@ -633,9 +634,7 @@
             if (breadcrumbTitle) breadcrumbTitle.textContent = trip.title;
 
             // Update gallery images - use galleryImages array if available
-            const galleryImagesArray = trip.galleryImages && trip.galleryImages.length > 0 
-                ? [trip.image, ...trip.galleryImages] 
-                : [trip.image, trip.image, trip.image, trip.image, trip.image];
+            const galleryImagesArray = [...new Set([trip.cardImage || trip.galleryImages?.[0] || trip.image, ...(trip.galleryImages || []), trip.image].filter(Boolean))];
             
             // Store all gallery images globally for lightbox
             window.allGalleryImages = galleryImagesArray;
@@ -853,7 +852,7 @@
                 const placeholder = document.createElement('option');
                 placeholder.value = '';
                 placeholder.textContent = 'Choose a date';
-                dateSelect.replaceChildren(placeholder, ...trip.availableDates.map(date => {
+                dateSelect.replaceChildren(placeholder, ...TripDateUtils.getUpcomingDateRanges(trip).map(range => range.originalLabel).map(date => {
                     const option = document.createElement('option');
                     // Keep the original string for booking; never interpret date labels as HTML.
                     option.value = date;
@@ -1029,6 +1028,7 @@
     <script src="js/trip-decision.js"></script>
     <script src="js/trip-brochure.js"></script>
     <script src="js/security.js"></script>
+<script src="js/trip-customer.js"></script>
 </body>
 </html>
 

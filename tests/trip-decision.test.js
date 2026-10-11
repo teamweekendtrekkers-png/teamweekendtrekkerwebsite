@@ -12,7 +12,7 @@ const trip = {availableDates: ['Oct 9-11, 2026', 'Oct 16-18, 2026', 'Oct 30-Nov 
 test('departure matching accepts only canonical-equivalent stored upcoming ranges', () => {
     assert.equal(decision.matchingDeparture(trip, '  October 16 — 18.2026 ', now), 'Oct 16-18, 2026');
     assert.equal(decision.matchingDeparture(trip, 'Oct 30–Nov 1, 2026', now), 'Oct 30-Nov 1, 2026');
-    assert.equal(decision.matchingDeparture(trip, 'Oct 9-11, 2026', now), 'Oct 9-11, 2026');
+    assert.equal(decision.matchingDeparture(trip, 'Oct 9-11, 2026', now), null);
     for (const value of ['', null, 123, 'Oct 23-25, 2026', 'Oct 32-33, 2026',
         '<img src=x onerror=alert(1)>', 'Oct 16-18, 2026&people=99', 'x'.repeat(200)]) {
         assert.equal(decision.matchingDeparture(trip, value, now), null);
@@ -22,10 +22,10 @@ test('departure matching accepts only canonical-equivalent stored upcoming range
     assert.equal(decision.matchingDeparture({}, 'Oct 16-18, 2026', now), null);
 });
 
-test('departure matching expires at India midnight, not browser timezone midnight', () => {
+test('departure matching expires exactly 24 hours after departure in India time', () => {
     const ending = {availableDates: ['Oct 9-11, 2026']};
-    assert.equal(decision.matchingDeparture(ending, ending.availableDates[0], new Date('2026-10-11T18:29:59Z')), ending.availableDates[0]);
-    assert.equal(decision.matchingDeparture(ending, ending.availableDates[0], new Date('2026-10-11T18:30:00Z')), null);
+    assert.equal(decision.matchingDeparture(ending, ending.availableDates[0], new Date('2026-10-10T16:29:59Z')), ending.availableDates[0]);
+    assert.equal(decision.matchingDeparture(ending, ending.availableDates[0], new Date('2026-10-10T16:30:00Z')), null);
     assert.equal(decision.matchingDeparture(ending, ending.availableDates[0], new Date('2026-10-12T00:00:00Z')), null);
 });
 

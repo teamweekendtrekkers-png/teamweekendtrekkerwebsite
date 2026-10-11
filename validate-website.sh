@@ -266,6 +266,7 @@ for html_file in "${HTML_FILES[@]}"; do
         LINKS=$(grep -oP 'href="[^"#:]*"' "$html_file" 2>/dev/null | grep -v "http" | grep -v "mailto" | grep -v "tel" | grep -v "wa.me" | grep -v '\$' | sed 's/href="//g' | sed 's/"//g' | sort | uniq)
         
         for link in $LINKS; do
+            link="${link%%[?#]*}"
             # Skip empty links and template literals
             if [ -n "$link" ] && [ "$link" != "/" ] && [[ ! "$link" =~ \$ ]] && [ ! -f "$link" ] && [ ! -d "$link" ]; then
                 echo -e "  ${YELLOW}⚠️  $html_file: Broken link '$link'${NC}"
@@ -320,10 +321,10 @@ fi
 echo ""
 echo -e "${BLUE}[8/8] Validating JSON files...${NC}"
 
-JSON_FILES=(reviews_data.json instagram_fetch_log.json photo_fetch_log.json)
+JSON_FILES=(reviews_data.json instagram_fetch_log.json photo_fetch_log.json js/homepage-config.json js/commerce-config.json)
 JSON_ERRORS=0
 
-if command -v python3 &> /dev/null; then
+if command -v python3 &> /dev/null && python3 --version &> /dev/null; then
     for json_file in "${JSON_FILES[@]}"; do
         if [ -f "$json_file" ]; then
             if ! python3 -m json.tool "$json_file" > /dev/null 2>&1; then

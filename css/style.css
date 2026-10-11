@@ -244,7 +244,7 @@ img {
     min-height: 72vh;
     min-block-size: 560px;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    background-image: url('../images/wix/hero1.jpg');
+    background-image: none;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

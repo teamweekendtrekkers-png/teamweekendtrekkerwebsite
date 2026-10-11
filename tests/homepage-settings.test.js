@@ -43,11 +43,11 @@ test('exact departures are trip-specific and match legacy date variants', () => 
     custom.upcomingBatches.tripSelection = 'selected'; custom.upcomingBatches.tripIds = ['a'];
     assert.equal(settings.buildBatches(trips, custom, now).length, 1);
 });
-test('expired, invalid and removed departures never reappear; ongoing India ranges remain', () => {
+test('expired, invalid and removed departures never reappear; ranges remain until 24 hours after departure', () => {
     const custom = config(); custom.upcomingBatches.departureSelection = 'selected';
     custom.upcomingBatches.departures = [{ tripId: 'a', date: 'Aug 14-16, 2026' }, { tripId: 'a', date: 'bad' }];
-    assert.equal(settings.buildBatches(trips, custom, new Date('2026-08-16T18:29:59Z')).length, 1);
-    assert.equal(settings.buildBatches(trips, custom, new Date('2026-08-16T18:30:00Z')).length, 0);
+    assert.equal(settings.buildBatches(trips, custom, new Date('2026-08-15T16:29:59Z')).length, 1);
+    assert.equal(settings.buildBatches(trips, custom, new Date('2026-08-15T16:30:00Z')).length, 0);
     assert.equal(settings.buildBatches([{ ...trips[0], availableDates: [] }], custom, now).length, 0);
 });
 test('batch count and section visibility are independent of catalog dates', () => {
@@ -69,7 +69,7 @@ test('hero and section copy use safe text and preserve action links', () => {
     custom.hero.backgroundImage = 'images/new.jpg'; custom.upcomingBatches.enabled = false;
     settings.apply(custom, document);
     assert.equal(elements.get('.hero h1').textContent, custom.hero.title);
-    assert.equal(elements.get('.hero').style.backgroundImage, 'url("images/new.jpg"), url("images/wix/hero1.jpg")');
+    assert.equal(elements.get('.hero').style.backgroundImage, 'url("images/new.jpg")');
     assert.equal(elements.get('.upcoming-batches').hidden, true);
     assert.equal([...elements.keys()].some(key => key.includes('buttons') || key.includes('href')), false);
 });
@@ -83,9 +83,9 @@ test('actual renderer respects detail toggles and retains featured cards / safe 
     const custom = config(); Object.assign(custom.upcomingBatches.fields, { price: false, status: false, weekday: false, location: true, duration: true, difficulty: true, image: true });
     let ready;
     const grid = { innerHTML: '' }, featured = { innerHTML: '' };
-    const document = { addEventListener(_, callback) { ready = callback; }, getElementById(id) { return id === 'upcoming-batches-grid' ? grid : featured; }, querySelector() { return { style: {} }; } };
+    const document = { addEventListener(_, callback) { ready = callback; }, getElementById(id) { return id === 'upcoming-batches-grid' ? grid : id === 'featured-trips-grid' ? featured : null; }, querySelector() { return { style: {} }; } };
     vm.runInNewContext(fs.readFileSync(require.resolve('../js/homepage-trips'), 'utf8'), {
-        document, HomepageSettings: settings, TripDateUtils: dates, tripsData: { a: { ...trips[0], availableDates: ['Aug 14-16, 2099'] } },
+        setInterval: () => 1, document, HomepageSettings: settings, TripDateUtils: dates, tripsData: { a: { ...trips[0], availableDates: ['Aug 14-16, 2099'] } },
         TripLinks: { detailUrl: id => `trips/${id}/` }, getFeaturedTrips: () => [], window: { fetch: async () => ({ ok: true, json: async () => custom }) }
     });
     await ready();

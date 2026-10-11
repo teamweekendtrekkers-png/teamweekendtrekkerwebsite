@@ -33,8 +33,8 @@ test('scheduled trips precede undated and inactive cards with stable ties', () =
 test('departure choices deduplicate date variants, omit inactive/expired ranges and sort chronologically', () => {
     const input = trips.concat({...trips[1], availableDates:['Aug 14 – 16.2026','Aug 1-3, 2026','bad']});
     assert.deepEqual(discovery.departureOptions(input, now).map(range => range.key), ['2026-08-14/2026-08-16','2026-08-21/2026-08-23']);
-    assert.equal(discovery.departureOptions([trips[1]], new Date('2026-08-16T18:29:59Z')).length, 2);
-    assert.equal(discovery.departureOptions([trips[1]], new Date('2026-08-16T18:30:00Z')).length, 1);
+    assert.equal(discovery.departureOptions([trips[1]], new Date('2026-08-15T16:29:59Z')).length, 2);
+    assert.equal(discovery.departureOptions([trips[1]], new Date('2026-08-15T16:30:00Z')).length, 1);
 });
 test('curated homepage restrictions are applied before customer discovery and never bypassed', () => {
     const config = settings.normalize({version:1, upcomingBatches:{tripSelection:'selected',tripIds:['soon'],departureSelection:'selected',departures:[{tripId:'soon',date:'Aug 21-23, 2026'}]}});
