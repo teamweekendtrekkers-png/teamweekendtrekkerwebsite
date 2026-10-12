@@ -2,7 +2,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const crypto=require('node:crypto');
-const {buildCatalog}=require('../scripts/build-booking-catalog.cjs');
+const {buildCatalog,validatePublicConfig}=require('../scripts/build-booking-catalog.cjs');
 const path=require('node:path');
 const core=import('../supabase/functions/booking-request/core.mjs');
 const input=()=>({idempotency_key:crypto.randomUUID(),trip_id:'demo',departure_label:'Oct 16-18, 2026',travellers:2,
@@ -32,6 +32,12 @@ test('catalogue generator reflects the actual website settings',()=>{
  const result=buildCatalog(path.resolve(__dirname,'..'));
  assert.equal(result.version,1);assert.ok(Object.keys(result.trips).length>10);
  for(const trip of Object.values(result.trips)) {assert.ok(Number.isFinite(trip.price));for(const departure of trip.departures)assert.ok(Number.isFinite(Date.parse(departure.cutoff)));}
+});
+test('publishing rejects privileged or incorrect project keys',()=>{
+ const key=role=>'header.'+Buffer.from(JSON.stringify({role,ref:'vdxunrhcahgkwtzvjjdj'})).toString('base64url')+'.signature';
+ assert.doesNotThrow(()=>validatePublicConfig({enabled:true,anonKey:key('anon')}));
+ assert.throws(()=>validatePublicConfig({enabled:true,anonKey:key('service_role')}),/public/);
+ assert.throws(()=>validatePublicConfig({enabled:true,anonKey:'sb_secret_private'}),/public/);
 });
 test('server rejects altered totals, expired dates and invalid contact details',async()=>{
  const {normalizeRequest,bookingFromCatalog}=await core;
