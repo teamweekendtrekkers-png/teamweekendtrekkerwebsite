@@ -153,6 +153,13 @@
           "answer": "If we cancel due to bad weather or unforeseen circumstances, you'll get a full refund or option to reschedule to another date. Your safety comes first!"
         }
       ]
+    },
+    "highlights": {
+      "mode": "default",
+      "heading": "What Makes It Special",
+      "expanded": false,
+      "useTripHighlights": true,
+      "items": []
     }
   }
 }

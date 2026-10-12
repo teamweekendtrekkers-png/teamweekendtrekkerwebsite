@@ -24,7 +24,7 @@
     "enabled": true,
     "title": "Upcoming Batches",
     "subtitle": "Plan your next escape with our nearest available trip dates",
-    "maxBatches": 2,
+    "maxBatches": 3,
     "tripSelection": "selected",
     "tripIds": [
       "rameshwaram-dhanushkodi",

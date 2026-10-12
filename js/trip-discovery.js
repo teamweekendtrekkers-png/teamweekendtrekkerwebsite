@@ -65,11 +65,11 @@
             <div class="trip-content"><h3>${escape(title)}</h3>
             ${trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
-            ${dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate)}
+            ${dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate, 2)}
             <div class="trip-meta">${trip.duration ? `<span><i class="fas fa-clock" aria-hidden="true"></i> ${escape(trip.duration)}</span>` : ''}${trip.difficulty ? `<span><i class="fas fa-signal" aria-hidden="true"></i> ${escape(trip.difficulty)}</span>` : ''}</div>
             ${trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
 
-            <div class="trip-footer"><div>${trip.price ? `<span class="trip-price">${escape(trip.price)}</span><span class="trip-price-unit">per person</span>` : '<span class="trip-price-unit">Ask us for pricing</span>'}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div></div></article>`;
+            <div class="trip-footer"><div${state.hidePrice ? ' hidden' : ''}>${trip.price ? `<span class="trip-price">${escape(trip.price)}</span><span class="trip-price-unit">per person</span>` : '<span class="trip-price-unit">Ask us for pricing</span>'}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div></div></article>`;
     }
     function attachImageFallbacks(container) {
         if (!container || typeof container.querySelectorAll !== 'function') return;
