@@ -1,0 +1,5 @@
+{
+  "enabled": false,
+  "endpoint": "https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request",
+  "anonKey": ""
+}

@@ -509,6 +509,9 @@ jobs:
 
     - name: Generate crawler-readable trip pages
       run: node scripts/generate-trip-pages.js
+
+    - name: Generate authoritative booking catalogue
+      run: node scripts/build-booking-catalog.cjs
     
     - name: Remove build dependencies from the Pages artifact
       run: node -e "require('node:fs').rmSync('node_modules', {recursive:true, force:true})"
@@ -529,4 +532,5 @@ jobs:
         echo "🚀 Website deployed successfully!"
         echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "================================================"
+
 
