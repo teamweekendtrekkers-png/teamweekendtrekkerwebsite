@@ -395,7 +395,7 @@ else
 fi
 
 # Check trips.html loads the shared module that handles inactive trips
-if grep -q 'src="js/trip-discovery.js"' trips.html && \
+if grep -Eq 'src="js/trip-discovery\.js(\?v=[0-9]+)?"' trips.html && \
    grep -q 'trip.isActive === false' js/trip-discovery.js; then
     pass "trips.html loads shared inactive-trip handling"
 else

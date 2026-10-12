@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="css/trip-decision.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
-<link rel="stylesheet" href="css/customer-experience.css?v=2">
+<link rel="stylesheet" href="css/customer-experience.css?v=4">
 </head>
 <body>
     <nav class="navbar">
@@ -71,16 +71,16 @@
                 </div>
                 <div class="gallery-side">
                     <div class="gallery-item" onclick="openLightbox(1)">
-                        <img alt="Trek Photo 2" id="galleryImg1">
+                        <img alt="Trip photo 2" id="galleryImg1">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(2)">
-                        <img alt="Trek Photo 3" id="galleryImg2">
+                        <img alt="Trip photo 3" id="galleryImg2">
                     </div>
                     <div class="gallery-item" onclick="openLightbox(3)">
-                        <img alt="Trek Photo 4" id="galleryImg3">
+                        <img alt="Trip photo 4" id="galleryImg3">
                     </div>
                     <div class="gallery-item gallery-more" onclick="openLightbox(4)">
-                        <img alt="Trek Photo 5" id="galleryImg4">
+                        <img alt="Trip photo 5" id="galleryImg4">
                         <div class="gallery-overlay">
                             <span>+3 More</span>
                         </div>
@@ -169,8 +169,7 @@
                     <details class="content-section trip-section" data-trip-section="about" open>
                         <summary><h2>About This Trip</h2></summary>
                         <div class="trip-section-body">
-                        <p>Netravati Peak, nestled in the Western Ghats of Karnataka, offers one of the most rewarding weekend treks from Bangalore. This hidden gem takes you through lush forests, pristine streams, and breathtaking viewpoints that remain untouched by mass tourism.</p>
-                        <p>The trek is perfect for adventure seekers looking to escape the city and immerse themselves in nature. With camping under starlit skies and waking up to misty mountain views, this is an experience you'll cherish forever.</p>
+                        <p id="tripAboutText"></p>
                         </div>
                     </details>
 
@@ -283,10 +282,10 @@
                     <details class="content-section trip-section" data-trip-section="thingsToCarry" open>
                         <summary><h2>Things to Carry</h2></summary>
                         <div class="carry-grid" id="thingsToCarryGrid">
-                            <div class="carry-item"><i class="fas fa-shoe-prints"></i> Trekking shoes</div>
-                            <div class="carry-item"><i class="fas fa-tint"></i> 2L water bottle</div>
-                            <div class="carry-item"><i class="fas fa-lightbulb"></i> Torch/Headlamp</div>
-                            <div class="carry-item"><i class="fas fa-vest"></i> Warm jacket</div>
+                            <div class="carry-item"><i class="fas fa-shoe-prints"></i> Comfortable walking shoes</div>
+                            <div class="carry-item"><i class="fas fa-tint"></i> Water bottle</div>
+                            <div class="carry-item"><i class="fas fa-lightbulb"></i> Phone charger</div>
+                            <div class="carry-item"><i class="fas fa-vest"></i> Weather-appropriate clothes</div>
                             <div class="carry-item"><i class="fas fa-id-card"></i> ID proof (original)</div>
                             <div class="carry-item"><i class="fas fa-cookie"></i> Energy bars/snacks</div>
                             <div class="carry-item"><i class="fas fa-capsules"></i> Personal medicines</div>
@@ -377,7 +376,7 @@
                                     <option value="2">2 People</option>
                                     <option value="3">3 People</option>
                                     <option value="4">4 People</option>
-                                    <option value="5">5+ People</option>
+                                    <option value="5">5 People</option><option value="6">6 People</option><option value="7">7 People</option><option value="8">8 People</option><option value="9">9 People</option><option value="10">10 People</option><option value="11">11 People</option><option value="12">12 People</option><option value="13">13 People</option><option value="14">14 People</option><option value="15">15 People</option><option value="16">16 People</option><option value="17">17 People</option><option value="18">18 People</option><option value="19">19 People</option><option value="20">20 People</option><option value="21">21 People</option><option value="22">22 People</option><option value="23">23 People</option><option value="24">24 People</option><option value="25">25 People</option><option value="26">26 People</option><option value="27">27 People</option><option value="28">28 People</option><option value="29">29 People</option><option value="30">30 People</option><option value="31">31 People</option><option value="32">32 People</option><option value="33">33 People</option><option value="34">34 People</option><option value="35">35 People</option><option value="36">36 People</option><option value="37">37 People</option><option value="38">38 People</option><option value="39">39 People</option><option value="40">40 People</option><option value="41">41 People</option><option value="42">42 People</option><option value="43">43 People</option><option value="44">44 People</option><option value="45">45 People</option><option value="46">46 People</option><option value="47">47 People</option><option value="48">48 People</option><option value="49">49 People</option><option value="50">50 People</option>
                                 </select>
                             </div>
                             <div class="total-price">
@@ -385,7 +384,7 @@
                                 <span id="totalAmount">₹3,499</span>
                             </div>
                             <a href="checkout.html" class="btn btn-primary btn-full" id="bookNowBtn" onclick="return goToCheckout(event)">
-                                Book Now
+                                Request booking
                             </a>
                         </form>
                         <div class="trip-brochure-actions">
@@ -395,7 +394,7 @@
                         </div>
                         <div class="quick-contact">
                             <p>Have questions?</p>
-                            <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20Netravati%20Peak%20Trek" class="btn btn-whatsapp btn-full" target="_blank">
+                            <a href="https://wa.me/917019235581?text=Hi!%20I%20have%20a%20trip%20question" class="btn btn-whatsapp btn-full" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Chat on WhatsApp
                             </a>
                         </div>
@@ -403,7 +402,7 @@
 
                     <!-- UPI Payment -->
                     <div class="upi-card">
-                        <h4>Quick Pay via UPI</h4>
+                        <h4>Payment after confirmation</h4><p>Send a booking request first. Wait for our team to confirm availability and the amount before paying.</p>
                         <p class="upi-id" id="secureUpiDisplay">••••••6581@ybl</p>
                         <button class="btn btn-small copy-upi" onclick="secureCopyUPI()">
                             <i class="fas fa-copy"></i> Copy UPI ID
@@ -454,7 +453,7 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20Netravati%20Peak%20Trek" class="whatsapp-float" target="_blank" id="whatsappLink">
+    <a href="https://wa.me/917019235581?text=Hi!%20I%20have%20a%20trip%20question" class="whatsapp-float" target="_blank" id="whatsappLink">
         <i class="fab fa-whatsapp"></i>
         <span>Chat with us</span>
     </a>
@@ -482,7 +481,7 @@
     <script src="js/responsive-images.js?v=1"></script>
     <script src="js/site-presentation.js?v=1"></script>
     <script src="js/mobile-experience.js?v=1"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js"></script>
     <script src="js/trip-detail-lists.js?v=2"></script>
     <script src="js/trip-sections.js?v=1"></script>
@@ -690,17 +689,10 @@
             const priceEl = document.getElementById('tripPrice');
             if (priceEl) priceEl.textContent = trip.price;
 
-            // Update About section
-            const aboutSection = document.querySelector('.content-section p');
-            if (aboutSection && trip.about) {
-                const aboutContainer = aboutSection.parentElement;
-                const paragraphs = trip.about.split('\n\n');
-                aboutSection.textContent = paragraphs[0];
-                if (paragraphs[1]) {
-                    let secondP = aboutContainer.querySelectorAll('p')[1];
-                    if (secondP) secondP.textContent = paragraphs[1];
-                }
-            }
+            // Replace every paragraph, including when content is cleared.
+            const aboutContainer = document.querySelector('[data-trip-section="about"] .trip-section-body');
+            aboutContainer.replaceChildren(...String(trip.about || '').split(/\n\s*\n/).filter(p => p.trim()).map(text => { const p = document.createElement('p'); p.textContent = text.trim(); return p; }));
+            document.querySelector('[data-trip-section="about"]').hidden = !String(trip.about || '').trim();
 
             // Update Highlights
             const highlightsList = document.querySelector('.highlights-list');
@@ -879,6 +871,8 @@
             window.tripPrice = priceNum;
             // Update total when people count changes
             document.getElementById('peopleCount').addEventListener('change', updateTotal);
+            document.getElementById('dateSelect').addEventListener('change', updateTotal);
+            updateTotal();
             updateTotal();
             TripDecision.apply(trip, document, window);
             MobileExperience.trip(trip);
@@ -887,6 +881,10 @@
             const people = parseInt(document.getElementById('peopleCount').value) || 1;
             const total = window.tripPrice * people;
             document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
+            const date = document.getElementById('dateSelect').value;
+            const link = document.getElementById('bookNowBtn');
+            link.href = 'checkout.html?' + new URLSearchParams({trip: getTripFromURL(), date, people: String(people)});
+            link.setAttribute('aria-disabled', String(!date));
         }
         function goToCheckout(e) {
             e.preventDefault();
@@ -1025,10 +1023,10 @@
         })();
     </script>
     <script src="js/trip-date-utils.js"></script>
-    <script src="js/trip-decision.js"></script>
-    <script src="js/trip-brochure.js"></script>
+    <script src="js/trip-decision.js?v=4"></script>
+    <script src="js/trip-brochure.js?v=4"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js"></script>
+<script src="js/trip-customer.js?v=4"></script><script src="js/trip-content-defaults.js?v=1"></script><script src="js/trip-content.js?v=1"></script>
 </body>
 </html>
 

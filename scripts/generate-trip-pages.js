@@ -204,6 +204,9 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
         const candidates = variants.length ? ' srcset="' + variants.map(item => escapeHtml(item.path) + ' ' + item.width + 'w').join(', ') + '" sizes="(max-width:767px) 100vw, 70vw"' : '';
         return tag.replace(/>$/, ' src="' + escapeHtml(source) + '"' + candidates + ' decoding="async" loading="' + (index === 0 ? 'eager' : 'lazy') + '">');
     });
+    const contentConfig = require('../js/trip-content').validate(JSON.parse(fs.readFileSync(path.join(projectRoot,'js/trip-content-config.json'),'utf8')));
+    page = require('./trip-body').renderBody(page,trip,contentConfig);
+    page = page.replace('<script src="js/trip-content-defaults.js?v=1"></script>', '<script>window.TRIP_CONTENT_CONFIG = '+JSON.stringify(contentConfig).replace(/</g,'\\u003c')+';</script>');
     return replaceMetadataBlock(page, metadata);
 }
 

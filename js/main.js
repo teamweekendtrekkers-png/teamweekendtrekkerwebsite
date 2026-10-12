@@ -43,28 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Price calculator on trip detail page
-    const peopleSelect = document.getElementById('peopleCount');
-    const totalAmountEl = document.getElementById('totalAmount');
-    const bookNowBtn = document.getElementById('bookNowBtn');
-    
-    if (peopleSelect && totalAmountEl) {
-        const basePrice = 3499;
-        
-        peopleSelect.addEventListener('change', () => {
-            let count = parseInt(peopleSelect.value);
-            if (count > 5) count = 5;
-            const total = basePrice * count;
-            totalAmountEl.textContent = '₹' + total.toLocaleString('en-IN');
-            
-            // Update book now link
-            if (bookNowBtn) {
-                const tripName = 'netravati';
-                bookNowBtn.href = `checkout.html?trip=${tripName}&price=${basePrice}&people=${count}`;
-            }
-        });
-    }
-    
+    // Booking state is owned by the trip-specific controller.
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -89,37 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Parse URL parameters for checkout page
-    if (window.location.pathname.includes('checkout.html')) {
-        const params = new URLSearchParams(window.location.search);
-        const trip = params.get('trip');
-        const price = params.get('price') || 3499;
-        const people = params.get('people') || 1;
-        
-        const total = price * people;
-        
-        // Update summary
-        const summaryTotal = document.getElementById('summaryTotal');
-        const upiAmount = document.getElementById('upiAmount');
-        const rzpAmount = document.getElementById('rzpAmount');
-        const summaryPeople = document.getElementById('summaryPeople');
-        
-        if (summaryTotal) summaryTotal.textContent = '₹' + total.toLocaleString('en-IN');
-        if (upiAmount) upiAmount.textContent = total.toLocaleString('en-IN');
-        if (rzpAmount) rzpAmount.textContent = total.toLocaleString('en-IN');
-        if (summaryPeople) summaryPeople.textContent = people + (people > 1 ? ' People' : ' Person');
-        
-        // Update UPI link with amount
-        const upiPayBtn = document.getElementById('upiPayBtn');
-        if (upiPayBtn) {
-            // Generate UPI from ASCII codes
-            const p = [57,53,51,56,50,51,54,53,56,49];
-            const s = [64];
-            const d = [121,98,108];
-            const upiId = [...p,...s,...d].map(c => String.fromCharCode(c)).join('');
-            upiPayBtn.href = `upi://pay?pa=${upiId}&pn=Team%20Weekend%20Trekkers&am=${total}&cu=INR&tn=Trek%20Booking`;
-        }
-    }
+    // Checkout uses validated trip data, never prices supplied in a URL.
 });
 
 // Copy UPI ID function

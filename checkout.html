@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="css/site-polish.css?v=1">
-<link rel="stylesheet" href="css/customer-experience.css?v=3">
+<link rel="stylesheet" href="css/customer-experience.css?v=4">
 </head>
 <body class="checkout-page">
     <nav class="navbar">
@@ -244,11 +244,11 @@
     <script src="js/responsive-images.js?v=1"></script>
     <script src="js/site-presentation.js?v=1"></script>
     <script src="js/mobile-experience.js?v=1"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js"></script>
     <script src="js/trips-data.js?v=1791748800"></script>
     <script src="js/trip-date-utils.js"></script>
-    <script src="js/trip-decision.js"></script>
+    <script src="js/trip-decision.js?v=4"></script>
     <script src="js/trip-links.js"></script>
     <script src="js/booking-rules.js"></script>
     <script>
@@ -279,7 +279,7 @@
             const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
             const totalAmount = priceNum * people;
             const formattedTotal = totalAmount.toLocaleString('en-IN');
-            const halfAmount = Math.ceil(totalAmount / 2);
+            const halfAmount = Math.round(totalAmount * 50) / 100;
             document.getElementById('halfPayAmount').textContent = '₹'+halfAmount.toLocaleString('en-IN');
             document.getElementById('fullPayAmount').textContent = '₹'+totalAmount.toLocaleString('en-IN');
             document.getElementById('remainingAmount').textContent = (totalAmount-halfAmount).toLocaleString('en-IN');
@@ -331,6 +331,9 @@
             const totalAmount = window.bookingData.total;
             const halfAmount = Math.ceil(totalAmount / 2);
             
+            document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
+            document.getElementById('fullPayAmount').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+            document.getElementById('remainingAmount').textContent = (totalAmount - halfAmount).toLocaleString('en-IN');
             // Update card selection visual
             document.querySelectorAll('.payment-type-card').forEach(card => card.classList.remove('selected'));
             document.querySelector('input[name="paymentType"]:checked').nextElementSibling.classList.add('selected');

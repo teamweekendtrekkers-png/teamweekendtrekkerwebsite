@@ -8,7 +8,7 @@
 
     const defaults = Object.freeze({
         thingsToCarry: Object.freeze([
-            'Trekking shoes', '2L water bottle', 'Torch/Headlamp', 'Warm jacket',
+            'Comfortable walking shoes', 'Water bottle', 'Phone charger', 'Weather-appropriate clothes',
             'ID proof (original)', 'Energy bars/snacks', 'Personal medicines', 'Camera (optional)',
         ]),
         perfectFor: Object.freeze(['Solo Travelers', 'Friends', 'First Timers', 'Family']),
@@ -39,7 +39,7 @@
         const items = Array.isArray(values)
             ? Array.from(values).filter(value => typeof value === 'string').map(value => value.trim()).filter(Boolean)
             : [];
-        return items.length ? items : [...defaults[field]];
+        return Array.isArray(values) ? items : [...defaults[field]];
     }
 
     function iconFor(label, field) {

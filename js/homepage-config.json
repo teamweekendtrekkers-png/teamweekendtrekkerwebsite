@@ -16,9 +16,9 @@
   },
   "hero": {
     "backgroundImage": "images/trips/homepage_1791650644735.jpg",
-    "title": "Explore. Travel. Experience.",
-    "tagline": "🧗 Trips | Tours | Unique Experiences 🏕️",
-    "description": "A travel community for travellers, by travellers"
+    "title": "Weekend trips from Bengaluru",
+    "tagline": "Treks, beaches and cultural getaways with a travel community",
+    "description": "Find your next weekend escape."
   },
   "upcomingBatches": {
     "enabled": true,

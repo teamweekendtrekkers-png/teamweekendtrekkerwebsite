@@ -95,7 +95,7 @@ test('template preserves transactional handlers while removing duplicated facts 
     assert.doesNotMatch(template, /class="overview-cards"|id="originalPrice"|id="discountBadge"|priceNum \* 1\.28/);
     assert.match(template, /Per person/);
     assert.match(template, /TripDecision\.apply\(trip, document, window\)/);
-    assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-decision.js"'));
+    assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-decision.js'));
     for (const id of ['tripItinerary', 'tripIncludes', 'tripPickup', 'bookingCard']) assert.match(template, new RegExp(`id="${id}"`));
     assert.match(template, /option\.value = date/);
     assert.match(template, /option\.textContent = date/);

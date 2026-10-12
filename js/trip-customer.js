@@ -5,6 +5,9 @@
   document.getElementById('lightboxImage')?.addEventListener('error',hideLoader);
   const id=getTripFromURL(),trip=typeof tripsData==='object'?tripsData[id]:null;
   if(!trip)return;
+  const clean=text=>String(text||'').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').replace(/\s+/g,' ').trim();
+  document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>el.textContent=clean(el.textContent));
+  document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
   const essentials=document.createElement('div');essentials.className='trip-essentials';document.getElementById('tripTitle').after(essentials);
   const fragment=document.createDocumentFragment();
