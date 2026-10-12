@@ -53,6 +53,10 @@
         if (letters && letters === letters.toUpperCase()) value = value.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());
         return value;
     }
+    function renderDeparture(trip, range) {
+        const title=displayTitle(trip),href=links.departureUrl(trip.id,range.originalLabel);
+        return '<a class="departure-bar" href="'+escape(href)+'" aria-label="'+escape(title+' — '+range.fullLabel)+'"><time class="departure-date" datetime="'+escape(range.startKey)+'">'+escape(range.shortLabel)+'</time><span class="departure-name">'+escape(title)+'</span><span class="departure-arrow" aria-hidden="true">→</span></a>';
+    }
     function renderCard(trip, referenceDate, state) {
         state = state || {};
         const title = displayTitle(trip), ranges = dates.getUpcomingDateRanges(trip, referenceDate);
@@ -63,11 +67,11 @@
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
             <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><span class="trip-badge">${escape(label)}</span>${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
             <div class="trip-content"><h3>${escape(title)}</h3>
-            ${trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
-            ${trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
-            ${dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate, 2)}
+            ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
+            ${!state.compact && trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
+            ${state.compact ? '' : dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate, 2)}
             <div class="trip-meta">${trip.duration ? `<span><i class="fas fa-clock" aria-hidden="true"></i> ${escape(trip.duration)}</span>` : ''}${trip.difficulty ? `<span><i class="fas fa-signal" aria-hidden="true"></i> ${escape(trip.difficulty)}</span>` : ''}</div>
-            ${trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
+            ${!state.compact && trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
 
             <div class="trip-footer"><div${state.hidePrice ? ' hidden' : ''}>${trip.price ? `<span class="trip-price">${escape(trip.price)}</span><span class="trip-price-unit">per person</span>` : '<span class="trip-price-unit">Ask us for pricing</span>'}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div></div></article>`;
     }
@@ -149,5 +153,5 @@
         render();
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
-    return { displayTitle, experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
+    return { renderDeparture, displayTitle, experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
 }));
