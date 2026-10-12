@@ -85,7 +85,7 @@ test('actual renderer respects detail toggles and retains featured cards / safe 
     const grid = { innerHTML: '' }, featured = { innerHTML: '' };
     const document = { addEventListener(_, callback) { ready = callback; }, getElementById(id) { return id === 'upcoming-batches-grid' ? grid : id === 'featured-trips-grid' ? featured : null; }, querySelector() { return { style: {} }; } };
     vm.runInNewContext(fs.readFileSync(require.resolve('../js/homepage-trips'), 'utf8'), {
-        setInterval: () => 1, document, HomepageSettings: settings, TripDateUtils: dates, tripsData: { a: { ...trips[0], availableDates: ['Aug 14-16, 2099'] } },
+        setInterval: () => 1, document, TripDiscovery: require('../js/trip-discovery'), HomepageSettings: settings, TripDateUtils: dates, tripsData: { a: { ...trips[0], availableDates: ['Aug 14-16, 2099'] } },
         TripLinks: { detailUrl: id => `trips/${id}/` }, getFeaturedTrips: () => [], window: { fetch: async () => ({ ok: true, json: async () => custom }) }
     });
     await ready();

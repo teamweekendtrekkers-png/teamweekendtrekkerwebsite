@@ -45,45 +45,19 @@
             return;
         }
 
-        grid.innerHTML = batches.map((batch, batchIndex) => {
-            const tripRows = batch.trips.map(trip => {
-                const details = allTrips.find(item => item.id === trip.id) || {};
-                const range = TripDateUtils.getUpcomingDateRanges(details, referenceDate).find(item => item.key === batch.key);
-                const href = range && typeof TripLinks.departureUrl === 'function' ? TripLinks.departureUrl(trip.id, range.originalLabel) : TripLinks.detailUrl(trip.id);
-                const extra = ['location', 'duration', 'difficulty'].filter(field => fields[field] && details[field])
-                    .map(field => `<span class="batch-trip-detail">${escapeHTML(String(details[field]))}</span>`).join('');
-                const imagePath = typeof TripDiscovery !== 'undefined' ? TripDiscovery.imagePath(details) : details.image;
-                const image = fields.image && typeof HomepageSettings !== 'undefined' && HomepageSettings.safeImage(imagePath)
-                    ? `<img class="batch-trip-thumbnail" src="${escapeHTML(imagePath)}" alt="" loading="lazy">` : '';
-                return `
-                <li class="batch-trip-row">
-                    ${image}
-                    <div class="batch-trip-copy">
-                        <a href="${escapeHTML(href)}" class="batch-trip-title">
-                            ${escapeHTML(String(trip.title || '').trim())}
-                        </a>
-                        ${fields.status ? '<span class="batch-trip-status">Scheduled</span>' : ''}
-                        ${extra}
-                        ${fields.location && details.departureCity ? `<span class="batch-trip-detail">Departs from ${escapeHTML(details.departureCity)}</span>` : ''}
-                    </div>
-                    ${fields.price ? `<span class="batch-trip-price">${escapeHTML(trip.price || '')}${trip.price ? '<small>per person</small>' : ''}</span>` : ''}
-                </li>`;
-            }).join('');
-
-            return `
-                <article class="batch-card" ${batchIndex >= visibleCount ? (expandedDepartures ? 'data-later-batch' : 'hidden data-later-batch') : ''}>
-                    <header class="batch-card-header">
-                        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-                        <div>
-                            <time datetime="${batch.datetime}" class="batch-date">${escapeHTML(batch.dateLabel)}</time>
-                            ${fields.weekday ? `<span class="batch-weekday">${escapeHTML(batch.weekdayLabel)}</span>` : ''}
-                        </div>
-                    </header>
-                    <ul class="batch-trip-list">${tripRows}</ul>
-                </article>`;
-        }).join('');
+        const shown = batches.slice(0, expandedDepartures ? batches.length : visibleCount);
+        grid.innerHTML = shown.flatMap(batch => batch.trips.map(trip => {
+            const details = allTrips.find(item => item.id === trip.id) || {};
+            const card = { ...details, id: trip.id };
+            for (const field of ['location','duration','difficulty','price']) if (!fields[field]) delete card[field];
+            if (!fields.location) delete card.departureCity;
+            let html = TripDiscovery.renderCard(card, referenceDate, { departure: batch.key, hidePrice: !fields.price });
+            if (!fields.image) html = html.replace(/<div class="trip-image">[\s\S]*?<\/div>/, '');
+            return html;
+        })).join('');
+        TripDiscovery.attachImageFallbacks(grid);
         const more = document.getElementById('moreDepartures');
-        if (more) { more.hidden = batches.length <= visibleCount; more.setAttribute('aria-expanded',String(expandedDepartures)); more.textContent=expandedDepartures?'Show fewer departures':'Show more departures'; more.onclick=()=>{const expanded=more.getAttribute('aria-expanded')==='true';expandedDepartures=!expanded;grid.querySelectorAll('[data-later-batch]').forEach(card=>card.hidden=expanded);more.setAttribute('aria-expanded',String(!expanded));more.textContent=expanded?'Show more departures':'Show fewer departures';if(status)status.textContent='Showing '+(expanded?Math.min(visibleCount,batches.length):batches.length)+' of '+batches.length+' departures';}; }
+        if (more) { more.hidden = batches.length <= visibleCount; more.setAttribute('aria-expanded', String(expandedDepartures)); more.textContent = expandedDepartures ? 'Show nearest departures' : 'View all departures'; more.onclick = () => { expandedDepartures = !expandedDepartures; renderUpcomingBatches(referenceDate, config, state, resetFilters); }; }
     }
 
     function renderFeaturedTrips(referenceDate) {
@@ -153,7 +127,8 @@
                 if (mobile) mobile.addEventListener('change', event => { panel.open = !event.matches; });
             }
             update({ query: '', experience: 'all', departure: '' });
-            setInterval(()=>{renderFeaturedTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});},30000);
+            let departureSnapshot=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));
+            setInterval(()=>{const next=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));if(next!==departureSnapshot){departureSnapshot=next;renderFeaturedTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});}},30000);
         } else {
             renderUpcomingBatches(referenceDate);
         }
