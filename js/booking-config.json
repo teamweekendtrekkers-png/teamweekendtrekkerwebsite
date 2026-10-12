@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "endpoint": "https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request",
-  "anonKey": ""
+  "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkeHVucmhjYWhna3d0enZqamRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NDk3NDEsImV4cCI6MjEwNzMyNTc0MX0.WIv3TbuyMK0IomZTXoS6iphxZoOXhyVgf06Wzxo44AM"
 }
