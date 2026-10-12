@@ -42,6 +42,12 @@
         element.hidden = !text;
     }
 
+    function preserveAnchors(document, locationLike) {
+        document.querySelectorAll('.trip-section-links a,.trip-dates-shortcut,#mobileBookBtn a').forEach(link => {
+            const hash = new URL(link.href, document.baseURI).hash;
+            if (hash) link.href = locationLike.pathname + locationLike.search + hash;
+        });
+    }
     function installShortcuts(document) {
         if (installedDocuments.has(document)) return;
         const nav = document.getElementById('tripSectionLinks');
@@ -90,5 +96,5 @@
         installShortcuts(document);
     }
 
-    return { factFields, matchingDeparture, queryDeparture, apply };
+    return { factFields, matchingDeparture, queryDeparture, preserveAnchors, apply };
 }));

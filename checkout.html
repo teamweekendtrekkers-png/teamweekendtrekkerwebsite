@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="css/site-polish.css?v=1">
-<link rel="stylesheet" href="css/customer-experience.css?v=4">
+<link rel="stylesheet" href="css/customer-experience.css?v=5">
 </head>
 <body class="checkout-page">
     <nav class="navbar">
@@ -329,7 +329,7 @@
         function updatePaymentAmount() {
             const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
             const totalAmount = window.bookingData.total;
-            const halfAmount = Math.ceil(totalAmount / 2);
+            const halfAmount = Math.round(totalAmount * 50) / 100;
             
             document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
             document.getElementById('fullPayAmount').textContent = '₹' + totalAmount.toLocaleString('en-IN');
