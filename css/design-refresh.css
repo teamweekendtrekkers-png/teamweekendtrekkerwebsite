@@ -35,3 +35,5 @@ body{background:#FFF9F2;color:#26352F}.section-title,h1,h2,h3,h4{color:#173F35}.
 }
 
 @media(max-width:767px){.stats{padding:24px 0}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px}.stat-number{font-size:28px}.stat-label{font-size:14px}.upcoming-batches-action{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.upcoming-batches-action .btn{width:auto!important;flex:1;padding:10px 8px;font-size:14px;min-height:44px;margin:0}.upcoming-batches-action .btn-outline{border-radius:12px}.upi-card{padding:18px}}
+
+#featured-trips-grid .trip-next-departure{font-size:14px;line-height:1.5;color:#4C3B71;margin:0 0 8px}#featured-trips-grid .trip-next-departure time{font-weight:600;color:#6941C6}
