@@ -39,7 +39,7 @@
             if (state.category && state.category !== 'all' && category(trip) !== state.category) return false;
             if (state.experience && state.experience !== 'all' && experience(trip) !== state.experience) return false;
             if (state.departure && !dates.getUpcomingDateRanges(trip, referenceDate).some(range => range.key === state.departure)) return false;
-            return !query || ['title', 'location', 'cardSummary', 'departureCity'].some(field => String(trip[field] || '').toLocaleLowerCase().includes(query));
+            return !query || ['title', 'cardTitle', 'location', 'cardSummary', 'departureCity'].some(field => String(trip[field] || '').toLocaleLowerCase().includes(query));
         });
     }
     function sortTrips(trips, referenceDate) {
