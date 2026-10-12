@@ -79,7 +79,7 @@ test('404, API, JSON and offline errors fall back to legacy defaults', async () 
     }
     assert.deepEqual(await settings.load(async (url, options) => { assert.equal(url, 'js/homepage-config.json'); assert.equal(options.cache, 'no-cache'); return { ok: true, json: async () => defaults }; }), settings.defaults);
 });
-test('actual renderer respects detail toggles and retains featured cards / safe detail links', async () => {
+test('compact departures omit secondary fields and retain safe date-specific links', async () => {
     const custom = config(); Object.assign(custom.upcomingBatches.fields, { price: false, status: false, weekday: false, location: true, duration: true, difficulty: true, image: true });
     let ready;
     const grid = { innerHTML: '' }, featured = { innerHTML: '' };
@@ -89,9 +89,9 @@ test('actual renderer respects detail toggles and retains featured cards / safe 
         TripLinks: { detailUrl: id => `trips/${id}/` }, getFeaturedTrips: () => [], window: { fetch: async () => ({ ok: true, json: async () => custom }) }
     });
     await ready();
-    assert.match(grid.innerHTML, /Alpha &lt;script&gt;/); assert.match(grid.innerHTML, /Hill &amp; Lake/);
-    assert.match(grid.innerHTML, /2 days/); assert.match(grid.innerHTML, /images\/a.jpg/);
+    assert.match(grid.innerHTML, /Alpha &lt;script&gt;/); assert.match(grid.innerHTML, /departure-bar/);
+    assert.doesNotMatch(grid.innerHTML, /Hill &amp; Lake|2 days|<img/);
     assert.match(grid.innerHTML, /trips\/a\//);
-    assert.doesNotMatch(grid.innerHTML, /batch-trip-price|batch-trip-status|batch-weekday/);
+    assert.doesNotMatch(grid.innerHTML, /batch-trip-price|batch-trip-status|batch-weekday|trip-meta/);
     assert.match(featured.innerHTML, /No featured trips/);
 });

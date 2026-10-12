@@ -48,14 +48,9 @@
         const shown = batches.slice(0, expandedDepartures ? batches.length : visibleCount);
         grid.innerHTML = shown.flatMap(batch => batch.trips.map(trip => {
             const details = allTrips.find(item => item.id === trip.id) || {};
-            const card = { ...details, id: trip.id };
-            for (const field of ['location','duration','difficulty','price']) if (!fields[field]) delete card[field];
-            if (!fields.location) delete card.departureCity;
-            let html = TripDiscovery.renderCard(card, referenceDate, { departure: batch.key, hidePrice: !fields.price });
-            if (!fields.image) html = html.replace(/<div class="trip-image">[\s\S]*?<\/div>/, '');
-            return html;
+            const range=TripDateUtils.getUpcomingDateRanges(details,referenceDate).find(item=>item.key===batch.key);
+            return range ? TripDiscovery.renderDeparture({...details,id:trip.id},range) : '';
         })).join('');
-        TripDiscovery.attachImageFallbacks(grid);
         const more = document.getElementById('moreDepartures');
         if (more) { more.hidden = batches.length <= visibleCount; more.setAttribute('aria-expanded', String(expandedDepartures)); more.textContent = expandedDepartures ? 'Show nearest departures' : 'View all departures'; more.onclick = () => { expandedDepartures = !expandedDepartures; renderUpcomingBatches(referenceDate, config, state, resetFilters); }; }
     }
@@ -73,7 +68,7 @@
         }
 
         grid.innerHTML = featuredTrips.map(trip => {
-            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate);
+            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {compact:true});
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';
             const title = String(trip.title || '').trim();
