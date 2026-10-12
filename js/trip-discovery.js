@@ -47,9 +47,15 @@
         const rank = item => item.trip.isActive === false ? 2 : item.ranges.length ? 0 : 1;
         return keyed.sort((a, b) => rank(a) - rank(b) || (a.ranges[0] && b.ranges[0] ? a.ranges[0].start - b.ranges[0].start : 0) || Number(b.trip.featured === true) - Number(a.trip.featured === true) || a.index - b.index).map(item => item.trip);
     }
+    function displayTitle(trip) {
+        let value = String(trip.cardTitle || trip.title || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').trim();
+        const letters = value.replace(/[^A-Za-z]/g,'');
+        if (letters && letters === letters.toUpperCase()) value = value.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());
+        return value;
+    }
     function renderCard(trip, referenceDate, state) {
         state = state || {};
-        const title = String(trip.cardTitle || trip.title || '').trim(), ranges = dates.getUpcomingDateRanges(trip, referenceDate);
+        const title = displayTitle(trip), ranges = dates.getUpcomingDateRanges(trip, referenceDate);
         const selected = ranges.find(range => range.key === state.departure);
         const href = selected && typeof links.departureUrl === 'function' ? links.departureUrl(trip.id, selected.originalLabel) : links.detailUrl(trip.id);
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
@@ -143,5 +149,5 @@
         render();
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
-    return { experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
+    return { displayTitle, experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
 }));
