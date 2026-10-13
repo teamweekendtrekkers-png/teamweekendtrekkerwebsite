@@ -9,7 +9,10 @@
     const button=document.createElement('button');button.type='button';button.className='rail-arrow';button.setAttribute('aria-label',label);button.setAttribute('aria-controls',id);button.textContent=symbol;
     button.onclick=()=>rail.scrollBy({left:direction*((rail.querySelector('.trip-card,.departure-bar')?.getBoundingClientRect().width||0)+parseFloat(getComputedStyle(rail).gap||'0')||rail.clientWidth),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});controls.append(button);
    }
-   rail.after(controls);
+   if(id==='upcoming-batches-grid'){
+    const actions=rail.parentElement.querySelector('.upcoming-batches-action');
+    if(actions)actions.prepend(controls);else rail.after(controls);
+   }else rail.after(controls);
    const sync=()=>{const max=rail.scrollWidth-rail.clientWidth;controls.hidden=max<2;controls.children[0].disabled=rail.scrollLeft<2;controls.children[1].disabled=rail.scrollLeft>=max-2;};
    rail.addEventListener('scroll',sync,{passive:true});new ResizeObserver(sync).observe(rail);new MutationObserver(sync).observe(rail,{childList:true});sync();
   }

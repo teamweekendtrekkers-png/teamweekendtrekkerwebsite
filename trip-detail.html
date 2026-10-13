@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
-    <link rel="stylesheet" href="css/design-refresh.css?v=2">
+    <link rel="stylesheet" href="css/design-refresh.css?v=4">
 </head>
 <body>
     <nav class="navbar">
@@ -358,20 +358,21 @@
                 <!-- Sidebar -->
                 <div class="trip-sidebar">
                     <div class="booking-card" id="bookingCard">
-                        <h3>Book This Trip</h3>
+                        <h3>Book this trip</h3>
                         <div class="price-display">
                             <span class="current-price" id="currentPrice">₹3,499</span>
+                            <span class="booking-price-unit">Per person</span>
                         </div>
-                        <p class="booking-price-note">Per person · See inclusions and exclusions for package details.</p>
+                        <p class="booking-price-note"><a href="#tripIncludes" class="booking-package-link">See inclusions &amp; exclusions</a></p>
                         <form class="booking-form" id="bookingForm">
                             <div class="form-group">
-                                <label for="dateSelect">Select Date</label>
+                                <label for="dateSelect">Departure date</label>
                                 <select name="date" id="dateSelect" required>
                                     <option value="">Choose a date</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="peopleCount">Number of People</label>
+                                <label for="peopleCount">Travellers</label>
                                 <select name="people" id="peopleCount" required>
                                     <option value="1">1 Person</option>
                                     <option value="2">2 People</option>
@@ -388,16 +389,17 @@
                                 Request booking
                             </a>
                         </form>
+                        <div class="booking-secondary-actions">
                         <div class="trip-brochure-actions">
                             <button type="button" class="btn btn-secondary btn-full" id="tripBrochureButton">
                                 <i class="fas fa-file-pdf" aria-hidden="true"></i> Brochure (PDF)
                             </button>
                         </div>
                         <div class="quick-contact">
-                            <p>Have questions?</p>
                             <a href="https://wa.me/917019235581?text=Hi!%20I%20have%20a%20trip%20question" class="btn btn-whatsapp btn-full" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                                <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
                             </a>
+                        </div>
                         </div>
                     </div>
 
@@ -1027,7 +1029,7 @@
     <script src="js/trip-decision.js?v=5"></script>
     <script src="js/trip-brochure.js?v=4"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=5"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=3"></script>
+<script src="js/trip-customer.js?v=6"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=3"></script>
 </body>
 </html>
 

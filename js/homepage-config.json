@@ -23,7 +23,7 @@
   "upcomingBatches": {
     "enabled": true,
     "title": "Upcoming Batches",
-    "subtitle": "Plan your next escape with our nearest available trip dates",
+    "subtitle": "Choose your next departure",
     "maxBatches": 3,
     "tripSelection": "selected",
     "tripIds": [

@@ -33,6 +33,10 @@
   const close=document.createElement('button');close.className='booking-dialog-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close date selection');dialog.append(close);document.body.append(dialog);
   const anchor=document.createComment('Booking card position');card.before(anchor);
   close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>anchor.after(card));
+  card.querySelector('.booking-package-link')?.addEventListener('click',event=>{
+   event.preventDefault();if(dialog.open)dialog.close();
+   const panel=document.getElementById('tripIncludes');if(panel){if(panel.tagName==='DETAILS')panel.open=true;requestAnimationFrame(()=>{panel.scrollIntoView({block:'start',behavior:'auto'});panel.setAttribute('tabindex','-1');panel.focus({preventScroll:true});});}
+  });
   function open(event){if(!matchMedia('(max-width:767px)').matches)return;event.preventDefault();refresh();dialog.append(card);if(!dialog.open)dialog.showModal();select.focus();}
   document.querySelectorAll('.trip-section-links a').forEach(link=>{if(link.href.includes('#bookingCard'))link.addEventListener('click',open);});
   document.querySelector('.trip-hero-gallery a[href*="#bookingCard"]')?.addEventListener('click',open);
