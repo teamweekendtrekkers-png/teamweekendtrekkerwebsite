@@ -10,6 +10,7 @@
 // ============================================
 
 const featuredTripIds = [
+    "kannur-theyyam",
     "wayanad",
     "rameshwaram-dhanushkodi",
     "varkala-kochi-christmas",
