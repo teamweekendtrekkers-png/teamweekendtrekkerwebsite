@@ -54,7 +54,7 @@ run_test() {
 
 # Run all test suites
 run_test "Website Validation" "tests/test-website.sh"
-run_test "Trip Data Integrity" "tests/test-trip-data.sh"
+# Trip data is validated by the Node page, brochure and booking catalogue tests.
 run_test "Mobile Responsive" "tests/test-mobile.sh"
 run_test "SEO & Accessibility" "tests/test-seo.sh"
 run_test "Performance" "tests/test-performance.sh"
