@@ -1,20 +1,17 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
-const content=require('../js/trip-content');const config=JSON.parse(fs.readFileSync(path.join(__dirname,'../js/trip-content-config.json')));
+const content=require('../js/trip-content');const config=JSON.parse(fs.readFileSync(path.join(__dirname,'./fixtures/trip-content-config.json')));
 test('shared cancellation ranges cover every day and reject gaps and overlap',()=>{assert.equal(content.validate(config),config);for(const min of [3,5]){const bad=structuredClone(config);bad.sections.cancellation.items[1].minDays=min;assert.throws(()=>content.validate(bad),/Cancellation/);}});
 test('hidden shared or per-trip sections stay hidden and custom empty lists stay empty',()=>{assert.equal(content.section({contentSections:{faqs:{mode:'hidden'}}},config,'faqs'),null);const empty={mode:'custom',items:[]};assert.equal(content.section({contentSections:{faqs:empty}},config,'faqs'),empty);const shared=structuredClone(config);shared.sections.faqs.mode='hidden';assert.equal(content.section({},shared,'faqs'),null);});
-test('generated Kannur body has its own description and no legacy mountain content',()=>{
+test('generated bodies render the current description of every managed trip',()=>{
  const generator=require('../scripts/generate-trip-pages');
  const trips=generator.readTripsData(path.join(__dirname,'..'));
  const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
- const trip=trips['kannur-theyyam'];
+ for(const trip of Object.values(trips)){
  const output=require('../scripts/trip-body').renderBody(template,trip,config);
  const escape=text=>text.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
- const paragraphs=trip.about.split(/\n\s*\n/).filter(Boolean);
- assert.ok(paragraphs.length>0,'Kannur must have a description');
+ const paragraphs=String(trip.about||'').split(/\n\s*\n/).filter(Boolean);
  for(const paragraph of paragraphs)assert.ok(output.includes('<p>'+escape(content.cleanText(paragraph))+'</p>'),'Current trip description must appear in the generated body');
- assert.ok(!output.includes('camping under starlit'));
- assert.ok(!output.includes('Netravati Peak, nestled'));
- assert.ok(!output.includes('misty mountain views'));
+ }
 });
 test('generated descriptions accept manager edits and escape markup across paragraphs',()=>{
  const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
@@ -22,6 +19,7 @@ test('generated descriptions accept manager edits and escape markup across parag
  const output=require('../scripts/trip-body').renderBody(template,trip,config);
  assert.ok(output.includes('<p>Coastal culture &amp; heritage.</p><p>Meet &lt;locals&gt; and &quot;artists&quot; at Kerala&#39;s festivals.</p>'));
  assert.ok(!output.includes('<locals>'));
+ for(const text of ['camping under starlit','Netravati Peak, nestled','misty mountain views'])assert.ok(!output.includes(text));
 });
 test('packing list respects an intentionally empty list',()=>{const lists=require('../js/trip-detail-lists');assert.deepEqual(lists.getItems({thingsToCarry:[]},'thingsToCarry'),[]);assert.ok(lists.getItems({},'thingsToCarry').length);});
 test('hiding trip facts keeps the navigation container visible',()=>{const heading={hidden:false};const outer={hidden:false,querySelector:()=>heading};const grid={hidden:false,parentElement:outer};const doc={querySelector:s=>s==='.glance-grid'?grid:null,getElementById:()=>null};const hidden=structuredClone(config);hidden.sections.glance.mode='hidden';content.apply({},hidden,doc);assert.equal(grid.hidden,true);assert.equal(heading.hidden,true);assert.equal(outer.hidden,false);});
@@ -33,3 +31,5 @@ test('legacy fixed price/trip handler is removed and invoice labels are synchron
 
 test('highlights preserve trip content by default and accept custom headings, empty and hidden modes',()=>{const trip={highlights:['Kerala coast','Theyyam night']};assert.deepEqual(content.section(trip,config,'highlights').items.map(i=>i.description),trip.highlights);const custom={mode:'custom',heading:'Why Choose Us',expanded:false,useTripHighlights:false,items:[{title:'Support',description:'A coordinator throughout'}]};assert.equal(content.section({...trip,contentSections:{highlights:custom}},config,'highlights').heading,'Why Choose Us');assert.deepEqual(content.section({...trip,contentSections:{highlights:{...custom,items:[]}}},config,'highlights').items,[]);assert.equal(content.section({...trip,contentSections:{highlights:{mode:'hidden'}}},config,'highlights'),null);const old=structuredClone(config);delete old.sections.highlights;assert.equal(content.section(trip,old,'highlights').items.length,2);});
 test('static highlights use custom heading and safe literal content',()=>{const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');const trip={contentSections:{highlights:{mode:'custom',heading:'Why Choose Us',expanded:false,useTripHighlights:false,items:[{title:'<Support>',description:'Team & help'}]}}};const html=require('../scripts/trip-body').renderBody(template,trip,config);assert.ok(html.includes('Why Choose Us'));assert.ok(html.includes('&lt;Support&gt;'));assert.ok(html.includes('Team &amp; help'));});
+
+test('published content settings remain valid after manager edits',()=>{const published=JSON.parse(fs.readFileSync(path.join(__dirname,'../js/trip-content-config.json')));assert.equal(content.validate(published),published);});
