@@ -32,7 +32,7 @@
       const payload = {trip_id: getTripFromURL(), departure_label: booking.date, travellers: booking.people,
         full_name: value('fullName'), email: value('email'), phone: value('phone'), alternate_phone: value('altPhone'),
         participant_names: value('participants').split(/[,\n]/).map(name => name.trim()).filter(Boolean),
-        special_requests: value('notes'), coupon_code: booking.coupon || '', expected_total: booking.total};
+        special_requests: window.PaymentOptions ? window.PaymentOptions.reportText(booking.paymentReport, value('notes')) : value('notes'), coupon_code: booking.coupon || '', expected_total: booking.total};
       payload.idempotency_key = await requestKey(payload);
       document.getElementById('bookingIssue').hidden = true;
       button.disabled = true;
@@ -44,7 +44,8 @@
       if (!response.ok || result.accepted !== true || typeof result.booking_reference !== 'string') {
         const messages = {invalid_request: 'Check your contact details and selected trip.', departure_unavailable: 'This departure is no longer available. Please select another date.',
           quote_changed: 'The trip price or coupon has changed. Reload and review your total before submitting.', rate_limited: 'Too many requests. Please wait a few minutes or contact our team.',
-          request_conflict: 'This request changed during a retry. Reload and review your details.'};
+          request_conflict: 'This request changed during a retry. Reload and review your details.',
+          direct_payment_unavailable: 'Direct payment is no longer enabled for this departure. If you have paid, share your transaction ID and receipt with our team on WhatsApp.'};
         throw new Error(messages[result.error] || 'Your request could not be saved. Please retry or contact our team on WhatsApp.');
       }
       window.bookingData.bookingReference = result.booking_reference;
@@ -52,7 +53,7 @@
       for (const parent of [document.getElementById('submitSuccess'), document.getElementById('requestReceived')]) {
         let reference = parent.querySelector('[data-booking-reference]');
         if (!reference) {reference = document.createElement('p'); reference.dataset.bookingReference = ''; parent.append(reference);}
-        reference.textContent = 'Booking request reference: ' + result.booking_reference;
+        reference.textContent = 'Booking reference: ' + result.booking_reference;
       }
       button.innerHTML = '<i class="fas fa-check"></i> Request Saved!';
     } catch (error) {

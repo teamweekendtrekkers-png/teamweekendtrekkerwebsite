@@ -1,0 +1,15 @@
+.checkout-page [hidden]{display:none!important}
+.payment-mode-selector{border:1px solid #cbdcd5;border-radius:14px;padding:16px;margin:16px 0}
+.payment-mode-selector legend{font-weight:700;padding:0 6px}
+.payment-mode-selector label{display:flex;gap:10px;align-items:flex-start;padding:12px 0;cursor:pointer}
+.payment-mode-selector input,.payment-sent-check input{width:20px!important;height:20px;flex-shrink:0;accent-color:#087f70}
+.payment-mode-selector p{margin:4px 0 0;font-size:.9rem;color:#4c625a}
+.payment-amount-summary{display:flex;flex-direction:column;gap:6px;background:#eff7f2;border-radius:12px;padding:16px;margin:16px 0}
+#paymentQrSection{border:1px solid #cbdcd5;border-radius:14px;text-align:center;padding:20px;margin:16px 0}
+#paymentQrImage{display:block;max-width:100%;width:260px;height:260px;object-fit:contain;background:white;margin:12px auto}
+#paymentQrSection p{font-size:.94rem;line-height:1.5}
+#paymentReportSection{border-top:1px solid #cbdcd5;padding-top:20px;margin:20px 0}
+#transactionReference{display:block;width:100%;padding:14px;border:1px solid #b7cfc2;border-radius:10px;margin:8px 0 16px}
+.payment-sent-check{display:flex;gap:10px;align-items:flex-start;margin:16px 0;line-height:1.5}
+#editPaymentDetails{margin:0 0 16px}
+#paymentScreenshotLink{white-space:normal;text-align:center}

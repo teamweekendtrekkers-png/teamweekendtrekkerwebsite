@@ -8,7 +8,7 @@
     function normalize(raw){
         raw=raw&&typeof raw==='object'?raw:{};
         const payment=raw.payment||{};
-        return {version:1,payment:{upiId:/^[\w.-]+@[\w.-]+$/.test(payment.upiId||'')?payment.upiId:'',receiverName:String(payment.receiverName||'').trim().slice(0,100),showReceiverName:payment.showReceiverName!==false,showRazorpay:payment.showRazorpay===true},showCoupons:raw.showCoupons!==false,coupons:Array.isArray(raw.coupons)?raw.coupons:[]};
+        return {version:1,payment:{...payment,upiId:/^[\w.-]+@[\w.-]+$/.test(payment.upiId||'')?payment.upiId:'',receiverName:String(payment.receiverName||'').trim().slice(0,100),showReceiverName:payment.showReceiverName!==false,showRazorpay:payment.showRazorpay===true},showCoupons:raw.showCoupons!==false,coupons:Array.isArray(raw.coupons)?raw.coupons:[]};
     }
     function quote(config,code,tripId,subtotal,now=new Date()){
         const cleaned=String(code||'').trim().toUpperCase();

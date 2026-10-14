@@ -55,5 +55,5 @@ test('all public footers load the shared editor safely; UPI columns start hidden
 });
 const appPath = path.resolve(__dirname,'../../trip_manager_app/lib/models/footer_config.dart');
 test('website and Flutter footer defaults stay exactly in parity', {skip:!fs.existsSync(appPath)}, () => {
-    assert.deepEqual(JSON.parse(fs.readFileSync(appPath,'utf8').match(/r'''\n([\s\S]*?)\n'''/)[1]), footer.defaults);
+    assert.deepEqual(JSON.parse(fs.readFileSync(appPath,'utf8').replace(/\r\n/g, '\n').match(/r'''\n([\s\S]*?)\n'''/)[1]), footer.defaults);
 });

@@ -39,7 +39,9 @@
   // The legacy Razorpay integration is a placeholder, not a live payment gateway.
   if(config.payment.showRazorpay){byId('rzpButton').disabled=true;byId('rzpButton').textContent='Ask our team for an online payment link';}
   recalculate();
+  window.refreshPaymentOptions?.(config);
  }
+ window.refreshCheckoutCommerce=refresh;
  function invalidRequest(){
   byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='This departure is no longer accepting requests. Please choose another date.';
   byId('submitDetailsBtn').disabled=true;byId('paymentSection').style.display='none';
@@ -67,6 +69,7 @@
   byId('removeCoupon').addEventListener('click',()=>{code='';byId('couponCode').value='';message('Coupon removed.');recalculate();});
   byId('couponCode').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();byId('applyCoupon').click();}});
   const originalSubmit=window.submitDetails;
+  window.submitPaymentReport=originalSubmit;
   window.submitDetails=async()=>{
    if(busy)return;busy=true;submit.disabled=true;
    try{
@@ -76,15 +79,16 @@
     if(!dateValid()){invalidRequest();return;}
     if(!validateForm())return;
     // Quotes are requests only: the team verifies coupons and availability before any payment.
+    if(window.preparePaymentSubmission && !await window.preparePaymentSubmission())return;
     await originalSubmit();
    }catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Unable to verify current booking settings. Please retry or contact us on WhatsApp.';}
    finally{busy=false;if(dateValid()&&byId('checkoutForm').style.display!=='none')submit.disabled=false;}
   };
-  byId('copyPaymentUpi').addEventListener('click',async()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}try{await navigator.clipboard.writeText(value);byId('paymentFeedback').textContent='UPI ID copied. Pay only after availability is confirmed.';}catch{byId('paymentFeedback').textContent='UPI ID: '+value;}});
-  byId('openPaymentUpi').addEventListener('click',()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}const query=new URLSearchParams({pa:value,pn:config.payment.receiverName||'Team Weekend Trekkers',cu:'INR',tn:'Trip request: '+window.bookingData.trip});byId('paymentFeedback').textContent='Pay only after our team confirms availability and the payable amount.';window.location.href='upi://pay?'+query.toString();});
+  byId('copyPaymentUpi').addEventListener('click',async()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}try{await navigator.clipboard.writeText(value);byId('paymentFeedback').textContent=window.paymentCopyMessage?.()||'UPI ID copied. Pay only after availability is confirmed.';}catch{byId('paymentFeedback').textContent='UPI ID: '+value;}});
+  byId('openPaymentUpi').addEventListener('click',()=>window.beginUpiPayment?.());
   const originalSuccess=window.showPaymentSection;
-  window.showPaymentSection=()=>{originalSuccess();byId('requestStatus').textContent='Availability confirmation pending';const dialog=byId('requestReceived');if(!dialog.open)dialog.showModal();helpLinks();};
-  byId('popupCopyUpi').addEventListener('click',async()=>{byId('copyPaymentUpi').click();const value=upiId();byId('popupPaymentFeedback').textContent=value?'UPI ID: '+value+'. Pay after team confirmation.':'Ask our team for the current UPI ID.';});
+  window.showPaymentSection=()=>{originalSuccess();window.legacyPaymentAccepted=!window.bookingData.bookingReference;if(window.renderPaymentResult)window.renderPaymentResult();else byId('requestStatus').textContent='Availability confirmation pending';const dialog=byId('requestReceived');if(!dialog.open)dialog.showModal();helpLinks();};
+  byId('popupCopyUpi').addEventListener('click',async()=>{byId('copyPaymentUpi').click();const value=upiId();byId('popupPaymentFeedback').textContent=value?'UPI ID: '+value+'. '+(window.paymentCopyMessage?.()||'Pay after team confirmation.'):'Ask our team for the current UPI ID.';});
   byId('popupOpenUpi').addEventListener('click',()=>byId('openPaymentUpi').click());
   byId('closeRequestPopup').addEventListener('click',()=>byId('requestReceived').close());
   try{await refresh();helpLinks();submit.disabled=false;}

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
     <link rel="stylesheet" href="css/design-refresh.css?v=4">
+<link rel="stylesheet" href="css/payment-options.css?v=1">
 </head>
 <body class="checkout-page">
     <nav class="navbar">
@@ -34,7 +35,7 @@
 
     <section class="page-header checkout-header">
         <h1>Request Your Trip</h1>
-        <p>Request → Availability check → Payment → Confirmation</p>
+        <p>Choose your payment path. Our team verifies availability and payment before confirmation.</p>
     </section>
 
     <section class="checkout-section">
@@ -74,7 +75,13 @@
                                 <textarea id="notes" name="notes" rows="2" placeholder="Any dietary requirements, medical conditions, or special requests?"></textarea>
                             </div>
                             
-                            <!-- Hidden fields for booking info -->
+                            <fieldset id="bookingPaymentOptions" class="payment-mode-selector">
+  <legend>How would you like to book?</legend>
+  <label><input type="radio" name="bookingPaymentMode" value="confirmation" checked> Request first, pay after confirmation</label>
+  <label hidden><input type="radio" name="bookingPaymentMode" value="direct" disabled> Pay directly via UPI</label>
+  <p id="paymentModeNotice" role="status">Loading payment options…</p>
+</fieldset>
+<!-- Hidden fields for booking info -->
                             <input type="hidden" id="hiddenTripName" name="tripName">
                             <input type="hidden" id="hiddenTripDate" name="tripDate">
                             <input type="hidden" id="hiddenPeople" name="peopleCount">
@@ -91,14 +98,24 @@
                             <i class="fas fa-check-circle"></i>
                             <h3>Your booking request has been received</h3>
                             <p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p>
+                            <a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a>
                         </div>
                     </div>
 
-                    <!-- Payment Options (hidden initially) -->
+                    <button id="editPaymentDetails" type="button" class="btn btn-secondary" hidden>Return to your details</button>
+<!-- Payment Options (hidden initially) -->
                     <div class="checkout-card" id="paymentSection" style="display: none;">
-                        <h2>Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button><button type="button" class="btn btn-secondary" id="openPaymentUpi">Open UPI App</button></div><p id="paymentFeedback" role="status" data-show-upi></p>
+                        <h2 id="paymentHeading">Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button><button type="button" class="btn btn-secondary" id="openPaymentUpi">Open UPI App</button></div><p id="paymentFeedback" role="status" data-show-upi></p>
                         
-                        <!-- Payment Type Selector -->
+                        <p id="paymentInstructions" hidden></p>
+<div class="payment-amount-summary"><strong>Amount to pay: <span id="paymentDue"></span></strong><span>Remaining balance: <span id="paymentBalance"></span></span></div>
+<section id="paymentQrSection" hidden aria-labelledby="paymentQrTitle">
+ <h3 id="paymentQrTitle">Scan to pay with UPI</h3>
+ <img id="paymentQrImage" alt="UPI payment QR code" width="260" height="260">
+ <p id="qrLoadFeedback" hidden role="status">The QR image could not load. Use Copy UPI ID or Open UPI App instead.</p>
+ <p>Scan from another device, or use Open UPI App on this phone. Enter the amount shown above and check the receiver name in your payment app.</p>
+</section>
+<!-- Payment Type Selector -->
                         <div class="payment-type-selector">
                             <h3>💰 Choose Payment Type</h3>
                             <div class="payment-type-options">
@@ -118,7 +135,7 @@
                                         <span class="payment-type-icon">100%</span>
                                         <span class="payment-type-title">Pay Full Amount</span>
                                         <span class="payment-type-amount" id="fullPayAmount">₹3,500</span>
-                                        <span class="payment-type-desc">After availability confirmation</span>
+                                        <span class="payment-type-desc">Pay the full trip amount</span>
                                     </div>
                                 </label>
                             </div>
@@ -162,7 +179,16 @@
                             </div>
                         </div>
 
-                        <!-- Razorpay Payment -->
+                        <section id="paymentReportSection" aria-labelledby="paymentReportHeading">
+ <h3 id="paymentReportHeading">Already paid?</h3>
+ <label for="transactionReference">UPI transaction ID</label>
+ <input id="transactionReference" autocomplete="off" maxlength="40" placeholder="From your payment receipt">
+ <label class="payment-sent-check"><input type="checkbox" id="paymentSent"> I have made this payment and will share my receipt.</label>
+ <button type="button" id="reportPaymentBtn" class="btn btn-primary">I’ve paid — share details on WhatsApp</button>
+ <p id="paymentReportFeedback" role="status"></p>
+</section>
+<a id="paymentScreenshotLink" class="btn btn-whatsapp" target="_blank" rel="noopener" hidden>Share transaction ID and screenshot on WhatsApp</a>
+<!-- Razorpay Payment -->
                         <div class="payment-option" hidden>
                             <h3>💳 Pay Online (Cards/NetBanking/Wallets)</h3>
                             <p class="payment-desc">Pay securely using Credit/Debit Cards, Net Banking, or Wallets</p>
@@ -251,7 +277,7 @@
     <script src="js/trip-date-utils.js"></script>
     <script src="js/trip-decision.js?v=4"></script>
     <script src="js/trip-links.js"></script>
-    <script src="js/booking-rules.js"></script>
+    <script src="js/payment-options.js?v=1"></script><script src="js/booking-rules.js?v=2"></script>
     <script>
         // ========== Web3Forms Configuration (100% FREE) ==========
         const WEB3FORMS_ACCESS_KEY = '519286b7-8c28-4093-8cf1-6ad73f9233b7';
@@ -319,7 +345,7 @@
             // Update half payment option amounts (using already declared halfAmount)
             document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
             document.getElementById('fullPayAmount').textContent = '₹' + formattedTotal;
-            document.getElementById('remainingAmount').textContent = halfAmount.toLocaleString('en-IN');
+            document.getElementById('remainingAmount').textContent = PaymentOptions.amounts(totalAmount, 'half').balance.toLocaleString('en-IN');
             
             // Set default payment type to half
             window.selectedPaymentType = 'half';
@@ -406,7 +432,7 @@
             // Build email content
             const formData = {
                 access_key: WEB3FORMS_ACCESS_KEY,
-                subject: '🌟 New Trip Booking: ' + window.bookingData.trip,
+                subject: (window.bookingData.paymentReport ? 'Payment Verification Request: ' : 'New Trip Booking Request: ') + window.bookingData.trip,
                 from_name: 'Team Weekend Trekkers Website',
                 // Customer Details
                 'Customer Name': document.getElementById('fullName').value.trim(),
@@ -422,7 +448,8 @@
                 'Subtotal': window.bookingData.subtotal,
                 'Coupon Code': window.bookingData.coupon || 'None',
                 'Coupon Savings': window.bookingData.discount || 0,
-                'Request Status': 'Team must verify availability and coupon before payment',
+                'Request Status': window.bookingData.paymentReport ? 'Customer reports payment; payment and availability verification pending' : 'Team must verify availability and coupon before payment',
+                'Payment Details': window.bookingData.paymentReport ? JSON.stringify(window.bookingData.paymentReport) : 'Pay after confirmation',
                 // Additional Info
                 'Participant Names': document.getElementById('participants').value.trim() || 'Single participant',
                 'Special Requests': document.getElementById('notes').value.trim() || 'None',
@@ -476,7 +503,8 @@
         });
     </script>
     <script src="js/security.js"></script>
-<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><button id="popupOpenUpi" type="button">Open UPI App</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=1"></script><script src="js/checkout-experience.js?v=3"></script>
+<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><button id="popupOpenUpi" type="button">Open UPI App</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=2"></script><script src="js/checkout-experience.js?v=4"></script>
+<script src="js/payment-checkout.js?v=1"></script>
 </body>
 </html>
 

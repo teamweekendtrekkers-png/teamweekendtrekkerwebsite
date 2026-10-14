@@ -74,7 +74,7 @@ test('new section visibility is independent and malformed/duplicate cards fall b
 });
 const appDefaultsPath = path.resolve(__dirname, '../../trip_manager_app/lib/models/homepage_section_defaults.dart');
 test('website and Flutter section defaults remain exactly in parity', {skip: !fs.existsSync(appDefaultsPath)}, () => {
-    const source = fs.readFileSync(appDefaultsPath, 'utf8');
+    const source = fs.readFileSync(appDefaultsPath, 'utf8').replace(/\r\n/g, '\n');
     // Optional local cross-repository gate; hosted website CI has no app checkout.
     assert.deepEqual(JSON.parse(source.match(/r'''\n([\s\S]*?)\n'''/)[1]), sections.defaults);
 });

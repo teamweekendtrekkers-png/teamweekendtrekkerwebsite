@@ -2,6 +2,16 @@ export class BookingError extends Error {
   constructor(code, status = 400) {super(code); this.code = code; this.status = status;}
 }
 const fail = () => {throw new BookingError('invalid_request');};
+export function paymentReport(notes) {
+  if(typeof notes!=='string'||!notes.startsWith('[TWT_PAYMENT:'))return null;
+  const end=notes.indexOf(']\n');
+  if(end<0)fail();
+  let report;try{report=JSON.parse(notes.slice(13,end));}catch{fail();}
+  if(!report||report.mode!=='direct'||!['half','full'].includes(report.type)||
+     !Number.isFinite(report.amount)||report.amount<0||typeof report.transactionId!=='string'||
+     !/^[a-zA-Z0-9-]{6,40}$/.test(report.transactionId))fail();
+  return report;
+}
 function text(value, limit, required = false) {
   if (typeof value !== 'string' || value.length > limit || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value)) fail();
   const result = value.trim(); if (required && !result) fail(); return result;
@@ -50,24 +60,38 @@ export function bookingFromCatalog(request,catalog,now=new Date()) {
   }
   const total=Math.round((subtotal-discount)*100)/100;
   if (Math.abs(request.expected_total-total)>0.005) throw new BookingError('quote_changed',409);
+  const report=paymentReport(request.special_requests);
+  if(report){
+    const p=catalog.payment||{};
+    if(!['direct','both'].includes(p.mode)||(p.directDepartures||[]).every(d=>d.tripId!==request.trip_id||d.dateKey!==departure.dateKey)){
+      throw new BookingError('direct_payment_unavailable',409);
+    }
+    const pennies=Math.round(total*100),due=report.type==='full'?pennies:Math.ceil(pennies/2);
+    if(Math.abs(report.amount-due/100)>0.005)throw new BookingError('quote_changed',409);
+  }
   const {expected_total,...fields}=request;
   return {...fields,trip_name:trip.title,departure_date:departure.date,price_per_person:trip.price,subtotal,discount_amount:discount};
 }
 export function emailPayload(booking,key) {
-  return {access_key:key,subject:'New Trip Booking Request: '+booking.trip_name,from_name:'Team Weekend Trekkers Website',
+  const report=paymentReport(booking.special_requests);
+  return {access_key:key,subject:(report?'Payment Verification Request: ':'New Trip Booking Request: ')+booking.trip_name,from_name:'Team Weekend Trekkers Website',
     'Booking Reference':booking.booking_reference,'Customer Name':booking.full_name,'Customer Email':booking.email,
     'Phone Number':booking.phone,'Alternate Phone':booking.alternate_phone || 'Not provided',
     'Trip Name':booking.trip_name,'Trip Date':booking.departure_label,'Number of People':booking.travellers,
     'Total Amount':'INR '+booking.total_amount,'Subtotal':booking.subtotal,'Coupon Code':booking.coupon_code || 'None',
     'Coupon Savings':booking.discount_amount,'Participant Names':booking.participant_names.join(', ') || 'Single participant',
-    'Special Requests':booking.special_requests || 'None','Request Status':'Availability and payment confirmation pending',
+    'Special Requests':(report?booking.special_requests.slice(booking.special_requests.indexOf(']\n')+2):booking.special_requests) || 'None','Request Status':report?'Customer reports payment; payment and availability verification pending':'Availability and payment confirmation pending',
+    'Payment Method':report?'Direct UPI payment':'Pay after confirmation',
+    ...(report?{'Amount Reported':'INR '+report.amount,'Payment Type':report.type==='half'?'50% advance':'Full payment','Transaction ID':report.transactionId}:{}),
     'Booking Time':booking.created_at};
 }
 export function telegramText(booking) {
-  return ['NEW BOOKING REQUEST',booking.booking_reference,booking.trip_name,booking.departure_label,
+  const report=paymentReport(booking.special_requests);
+  return [report?'PAYMENT VERIFICATION REQUEST':'NEW BOOKING REQUEST',booking.booking_reference,booking.trip_name,booking.departure_label,
     'Travellers: '+booking.travellers,'Quoted amount: INR '+booking.total_amount,
     'Contact: '+booking.full_name,'Phone: '+booking.phone,'Email: '+booking.email,
-    'Coupon: '+(booking.coupon_code || 'None'),'Availability and payment confirmation pending'].join('\n');
+    'Coupon: '+(booking.coupon_code || 'None'),
+    ...(report?['Customer-reported payment: INR '+report.amount,report.type==='half'?'50% advance':'Full payment','Transaction ID: '+report.transactionId,'Payment and availability verification pending — not confirmed']:['Availability and payment confirmation pending'])].join('\n');
 }
 export async function deliverNotifications(booking,deps) {
   await Promise.allSettled(['telegram','email'].map(async kind => {

@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const dates = require('../js/trip-date-utils.js');
+const paymentOptions = require('../js/payment-options.js');
 function validatePublicConfig(config) {
   if (!config.anonKey && config.enabled === false) return;
   let payload;
@@ -22,11 +23,11 @@ function buildCatalog(root) {
       departures: (trip.availableDates || []).map(label => {
         const range = dates.parseTripDateRange(label);
         if (!range) throw new Error('Invalid departure for ' + id + ': ' + label);
-        return {label, date: range.startKey, cutoff: dates.bookingCutoff(trip, range).toISOString()};
+        return {label, date: range.startKey, dateKey: range.key, cutoff: dates.bookingCutoff(trip, range).toISOString()};
       })};
   }
   const commerce = JSON.parse(fs.readFileSync(path.join(root, 'js/commerce-config.json'), 'utf8'));
-  return {version: 1, trips, showCoupons: commerce.showCoupons !== false, coupons: commerce.coupons || []};
+  return {version: 1, trips, payment: paymentOptions.normalize(commerce.payment), showCoupons: commerce.showCoupons !== false, coupons: commerce.coupons || []};
 }
 if (require.main === module) {
   const root = path.resolve(__dirname, '..');
