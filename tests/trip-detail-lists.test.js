@@ -100,7 +100,7 @@ test('current authoritative trips render custom packing lists and retain audienc
             document.containers.thingsToCarryGrid.children.map(item => item.children[1].textContent),
             lists.getDisplayItems(trip, 'thingsToCarry'),
         );
-        assert.ok(document.containers.suitableForGrid.children.length > 0);
+        assert.deepEqual(document.containers.suitableForGrid.children.map(item => item.children[1].textContent), lists.getDisplayItems(trip, 'perfectFor'));
     }
 });
 

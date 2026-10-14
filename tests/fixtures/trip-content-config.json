@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "sections": {
+    "glance": {
+      "mode": "default",
+      "heading": "Trip at a glance",
+      "expanded": true,
+      "items": [
+        {
+          "label": "Duration",
+          "field": "duration",
+          "value": "",
+          "icon": "clock"
+        },
+        {
+          "label": "Location",
+          "field": "location",
+          "value": "",
+          "icon": "location"
+        },
+        {
+          "label": "Activity level",
+          "field": "difficulty",
+          "value": "",
+          "icon": "walking"
+        },
+        {
+          "label": "Travel distance",
+          "field": "distance",
+          "value": "",
+          "icon": "route"
+        },
+        {
+          "label": "Group size",
+          "field": "groupSize",
+          "value": "",
+          "icon": "group"
+        },
+        {
+          "label": "Best season",
+          "field": "bestTime",
+          "value": "",
+          "icon": "calendar"
+        }
+      ]
+    },
+    "cancellation": {
+      "mode": "default",
+      "heading": "Cancellation policy",
+      "expanded": false,
+      "items": [
+        {
+          "minDays": 0,
+          "maxDays": 3,
+          "percent": 100
+        },
+        {
+          "minDays": 4,
+          "maxDays": 5,
+          "percent": 50
+        },
+        {
+          "minDays": 6,
+          "maxDays": null,
+          "percent": 25
+        }
+      ],
+      "refundNote": "Refunds are processed within 5–7 business days.",
+      "changeNote": "Date changes are free if requested 7+ days before the trip."
+    },
+    "guidelines": {
+      "mode": "default",
+      "heading": "Trip guidelines",
+      "expanded": false,
+      "items": [
+        {
+          "title": "No Alcohol or Smoking",
+          "description": "Consumption of alcohol and smoking is strictly prohibited during the trip. Violation may result in immediate termination without refund.",
+          "icon": "info"
+        },
+        {
+          "title": "Dinner Before Boarding",
+          "description": "Please have your dinner before boarding the vehicle. We won't stop for dinner breaks during night journeys.",
+          "icon": "food"
+        },
+        {
+          "title": "Travel Arrangements",
+          "description": "We use Tempo Travellers or Mini-buses with push-back seats. Travel will be AC or NON AC based on conditions.",
+          "icon": "bus"
+        },
+        {
+          "title": "Know your trip",
+          "description": "Review the itinerary, accommodation, activity level and inclusions for this trip. Contact our team if you need more details.",
+          "icon": "info"
+        },
+        {
+          "title": "Food (Vegetarian/Non-Vegetarian)",
+          "description": "All meals provided during the trip are vegetarian/Non-veg based on the situation.",
+          "icon": "info"
+        },
+        {
+          "title": "Leave No Trace",
+          "description": "Respect nature. Don't litter, don't pluck plants, and carry back all your waste. Let's keep our trails clean.",
+          "icon": "info"
+        },
+        {
+          "title": "Personal Belongings",
+          "description": "Team Weekend Trekkers is not responsible for loss or damage to personal belongings. Keep valuables secure at all times.",
+          "icon": "info"
+        },
+        {
+          "title": "Potential Delays",
+          "description": "Travel times are estimates. Traffic, weather, and unforeseen circumstances may cause delays. Please be patient and cooperative.",
+          "icon": "info"
+        }
+      ]
+    },
+    "faqs": {
+      "mode": "default",
+      "heading": "Frequently asked questions",
+      "expanded": false,
+      "items": [
+        {
+          "question": "How do I book a trip?",
+          "answer": "Choose a departure and traveller count, then send a booking request. Our team confirms availability and the payable amount before payment. Your place is confirmed only after our team confirms availability and payment."
+        },
+        {
+          "question": "Is there a WhatsApp group for the trip?",
+          "answer": "Yes! Once your booking is confirmed, you'll be added to a WhatsApp group with fellow travelers and the trip coordinator 2-3 days before the trip."
+        },
+        {
+          "question": "Is it safe for solo travelers?",
+          "answer": "Solo travellers are welcome. Ask us about the group, accommodation and trip difficulty before booking."
+        },
+        {
+          "question": "Is it safe for women travelers?",
+          "answer": "Contact us about accommodation arrangements, coordinator support and any specific concerns before booking. Follow the coordinator’s instructions throughout the trip."
+        },
+        {
+          "question": "Are there any discounts available?",
+          "answer": "If coupon entry is available at checkout, apply your eligible code to view a discount quote. Our team verifies the offer before payment. Ask us on WhatsApp about current offers."
+        },
+        {
+          "question": "What should I pack for the trip?",
+          "answer": "Pack light! Essentials include: comfortable clothes, good walking shoes, rain jacket/poncho, water bottle, power bank, personal medicines, toiletries, and a small backpack."
+        },
+        {
+          "question": "What if I need to cancel my booking?",
+          "answer": "You can cancel through WhatsApp. Cancellation fees apply: 25% fee (6+ days before departure), 50% fee (4–5 days before departure), and 100% fee (0–3 days before departure). Refunds are processed within 5-7 business days."
+        },
+        {
+          "question": "What if the trip gets cancelled due to weather?",
+          "answer": "If we cancel due to bad weather or unforeseen circumstances, you'll get a full refund or option to reschedule to another date. Your safety comes first!"
+        }
+      ]
+    },
+    "highlights": {
+      "mode": "default",
+      "heading": "What Makes It Special",
+      "expanded": false,
+      "useTripHighlights": true,
+      "items": []
+    }
+  }
+}

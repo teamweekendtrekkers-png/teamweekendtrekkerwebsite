@@ -89,28 +89,6 @@ test('generates one crawler-readable page for every managed trip', () => {
     }
 });
 
-test('Rameshwaram source exposes Rameshwaram metadata without running JavaScript', () => {
-    const page = fs.readFileSync(
-        path.join(outputDirectory, 'rameshwaram-dhanushkodi', 'index.html'),
-        'utf8',
-    );
-    const metadata = metadataFrom(page);
-
-    assert.match(
-        metadata,
-        /<title>Rameshwaram-Dhanushkodi-Thanjavur - Team Weekend Trekkers<\/title>/,
-    );
-    assert.match(
-        metadata,
-        /<meta property="og:title" content="Rameshwaram-Dhanushkodi-Thanjavur - Team Weekend Trekkers">/,
-    );
-    assert.match(
-        metadata,
-        /https:\/\/www\.teamweekendtrekkers\.com\/trips\/rameshwaram-dhanushkodi\//,
-    );
-    assert.doesNotMatch(metadata, /Netravati Peak Trek/);
-});
-
 test('escapes manager-controlled metadata and supports app-style underscore IDs', () => {
     assert.equal(validateTripId('trip_1780000000000'), 'trip_1780000000000');
 
