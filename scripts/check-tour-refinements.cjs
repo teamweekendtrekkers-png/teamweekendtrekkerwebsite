@@ -67,6 +67,23 @@ const server=http.createServer((req,res)=>{
     assert.equal(await page.locator('.trip-essentials').isVisible(),false);
     assert.equal(await page.locator('.trip-back-link').isVisible(),true);
    }
+   const arrows=page.locator('.gallery-arrow');assert.equal(await arrows.count(),2);
+   for(const arrow of await arrows.all()){assert.ok(await arrow.isVisible());const box=await arrow.boundingBox();assert.ok(box.width>=44&&box.height>=44);}
+   await page.getByRole('button',{name:'Next photo',exact:true}).click();
+   assert.match(await page.locator('.gallery-counter').textContent(),/^2 \/ /);
+   assert.equal(await page.locator('#galleryLightbox').isVisible(),false,'Arrow must browse without opening the lightbox');
+   await page.getByRole('button',{name:'Previous photo',exact:true}).focus();await page.keyboard.press('Enter');
+   assert.match(await page.locator('.gallery-counter').textContent(),/^1 \/ /);
+   if(width<768){
+    await page.locator('.gallery-main').dispatchEvent('touchstart',{touches:[{clientX:220,clientY:400}]});
+    await page.locator('.gallery-main').dispatchEvent('touchend',{changedTouches:[{clientX:120,clientY:400}]});
+    assert.match(await page.locator('.gallery-counter').textContent(),/^2 \/ /);
+    await page.locator('#galleryMainImg').dispatchEvent('click');
+    assert.equal(await page.locator('#galleryLightbox').isVisible(),false,'Swipe must not open the lightbox');
+    await page.getByRole('button',{name:'Previous photo',exact:true}).click();
+   }
+   const glance=await page.locator('.glance-grid').evaluate(node=>({columns:getComputedStyle(node).gridTemplateColumns.split(' ').length,cards:[...node.children].filter(n=>!n.hidden).map(n=>({height:n.getBoundingClientRect().height,overflow:n.scrollWidth>n.clientWidth}))}));
+   assert.equal(glance.columns,width<768?2:3);assert.ok(glance.cards.every(card=>!card.overflow&&card.height<110),'Compact glance cards must fit their content');
    await page.locator('.gallery-main').focus();await page.keyboard.press('ArrowRight');
    assert.match(await page.locator('.gallery-counter').textContent(),/^2 \/ /);
    await page.locator('#galleryMainImg').click();assert.match(await page.locator('#imageCounter').textContent(),/^2 \/ /);

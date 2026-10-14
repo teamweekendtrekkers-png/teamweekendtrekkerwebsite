@@ -29,9 +29,14 @@
    let index=0,start=null,swiped=false;
    const counter=document.createElement('button');counter.className='gallery-counter';main.querySelector('.gallery-counter')?.remove();main.append(counter);
    const show=()=>{if(window.ResponsiveImages)ResponsiveImages.set(image,images[index],{eager:true,avif:true,focal:trip.imageFocalPoint,sizes:'(max-width:767px) calc(100vw - 36px), (max-width:1000px) calc(100vw - 64px), 960px'});else image.src=images[index];image.alt=trip.title+' — photo '+(index+1);counter.textContent=(index+1)+' / '+images.length+' · View all';};
-   main.setAttribute('role','button');main.tabIndex=0;main.setAttribute('aria-label','View trip photos');
+   main.setAttribute('role','group');main.tabIndex=0;main.setAttribute('aria-label','Trip photos. Use arrow keys to browse or Enter to enlarge.');
+   main.querySelectorAll('.gallery-arrow').forEach(button=>button.remove());
+   if(images.length>1)for(const [direction,label,symbol] of [[-1,'Previous photo','‹'],[1,'Next photo','›']]){
+    const button=document.createElement('button');button.type='button';button.className='gallery-arrow '+(direction<0?'gallery-prev':'gallery-next');button.setAttribute('aria-label',label);button.textContent=symbol;
+    button.addEventListener('click',event=>{event.stopPropagation();swiped=false;index=(index+direction+images.length)%images.length;show();});main.append(button);
+   }
    counter.addEventListener('click',event=>{event.stopPropagation();if(window.openLightbox)window.openLightbox(index);});
-   main.onkeydown=event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();index=(index+(event.key==='ArrowRight'?1:-1)+images.length)%images.length;show();}else if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openLightbox(index);}};
+   main.onkeydown=event=>{if(event.target!==main)return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();index=(index+(event.key==='ArrowRight'?1:-1)+images.length)%images.length;show();}else if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openLightbox(index);}};
    main.onclick=()=>{if(swiped){swiped=false;return;}if(window.openLightbox)window.openLightbox(index);};
    main.ontouchstart=event=>{start=event.touches[0];swiped=false;};
    main.ontouchend=event=>{if(!start)return;const end=event.changedTouches[0],dx=end.clientX-start.clientX,dy=end.clientY-start.clientY;start=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;index=(index+(dx<0?1:-1)+images.length)%images.length;show();}};
