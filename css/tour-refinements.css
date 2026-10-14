@@ -1,0 +1,67 @@
+/* Tour page only: compact hierarchy, one gallery and clear section navigation. */
+.trip-back-link,.trip-mobile-route,.trip-mobile-facts{display:none}
+.tour-refined .trip-hero-gallery>.container{max-width:1024px}
+.tour-refined .gallery-wrapper{display:block;width:100%;height:auto}
+.tour-refined .gallery-side{display:none}
+.tour-refined .gallery-main{aspect-ratio:4/3;height:auto}
+.tour-refined .gallery-main picture{display:block;width:100%;height:100%}
+.tour-refined .gallery-main img{height:100%;width:100%;object-fit:cover;transition:none;transform:none}
+.tour-refined .trip-section-links{position:sticky;top:var(--tour-nav-top,64px);z-index:800;max-width:1200px;margin:0 auto 20px;padding:8px 18px;display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;background:#fff9f2;border-bottom:1px solid #dcece3;scroll-padding-inline:18px}
+.tour-refined .trip-section-links a{position:relative;flex:0 0 auto;min-height:44px;padding:10px 14px;border:1px solid #cbded3;border-radius:10px;background:#eaf3ee;color:#173f35;white-space:nowrap;transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease}
+.tour-refined .trip-section-links a[aria-current]{background:#087f73;color:white;border-color:#087f73}
+.tour-refined .trip-section-links a[aria-current]::after{content:'';position:absolute;height:2px;bottom:4px;left:14px;right:14px;background:currentColor;border-radius:2px}
+.tour-refined .trip-section-links a:active{background:#dcece3;color:#173f35}
+.tour-refined #bookingCard,.tour-refined #tripItinerary,.tour-refined #tripIncludes,.tour-refined #tripPickup{scroll-margin-top:var(--tour-anchor-offset,144px)}
+.tour-refined .trip-section>summary,.tour-refined .mobile-section>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;margin:0;padding:14px 18px;background:#eaf3ee;color:#173f35;font-size:18px;font-weight:700;line-height:1.4;transition:background-color 180ms ease,box-shadow 180ms ease}
+.tour-refined .trip-section[open]>summary,.tour-refined .mobile-section[open]>summary{background:#dcece3;box-shadow:inset 3px 0 #087f73}
+.tour-refined .trip-section>summary h2{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit}
+.tour-refined .content-section{background:white}
+.tour-refined details.content-section{padding:0;overflow:hidden;border:1px solid #dce5df;border-radius:12px}
+.tour-refined details.mobile-section>:not(summary){margin:14px 16px 16px}
+.tour-refined .faq-row>summary{min-height:44px;padding:12px;background:#eaf3ee;font-weight:600}
+.tour-refined #tripItinerary>h2,.tour-refined #tripPickup>h2{color:#173f35;border-bottom:0;padding-bottom:14px;position:relative}
+.tour-refined #tripItinerary>h2::after,.tour-refined #tripPickup>h2::after{content:'';position:absolute;bottom:3px;left:0;width:44px;height:3px;background:#c45116;border-radius:2px}
+.tour-refined .accordion-header{background:#eaf3ee;color:#173f35;min-height:48px;padding:14px 16px;transition:background-color 180ms ease}
+.tour-refined .day-badge{background:#173f35;color:white}
+.tour-refined .btn{transition:background-color 180ms ease,color 180ms ease,box-shadow 180ms ease;transform:none}
+@media(hover:hover) and (pointer:fine){
+ .tour-refined .trip-section-links a:not([aria-current]):hover{background:#dcece3}
+ .tour-refined .gallery-main img{transition:transform 180ms ease}
+ .tour-refined .gallery-main:hover img{transform:scale(1.02)}
+ .tour-refined .btn{transition:transform 180ms ease,background-color 180ms ease,color 180ms ease,box-shadow 180ms ease}
+ .tour-refined .btn:hover{transform:translateY(-2px)}
+}
+@media(max-width:767px){
+ .tour-refined .trip-hero-gallery{padding-top:76px;padding-bottom:20px}
+ .tour-refined .trip-hero-gallery .breadcrumb{display:none}
+ .tour-refined .trip-back-link{display:inline-flex;align-items:center;min-height:44px;color:#54645d;font-size:14px;margin-bottom:4px;text-decoration:none}
+ .tour-refined .trip-heading{margin:0 0 16px}
+ .tour-refined .trip-heading h1{font-size:26px;line-height:1.22;margin:0 0 8px}
+ .tour-refined .trip-heading-location,.tour-refined .trip-heading-departure,.tour-refined .trip-selected-departure,.tour-refined .trip-dates-shortcut,.tour-refined .trip-essentials{display:none}
+ .tour-refined .trip-mobile-route{display:block;font-size:14px;color:#54645d;line-height:1.45;margin:0 0 6px}
+ .tour-refined .trip-mobile-facts{display:block;font-size:14px;color:#173f35;font-weight:600;line-height:1.45;margin:0 0 8px}
+ .tour-refined .trip-heading-summary{font-size:15px;line-height:1.5;margin:0}
+ .tour-refined .trip-section-links{margin-bottom:14px;padding:8px 16px;scrollbar-width:none}
+ .tour-refined .trip-section-links::-webkit-scrollbar{display:none}
+ .tour-refined .trip-section-links a{font-size:14px;padding:10px 12px}
+ .tour-refined .trip-details{padding-top:16px}
+ .tour-refined .trek-glance{padding-block:20px}
+ .tour-refined .trip-section>summary,.tour-refined .mobile-section>summary{padding:12px 16px;font-size:17px}
+ .tour-refined .trip-section-body{padding:14px 16px 16px}
+ .tour-refined .mobile-book-float{min-height:68px;padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+ .tour-refined .mobile-book-float .float-cta{font-size:15px;white-space:nowrap}
+ .tour-refined .mobile-book-float>a:first-child{padding:7px 12px}
+ .tour-refined .mobile-book-float .float-price{font-size:14px;line-height:1.45;min-width:0}
+ .tour-refined .mobile-book-date{line-height:1.35}
+ .tour-refined:has(#mobileBookBtn){padding-bottom:var(--tour-book-space,84px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .tour-refined *,.tour-refined *::before,.tour-refined *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+ .tour-refined .gallery-main:hover img,.tour-refined .btn:hover{transform:none}
+}
+@media(min-width:768px){.tour-refined #mobileBookBtn{display:none!important}}
+@media print{
+ .tour-refined .trip-section-links,.tour-refined .trip-back-link{display:none}
+ .tour-refined:has(#mobileBookBtn){padding-bottom:0}
+ .tour-refined .trip-section>summary,.tour-refined .mobile-section>summary{background:white;box-shadow:none}
+}

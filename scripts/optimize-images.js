@@ -41,7 +41,7 @@ async function main() {
    after+=(await fs.stat(path.join(root,name))).size; webp.push({width,path:name});
   }
   // AVIF is offered to picture-capable clients; keep a WebP fallback.
-  for(const width of sizes.filter(width=>width===640||width===960)) {
+  for(const width of sizes) {
    const name='images/optimized/'+prefix+'-'+width+'.avif';
    let cached; try { cached=await fs.stat(path.join(root,name)); } catch (_) {}
    if(!cached || cached.mtimeMs<stat.mtimeMs) await sharp(input).rotate().resize({width,withoutEnlargement:true}).avif({quality:48,effort:2}).toFile(path.join(root,name));

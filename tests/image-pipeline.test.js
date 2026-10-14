@@ -14,14 +14,15 @@ test('deployment creates responsive candidates, retains original bytes and avoid
   assert.equal(await hash(),before);
   const context={window:{}};vm.runInNewContext(await fs.readFile(path.join(root,'js/image-manifest.js'),'utf8'),context);
   const candidates=context.window.IMAGE_MANIFEST['images/photo.jpg'];
-  assert.equal(candidates.webp.length,4);assert.equal(candidates.avif.length,2);
+  assert.equal(candidates.webp.length,4);assert.equal(candidates.avif.length,4);
   for(const candidate of candidates.webp){
    const metadata=await sharp(path.join(root,candidate.path)).metadata();
    assert.equal(metadata.width,candidate.width);assert.equal(metadata.format,'webp');
   }
+  for(const candidate of candidates.avif){const metadata=await sharp(path.join(root,candidate.path)).metadata();assert.equal(metadata.width,candidate.width);assert.equal(metadata.format,'heif');}
   const html=await fs.readFile(path.join(root,'index.html'),'utf8');assert.match(html,/image\/avif/);assert.match(html,/srcset=/);
   await run(process.execPath,[script,root]);
-  assert.equal((await fs.readdir(path.join(root,'images/optimized'))).length,6);
+  assert.equal((await fs.readdir(path.join(root,'images/optimized'))).length,8);
   assert.match(await fs.readFile(path.join(root,'js/image-manifest.js'),'utf8'),/images\/photo.jpg/);
  } finally {assert.equal(path.dirname(root),path.resolve(os.tmpdir()));assert.ok(path.basename(root).startsWith('twt-images-'));await fs.rm(root,{recursive:true,force:true,maxRetries:5,retryDelay:100});}
 });

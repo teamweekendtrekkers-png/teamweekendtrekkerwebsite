@@ -42,7 +42,7 @@
   document.querySelector('.trip-hero-gallery a[href*="#bookingCard"]')?.addEventListener('click',open);
   const bar=document.getElementById('mobileBookBtn'),oldLink=bar?.querySelector('a');
   if(oldLink){const link=oldLink.cloneNode(true);oldLink.replaceWith(link);link.addEventListener('click',open);
-   const update=()=>{link.setAttribute('aria-label','Choose date and travellers');link.querySelector('.float-cta').textContent='Dates & travellers';const price=link.querySelector('#floatPrice');price.firstChild.textContent=trip.price+' / person · ';const date=link.querySelector('.mobile-book-date');if(date)date.textContent=select.value||'Pick your departure';};select.addEventListener('change',update);update();
+   const update=()=>{link.setAttribute('aria-label','Choose dates and travellers to book');link.querySelector('.float-cta').textContent='Book now';const price=link.querySelector('#floatPrice');price.firstChild.textContent=trip.price+' / person';const date=link.querySelector('.mobile-book-date');if(date)date.textContent=TripDateUtils.parseTripDateRange(select.value)?.shortLabel||'Pick your departure';};select.addEventListener('change',update);update();
   }
  });
 }());

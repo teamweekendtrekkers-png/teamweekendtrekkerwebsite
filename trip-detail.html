@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
     <link rel="stylesheet" href="css/design-refresh.css?v=4">
+<link rel="stylesheet" href="css/tour-refinements.css?v=1">
 </head>
 <body>
     <nav class="navbar">
@@ -55,6 +56,7 @@
     <!-- Trip Hero with Gallery - TWT Style -->
     <section class="trip-hero-gallery" id="tripHeroGallery">
         <div class="container">
+            <a class="trip-back-link" href="trips.html">← All trips</a>
             <div class="breadcrumb">
                 <a href="index.html">Home</a> / <a href="trips.html">Trips</a> / <span id="breadcrumbTitle">Trip details</span>
             </div>
@@ -70,23 +72,7 @@
                 <div class="gallery-main" onclick="openLightbox(0)">
                     <img alt="Trip Main Image" id="galleryMainImg">
                 </div>
-                <div class="gallery-side">
-                    <div class="gallery-item" onclick="openLightbox(1)">
-                        <img alt="Trip photo 2" id="galleryImg1">
-                    </div>
-                    <div class="gallery-item" onclick="openLightbox(2)">
-                        <img alt="Trip photo 3" id="galleryImg2">
-                    </div>
-                    <div class="gallery-item" onclick="openLightbox(3)">
-                        <img alt="Trip photo 4" id="galleryImg3">
-                    </div>
-                    <div class="gallery-item gallery-more" onclick="openLightbox(4)">
-                        <img alt="Trip photo 5" id="galleryImg4">
-                        <div class="gallery-overlay">
-                            <span>+3 More</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -481,9 +467,9 @@
     </dialog>
 
     <script src="js/image-manifest.js"></script>
-    <script src="js/responsive-images.js?v=1"></script>
+    <script src="js/responsive-images.js?v=2"></script>
     <script src="js/site-presentation.js?v=1"></script>
-    <script src="js/mobile-experience.js?v=1"></script>
+    <script src="js/mobile-experience.js?v=2"></script>
     <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js"></script>
     <script src="js/trip-detail-lists.js?v=2"></script>
@@ -963,7 +949,7 @@
             galleryImages = window.allGalleryImages || Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
             
             showLoader();
-            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, sizes: '100vw'});
+            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, avif: true, sizes: '100vw'});
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -985,7 +971,7 @@
             const counter = document.getElementById('imageCounter');
             
             showLoader();
-            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, sizes: '100vw'});
+            ResponsiveImages.set(lightboxImg, galleryImages[currentImageIndex], {eager: true, avif: true, sizes: '100vw'});
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
         }
 
@@ -1029,7 +1015,8 @@
     <script src="js/trip-decision.js?v=5"></script>
     <script src="js/trip-brochure.js?v=4"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=6"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=3"></script>
+<script src="js/trip-customer.js?v=7"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=3"></script>
+<script src="js/tour-refinements.js?v=1"></script>
 </body>
 </html>
 

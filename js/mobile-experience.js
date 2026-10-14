@@ -26,14 +26,15 @@
   const main=document.querySelector('.gallery-main'),image=document.getElementById('galleryMainImg');
   const images=[...new Set((window.allGalleryImages||[trip.image]).filter(Boolean))];
   if(main&&image){
-   let index=0,start=null;
+   let index=0,start=null,swiped=false;
    const counter=document.createElement('button');counter.className='gallery-counter';main.querySelector('.gallery-counter')?.remove();main.append(counter);
-   const show=()=>{if(window.ResponsiveImages)ResponsiveImages.set(image,images[index],{eager:true,focal:trip.imageFocalPoint});else image.src=images[index];image.alt=trip.title+' — photo '+(index+1);counter.textContent=(index+1)+' / '+images.length+' · View all';};
+   const show=()=>{if(window.ResponsiveImages)ResponsiveImages.set(image,images[index],{eager:true,avif:true,focal:trip.imageFocalPoint,sizes:'(max-width:767px) calc(100vw - 36px), (max-width:1000px) calc(100vw - 64px), 960px'});else image.src=images[index];image.alt=trip.title+' — photo '+(index+1);counter.textContent=(index+1)+' / '+images.length+' · View all';};
    main.setAttribute('role','button');main.tabIndex=0;main.setAttribute('aria-label','View trip photos');
    counter.addEventListener('click',event=>{event.stopPropagation();if(window.openLightbox)window.openLightbox(index);});
    main.onkeydown=event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();index=(index+(event.key==='ArrowRight'?1:-1)+images.length)%images.length;show();}else if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openLightbox(index);}};
-   main.ontouchstart=event=>{start=event.touches[0];};
-   main.ontouchend=event=>{if(!start)return;const end=event.changedTouches[0],dx=end.clientX-start.clientX,dy=end.clientY-start.clientY;start=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){index=(index+(dx<0?1:-1)+images.length)%images.length;show();}};
+   main.onclick=()=>{if(swiped){swiped=false;return;}if(window.openLightbox)window.openLightbox(index);};
+   main.ontouchstart=event=>{start=event.touches[0];swiped=false;};
+   main.ontouchend=event=>{if(!start)return;const end=event.changedTouches[0],dx=end.clientX-start.clientX,dy=end.clientY-start.clientY;start=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;index=(index+(dx<0?1:-1)+images.length)%images.length;show();}};
    show();
   }
   const table=document.getElementById('pickupTable');if(table){const labels=[...table.querySelectorAll('th')].map(node=>node.textContent.trim());table.querySelectorAll('tbody tr').forEach(row=>[...row.children].forEach((cell,index)=>{cell.dataset.label=labels[index]||'';}));table.querySelectorAll('a').forEach(link=>{link.rel='noopener';link.textContent='Open map';const value=link.getAttribute('href').trim().replace(/^https:\/\/https:\/\//,'https://');try{const url=new URL(value);if(url.protocol==='https:'&&['maps.app.goo.gl','maps.google.com','www.google.com','goo.gl'].includes(url.hostname))link.href=url.href;else link.removeAttribute('href');}catch(_){link.removeAttribute('href');}});}

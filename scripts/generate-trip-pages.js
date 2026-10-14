@@ -201,8 +201,12 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
         if (!photo || !require('../js/homepage-settings').safeImage(photo)) return tag;
         const variants = imageManifest[photo]?.webp || [];
         const source = (variants.find(item => item.width >= (index === 0 ? 960 : 640)) || variants.at(-1))?.path || photo;
-        const candidates = variants.length ? ' srcset="' + variants.map(item => escapeHtml(item.path) + ' ' + item.width + 'w').join(', ') + '" sizes="(max-width:767px) 100vw, 70vw"' : '';
-        return tag.replace(/>$/, ' src="' + escapeHtml(source) + '"' + candidates + ' decoding="async" loading="' + (index === 0 ? 'eager' : 'lazy') + '">');
+        const sizes = '(max-width:767px) calc(100vw - 36px), (max-width:1000px) calc(100vw - 64px), 960px';
+        const candidates = variants.length ? ' srcset="' + variants.map(item => escapeHtml(item.path) + ' ' + item.width + 'w').join(', ') + '" sizes="' + sizes + '"' : '';
+        const image = tag.replace(/>$/, ' src="' + escapeHtml(source) + '"' + candidates + ' decoding="async" loading="' + (index === 0 ? 'eager' : 'lazy') + '"' + (index === 0 ? ' fetchpriority="high"' : '') + '>');
+        const avif = imageManifest[photo]?.avif || [];
+        if (id !== 'galleryMainImg' || !avif.length) return image;
+        return '<picture><source data-responsive-avif type="image/avif" srcset="' + avif.map(item => escapeHtml(item.path) + ' ' + item.width + 'w').join(', ') + '" sizes="' + sizes + '">' + image + '</picture>';
     });
     const contentConfig = require('../js/trip-content').validate(JSON.parse(fs.readFileSync(path.join(projectRoot,'js/trip-content-config.json'),'utf8')));
     page = require('./trip-body').renderBody(page,trip,contentConfig);

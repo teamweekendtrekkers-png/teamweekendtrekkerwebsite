@@ -112,6 +112,23 @@ test('escapes manager-controlled metadata and supports app-style underscore IDs'
     assert.doesNotMatch(metadata, /<script>alert/);
 });
 
+test('serves the first gallery photo as AVIF with a prioritised WebP fallback before scripts run', () => {
+    const fixture = path.join(temporaryRoot, 'image-fixture');
+    fs.mkdirSync(path.join(fixture, 'js'), { recursive: true });
+    fs.mkdirSync(path.join(fixture, 'images'), { recursive: true });
+    fs.copyFileSync(path.join(projectRoot, 'images/logo.jpg'), path.join(fixture, 'images/logo.jpg'));
+    fs.copyFileSync(path.join(projectRoot, 'js/trip-content-config.json'), path.join(fixture, 'js/trip-content-config.json'));
+    fs.writeFileSync(path.join(fixture, 'js/image-manifest.js'), 'window.IMAGE_MANIFEST = ' + JSON.stringify({
+        'images/logo.jpg': {
+            webp: [{ width: 960, path: 'images/optimized/logo-960.webp' }],
+            avif: [{ width: 960, path: 'images/optimized/logo-960.avif' }],
+        },
+    }) + ';');
+    const page = renderTripPage({ template, tripId: 'photo-test', trip: { title: 'Photo test', image: 'images/logo.jpg' }, projectRoot: fixture, siteOrigin });
+    assert.match(page, /<picture><source data-responsive-avif type="image\/avif"[^>]*logo-960\.avif 960w/);
+    assert.match(page, /id="galleryMainImg"[^>]*src="images\/optimized\/logo-960\.webp"[^>]*loading="eager" fetchpriority="high">/);
+});
+
 test('rejects unsafe trip routes and non-local social images', () => {
     for (const tripId of [
         '',
