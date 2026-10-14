@@ -6,7 +6,7 @@ const {readTripsData,renderTripPage,readSiteOrigin}=require('./generate-trip-pag
 const root=path.resolve(__dirname,'..'),trips=readTripsData(root);
 const id=Object.keys(trips).find(id=>/sakleshpur/i.test(trips[id].title))||Object.keys(trips)[0];
 const trip=trips[id],template=fs.readFileSync(path.join(root,'trip-detail.html'),'utf8');
-const baseline=cp.execFileSync('git',['show','HEAD:trip-detail.html'],{cwd:root,encoding:'utf8'});
+const baseline=cp.execFileSync('git',['show','c2b88bb825b5e5e03e5005f059475f1068579fce:trip-detail.html'],{cwd:root,encoding:'utf8'});
 const output=process.env.TOUR_REVIEW_DIR||path.join(root,'../tour-reviews');
 const first=trip.cardImage||trip.galleryImages?.[0]||trip.image;
 const second=(trip.galleryImages||[]).find(p=>p!==first)||trip.image;
