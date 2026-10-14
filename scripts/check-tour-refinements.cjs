@@ -75,8 +75,10 @@ const server=http.createServer((req,res)=>{
    await page.getByRole('button',{name:'Previous photo',exact:true}).focus();await page.keyboard.press('Enter');
    assert.match(await page.locator('.gallery-counter').textContent(),/^1 \/ /);
    if(width<768){
-    await page.locator('.gallery-main').dispatchEvent('touchstart',{touches:[{clientX:220,clientY:400}]});
-    await page.locator('.gallery-main').dispatchEvent('touchend',{changedTouches:[{clientX:120,clientY:400}]});
+    await page.locator('.gallery-main').evaluate(node=>{
+     node.dispatchEvent(new TouchEvent('touchstart',{bubbles:true,touches:[new Touch({identifier:0,target:node,clientX:220,clientY:400})]}));
+     node.dispatchEvent(new TouchEvent('touchend',{bubbles:true,changedTouches:[new Touch({identifier:0,target:node,clientX:120,clientY:400})]}));
+    });
     assert.match(await page.locator('.gallery-counter').textContent(),/^2 \/ /);
     await page.locator('#galleryMainImg').dispatchEvent('click');
     assert.equal(await page.locator('#galleryLightbox').isVisible(),false,'Swipe must not open the lightbox');
