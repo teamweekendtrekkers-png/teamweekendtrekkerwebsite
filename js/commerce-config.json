@@ -1,17 +1,31 @@
 {
-  "version": 1,
+  "version": 2,
   "payment": {
-    "upiId": "",
-    "receiverName": "",
-    "showReceiverName": false,
+    "upiId": "9538236581@ybl",
+    "receiverName": "Raja Shekara",
+    "showReceiverName": true,
     "showRazorpay": false,
     "mode": "direct",
-    "directDepartures": [
+    "checkoutVersion": 2,
+    "requestTripIds": [],
+    "activeProfileId": "primary",
+    "profiles": [
       {
-        "tripId": "kannur-theyyam",
-        "dateKey": "2026-10-30/2026-11-01"
+        "id": "primary",
+        "label": "Primary account",
+        "upiId": "9538236581@ybl",
+        "receiverName": "Raja Shekara",
+        "qrImage": "images/trips/payment_qr_1792056835095.png"
+      },
+      {
+        "id": "backup",
+        "label": "Backup account",
+        "upiId": "8660573667-3@ybl",
+        "receiverName": "Giridhar S",
+        "qrImage": "images/trips/payment_qr_1792107947225.jpg"
       }
     ],
+    "directDepartures": [],
     "showQr": true,
     "qrImage": "images/trips/payment_qr_1792056835095.png",
     "instructions": ""
@@ -23,7 +37,7 @@
       "type": "fixed",
       "value": 5998,
       "maxDiscount": null,
-      "enabled": true,
+      "enabled": false,
       "startsAt": null,
       "expiresAt": null,
       "tripIds": [
