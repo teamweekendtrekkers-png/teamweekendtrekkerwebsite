@@ -11,8 +11,8 @@
     
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
-    <link rel="stylesheet" href="css/design-refresh.css?v=4">
-<link rel="stylesheet" href="css/payment-options.css?v=1">
+    <link rel="stylesheet" href="css/design-refresh.css?v=5">
+<link rel="stylesheet" href="css/payment-options.css?v=2">
 </head>
 <body class="checkout-page">
     <nav class="navbar">
@@ -105,19 +105,12 @@
                     <button id="editPaymentDetails" type="button" class="btn btn-secondary" hidden>Return to your details</button>
 <!-- Payment Options (hidden initially) -->
                     <div class="checkout-card" id="paymentSection" style="display: none;">
-                        <h2 id="paymentHeading">Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button></div><p class="payment-upi-value">UPI ID: <strong id="paymentUpiValue"></strong></p><p id="paymentFeedback" role="status"></p>
+                        <h2 id="paymentHeading">Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p>
                         
                         <p id="paymentInstructions" hidden></p>
-<div class="payment-amount-summary"><strong>Amount to pay: <span id="paymentDue"></span></strong><span>Remaining balance: <span id="paymentBalance"></span></span></div>
-<section id="paymentQrSection" hidden aria-labelledby="paymentQrTitle">
- <h3 id="paymentQrTitle">Scan to pay with UPI</h3>
- <img id="paymentQrImage" alt="UPI payment QR code" width="260" height="260"><a id="downloadPaymentQr" class="btn btn-secondary" download>Download QR</a>
- <p id="qrLoadFeedback" hidden role="status">The QR image could not load. Use Copy UPI ID instead.</p>
- <p>Scan from another device, or download this QR and choose the saved image in your payment app. You can also copy and paste the UPI ID. Enter the amount shown above and check the receiver before paying.</p>
-</section>
 <!-- Payment Type Selector -->
                         <div class="payment-type-selector">
-                            <h3>💰 Choose Payment Type</h3>
+                            <h3>Choose payment amount</h3>
                             <div class="payment-type-options">
                                 <label class="payment-type-option">
                                     <input type="radio" name="paymentType" value="half" checked onchange="updatePaymentAmount()">
@@ -145,6 +138,13 @@
                             </div>
                         </div>
                         
+<div class="payment-amount-summary"><strong>Amount to pay: <span id="paymentDue"></span></strong><span>Remaining balance: <span id="paymentBalance"></span></span></div>
+<section id="paymentQrSection" hidden aria-labelledby="paymentQrTitle">
+ <h3 id="paymentQrTitle">Scan to pay with UPI</h3>
+ <img id="paymentQrImage" alt="UPI payment QR code" width="260" height="260"><a id="downloadPaymentQr" class="btn btn-secondary" download>Download QR</a>
+ <p id="qrLoadFeedback" hidden role="status">The QR image could not load. Use Copy UPI ID instead.</p>
+ <p>Scan from another device, or download this QR and choose the saved image in your payment app. You can also copy and paste the UPI ID. Enter the amount shown above and check the receiver before paying.</p>
+</section><section aria-labelledby="copyPaymentTitle"><h3 id="copyPaymentTitle">Or copy the UPI ID</h3><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button></div><p class="payment-upi-value">UPI ID: <strong id="paymentUpiValue" data-show-upi></strong></p><p id="paymentFeedback" role="status" data-show-upi></p></section>
 <span id="upiAmount" hidden></span>
                         <section id="paymentReportSection" aria-labelledby="paymentReportHeading">
  <h3 id="paymentReportHeading">Already paid?</h3>

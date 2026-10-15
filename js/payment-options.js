@@ -17,7 +17,7 @@
     return {...p,...(profiles?{upiId:typeof selected.upiId==='string'&&/^[\w.-]+@[\w.-]+$/.test(selected.upiId)?selected.upiId:'',receiverName:String(selected.receiverName||'').trim(),qrImage:imagePath(selected.qrImage)}:{}),mode:modes.includes(p.mode)?p.mode:'confirmation',
       directDepartures:Array.isArray(p.directDepartures)?p.directDepartures.filter(d=>d&&typeof d.tripId==='string'&&typeof d.dateKey==='string'):[],
       showQr:p.showQr===true,qrImage:imagePath(selected.qrImage),
-      instructions:typeof p.instructions==='string'?p.instructions.trim().slice(0,500):''};
+      showRazorpay:false,instructions:typeof p.instructions==='string'?p.instructions.trim().slice(0,500):''};
   }
   function allowed(payment,tripId,dateKey){
     const p=normalize(payment);

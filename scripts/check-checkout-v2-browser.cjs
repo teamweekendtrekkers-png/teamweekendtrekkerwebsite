@@ -27,6 +27,10 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     try{
      let body=fs.readFileSync(file);
      if(url.pathname==='/js/trips-data.js')body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00'};`;
+     if(url.pathname==='/js/security.js'){
+       const upi='first@upi';let checksum=0;for(const c of upi)checksum=((checksum<<5)-checksum+c.charCodeAt(0))|0;
+       body=body.toString().replace(/_p1:\s*\[[^\]]+\]/,'_p1: [102,105,114,115,116]').replace(/_p3:\s*\[[^\]]+\]/,'_p3: [117,112,105]').replace(/_checksum:\s*-?\d+/,'_checksum: '+checksum);
+     }
      return route.fulfill({contentType:({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'})[path.extname(file)]||'application/octet-stream',body});
     }catch{return route.fulfill({status:404,body:''});}
    });
@@ -44,6 +48,9 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.locator('#couponEntry summary').click();await page.fill('#couponCode','SAVE100');await page.click('#applyCoupon');await page.waitForFunction(()=>window.bookingData.total===8898);
    await page.click('#submitDetailsBtn');await page.waitForSelector('#paymentSection',{state:'visible'});
    assert.equal(posts.length,0);assert.match(await page.textContent('#paymentDue'),/4,449/);
+   await page.waitForTimeout(2200); // The legacy masking timer must leave this explicitly visible ID readable.
+   assert.equal(await page.textContent('#paymentUpiValue'),'first@upi');
+   await page.screenshot({path:path.join(output,`checkout-v2-payment-${width}.png`),fullPage:true});
    await page.click('#copyPaymentUpi');assert.equal(await page.evaluate(()=>window.copiedUpi),'first@upi');
    p.activeProfileId='backup';await page.evaluate(()=>window.refreshCheckoutCommerce());
    assert.equal(await page.textContent('#paymentUpiValue'),'second@upi');assert.equal(await page.textContent('#receiverName'),'Second receiver');assert.match(await page.getAttribute('#paymentQrImage','src'),/backup-qr.png/);assert.match(await page.getAttribute('#downloadPaymentQr','href'),/backup-qr.png/);

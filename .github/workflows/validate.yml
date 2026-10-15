@@ -181,6 +181,8 @@ jobs:
       run: npx playwright install --with-deps chromium
 
     - name: Test customer checkout and gallery
+      env:
+        PAYMENT_REVIEW_DIR: ${{ github.workspace }}/build/payment-reviews
       run: |
         npm run test:payment
         npm run test:checkout
@@ -190,7 +192,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: checkout-review
-        path: ../payment-reviews/*.png
+        path: build/payment-reviews/*.png
         if-no-files-found: warn
 
   # Job 5: HTML Validation

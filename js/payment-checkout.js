@@ -35,14 +35,16 @@
     selectionReady=true;
     if(!allowed.includes(mode()))radios.find(r=>r.value===allowed[0]).checked=true;
     for(const r of radios){r.disabled=started||!allowed.includes(r.value);r.closest('label').hidden=!allowed.includes(r.value);}
-    el('paymentModeNotice').textContent=allowed.includes('direct')?'Choose how you would like to proceed. UPI payments are verified manually by our team.':'For this departure, our team confirms availability and the amount before payment.';
+    el('paymentModeNotice').textContent=allowed.includes('direct')?'Pay by scanning the QR or copying the UPI ID. Our team verifies payments manually.':'For this departure, our team confirms availability and the amount before payment.';
     if(started&&previous==='direct'&&!allowed.includes('direct')&&!reported){
       el('paymentSection').style.display='none';el('bookingIssue').hidden=false;
       el('bookingIssue').textContent='Direct payment is no longer offered for this departure. Return to your details to send a booking request.';
       el('editPaymentDetails').hidden=false;
     }
     const direct=mode()==='direct';
-    if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to direct payment':'Send Booking Request';
+    document.querySelector('.summary-note p').textContent=direct?'Pay using the QR or UPI ID, then submit your transaction ID. Our team verifies payment and availability.':'Submit your request. Our team will confirm availability before you pay.';
+    if(!started)el('requestStatus').textContent=direct?'Payment verification after submission':'Availability checked after submission';
+    if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to payment':'Send Booking Request';
     document.querySelector('.submit-note').textContent=direct?'Your place is confirmed after our team verifies payment and availability.':'Our team will confirm availability before you pay.';
     el('paymentHeading').textContent=reported?'Payment verification pending':direct?'Pay directly via UPI':'Pay after availability is confirmed';
     const reminder=reported?'Your transaction details were submitted. Share your receipt on WhatsApp. Please wait for our team to verify payment and availability.':direct?'After paying, submit your transaction ID below. Our team must verify payment and availability before confirming your place.':'Please wait for our team to confirm availability and your payable amount before paying.';

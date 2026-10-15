@@ -3,7 +3,7 @@
   "payment": {
     "upiId": "9538236581@ybl",
     "receiverName": "",
-    "showReceiverName": false,
+    "showReceiverName": true,
     "showRazorpay": false,
     "mode": "direct",
     "directDepartures": [

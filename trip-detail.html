@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
-    <link rel="stylesheet" href="css/design-refresh.css?v=4">
+    <link rel="stylesheet" href="css/design-refresh.css?v=5">
 <link rel="stylesheet" href="css/tour-refinements.css?v=2">
 </head>
 <body>
@@ -943,6 +943,7 @@
 
         function openLightbox(index) {
             const lightbox = document.getElementById('galleryLightbox');
+            if (lightbox.classList.contains('active')) return;
             const lightboxImg = document.getElementById('lightboxImage');
             const counter = document.getElementById('imageCounter');
             
