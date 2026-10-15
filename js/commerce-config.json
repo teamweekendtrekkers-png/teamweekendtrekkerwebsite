@@ -6,7 +6,12 @@
     "showReceiverName": false,
     "showRazorpay": false,
     "mode": "direct",
-    "directDepartures": [],
+    "directDepartures": [
+      {
+        "tripId": "kannur-theyyam",
+        "dateKey": "2026-10-30/2026-11-01"
+      }
+    ],
     "showQr": true,
     "qrImage": "images/trips/payment_qr_1792055713113.png",
     "instructions": ""
