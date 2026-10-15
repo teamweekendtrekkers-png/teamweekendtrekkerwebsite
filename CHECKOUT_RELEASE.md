@@ -19,6 +19,8 @@ customer-reported and never confirms money received or seat availability.
    Preview & Publish. Only one profile is displayed. There is no account-history
    tracking. The existing QR and UPI ID are migrated to the primary profile; the
    backup is left empty until the manager configures it.
+   The commerce document uses version 2 so older manager releases refuse to edit
+   it rather than changing only half of a saved QR/UPI profile.
 4. In the same screen, choose the trips that may offer Request availability before
    paying. Payment stays selected first. An empty list means every trip uses the
    payment flow only.
