@@ -60,7 +60,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Nov - Apr",
         duration: "2D/1N",
-        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026", "Dec 18-20, 2026", "Dec 25-27, 2026", "Jan 1-3, 2027"],
+        availableDates: ["Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026"],
         about: "Step into the mystical world of Theyyam, where ancient rituals, powerful drumbeats and vibrant traditions come alive! \uD83D\uDD25\n\nJourney through Kannur & Thalassery to witness sacred Theyyam performances, explore historic forts, soak in beautiful coastal sunsets and savour authentic Malabar flavours.\n\nFrom fascinating cultural experiences to unforgettable moments with fellow travellers, this is no ordinary weekend getaway!\n\n✨ One Weekend. Ancient Traditions. Unforgettable Memories!",
         highlights: ["\uD83D\uDD25 Experience the magical Theyyam performance & receive divine blessings", "\uD83D\uDE4F Visit the famous Parassinikadavu Sri Muthappan Temple", "\uD83C\uDF5B Taste the unique Muthappan Temple prasadam & traditional temple lunch", "\uD83C\uDFF0 Explore the historic St. Angelo Fort", "\uD83C\uDF0A Climb the Kannur Lighthouse for stunning Arabian Sea views", "\uD83C\uDFAD Learn the history of Theyyam at the Folk Art Museum", "\uD83C\uDF05 Watch a breathtaking sunset at Payyambalam Beach", "\uD83C\uDFA8 Walk through the colourful Graffiti Street"],
         itinerary: [
