@@ -79,7 +79,7 @@ const tripsData = {
             {name: "Kengeri ", landmark: "Kengeri Bus Terminal Metro Station (11:10)", time: "11:10 PM - 11:15 PM", mapLink: "https://maps.app.goo.gl/QmLRb8tPn64LFSu2A"},
         ],
         galleryImages: ["images/gallery/kannur-theyyam/img_1769058552320.jpg", "images/gallery/kannur-theyyam/img_1769058554371.jpg", "images/gallery/kannur-theyyam/img_1769058558645.jpg", "images/gallery/kannur-theyyam/img_1769058560888.jpg", "images/gallery/kannur-theyyam/img_1769058563106.jpg", "images/gallery/kannur-theyyam/img_1769058564943.jpg", "images/gallery/kannur-theyyam/img_1769058571700.jpg", "images/gallery/kannur-theyyam/img_1769058576005.jpg", "images/gallery/kannur-theyyam/img_1769058579360.jpg", "images/gallery/kannur-theyyam/img_1769058664165.png", "images/gallery/kannur-theyyam/img_1769058667305.jpg", "images/gallery/kannur-theyyam/img_1769058669703.jpg"],
-        groupSize: "12-20 members",
+        groupSize: "12-25 members",
         isActive: true,
     },
     wayanad: {
