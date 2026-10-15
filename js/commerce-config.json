@@ -3,8 +3,13 @@
   "payment": {
     "upiId": "",
     "receiverName": "",
-    "showReceiverName": true,
-    "showRazorpay": false
+    "showReceiverName": false,
+    "showRazorpay": false,
+    "mode": "direct",
+    "directDepartures": [],
+    "showQr": true,
+    "qrImage": "images/trips/payment_qr_1792055713113.png",
+    "instructions": ""
   },
   "showCoupons": true,
   "coupons": []
