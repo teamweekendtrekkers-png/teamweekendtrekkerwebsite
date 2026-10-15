@@ -35,7 +35,7 @@
     function filterTrips(trips, state, referenceDate) {
         const query = String(state.query || '').trim().toLocaleLowerCase();
         return trips.filter(trip => {
-            if (!state.showComingSoon && trip.isActive === false) return false;
+            if (!state.showComingSoon && (trip.isActive === false || !dates.getUpcomingDateRanges(trip, referenceDate).length)) return false;
             if (state.category && state.category !== 'all' && category(trip) !== state.category) return false;
             if (state.experience && state.experience !== 'all' && experience(trip) !== state.experience) return false;
             if (state.departure && !dates.getUpcomingDateRanges(trip, referenceDate).some(range => range.key === state.departure)) return false;

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "payment": {
-    "upiId": "",
+    "upiId": "9538236581@ybl",
     "receiverName": "",
     "showReceiverName": false,
     "showRazorpay": false,
@@ -14,7 +14,26 @@
     ],
     "showQr": true,
     "qrImage": "images/trips/payment_qr_1792056835095.png",
-    "instructions": ""
+    "instructions": "",
+    "checkoutVersion": 2,
+    "requestTripIds": [],
+    "profiles": [
+      {
+        "id": "primary",
+        "label": "Primary account",
+        "upiId": "9538236581@ybl",
+        "receiverName": "",
+        "qrImage": "images/trips/payment_qr_1792056835095.png"
+      },
+      {
+        "id": "backup",
+        "label": "Backup account",
+        "upiId": "",
+        "receiverName": "",
+        "qrImage": ""
+      }
+    ],
+    "activeProfileId": "primary"
   },
   "showCoupons": true,
   "coupons": [

@@ -22,7 +22,7 @@
   byId('hiddenTotal').value=data.total;
   updatePaymentAmount();
  }
- function upiId(){return config?.payment.upiId||window.TravelSecurity?.getUPI?.()||'';}
+ function upiId(){return config?.payment.upiId||(Array.isArray(config?.payment.profiles)?'':window.TravelSecurity?.getUPI?.()||'');}
  function helpLinks(){
   const data=window.bookingData;
   const href='https://wa.me/917019235581?text='+encodeURIComponent(`Hi! I would like to check availability or trip details for ${data.trip}, ${data.date}, ${data.people} traveller(s).`);
@@ -45,11 +45,15 @@
  function invalidRequest(){
   byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='This departure is no longer accepting requests. Please choose another date.';
   byId('submitDetailsBtn').disabled=true;byId('paymentSection').style.display='none';
+  byId('paymentModeNotice').textContent='This departure is unavailable. Choose another available date to continue.';
+  document.querySelectorAll('input[name="bookingPaymentMode"]').forEach(r=>r.disabled=true);
  }
  document.addEventListener('DOMContentLoaded',async()=>{
   const submit=byId('submitDetailsBtn');submit.disabled=true;
   const trip=currentTrip();
-  if(!trip||!dateValid()){invalidRequest();return;}
+  window.installBookingChange?.({currentTrip,refresh,helpLinks,invalidRequest});
+  if(!trip){invalidRequest();return;}
+  if(!dateValid())invalidRequest();
   const summary=document.querySelector('.summary-card');
   summary.querySelector('h3').textContent='Your Weekend Plan';
   document.querySelector('.summary-trip-info p').textContent=trip.location||'';
@@ -58,7 +62,7 @@
   const label=document.createElement('summary');label.textContent='Price breakdown · '+trip.price+' / person';breakdown.append(label);
   const priceRow=document.querySelector('.summary-details .summary-row:nth-child(3)'),subtotalRow=byId('summarySubtotal').closest('.summary-row');priceRow.before(breakdown);breakdown.append(priceRow,subtotalRow,byId('couponSavingsRow'));
   byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
-  byId('changeBooking').href=TripLinks.departureUrl(getTripFromURL(),getDateFromURL())+'&people='+window.bookingData.people;
+
   const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
   const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
   [anchor,byId('participants').closest('.form-group'),byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
@@ -85,14 +89,12 @@
    finally{busy=false;if(dateValid()&&byId('checkoutForm').style.display!=='none')submit.disabled=false;}
   };
   byId('copyPaymentUpi').addEventListener('click',async()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}try{await navigator.clipboard.writeText(value);byId('paymentFeedback').textContent=window.paymentCopyMessage?.()||'UPI ID copied. Pay only after availability is confirmed.';}catch{byId('paymentFeedback').textContent='UPI ID: '+value;}});
-  byId('openPaymentUpi').addEventListener('click',()=>window.beginUpiPayment?.());
   const originalSuccess=window.showPaymentSection;
   window.showPaymentSection=()=>{originalSuccess();window.legacyPaymentAccepted=!window.bookingData.bookingReference;if(window.renderPaymentResult)window.renderPaymentResult();else byId('requestStatus').textContent='Availability confirmation pending';const dialog=byId('requestReceived');if(!dialog.open)dialog.showModal();helpLinks();};
   byId('popupCopyUpi').addEventListener('click',async()=>{byId('copyPaymentUpi').click();const value=upiId();byId('popupPaymentFeedback').textContent=value?'UPI ID: '+value+'. '+(window.paymentCopyMessage?.()||'Pay after team confirmation.'):'Ask our team for the current UPI ID.';});
-  byId('popupOpenUpi').addEventListener('click',()=>byId('openPaymentUpi').click());
   byId('closeRequestPopup').addEventListener('click',()=>byId('requestReceived').close());
-  try{await refresh();helpLinks();submit.disabled=false;}
-  catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Booking settings could not be loaded. Reload this page or ask us on WhatsApp.';}
+  try{await refresh();helpLinks();if(dateValid())submit.disabled=false;else invalidRequest();}
+  catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Booking settings could not be loaded. Reload this page or ask us on WhatsApp.';byId('paymentModeNotice').textContent='Payment options could not be loaded. Please reload or contact our team.';}
   setInterval(()=>{if(!dateValid())invalidRequest();},30000);
   window.addEventListener('pageshow',()=>{if(!dateValid())invalidRequest();});
  });

@@ -20,7 +20,7 @@ function buildCatalog(root) {
     const price = Number(String(trip.price).replace(/[^\d.]/g, ''));
     if (!Number.isFinite(price) || price < 0) throw new Error('Invalid price for ' + id);
     trips[id] = {title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
-      departures: (trip.availableDates || []).map(label => {
+      departures: (trip.availableDates || []).filter(label => !(trip.closedDepartures || []).includes(dates.parseTripDateRange(label)?.key)).map(label => {
         const range = dates.parseTripDateRange(label);
         if (!range) throw new Error('Invalid departure for ' + id + ': ' + label);
         return {label, date: range.startKey, dateKey: range.key, cutoff: dates.bookingCutoff(trip, range).toISOString()};
