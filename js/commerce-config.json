@@ -17,5 +17,18 @@
     "instructions": ""
   },
   "showCoupons": true,
-  "coupons": []
+  "coupons": [
+    {
+      "code": "GIRI",
+      "type": "fixed",
+      "value": 5998,
+      "maxDiscount": null,
+      "enabled": true,
+      "startsAt": null,
+      "expiresAt": null,
+      "tripIds": [
+        "kannur-theyyam"
+      ]
+    }
+  ]
 }
