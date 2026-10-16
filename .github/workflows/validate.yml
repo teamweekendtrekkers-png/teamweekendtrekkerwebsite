@@ -186,6 +186,15 @@ jobs:
       run: |
         npm run test:payment
         npm run test:checkout
+        node scripts/check-trip-brochure-browser.cjs
+
+    - name: Save brochure review pages
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: brochure-review
+        path: build/brochure-review/
+        if-no-files-found: warn
 
     - name: Save checkout review screenshots
       if: always()
@@ -550,3 +559,6 @@ jobs:
         echo "🚀 Website deployed successfully!"
         echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "================================================"
+
+
+
