@@ -86,6 +86,6 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.matches('.gallery-main')),true);assert.equal(await page.locator('nav.navbar').evaluate(n=>n.inert),false);
    assert.deepEqual(errors,[]);await page.close();
   }
-  console.log('PASS: v2 payment default, selected request path, profile switch, copy/download, date/traveller edits, totals/coupons, payment reporting, expired/closed recovery, banner contrast and gallery focus at 390/1440px. All payment POSTs mocked.');
+  console.log('PASS: custom trip sections, compact checkout, v2 payment default, selected requests, profile switching, copy/download, date edits, totals/coupons, payment reports, expired/closed recovery, contrast and gallery focus at 360/390/1440px. All payment POSTs mocked.');
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

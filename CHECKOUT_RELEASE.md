@@ -61,8 +61,6 @@ allow selecting another available departure. Banner headings are white; the
 gallery traps focus, labels controls and restores focus; Show coming soon includes
 inactive trips and active trips without bookable dates.
 
-## Verification
-
 ## Extra trip sections and compact checkout
 
 In Trip Manager, open a trip's Website sections and choose Add section to create
@@ -76,6 +74,8 @@ Mobile checkout uses tighter cards and form spacing, with optional help inside
 an expandable panel. Primary controls retain at least 44px touch targets. The
 website uses soft brand-colour accents with dark readable text and white QR
 backgrounds. Updated asset versions refresh returning browsers.
+
+## Verification
 
 Run `node --test tests/*.test.js`, then
 `node scripts/check-payment-browser.cjs` and
