@@ -177,6 +177,24 @@ jobs:
     - name: Test Trip Date Utilities
       run: node --test tests/*.test.js
 
+    - name: Install checkout test browser
+      run: npx playwright install --with-deps chromium
+
+    - name: Test customer checkout and gallery
+      env:
+        PAYMENT_REVIEW_DIR: ${{ github.workspace }}/build/payment-reviews
+      run: |
+        npm run test:payment
+        npm run test:checkout
+
+    - name: Save checkout review screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: checkout-review
+        path: build/payment-reviews/*.png
+        if-no-files-found: warn
+
   # Job 5: HTML Validation
   html-validation:
     runs-on: ubuntu-latest
@@ -532,5 +550,3 @@ jobs:
         echo "🚀 Website deployed successfully!"
         echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "================================================"
-
-

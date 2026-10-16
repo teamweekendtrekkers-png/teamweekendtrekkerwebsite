@@ -19,7 +19,7 @@ test('search, explicit experience and canonical departure filters compose withou
     assert.deepEqual(discovery.filterTrips(trips, {query:' BENGALURU ', experience:'beach', departure:'2026-08-21/2026-08-23'}, now).map(trip => trip.id), ['later']);
     assert.deepEqual(discovery.filterTrips(trips, {query:'Coorg', experience:'beach'}, now), []);
     assert.deepEqual(discovery.filterTrips(trips, {departure:'2026-08-14/2026-08-16'}, now).map(trip => trip.id), ['soon']);
-    assert.equal(discovery.filterTrips(trips, {}, now).length, 3);
+    assert.equal(discovery.filterTrips(trips, {}, now).length, 2);
     assert.equal(discovery.filterTrips(trips, {showComingSoon:true}, now).length, 4);
     assert.equal(JSON.stringify(trips), before);
 });

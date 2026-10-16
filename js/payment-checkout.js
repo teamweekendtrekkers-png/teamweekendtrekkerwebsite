@@ -2,7 +2,7 @@
   'use strict';
   const el=id=>document.getElementById(id);
   const money=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
-  let config=null,started=false,reported=false,saving=false;
+  let config=null,started=false,reported=false,saving=false,selectionReady=false;
   const mode=()=>document.querySelector('input[name="bookingPaymentMode"]:checked')?.value||'confirmation';
   window.paymentCopyMessage=()=>mode()==='direct'?'UPI ID copied. Submit your transaction ID after paying; verification remains pending.':'UPI ID copied. Pay only after our team confirms availability and the amount.';
   function dateKey(){return TripDateUtils.parseTripDateRange(getDateFromURL())?.key||'';}
@@ -31,16 +31,20 @@
     const p=PaymentOptions.normalize(config.payment),allowed=PaymentOptions.allowed(p,getTripFromURL(),dateKey());
     const radios=[...document.querySelectorAll('input[name="bookingPaymentMode"]')];
     const previous=mode();
-    if(!allowed.includes(previous))radios.find(r=>r.value===allowed[0]).checked=true;
+    if(!started&&!selectionReady){radios.find(r=>r.value===allowed[0]).checked=true;}
+    selectionReady=true;
+    if(!allowed.includes(mode()))radios.find(r=>r.value===allowed[0]).checked=true;
     for(const r of radios){r.disabled=started||!allowed.includes(r.value);r.closest('label').hidden=!allowed.includes(r.value);}
-    el('paymentModeNotice').textContent=allowed.includes('direct')?'Choose how you would like to proceed. UPI payments are verified manually by our team.':'For this departure, our team confirms availability and the amount before payment.';
+    el('paymentModeNotice').textContent=allowed.includes('direct')?'Pay by scanning the QR or copying the UPI ID. Our team verifies payments manually.':'For this departure, our team confirms availability and the amount before payment.';
     if(started&&previous==='direct'&&!allowed.includes('direct')&&!reported){
       el('paymentSection').style.display='none';el('bookingIssue').hidden=false;
       el('bookingIssue').textContent='Direct payment is no longer offered for this departure. Return to your details to send a booking request.';
       el('editPaymentDetails').hidden=false;
     }
     const direct=mode()==='direct';
-    if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to direct payment':'Send Booking Request';
+    document.querySelector('.summary-note p').textContent=direct?'Pay using the QR or UPI ID, then submit your transaction ID. Our team verifies payment and availability.':'Submit your request. Our team will confirm availability before you pay.';
+    if(!started)el('requestStatus').textContent=direct?'Payment verification after submission':'Availability checked after submission';
+    if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to payment':'Send Booking Request';
     document.querySelector('.submit-note').textContent=direct?'Your place is confirmed after our team verifies payment and availability.':'Our team will confirm availability before you pay.';
     el('paymentHeading').textContent=reported?'Payment verification pending':direct?'Pay directly via UPI':'Pay after availability is confirmed';
     const reminder=reported?'Your transaction details were submitted. Share your receipt on WhatsApp. Please wait for our team to verify payment and availability.':direct?'After paying, submit your transaction ID below. Our team must verify payment and availability before confirming your place.':'Please wait for our team to confirm availability and your payable amount before paying.';
@@ -56,8 +60,19 @@
       el('qrLoadFeedback').hidden=true;el('paymentQrImage').hidden=false;el('paymentQrImage').src=p.qrImage;
     }
     el('paymentReportSection').hidden=reported;
-    document.querySelectorAll('#paymentSection .upi-buttons,#paymentSection .payment-type-selector,#requestReceived #popupCopyUpi,#requestReceived #popupOpenUpi').forEach(n=>n.hidden=reported);
-    el('upiPayBtn').disabled=reported;
+    document.querySelectorAll('#paymentSection .upi-buttons,#paymentSection .payment-type-selector,#requestReceived #popupCopyUpi').forEach(n=>n.hidden=reported);
+    const upi=p.upiId||(Array.isArray(p.profiles)?'':window.TravelSecurity?.getUPI?.()||'');
+    el('paymentUpiValue').textContent=upi||'Ask our team for the current UPI ID.';
+    el('receiverName').textContent=p.receiverName||'';
+    el('receiverLine').hidden=!p.receiverName;
+    el('copyPaymentUpi').disabled=!upi;
+    el('downloadPaymentQr').href=p.qrImage||'#';
+    el('downloadPaymentQr').hidden=!(p.showQr&&p.qrImage);
+    el('downloadPaymentQr').download='payment-qr.'+(p.qrImage.split('.').pop()||'png');
+    el('changeBooking').disabled=reported||!!window.bookingData.bookingReference;
+    const usable=!!upi||!!(p.showQr&&p.qrImage);
+    el('reportPaymentBtn').disabled=reported||!usable;
+    if(!usable)el('paymentFeedback').textContent='Payment details are unavailable. Please contact our team before paying.';
     el('reportPaymentBtn').textContent=direct?'Submit payment details for verification':'I’ve paid — share details on WhatsApp';
     el('paymentScreenshotLink').href=contactLink(true);
     el('paymentScreenshotLink').hidden=!reported;
@@ -94,15 +109,6 @@
     if(intended==='direct'&&(mode()!=='direct'||!PaymentOptions.allowed(config.payment,getTripFromURL(),dateKey()).includes('direct'))){el('paymentFeedback').textContent='Direct payment is no longer offered. Contact our team before paying.';return false;}
     return true;
   }
-  window.beginUpiPayment=async function(){
-    if(!await beforePayment())return;
-    const upi=config.payment.upiId||window.TravelSecurity?.getUPI?.()||'';
-    if(!upi){el('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}
-    const q=new URLSearchParams({pa:upi,pn:config.payment.receiverName||'Team Weekend Trekkers',am:amount().due.toFixed(2),cu:'INR',tn:('Trip: '+window.bookingData.trip).slice(0,80)});
-    el('paymentFeedback').textContent=mode()==='direct'?'UPI app opened. After paying, submit your transaction ID. Payment is not verified yet.':'Pay only after our team confirms availability and this amount.';
-    const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-    window.location.href=(ios?'phonepe://pay?':'upi://pay?')+q.toString();
-  };
   document.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('input[name="bookingPaymentMode"],input[name="paymentType"]').forEach(r=>r.addEventListener('change',render));
     el('paymentQrImage').addEventListener('error',()=>{el('paymentQrImage').hidden=true;el('qrLoadFeedback').hidden=false;});
@@ -128,6 +134,13 @@
         }else{el('paymentReportFeedback').textContent='Your payment report was not saved. Retry or share your transaction ID on WhatsApp.';el('paymentScreenshotLink').hidden=false;}
       }finally{saving=false;el('reportPaymentBtn').disabled=reported;}
     });
-    el('upiPayBtn').removeAttribute('onclick');el('upiPayBtn').addEventListener('click',window.beginUpiPayment);
+    window.resetPaymentForBookingChange=()=>{
+      if(reported||saving||window.bookingData.bookingReference)return false;
+      started=false;window.bookingData.paymentReport=null;
+      el('transactionReference').value='';el('paymentSent').checked=false;
+      el('checkoutForm').style.display='block';el('submitSuccess').style.display='none';
+      el('paymentSection').style.display='none';el('editPaymentDetails').hidden=true;
+      return true;
+    };
   });
 }());

@@ -11,13 +11,19 @@
   }
   function normalize(value){
     const p=value&&typeof value==='object'?value:{};
-    return {...p,mode:modes.includes(p.mode)?p.mode:'confirmation',
+    const profiles=Array.isArray(p.profiles)?p.profiles.slice(0,2):null;
+    const active=profiles?.find(a=>a&&a.id===p.activeProfileId);
+    const selected=profiles?(active||{}):p;
+    return {...p,...(profiles?{upiId:typeof selected.upiId==='string'&&/^[\w.-]+@[\w.-]+$/.test(selected.upiId)?selected.upiId:'',receiverName:String(selected.receiverName||'').trim(),qrImage:imagePath(selected.qrImage)}:{}),mode:modes.includes(p.mode)?p.mode:'confirmation',
       directDepartures:Array.isArray(p.directDepartures)?p.directDepartures.filter(d=>d&&typeof d.tripId==='string'&&typeof d.dateKey==='string'):[],
-      showQr:p.showQr===true,qrImage:imagePath(p.qrImage),
-      instructions:typeof p.instructions==='string'?p.instructions.trim().slice(0,500):''};
+      showQr:p.showQr===true,qrImage:imagePath(selected.qrImage),
+      showRazorpay:false,instructions:typeof p.instructions==='string'?p.instructions.trim().slice(0,500):''};
   }
   function allowed(payment,tripId,dateKey){
     const p=normalize(payment);
+    if(p.checkoutVersion===2){
+      return Array.isArray(p.requestTripIds)&&p.requestTripIds.includes(tripId)?['direct','confirmation']:['direct'];
+    }
     const approved=p.directDepartures.some(d=>d.tripId===tripId&&d.dateKey===dateKey);
     if(!approved || p.mode==='confirmation')return ['confirmation'];
     return p.mode==='both'?['confirmation','direct']:['direct'];

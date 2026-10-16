@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
-    <link rel="stylesheet" href="css/design-refresh.css?v=4">
+    <link rel="stylesheet" href="css/design-refresh.css?v=5">
 <link rel="stylesheet" href="css/tour-refinements.css?v=2">
 </head>
 <body>
@@ -69,7 +69,7 @@
                 <a class="trip-dates-shortcut" href="#bookingCard">View dates &amp; prices <span aria-hidden="true">↓</span></a>
             </header>
             <div class="gallery-wrapper">
-                <div class="gallery-main" onclick="openLightbox(0)">
+                <div class="gallery-main" role="button" tabindex="0" aria-label="Open trip photo gallery" onclick="openLightbox(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLightbox(0)}">
                     <img alt="Trip Main Image" id="galleryMainImg">
                 </div>
 
@@ -133,10 +133,10 @@
     </section>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox-modal" id="galleryLightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <button class="lightbox-prev" onclick="changeImage(-1)">&#10094;</button>
-        <button class="lightbox-next" onclick="changeImage(1)">&#10095;</button>
+    <div class="lightbox-modal" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Trip photo gallery" tabindex="-1">
+        <button class="lightbox-close" type="button" aria-label="Close photo gallery" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" type="button" aria-label="Previous photo" onclick="changeImage(-1)">&#10094;</button>
+        <button class="lightbox-next" type="button" aria-label="Next photo" onclick="changeImage(1)">&#10095;</button>
         <div class="lightbox-content">
             <div class="lightbox-loader" id="lightboxLoader">
                 <div class="spinner"></div>
@@ -144,7 +144,7 @@
             </div>
             <img alt="Gallery Image" id="lightboxImage">
         </div>
-        <div class="lightbox-counter" id="imageCounter">1 / 6</div>
+        <div class="lightbox-counter" id="imageCounter" aria-live="polite">1 / 6</div>
     </div>
 
     <section class="trip-details">
@@ -924,6 +924,8 @@
         // Gallery Lightbox Functions
         let currentImageIndex = 0;
         let galleryImages = [];
+        let galleryOpener=null, galleryOverflow="";
+        const galleryInert=new Map();
 
         function showLoader() {
             const loader = document.getElementById('lightboxLoader');
@@ -941,9 +943,12 @@
 
         function openLightbox(index) {
             const lightbox = document.getElementById('galleryLightbox');
+            if (lightbox.classList.contains('active')) return;
             const lightboxImg = document.getElementById('lightboxImage');
             const counter = document.getElementById('imageCounter');
             
+            galleryOpener=document.activeElement;galleryOverflow=document.body.style.overflow;
+            for(const child of document.body.children){if(child!==lightbox&&!child.contains(lightbox)){galleryInert.set(child,child.inert);child.inert=true;}}
             currentImageIndex = index;
             // Use all gallery images stored globally (includes all 12+ images)
             galleryImages = window.allGalleryImages || Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
@@ -953,12 +958,15 @@
             counter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            lightbox.querySelector('.lightbox-close').focus();
         }
 
         function closeLightbox() {
             const lightbox = document.getElementById('galleryLightbox');
             lightbox.classList.remove('active');
-            document.body.style.overflow = '';
+            document.body.style.overflow = galleryOverflow;
+            for(const [node,value] of galleryInert)node.inert=value;galleryInert.clear();
+            if(galleryOpener?.isConnected)galleryOpener.focus();
             hideLoader();
         }
 
@@ -980,7 +988,13 @@
             const lightbox = document.getElementById('galleryLightbox');
             if (!lightbox || !lightbox.classList.contains('active')) return;
             
-            if (e.key === 'Escape') closeLightbox();
+            if(e.key==='Tab'){
+                const controls=[...lightbox.querySelectorAll('button:not([disabled]),[href],[tabindex="0"]')];
+                const first=controls[0],last=controls[controls.length-1];
+                if(e.shiftKey&&(document.activeElement===first||!lightbox.contains(document.activeElement))){e.preventDefault();last.focus();}
+                else if(!e.shiftKey&&(document.activeElement===last||!lightbox.contains(document.activeElement))){e.preventDefault();first.focus();}
+            }
+            if (e.key === 'Escape') {e.preventDefault();closeLightbox();}
             if (e.key === 'ArrowLeft') changeImage(-1);
             if (e.key === 'ArrowRight') changeImage(1);
         });
@@ -1019,4 +1033,3 @@
 <script src="js/tour-refinements.js?v=1"></script>
 </body>
 </html>
-

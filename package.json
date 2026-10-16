@@ -3,7 +3,12 @@
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.js",
+    "test:checkout": "node scripts/check-checkout-v2-browser.cjs",
+    "test:payment": "node scripts/check-payment-browser.cjs",
     "optimize-images": "node scripts/optimize-images.js"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
   },
   "dependencies": {
     "sharp": "0.35.5"

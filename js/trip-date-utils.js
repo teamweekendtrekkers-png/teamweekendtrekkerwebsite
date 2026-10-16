@@ -213,6 +213,7 @@
         return new Date(range.start.getTime() + (departureMinutes(trip) - 330) * 60000 + 86400000);
     }
     function getUpcomingDateRanges(trip, referenceDate) {
+        const closed=new Set(Array.isArray(trip?.closedDepartures)?trip.closedDepartures:[]);
         if (!trip || trip.isActive === false || !Array.isArray(trip.availableDates)) {
             return [];
         }
@@ -223,7 +224,7 @@
         return trip.availableDates
             .map(parseTripDateRange)
             .filter(dateRange => {
-                if (!dateRange || bookingCutoff(trip, dateRange).getTime() <= now || seen.has(dateRange.key)) {
+                if (!dateRange || closed.has(dateRange.key) || bookingCutoff(trip, dateRange).getTime() <= now || seen.has(dateRange.key)) {
                     return false;
                 }
                 seen.add(dateRange.key);

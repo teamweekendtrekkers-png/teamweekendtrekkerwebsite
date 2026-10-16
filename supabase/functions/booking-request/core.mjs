@@ -63,11 +63,14 @@ export function bookingFromCatalog(request,catalog,now=new Date()) {
   const report=paymentReport(request.special_requests);
   if(report){
     const p=catalog.payment||{};
-    if(!['direct','both'].includes(p.mode)||(p.directDepartures||[]).every(d=>d.tripId!==request.trip_id||d.dateKey!==departure.dateKey)){
+    if(p.checkoutVersion!==2 && (!['direct','both'].includes(p.mode)||(p.directDepartures||[]).every(d=>d.tripId!==request.trip_id||d.dateKey!==departure.dateKey))){
       throw new BookingError('direct_payment_unavailable',409);
     }
     const pennies=Math.round(total*100),due=report.type==='full'?pennies:Math.ceil(pennies/2);
     if(Math.abs(report.amount-due/100)>0.005)throw new BookingError('quote_changed',409);
+  }
+  if(!report && catalog.payment?.checkoutVersion===2 && !(catalog.payment.requestTripIds||[]).includes(request.trip_id)){
+    throw new BookingError('booking_request_unavailable',409);
   }
   const {expected_total,...fields}=request;
   return {...fields,trip_name:trip.title,departure_date:departure.date,price_per_person:trip.price,subtotal,discount_amount:discount};

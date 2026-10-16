@@ -37,7 +37,15 @@ const server=http.createServer((req,res)=>{
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({accepted:true,booking_reference:'TWT-LOCAL-DEMO'})});
     }
     if(!request.url().startsWith(origin))return route.abort();
-    return route.continue();
+    // Fulfil local assets directly so the check also works in network-isolated runners.
+    const file=path.resolve(root,'.'+new URL(request.url()).pathname);
+    if(!file.startsWith(root+path.sep))return route.abort();
+    if(file===path.join(root,'js/commerce-config.json'))return route.fulfill({contentType:'application/json',body:JSON.stringify(commerce)});
+    try{
+      let body=fs.readFileSync(file);
+      if(file===path.join(root,'js/trips-data.js'))body=body.toString()+`\ntripsData.demo={title:'Demo weekend trip',price:'₹4,499',location:'Karnataka',isActive:true,availableDates:[${JSON.stringify(date)}],image:'images/logo.jpg',duration:'2 days',departureTime:'22:00'};`;
+      return route.fulfill({contentType:({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'})[path.extname(file)]||'application/octet-stream',body});
+    }catch{return route.fulfill({status:404,body:''});}
    });
    const open=async()=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(date)+'&people=1');await page.waitForFunction(()=>!document.getElementById('submitDetailsBtn').disabled);};
    const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
