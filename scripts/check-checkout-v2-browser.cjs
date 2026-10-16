@@ -67,6 +67,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.screenshot({path:path.join(output,`checkout-v2-received-${width}.png`)});
    // An explicitly selected trip offers the secondary request path, with payment still selected first.
    p.requestTripIds=['demo'];await open();await fill();assert.equal(await page.locator('input[value="direct"][name="bookingPaymentMode"]').isChecked(),true);
+   assert.ok((await page.locator('.payment-mode-selector label').first().boundingBox()).height>=44,'Payment choices keep accessible touch targets');
    await page.check('input[value="confirmation"][name="bookingPaymentMode"]');await page.click('#submitDetailsBtn');await page.waitForSelector('#requestReceived[open]');assert.equal(posts.length,2);assert.equal(posts[1].special_requests,'');
    // Expired and manually closed dates show a final state and can recover without leaving checkout.
    await open('Oct 1-3, 2026');assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);assert.match(await page.textContent('#paymentModeNotice'),/unavailable/);
