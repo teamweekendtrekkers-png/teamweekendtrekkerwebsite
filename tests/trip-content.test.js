@@ -1,5 +1,13 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
 const content=require('../js/trip-content');const config=JSON.parse(fs.readFileSync(path.join(__dirname,'./fixtures/trip-content-config.json')));
+test('extra sections are independent of highlights, ordered, hidden and escaped safely',()=>{
+ const trip={highlights:['Original highlight'],contentSections:{custom_why:{mode:'custom',heading:'Why choose us <now>',expanded:true,items:[{title:'<Local hosts>',description:'Support & care\nThroughout the journey',icon:'group'},{description:'Hidden detail',enabled:false}]},custom_approach:{mode:'custom',heading:'Our approach',expanded:false,items:[]},custom_hidden:{mode:'hidden',heading:'Private',items:[]}}};
+ assert.deepEqual(content.extraSections(trip).map(s=>s.key),['custom_why','custom_approach']);
+ assert.deepEqual(content.section(trip,config,'highlights').items.map(i=>i.description),['Original highlight']);
+ const html=require('../scripts/trip-body').renderBody(fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8'),trip,config);
+ assert.ok(html.includes('Why choose us &lt;now&gt;'));assert.ok(html.includes('&lt;Local hosts&gt;'));assert.ok(html.includes('Support &amp; care\nThroughout the journey'));
+ assert.ok(!html.includes('Hidden detail'));assert.ok(!html.includes('trip-custom_hidden'));assert.ok(html.indexOf('trip-custom_why')<html.indexOf('trip-custom_approach'));
+});
 test('shared cancellation ranges cover every day and reject gaps and overlap',()=>{assert.equal(content.validate(config),config);for(const min of [3,5]){const bad=structuredClone(config);bad.sections.cancellation.items[1].minDays=min;assert.throws(()=>content.validate(bad),/Cancellation/);}});
 test('hidden shared or per-trip sections stay hidden and custom empty lists stay empty',()=>{assert.equal(content.section({contentSections:{faqs:{mode:'hidden'}}},config,'faqs'),null);const empty={mode:'custom',items:[]};assert.equal(content.section({contentSections:{faqs:empty}},config,'faqs'),empty);const shared=structuredClone(config);shared.sections.faqs.mode='hidden';assert.equal(content.section({},shared,'faqs'),null);});
 test('generated bodies render the current description of every managed trip',()=>{
@@ -33,3 +41,4 @@ test('highlights preserve trip content by default and accept custom headings, em
 test('static highlights use custom heading and safe literal content',()=>{const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');const trip={contentSections:{highlights:{mode:'custom',heading:'Why Choose Us',expanded:false,useTripHighlights:false,items:[{title:'<Support>',description:'Team & help'}]}}};const html=require('../scripts/trip-body').renderBody(template,trip,config);assert.ok(html.includes('Why Choose Us'));assert.ok(html.includes('&lt;Support&gt;'));assert.ok(html.includes('Team &amp; help'));});
 
 test('published content settings remain valid after manager edits',()=>{const published=JSON.parse(fs.readFileSync(path.join(__dirname,'../js/trip-content-config.json')));assert.equal(content.validate(published),published);});
+

@@ -13,7 +13,7 @@ customer-reported and never confirms money received or seat availability.
    departures and would reject the new flow for other trips.
 2. Merge the website change. Pages generates the authoritative booking catalogue
    including the v2 rules and omitting closed departures.
-3. Build/install Trip Manager 1.8.0. In Payments & coupons, edit either of the two
+3. Build/install Trip Manager 1.8.1. In Payments & coupons, edit either of the two
    saved payment profiles. Each has its own label, UPI ID, receiver and original
    QR image. Choose Use this account, review the active account preview, then
    Preview & Publish. Only one profile is displayed. There is no account-history
@@ -62,6 +62,20 @@ gallery traps focus, labels controls and restores focus; Show coming soon includ
 inactive trips and active trips without bookable dates.
 
 ## Verification
+
+## Extra trip sections and compact checkout
+
+In Trip Manager, open a trip's Website sections and choose Add section to create
+an independent section such as Why choose us. Sections support text items,
+optional item titles and icons, visibility, initial expansion and ordering among
+extra sections. They appear after the standard information in generated pages,
+the interactive website and previews. Existing highlights and shared defaults
+are retained. Install version 1.8.1 before editing trips with extra sections.
+
+Mobile checkout uses tighter cards and form spacing, with optional help inside
+an expandable panel. Primary controls retain at least 44px touch targets. The
+website uses soft brand-colour accents with dark readable text and white QR
+backgrounds. Updated asset versions refresh returning browsers.
 
 Run `node --test tests/*.test.js`, then
 `node scripts/check-payment-browser.cjs` and

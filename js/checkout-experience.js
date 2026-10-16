@@ -67,7 +67,9 @@
   const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
   [anchor,byId('participants').closest('.form-group'),byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
   byId('fullName').autocomplete='name';byId('email').autocomplete='email';byId('phone').autocomplete='tel';byId('altPhone').autocomplete='tel';
-  document.querySelector('.support-card').classList.remove('support-locked');summary.append(document.querySelector('.support-card'));
+  const support=document.querySelector('.support-card');support.classList.remove('support-locked');
+  const help=document.createElement('details');help.className='checkout-help';help.open=!matchMedia('(max-width:767px)').matches;
+  const helpTitle=document.createElement('summary');helpTitle.textContent='Questions about this trip?';help.append(helpTitle,document.querySelector('.summary-note'),support);summary.append(help);
   byId('checkoutForm').addEventListener('submit',event=>{event.preventDefault();window.submitDetails();});
   byId('applyCoupon').addEventListener('click',async()=>{try{await refresh();if(!config.showCoupons)return;const result=BookingRules.quote(config,byId('couponCode').value,getTripFromURL(),window.bookingData.price*window.bookingData.people);code=result.valid?result.code:'';recalculate();message(result.message);}catch{message('Offers could not be loaded. Please try again.');}});
   byId('removeCoupon').addEventListener('click',()=>{code='';byId('couponCode').value='';message('Coupon removed.');recalculate();});
@@ -99,3 +101,4 @@
   window.addEventListener('pageshow',()=>{if(!dateValid())invalidRequest();});
  });
 }());
+

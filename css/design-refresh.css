@@ -100,3 +100,8 @@ body{background:#FFF9F2;color:#26352F}.section-title,h1,h2,h3,h4{color:#173F35}.
 
 /* Dark page banners need their own heading contrast. */
 .page-header h1,.page-header h2{color:#fff}
+.custom-trip-section .guideline-card p{white-space:pre-line;overflow-wrap:anywhere}.custom-trip-section summary{overflow-wrap:anywhere}
+.homepage-info-card.accent-orange{background:#fff3e9;border-color:#efd8c5}.homepage-info-card.accent-blue{background:#eff6fb;border-color:#cfdfeb}.homepage-info-card.accent-green{background:#eef8f1;border-color:#cce5d5}
+.homepage-info-card.accent-orange .homepage-info-icon{background:#ffe5d1;color:#934114}.homepage-info-card.accent-blue .homepage-info-icon{background:#dcecf8;color:#24546d}.homepage-info-card.accent-green .homepage-info-icon{background:#d9efdf;color:#24563c}
+.trip-date-tag{background:#e9f5f0}.trip-badge{background:#fff0df;color:#854216;border-color:#edcfac}.discovery-controls{background:#f0f7f5;border-color:#d2e6dc}.trip-footer .trip-price{color:#9b451a}
+.content-section[open]>summary{color:#145c4a}.glance-item:nth-child(3n+1){background:#eef8f2}.glance-item:nth-child(3n+2){background:#fff3e8}.glance-item:nth-child(3n){background:#eff6fb}.guideline-card{border:1px solid #dae8df}.custom-trip-section .guideline-card:nth-child(odd){background:#f1f8f4}.faq-row[open]{background:#f0f7f5;border-radius:10px}.testimonial-card,.review-card{border:1px solid #dce8e1}.testimonial-stars,.review-stars{color:#a85a0b}.stats .stat-number{color:#ffe1ac}
