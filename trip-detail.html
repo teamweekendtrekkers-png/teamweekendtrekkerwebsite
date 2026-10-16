@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
-    <link rel="stylesheet" href="css/design-refresh.css?v=5">
+    <link rel="stylesheet" href="css/design-refresh.css?v=20261016-3">
 <link rel="stylesheet" href="css/tour-refinements.css?v=2">
 </head>
 <body>
@@ -339,6 +339,7 @@
                             <!-- Populated by JavaScript -->
                         </div>
                     </details>
+                    <div id="customTripSections"></div>
                 </div>
 
                 <!-- Sidebar -->
@@ -372,7 +373,7 @@
                                 <span id="totalAmount">₹3,499</span>
                             </div>
                             <a href="checkout.html" class="btn btn-primary btn-full" id="bookNowBtn" onclick="return goToCheckout(event)">
-                                Request booking
+                                Continue to payment
                             </a>
                         </form>
                         <div class="booking-secondary-actions">
@@ -389,16 +390,10 @@
                         </div>
                     </div>
 
-                    <!-- UPI Payment -->
+                    <!-- Payment guidance -->
                     <div class="upi-card">
-                        <h4>Payment after confirmation</h4><p>Send a booking request first. Wait for our team to confirm availability and the amount before paying.</p>
-                        <p class="upi-id" id="secureUpiDisplay">••••••6581@ybl</p>
-                        <button class="btn btn-small copy-upi" onclick="secureCopyUPI()">
-                            <i class="fas fa-copy"></i> Copy UPI ID
-                        </button>
-                        <button class="btn btn-upi btn-full" onclick="securePayViaUPI()">
-                            <i class="fas fa-mobile-alt"></i> Open UPI App
-                        </button>
+                        <h4>Pay via UPI at checkout</h4>
+                        <p>Select your departure and travellers, then continue to checkout to scan the QR code or copy the UPI ID. Our team verifies payment and availability before confirming your place.</p>
                     </div>
                 </div>
             </div>
@@ -1025,11 +1020,13 @@
             }, { passive: true });
         })();
     </script>
-    <script src="js/trip-date-utils.js"></script>
+    <script src="js/trip-date-utils.js?v=20261016-2"></script>
     <script src="js/trip-decision.js?v=5"></script>
     <script src="js/trip-brochure.js?v=4"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=7"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=3"></script>
+<script src="js/trip-customer.js?v=7"></script><script src="js/trip-content-defaults.js?v=2"></script><script src="js/trip-content.js?v=4"></script>
 <script src="js/tour-refinements.js?v=1"></script>
 </body>
 </html>
+
+

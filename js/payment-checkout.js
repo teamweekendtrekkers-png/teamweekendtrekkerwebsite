@@ -30,11 +30,12 @@
     if(!config||!window.bookingData)return;
     const p=PaymentOptions.normalize(config.payment),allowed=PaymentOptions.allowed(p,getTripFromURL(),dateKey());
     const radios=[...document.querySelectorAll('input[name="bookingPaymentMode"]')];
+    const selector=document.querySelector('.payment-mode-selector');selector.classList.toggle('single-payment-method',allowed.length===1);selector.querySelector('legend').textContent=allowed.length===1?'Payment method':'How would you like to book?';
     const previous=mode();
     if(!started&&!selectionReady){radios.find(r=>r.value===allowed[0]).checked=true;}
     selectionReady=true;
     if(!allowed.includes(mode()))radios.find(r=>r.value===allowed[0]).checked=true;
-    for(const r of radios){r.disabled=started||!allowed.includes(r.value);r.closest('label').hidden=!allowed.includes(r.value);}
+    for(const r of radios){r.disabled=started||!allowed.includes(r.value);r.hidden=allowed.length===1;r.closest('label').hidden=!allowed.includes(r.value);}
     el('paymentModeNotice').textContent=allowed.includes('direct')?'Pay by scanning the QR or copying the UPI ID. Our team verifies payments manually.':'For this departure, our team confirms availability and the amount before payment.';
     if(started&&previous==='direct'&&!allowed.includes('direct')&&!reported){
       el('paymentSection').style.display='none';el('bookingIssue').hidden=false;
@@ -144,3 +145,4 @@
     };
   });
 }());
+
