@@ -1,10 +1,11 @@
 // Offline itinerary brochures. Canvas preserves the browser's Unicode/emoji fonts.
 (function (root, factory) {
     const api = factory(typeof module === 'object' && module.exports ? require('./trip-date-utils') : root.TripDateUtils,
-        typeof module === 'object' && module.exports ? require('./trip-detail-lists') : root.TripDetailLists);
+        typeof module === 'object' && module.exports ? require('./trip-detail-lists') : root.TripDetailLists,
+        typeof module === 'object' && module.exports ? require('./trip-content') : root.TripContent);
     if (typeof module === 'object' && module.exports) module.exports = api;
     else { root.TripBrochure = api; document.addEventListener('DOMContentLoaded', () => api.init(document)); }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, lists) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, lists, content) {
     'use strict';
     const text = value => typeof value === 'string' || typeof value === 'number' ? String(value).trim() : '';
     const items = value => Array.isArray(value) ? value.map(text).filter(Boolean) : [];
@@ -18,16 +19,34 @@
             if (!lines.length) return;
             blocks.push({ kind: 'heading', text: heading }, ...lines.map(value => ({ kind: 'body', text: value })));
         };
-        section('Trip at a glance', ['Location: ' + text(trip.location || trip.destination),
+        const config = options.contentConfig || { sections: {} };
+        const resolve = key => content.section(trip, config, key);
+        const visibleItems = value => Array.isArray(value?.items) ? value.items.filter(item => item && item.enabled !== false) : [];
+        const glance = resolve('glance');
+        const fallbackGlance = ['Location: ' + text(trip.location || trip.destination),
             ...['duration', 'difficulty', 'distance', 'elevation', 'groupSize'].filter(key => text(trip[key])).map(key => `${({ groupSize: 'Group size' })[key] || key[0].toUpperCase() + key.slice(1)}: ${text(trip[key])}`),
             ...(text(trip.price) ? ['Price: ' + text(trip.price)] : []),
-            ...(trip.isActive === false ? ['Currently unavailable for booking.'] : [])]);
+            ...(trip.isActive === false ? ['Currently unavailable for booking.'] : [])];
+        if (trip.contentSections?.glance?.mode !== 'hidden' && (glance || config.sections.glance?.mode !== 'hidden')) {
+            section(text(glance?.heading) || 'Trip at a glance', glance ? [
+                ...visibleItems(glance).map(item => {
+                    const value = text(item.field ? trip[item.field] : item.value);
+                    return value ? `${text(item.label)}: ${value}` : '';
+                }).filter(Boolean),
+                ...(text(trip.price) ? ['Price: ' + text(trip.price)] : []),
+                ...(trip.isActive === false ? ['Currently unavailable for booking.'] : [])
+            ] : fallbackGlance);
+        }
         const upcoming = dates.getUpcomingDateRanges(trip, options.referenceDate);
         const selected = dates.parseTripDateRange(options.selectedDate);
         const match = selected && upcoming.find(range => range.key === selected.key);
         section(match ? 'Selected departure' : 'Upcoming departures', match ? [match.fullLabel] : upcoming.length ? upcoming.map(range => range.fullLabel) : ['New dates coming soon. Contact us to confirm.']);
         section('About this trip', items([trip.about || trip.description]));
-        section('Highlights', items(trip.highlights).map(value => '• ' + value));
+        const highlights = resolve('highlights');
+        section(text(highlights?.heading) || 'Highlights', visibleItems(highlights).map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')).filter(Boolean));
+        for (const extra of content.extraSections(trip)) {
+            section(text(extra.heading), extra.items.map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')));
+        }
         const itinerary = Array.isArray(trip.itinerary) ? trip.itinerary.filter(day => day && typeof day === 'object') : [];
         if (!itinerary.length) section('Itinerary', ['Detailed itinerary coming soon. Contact us for details.']);
         itinerary.forEach((day, index) => {
@@ -40,9 +59,21 @@
         section('Boarding points', boarding.filter(point => point && text(point.name) && text(point.time)).map(point => [text(point.name), text(point.time), text(point.landmark)].filter(Boolean).join(' — ')));
         section('Things to carry', lists.getItems(trip, 'thingsToCarry').map(value => '• ' + value));
         section('Perfect for', lists.getItems(trip, 'perfectFor'));
+        const guidelines = resolve('guidelines');
+        section(text(guidelines?.heading) || 'Trip guidelines', visibleItems(guidelines).map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')).filter(Boolean));
+        const cancellation = resolve('cancellation');
+        section(text(cancellation?.heading) || 'Cancellation policy', [
+            ...visibleItems(cancellation).filter(rule => Number.isFinite(rule.minDays) && Number.isFinite(rule.percent))
+                .sort((a, b) => b.minDays - a.minDays).map(rule => `${content.policyLabel(rule)}: ${rule.percent}% cancellation fee`),
+            ...items([cancellation?.refundNote, cancellation?.changeNote])
+        ]);
+        const faqs = resolve('faqs');
+        section(text(faqs?.heading) || 'Frequently asked questions', visibleItems(faqs).map(item => [text(item.question), text(item.answer)].filter(Boolean).join('\n')).filter(Boolean));
         const id = text(trip.publicSlug || trip.id);
         const bookingUrl = /^[a-z0-9][a-z0-9_-]*$/.test(id) ? `https://www.teamweekendtrekkers.com/trips/${encodeURIComponent(id)}/` : 'https://www.teamweekendtrekkers.com/trips.html';
-        section('Booking & enquiries', [bookingUrl, ...(text(options.whatsapp) ? ['WhatsApp: +' + text(options.whatsapp).replace(/[^0-9]/g, '')] : []), 'Dates, prices and availability can change. Confirm before booking.']);
+        let phone = text(options.whatsapp).replace(/[^0-9]/g, '');
+        if (phone.length === 10) phone = '91' + phone;
+        section('Booking & enquiries', [bookingUrl, ...(phone ? ['WhatsApp: +' + phone] : []), 'Dates, prices and availability can change. Confirm before booking.']);
         if (blocks.reduce((sum, block) => sum + block.text.length, 0) > 500000) throw new Error('This itinerary is too large to export. Please shorten it.');
         return { title, bookingUrl, filename: `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80) || 'trip'}-brochure.pdf`, blocks };
     }
@@ -95,7 +126,7 @@
         return result;
     }
 
-    async function createPdf(model, document) {
+    async function createPdf(model, document, options = {}) {
         const canvas = document.createElement('canvas'); canvas.width = WIDTH; canvas.height = HEIGHT;
         const ctx = canvas.getContext('2d');
         if (!ctx) throw new Error('PDF generation is unavailable in this browser.');
@@ -103,32 +134,52 @@
         const startPage = () => {
             if (images.length >= 100) throw new Error('This brochure exceeds 100 pages. Please shorten the itinerary.');
             ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, WIDTH, HEIGHT);
-            ctx.fillStyle = '#17442d'; ctx.fillRect(0, 0, WIDTH, 150);
-            ctx.fillStyle = '#ed801c'; ctx.fillRect(0, 150, WIDTH, 8);
-            ctx.fillStyle = '#fff'; ctx.font = 'bold 36px Arial, sans-serif'; ctx.fillText('Team Weekend Trekkers', MARGIN, 80);
-            ctx.font = '24px Arial, sans-serif'; ctx.fillText('TRIP BROCHURE', MARGIN, 120);
-            y = 220;
+            ctx.fillStyle = '#17442d'; ctx.fillRect(0, 0, WIDTH, 142);
+            ctx.fillStyle = '#ed801c'; ctx.fillRect(0, 142, WIDTH, 8);
+            ctx.fillStyle = '#fff'; ctx.font = 'bold 36px Arial, sans-serif'; ctx.fillText('Team Weekend Trekkers', MARGIN, 68);
+            ctx.fillStyle = '#cee8d9'; ctx.font = '20px Arial, sans-serif'; ctx.fillText('YOUR TRIP GUIDE  /  ITINERARY & ESSENTIALS', MARGIN, 110);
+            y = 190;
         };
         const finishPage = async () => {
-            ctx.fillStyle = '#557062'; ctx.font = '20px Arial, sans-serif';
+            ctx.fillStyle = '#eaf4ee'; ctx.fillRect(MARGIN, 1622, WIDTH - MARGIN * 2, 92);
+            ctx.fillStyle = '#17442d'; ctx.font = '20px Arial, sans-serif';
             ctx.fillText(model.bookingUrl, MARGIN, 1660);
             ctx.fillText(`Team Weekend Trekkers  •  Page ${images.length + 1}`, MARGIN, 1694);
             const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
             if (!blob) throw new Error('Unable to render brochure. Please try again.');
             images.push(new Uint8Array(await blob.arrayBuffer()));
+            if (options.onPage) await options.onPage(blob, images.length);
         };
         startPage();
-        for (const block of model.blocks) {
+        for (const [index, block] of model.blocks.entries()) {
             const size = block.kind === 'title' ? 44 : block.kind === 'heading' ? 32 : 26;
             const font = `${block.kind === 'body' ? '' : 'bold '}${size}px Arial, sans-serif`;
             ctx.font = font;
-            const lines = wrap(block.text, value => ctx.measureText(value).width, WIDTH - MARGIN * 2);
-            if (block.kind !== 'body' && y + size * 3.5 > BOTTOM) { await finishPage(); startPage(); }
-            y += block.kind === 'heading' ? 22 : 8;
+            const lines = wrap(block.text, value => ctx.measureText(value).width, WIDTH - MARGIN * 2 - (block.kind === 'heading' ? 18 : 0));
+            // Keep a heading with at least two lines of the following paragraph.
+            if (block.kind !== 'body') {
+                const next = model.blocks[index + 1];
+                ctx.font = '26px Arial, sans-serif';
+                const nextLines = next?.kind === 'body' ? Math.min(2, wrap(next.text, value => ctx.measureText(value).width, WIDTH - MARGIN * 2).length) : 0;
+                let sectionHeight = 0;
+                for (let lookahead = index + 1; model.blocks[lookahead]?.kind === 'body'; lookahead++) {
+                    sectionHeight += wrap(model.blocks[lookahead].text, value => ctx.measureText(value).width, WIDTH - MARGIN * 2).length * 36.4 + 10;
+                    if (sectionHeight > 420) break;
+                }
+                const keep = sectionHeight <= 420 ? sectionHeight : nextLines * 36.4;
+                if (y + lines.length * size * 1.4 + 56 + keep > BOTTOM && y > 190) { await finishPage(); startPage(); }
+            } else if (lines.length * size * 1.4 + 10 <= BOTTOM - 190 && y + lines.length * size * 1.4 + 10 > BOTTOM) {
+                await finishPage(); startPage();
+            }
+            y += block.kind === 'heading' ? 26 : 10;
             for (const line of lines) {
                 if (y + size * 1.4 > BOTTOM) { await finishPage(); startPage(); }
+                if (block.kind === 'heading') {
+                    ctx.fillStyle = '#edf5ef'; ctx.fillRect(MARGIN, y - 2, WIDTH - MARGIN * 2, size * 1.4 + 4);
+                    ctx.fillStyle = '#ed801c'; ctx.fillRect(MARGIN, y - 2, 5, size * 1.4 + 4);
+                }
                 ctx.font = font; ctx.fillStyle = block.kind === 'body' ? '#25382e' : '#17442d';
-                ctx.fillText(line, MARGIN, y + size); y += size * 1.4;
+                ctx.fillText(line, MARGIN + (block.kind === 'heading' ? 18 : 0), y + size); y += size * 1.4;
             }
         }
         await finishPage(); return encodePdf(images, model.bookingUrl);
@@ -139,29 +190,56 @@
         if (!button || button.dataset.ready) return;
         button.dataset.ready = 'true';
         let generation = 0;
-        document.getElementById('tripBrochureDialog').addEventListener('close', () => { generation++; });
-        button.addEventListener('click', async () => {
+        let pageUrls = [];
+        const releasePages = () => { pageUrls.forEach(url => URL.revokeObjectURL(url)); pageUrls = []; };
+        document.getElementById('tripBrochureDialog').addEventListener('close', () => {
+            generation++; releasePages(); document.getElementById('tripBrochurePreview').replaceChildren();
+        });
+        const prepare = async () => {
             const request = ++generation;
             const dialog = document.getElementById('tripBrochureDialog');
             const preview = document.getElementById('tripBrochurePreview');
             const status = document.getElementById('tripBrochureStatus');
             const download = document.getElementById('tripBrochureDownload');
             const share = document.getElementById('tripBrochureShare');
+            const retry = document.getElementById('tripBrochureRetry');
             download.disabled = true; share.hidden = true; download.onclick = null; share.onclick = null;
-            preview.replaceChildren(); status.textContent = 'Preparing your PDF…';
+            retry.hidden = true; releasePages(); preview.replaceChildren(); preview.setAttribute('aria-busy', 'true'); status.textContent = 'Preparing your PDF…';
             if (!dialog.open) dialog.showModal();
             try {
                 const id = getTripFromURL();
                 if (!Object.prototype.hasOwnProperty.call(tripsData, id)) throw new Error('Trip details are unavailable.');
                 const whatsapp = document.querySelector('.quick-contact .btn-whatsapp')?.href.match(/wa\.me\/(\d+)/)?.[1];
-                const model = buildModel({ id, ...getTripData(id) }, { selectedDate: document.getElementById('dateSelect')?.value, whatsapp, boardingPoints: typeof commonPickupPoints === 'undefined' ? [] : commonPickupPoints });
-                model.blocks.forEach(block => { const element = document.createElement(block.kind === 'body' ? 'p' : 'h3'); element.textContent = block.text; preview.append(element); });
-                const bytes = await createPdf(model, document);
+                let contentConfig = globalThis.TRIP_CONTENT_CONFIG;
+                try {
+                    const response = await fetch('js/trip-content-config.json', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+                    if (response.ok) contentConfig = content.validate(await response.json());
+                } catch (_) { /* Use the bundled published settings when offline. */ }
+                if (request !== generation || !dialog.open) return;
+                const model = buildModel({ id, ...getTripData(id) }, { selectedDate: document.getElementById('dateSelect')?.value, whatsapp, contentConfig, boardingPoints: typeof commonPickupPoints === 'undefined' ? [] : commonPickupPoints });
+                let pageCount = 0;
+                const bytes = await createPdf(model, document, { onPage: (blob, number) => {
+                    if (request !== generation || !dialog.open) throw new Error('Preview closed.');
+                    const url = URL.createObjectURL(blob); pageUrls.push(url); pageCount = number;
+                    const figure = document.createElement('figure'), image = document.createElement('img'), caption = document.createElement('figcaption');
+                    image.src = url; image.alt = `${model.title} - PDF page ${number}`; image.width = WIDTH; image.height = HEIGHT;
+                    caption.textContent = `Page ${number}`; figure.append(image, caption); preview.append(figure);
+                    status.textContent = `Preparing PDF - ${number} ${number === 1 ? 'page' : 'pages'}…`;
+                } });
                 if (request !== generation || !dialog.open) return;
                 const blob = new Blob([bytes], { type: 'application/pdf' });
                 const file = new File([bytes], model.filename, { type: 'application/pdf' });
                 download.disabled = false;
-                status.textContent = 'PDF ready. Download it or share it with your travel group.';
+                preview.setAttribute('aria-busy', 'false');
+                const transcript = document.createElement('details'), summary = document.createElement('summary');
+                summary.textContent = 'Read brochure text'; transcript.append(summary);
+                model.blocks.forEach(block => {
+                    const element = document.createElement(block.kind === 'body' ? 'p' : 'h3');
+                    element.textContent = block.text; transcript.append(element);
+                });
+                preview.append(transcript);
+                const size = bytes.length < 1024 * 1024 ? `${Math.ceil(bytes.length / 1024)} KB` : `${(bytes.length / 1024 / 1024).toFixed(1)} MB`;
+                status.textContent = `${pageCount} ${pageCount === 1 ? 'page' : 'pages'} · ${size} · PDF ready to download or share.`;
                 download.onclick = () => {
                     const url = URL.createObjectURL(blob), link = document.createElement('a');
                     link.href = url; link.download = model.filename; document.body.append(link); link.click(); link.remove();
@@ -171,9 +249,15 @@
                     share.hidden = false;
                     share.onclick = async () => { try { await navigator.share({ files: [file], title: model.title }); } catch (error) { if (error.name !== 'AbortError') status.textContent = 'Sharing unavailable. Use Download PDF instead.'; } };
                 }
-            } catch (_) { if (request === generation && dialog.open) status.textContent = 'Could not create the PDF. Close this preview and try again.'; }
-        });
+            } catch (_) { if (request === generation && dialog.open) {
+                releasePages(); preview.replaceChildren(); preview.setAttribute('aria-busy', 'false');
+                status.textContent = 'Could not create the PDF. Please try again.'; retry.hidden = false;
+            } }
+        };
+        button.addEventListener('click', prepare);
+        document.getElementById('tripBrochureRetry').addEventListener('click', prepare);
         document.getElementById('tripBrochureClose').addEventListener('click', () => document.getElementById('tripBrochureDialog').close());
     }
     return { buildModel, wrap, encodePdf, createPdf, init };
 }));
+

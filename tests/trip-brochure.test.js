@@ -32,6 +32,29 @@ test('selected departures match normalized current ranges; expired/removed selec
     }
 });
 
+test('brochure follows shared and per-trip section headings, visibility, empty lists and extra section order', () => {
+    const value = { ...trip(), highlights: ['Old highlight'], contentSections: {
+        highlights: { mode: 'custom', heading: 'Our highlights', useTripHighlights: false, items: [{ title: 'Local hosts', description: 'Walk with a local.' }, { description: 'Disabled highlight', enabled: false }] },
+        custom_why_us: { mode: 'custom', heading: 'Why choose us', items: [{ title: 'Small groups', description: 'Time to enjoy the trail.\nNo rush.' }] },
+        custom_extra: { mode: 'custom', heading: 'Good to know', items: [{ description: 'Bring curiosity.' }] },
+        custom_hidden: { mode: 'hidden', heading: 'Hidden extra', items: [{ description: 'Private note' }] },
+        guidelines: { mode: 'hidden' }, faqs: { mode: 'custom', heading: 'Your questions', items: [] },
+        cancellation: { mode: 'custom', heading: 'Trip refund rules', items: [{ minDays: 0, maxDays: null, percent: 40 }], refundNote: 'Refund note from this trip.' }
+    } };
+    const before = JSON.stringify(value);
+    const config = { sections: { guidelines: { heading: 'Shared guidelines', items: [{ title: 'Hidden guideline', description: 'Do not export.' }] }, faqs: { heading: 'Shared FAQ', items: [{ question: 'Old question', answer: 'Old answer' }] } } };
+    const body = brochure.buildModel(value, { referenceDate, contentConfig: config }).blocks.map(block => block.text).join('\n');
+    for (const expected of ['Our highlights', 'Local hosts\nWalk with a local.', 'Why choose us', 'No rush.', 'Good to know', 'Trip refund rules', '0+ days before departure: 40% cancellation fee', 'Refund note from this trip.']) assert.ok(body.includes(expected), expected);
+    for (const hidden of ['Old highlight', 'Disabled highlight', 'Private note', 'Hidden extra', 'Hidden guideline', 'Old question', 'Your questions']) assert.ok(!body.includes(hidden), hidden);
+    assert.ok(body.indexOf('Why choose us') < body.indexOf('Good to know'));
+    assert.equal(JSON.stringify(value), before);
+    const sharedBody = brochure.buildModel(trip(), { referenceDate, contentConfig: { sections: {
+        glance: { heading: 'Quick facts', items: [{ label: 'Region', field: 'location' }, { label: 'Stay', value: 'Homestay' }] },
+        faqs: { heading: 'Before you go', items: [{ question: 'Meals?', answer: 'See inclusions.' }] }
+    } } }).blocks.map(block => block.text).join('\n');
+    for (const expected of ['Quick facts', 'Region: Coorg', 'Stay: Homestay', 'Before you go', 'Meals?\nSee inclusions.']) assert.ok(sharedBody.includes(expected), expected);
+});
+
 test('inactive and empty trips never advertise stale dates and do not require an itinerary', () => {
     for (const value of [{}, { ...trip(), isActive: false }, { ...trip(), availableDates: [] }]) {
         const content = brochure.buildModel(value, { referenceDate }).blocks.map(block => block.text).join('\n');
@@ -85,7 +108,8 @@ test('brochure is wired into both legacy/generated pages without replacing booki
     assert.match(template, /id="tripBrochureDialog"/);
     assert.match(template, /onclick="return goToCheckout\(event\)"/);
     assert.match(template, /id="mobileBookBtn"/);
-    assert.ok(template.indexOf('src="js/trip-date-utils.js"') < template.indexOf('src="js/trip-brochure.js'));
+    assert.ok(template.indexOf('src="js/trip-date-utils.js') < template.indexOf('src="js/trip-brochure.js'));
+    assert.ok(template.indexOf('src="js/trip-content.js') < template.indexOf('src="js/trip-brochure.js'));
     const page = renderTripPage({ template, tripId: 'misty-hills', trip: { ...trip(), image: 'images/logo.jpg' }, projectRoot: root, siteOrigin: readSiteOrigin(root) });
     assert.match(page, /<base href="\.\.\/\.\.\/">/);
     assert.match(page, /src="js\/trip-brochure.js(?:\?v=\d+)?"/);
@@ -100,3 +124,4 @@ test('all authoritative trips build brochures without losing itinerary activitie
         assert.equal(JSON.stringify(data), before);
     }
 });
+
