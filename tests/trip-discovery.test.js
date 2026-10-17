@@ -104,3 +104,14 @@ test('successful main fallback removes listeners and never requests the logo', (
     listeners.get('error')(); listeners.get('load')();
     assert.deepEqual(attempts,['images/main.jpg']); assert.equal(listeners.size,0);
 });
+
+
+test('multi-word search matches across visible card fields and preserves combined filters', () => {
+    const before = JSON.stringify(trips);
+    assert.deepEqual(discovery.filterTrips(trips, {query:' COAST   bengaluru '}, now).map(trip => trip.id), ['later']);
+    assert.deepEqual(discovery.filterTrips(trips, {query:'Coorg trek'}, now).map(trip => trip.id), ['soon']);
+    assert.deepEqual(discovery.filterTrips(trips, {query:'Coorg beach'}, now), []);
+    assert.deepEqual(discovery.filterTrips(trips, {query:'Coorg trek', experience:'beach'}, now), []);
+    assert.deepEqual(discovery.filterTrips(trips, {query:'heritage', showComingSoon:true}, now).map(trip => trip.id), ['undated']);
+    assert.equal(JSON.stringify(trips), before);
+});
