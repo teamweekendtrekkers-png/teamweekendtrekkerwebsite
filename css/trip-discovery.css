@@ -69,3 +69,23 @@
     .upcoming-batches { padding-top: 42px; }
 }
 @media (prefers-reduced-motion: reduce) { .discovery-card, .discovery-card .trip-image img { transition: none; } }
+
+/* Keep catalogue options below the search row, rather than in a narrow side column. */
+#trip-discovery-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+#trip-discovery-controls[hidden] { display: none; }
+#trip-discovery-controls .catalogue-search-actions { display: flex; align-items: center; gap: 8px; }
+#trip-discovery-controls.catalogue-controls-only .catalogue-search-actions { grid-column: 1 / -1; }
+#trip-discovery-controls .catalogue-filter-toggle, #trip-discovery-controls .discovery-reset { min-height: 48px; padding: 10px 16px; width: auto; white-space: nowrap; }
+#trip-discovery-controls .catalogue-filter-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #cbd9cf; border-radius: 8px; background: #fff; color: #17442d; font: inherit; font-size: .88rem; cursor: pointer; }
+#trip-discovery-controls .catalogue-filter-toggle.has-filters { background: #e4f1e9; border-color: #17442d; }
+#trip-discovery-controls .catalogue-filter-toggle:focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; }
+#trip-discovery-controls .discovery-reset:disabled { opacity: .5; cursor: default; background: #fff; }
+#trip-discovery-controls .catalogue-filter-panel { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-top: 14px; border-top: 1px solid #dce7df; }
+#trip-discovery-controls .catalogue-filter-panel[hidden] { display: none; }
+#trip-discovery-controls .catalogue-filter-panel .discovery-field { margin: 0; }
+@media (max-width: 767px) {
+    #trip-discovery-controls { grid-template-columns: minmax(0, 1fr); }
+    #trip-discovery-controls .catalogue-search-actions { width: 100%; }
+    #trip-discovery-controls .catalogue-search-actions > button { flex: 1; }
+    #trip-discovery-controls .catalogue-filter-panel { grid-template-columns: minmax(0, 1fr); }
+}

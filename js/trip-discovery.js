@@ -33,13 +33,14 @@
         return [...ranges.values()].sort((a, b) => a.start - b.start || a.end - b.end);
     }
     function filterTrips(trips, state, referenceDate) {
-        const query = String(state.query || '').trim().toLocaleLowerCase();
+        const terms = String(state.query || '').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
         return trips.filter(trip => {
             if (!state.showComingSoon && (trip.isActive === false || !dates.getUpcomingDateRanges(trip, referenceDate).length)) return false;
             if (state.category && state.category !== 'all' && category(trip) !== state.category) return false;
             if (state.experience && state.experience !== 'all' && experience(trip) !== state.experience) return false;
             if (state.departure && !dates.getUpcomingDateRanges(trip, referenceDate).some(range => range.key === state.departure)) return false;
-            return !query || ['title', 'cardTitle', 'location', 'cardSummary', 'departureCity'].some(field => String(trip[field] || '').toLocaleLowerCase().includes(query));
+            const searchable = ['title', 'cardTitle', 'location', 'cardSummary', 'departureCity', 'badge'].map(field => String(trip[field] || '')).concat(experiences[experience(trip)]).join(' ').toLocaleLowerCase();
+            return terms.every(term => searchable.includes(term));
         });
     }
     function sortTrips(trips, referenceDate) {
@@ -95,7 +96,7 @@
         const document = container.ownerDocument, state = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
         container.hidden = !options.enabled; container.replaceChildren();
         const make = (tag, text) => { const node = document.createElement(tag); if (text) node.textContent = text; return node; };
-        const control = (title, node) => { const label = make('label'); label.className = 'discovery-field' + (node.type === 'search' ? ' discovery-search' : ''); label.append(make('span', title), node); container.append(label); };
+        const control = (title, node) => { const label = make('label'); label.className = 'discovery-field' + (node.type === 'search' ? ' discovery-search' : ''); node.setAttribute('aria-label', title); label.append(make('span', title), node); container.append(label); };
         const inputs = [];
         const update = reset => { for (const [node, field] of inputs) state[field] = node.value; onChange({ ...state }, reset === true); };
         if (options.showSearch) {
@@ -113,8 +114,39 @@
             select.addEventListener('change', update); inputs.push([select, 'departure']); control('Choose your departure', select);
         }
         const reset = make('button', 'Reset filters'); reset.type = 'button'; reset.className = 'discovery-reset';
-        reset.addEventListener('click', () => { inputs.forEach(([node, field]) => { node.value = field === 'experience' ? 'all' : ''; }); update(true); }); container.append(reset);
-        return { reset: () => reset.click(), state: () => ({ ...state }) };
+        const resetValues = () => { inputs.forEach(([node, field]) => { node.value = field === 'experience' ? 'all' : ''; }); update(true); };
+        reset.addEventListener('click', resetValues); container.append(reset);
+        return { reset: resetValues, state: () => ({ ...state }) };
+    }
+
+    function organiseCatalogControls(container) {
+        if (!container) return null;
+        const document = container.ownerDocument;
+        const reset = container.querySelector('.discovery-reset');
+        const fields = [...container.querySelectorAll('.discovery-field:not(.discovery-search)')];
+        const actions = document.createElement('div'); actions.className = 'catalogue-search-actions';
+        container.classList.toggle('catalogue-controls-only', !container.querySelector('.discovery-search'));
+        let toggle, caption;
+        if (fields.length) {
+            const panel = document.createElement('div'); panel.id = container.id + '-panel'; panel.className = 'catalogue-filter-panel'; panel.hidden = true;
+            toggle = document.createElement('button'); toggle.type = 'button'; toggle.className = 'catalogue-filter-toggle';
+            toggle.setAttribute('aria-controls', panel.id); toggle.setAttribute('aria-expanded', 'false');
+            caption = document.createElement('span'); caption.textContent = 'Filters';
+            const arrow = document.createElement('span'); arrow.textContent = '▾'; arrow.setAttribute('aria-hidden', 'true');
+            toggle.append(caption, arrow);
+            const setOpen = open => { panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open)); arrow.textContent = open ? '▴' : '▾'; };
+            toggle.addEventListener('click', () => setOpen(panel.hidden));
+            panel.addEventListener('keydown', event => { if (event.key === 'Escape') { event.preventDefault(); setOpen(false); toggle.focus(); } });
+            fields.forEach(field => panel.append(field));
+            actions.append(toggle); container.append(actions, panel);
+        } else container.append(actions);
+        if (reset) actions.append(reset);
+        return { update: state => {
+            const count = Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure));
+            if (caption) caption.textContent = count ? `Filters (${count})` : 'Filters';
+            if (toggle) toggle.classList.toggle('has-filters', count > 0);
+            if (reset) reset.disabled = !(state.query || count || (state.category && state.category !== 'all') || state.showComingSoon);
+        } };
     }
     async function initCatalog(document) {
         const grid = document.getElementById('tripsDynamicGrid');
@@ -122,12 +154,14 @@
         const all = Object.entries(tripsData).map(([id, trip]) => ({ ...trip, id })), referenceDate = new Date();
         const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
         let current = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
+        let catalogControls;
         const status = document.getElementById('trip-results-status'), comingSoon = document.getElementById('show-coming-soon');
         const render = () => {
             const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate);
             grid.innerHTML = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
             attachImageFallbacks(grid);
             if (status) status.textContent = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes coming soon' : ' · scheduled departures first'}`;
+            if (catalogControls) catalogControls.update(current);
             const reset = grid.querySelector('[data-reset-results]'); if (reset) reset.onclick = () => { current.category = 'all'; current.showComingSoon = false; if (comingSoon) comingSoon.checked = false; document.querySelectorAll('[data-filter]').forEach(button => { button.classList.toggle('active', button.dataset.filter === 'all'); button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')); }); controls ? controls.reset() : render(); };
         };
         const controls = mountControls(document.getElementById('trip-discovery-controls'), all, config.discovery, referenceDate, (state, reset) => {
@@ -145,8 +179,7 @@
         }));
         const container=document.getElementById('trip-discovery-controls');
         if(container){
-            const advanced=document.createElement('details');advanced.className='catalogue-filters';advanced.innerHTML='<summary>Filters</summary>';
-            container.querySelectorAll('.discovery-field:not(.discovery-search),.discovery-reset').forEach(node=>advanced.append(node));container.append(advanced);
+            catalogControls = organiseCatalogControls(container);
             const query=new URLSearchParams(root.location.search).get('q');const search=container.querySelector('input[type="search"]');
             if(query&&search){search.value=query.slice(0,200);search.dispatchEvent(new root.Event('input'));}
         }

@@ -187,6 +187,15 @@ jobs:
         npm run test:payment
         npm run test:checkout
         node scripts/check-trip-brochure-browser.cjs
+        node scripts/check-catalogue-filters-browser.cjs
+
+    - name: Save catalogue filter review screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: catalogue-filter-review
+        path: build/search-review/*.png
+        if-no-files-found: warn
 
     - name: Save brochure review pages
       if: always()
