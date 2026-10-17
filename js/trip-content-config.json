@@ -122,7 +122,7 @@
       "items": [
         {
           "question": "How do I book a trip?",
-          "answer": "Choose a departure and traveller count, then send a booking request. Our team confirms availability and the payable amount before payment. Your place is confirmed only after our team confirms availability and payment."
+          "answer": "Choose a departure and traveller count, then continue to checkout. Pay by scanning the QR code or copying the UPI ID, and report your payment for manual review. Your place is confirmed only after our team verifies payment and availability. If a trip offers a booking-request option, you can use it to check availability before paying."
         },
         {
           "question": "Is there a WhatsApp group for the trip?",
@@ -138,7 +138,7 @@
         },
         {
           "question": "Are there any discounts available?",
-          "answer": "If coupon entry is available at checkout, apply your eligible code to view a discount quote. Our team verifies the offer before payment. Ask us on WhatsApp about current offers."
+          "answer": "If coupon entry is available at checkout, apply your eligible code to view the discounted total before payment. Ask us on WhatsApp about current offers. Your booking is confirmed after our team verifies payment and availability."
         },
         {
           "question": "What should I pack for the trip?",
