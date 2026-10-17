@@ -43,7 +43,7 @@ test('server rejects altered totals, expired dates and invalid contact details',
  const {normalizeRequest,bookingFromCatalog}=await core;
  assert.throws(()=>normalizeRequest({...input(),travellers:-1}),/invalid_request/);
  assert.throws(()=>normalizeRequest({...input(),email:'invalid'}),/invalid_request/);
- assert.throws(()=>bookingFromCatalog({...input(),expected_total:1},catalog()),/quote_changed/);
+ assert.throws(()=>bookingFromCatalog({...input(),expected_total:1},catalog(),new Date('2026-10-12T12:00:00Z')),/quote_changed/);
  assert.throws(()=>bookingFromCatalog(input(),catalog(),new Date('2026-11-01')),/departure_unavailable/);
  const quoted=bookingFromCatalog(input(),catalog(),new Date('2026-10-12'));assert.equal(quoted.subtotal,8998);assert.equal(quoted.price_per_person,4499);
 });
@@ -86,3 +86,4 @@ test('concurrent retries share one booking and notification leases',async()=>{
  assert.equal(results[0].booking_reference,results[1].booking_reference);assert.equal(env.count(),1);
  assert.equal(env.sent.filter(k=>k==='telegram').length,1);assert.equal(env.sent.filter(k=>k==='email').length,1);
 });
+
