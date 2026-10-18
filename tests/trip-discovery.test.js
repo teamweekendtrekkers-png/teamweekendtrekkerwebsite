@@ -115,3 +115,17 @@ test('multi-word search matches across visible card fields and preserves combine
     assert.deepEqual(discovery.filterTrips(trips, {query:'heritage', showComingSoon:true}, now).map(trip => trip.id), ['undated']);
     assert.equal(JSON.stringify(trips), before);
 });
+
+test('multiple experiences match either category and Bestseller is explicitly controlled', () => {
+ const trip={...trips[1],experiences:['trek','adventure'],experience:'beach',isBestseller:true};
+ const before=JSON.stringify(trip);
+ for(const experience of ['trek','adventure']) assert.deepEqual(discovery.filterTrips([trip],{experience},now),[trip]);
+ assert.deepEqual(discovery.filterTrips([trip],{experience:'beach'},now),[]);
+ assert.deepEqual(discovery.experiencesFor(trip),['trek','adventure']);
+ assert.deepEqual(discovery.experiencesFor({...trip,experiences:[]}),['other']);
+ assert.deepEqual(discovery.experiencesFor({...trip,experiences:['trek','trek','unknown']}),['trek']);
+ assert.match(discovery.renderCard(trip,now),/>Treks<.*>Adventure</s);
+ assert.match(discovery.renderCard(trip,now),/>Bestseller</);
+ assert.doesNotMatch(discovery.renderCard({...trip,isBestseller:'true'},now),/>Bestseller</);
+ assert.equal(JSON.stringify(trip),before);
+});

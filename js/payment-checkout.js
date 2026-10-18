@@ -26,6 +26,18 @@
       ...(report?['Amount reported: '+money(report.amount),'Transaction ID: '+report.transactionId,'Please verify my payment and availability. I will attach my receipt.']:['Please confirm availability and the amount before I pay.'])];
     return 'https://wa.me/917019235581?text='+encodeURIComponent(lines.join('\n'));
   }
+  function updateChecklist(){
+    const list=el('paymentChecklist');
+    if(!list)return;
+    list.hidden=mode()!=='direct';
+    const current=reported?4:el('paymentSent').checked?3:1;
+    list.querySelectorAll('[data-payment-step]').forEach(item=>{
+      const step=Number(item.dataset.paymentStep);
+      item.dataset.state=step<current?'complete':step===current?'current':'next';
+      if(step===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
+    });
+    list.lastElementChild.textContent=reported?'Payment details submitted. Verification is pending.':'Wait for our team to verify payment and availability.';
+  }
   function render(){
     if(!config||!window.bookingData)return;
     const p=PaymentOptions.normalize(config.payment),allowed=PaymentOptions.allowed(p,getTripFromURL(),dateKey());
@@ -47,6 +59,7 @@
     if(!started)el('requestStatus').textContent=direct?'Payment verification after submission':'Availability checked after submission';
     if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to payment':'Send Booking Request';
     document.querySelector('.submit-note').textContent=direct?'Your place is confirmed after our team verifies payment and availability.':'Our team will confirm availability before you pay.';
+    updateChecklist();
     el('paymentHeading').textContent=reported?'Payment verification pending':direct?'Pay directly via UPI':'Pay after availability is confirmed';
     const reminder=reported?'Your transaction details were submitted. Share your receipt on WhatsApp. Please wait for our team to verify payment and availability.':direct?'After paying, submit your transaction ID below. Our team must verify payment and availability before confirming your place.':'Please wait for our team to confirm availability and your payable amount before paying.';
     document.querySelectorAll('#paymentSection .payment-reminder, #requestReceived .payment-reminder').forEach(n=>n.textContent=reminder);
@@ -111,6 +124,7 @@
     return true;
   }
   document.addEventListener('DOMContentLoaded',()=>{
+    el('paymentSent').addEventListener('change',updateChecklist);
     document.querySelectorAll('input[name="bookingPaymentMode"],input[name="paymentType"]').forEach(r=>r.addEventListener('change',render));
     el('paymentQrImage').addEventListener('error',()=>{el('paymentQrImage').hidden=true;el('qrLoadFeedback').hidden=false;});
     el('editPaymentDetails').addEventListener('click',()=>{if(reported)return;started=false;window.bookingData.paymentReport=null;el('checkoutForm').style.display='block';el('submitSuccess').style.display='none';el('paymentSection').style.display='none';el('editPaymentDetails').hidden=true;el('bookingIssue').hidden=true;render();});

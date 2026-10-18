@@ -41,3 +41,11 @@
 .checkout-help{margin-top:12px;border-top:1px solid #dce5df}.checkout-help>summary{cursor:pointer;min-height:44px;padding:10px 0;font-size:14px;font-weight:600;color:#174b32}.checkout-help .support-card{border-top:0!important;margin-top:0!important;padding-top:4px!important}
 .checkout-page .summary-total{background:#eaf6f0;border:1px solid #c9e3d5;border-radius:10px;padding:10px 12px;color:#174b32}.checkout-page .summary-card>h3{background:#e4f2eb}.checkout-page .checkout-card h2 i{color:#b04b18}.checkout-page .payment-type-badge{color:#8f4318;background:#ffead7;border-radius:6px;padding:3px 6px;align-self:flex-start}.checkout-page .payment-mode-selector{background:#f5faf7}.checkout-page .single-payment-method label{padding:2px 0}.checkout-page .payment-upi-value{background:#eaf6f0;border:1px solid #c9e3d5}.checkout-page .booking-change-dialog h2{color:#174b32}
 .checkout-page .payment-mode-selector:not(.single-payment-method) label{min-height:44px;align-items:center}
+
+.payment-checklist{list-style:none;counter-reset:payment-step;display:grid;gap:.5rem;margin:1rem 0;padding:0;font-size:.9rem}
+.payment-checklist[hidden]{display:none}
+.payment-checklist li{counter-increment:payment-step;display:flex;align-items:flex-start;gap:.6rem;padding:.6rem .75rem;border-radius:8px;background:#f4f7f6;color:#40564e}
+.payment-checklist li::before{content:counter(payment-step);display:inline-grid;place-items:center;flex:0 0 1.4rem;height:1.4rem;border-radius:50%;background:#dce9e3;font-weight:700}
+.payment-checklist li[data-state="current"]{background:#e4f3eb;color:#153e30}
+.payment-checklist li[data-state="current"]::before{background:#267d6d;color:white}
+.payment-checklist li[data-state="complete"]::before{content:"✓"}

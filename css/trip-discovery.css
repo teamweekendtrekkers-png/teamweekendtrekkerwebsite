@@ -89,3 +89,10 @@
     #trip-discovery-controls .catalogue-search-actions > button { flex: 1; }
     #trip-discovery-controls .catalogue-filter-panel { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Multiple experience labels and an independently managed Bestseller badge. */
+.discovery-card .trip-image{position:relative}
+.discovery-card .trip-card-types{position:absolute;top:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:6px}
+.discovery-card .trip-card-types .trip-badge{position:static;padding:6px 12px}
+.discovery-card.trip-inactive .trip-card-types{right:112px}
+.discovery-card .trip-bestseller-badge{position:absolute;bottom:12px;left:12px;padding:6px 12px;border-radius:20px;background:#fff0ba;color:#713f12;font-weight:700;font-size:.8rem}
