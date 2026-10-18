@@ -8,7 +8,12 @@
     'use strict';
     const experiences = Object.freeze({ trek: 'Treks', beach: 'Beaches', heritage: 'Heritage', getaway: 'Relaxed getaways', adventure: 'Adventure', other: 'Other experiences' });
     const escape = dates.escapeHTML;
-    function experience(trip) { return Object.prototype.hasOwnProperty.call(experiences, trip.experience) ? trip.experience : 'other'; }
+    function experiencesFor(trip) {
+        const values = Array.isArray(trip.experiences) ? trip.experiences : [trip.experience];
+        const selected = [...new Set(values.filter(value => typeof value === 'string' && Object.prototype.hasOwnProperty.call(experiences, value)))];
+        return selected.length ? selected : ['other'];
+    }
+    function experience(trip) { return experiencesFor(trip)[0]; }
     function category(trip) {
         const badge = String(trip.badge || '').toLowerCase();
         if (badge.includes('trek')) return 'trek';
@@ -37,9 +42,9 @@
         return trips.filter(trip => {
             if (!state.showComingSoon && (trip.isActive === false || !dates.getUpcomingDateRanges(trip, referenceDate).length)) return false;
             if (state.category && state.category !== 'all' && category(trip) !== state.category) return false;
-            if (state.experience && state.experience !== 'all' && experience(trip) !== state.experience) return false;
+            if (state.experience && state.experience !== 'all' && !experiencesFor(trip).includes(state.experience)) return false;
             if (state.departure && !dates.getUpcomingDateRanges(trip, referenceDate).some(range => range.key === state.departure)) return false;
-            const searchable = ['title', 'cardTitle', 'location', 'cardSummary', 'departureCity', 'badge'].map(field => String(trip[field] || '')).concat(experiences[experience(trip)]).join(' ').toLocaleLowerCase();
+            const searchable = ['title', 'cardTitle', 'location', 'cardSummary', 'departureCity', 'badge'].map(field => String(trip[field] || '')).concat(experiencesFor(trip).map(key => experiences[key]), trip.isBestseller === true ? 'Bestseller' : '').join(' ').toLocaleLowerCase();
             return terms.every(term => searchable.includes(term));
         });
     }
@@ -64,9 +69,9 @@
         const selected = ranges.find(range => range.key === state.departure);
         const href = selected && typeof links.departureUrl === 'function' ? links.departureUrl(trip.id, selected.originalLabel) : links.detailUrl(trip.id);
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
-        const label = experience(trip) === 'other' ? String(trip.badge || 'Trip') : experiences[experience(trip)];
+        const labels = experiencesFor(trip).map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
-            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><span class="trip-badge">${escape(label)}</span>${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
+            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><div class="trip-card-types">${labels.map(label => `<span class="trip-badge">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
             <div class="trip-content"><h3>${escape(title)}</h3>
             ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${!state.compact && trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
@@ -104,7 +109,7 @@
         }
         if (options.showExperienceFilter) {
             const select = make('select'), all = make('option', 'All experiences'); all.value = 'all'; select.append(all);
-            const available = new Set(trips.map(experience));
+            const available = new Set(trips.flatMap(experiencesFor));
             Object.entries(experiences).filter(([key]) => available.has(key)).forEach(([key, title]) => { const option = make('option', title); option.value = key; select.append(option); });
             select.addEventListener('change', update); inputs.push([select, 'experience']); control('Choose your experience', select);
         }
@@ -186,5 +191,5 @@
         render();
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
-    return { renderDeparture, displayTitle, experiences, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
+    return { renderDeparture, displayTitle, experiences, experiencesFor, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
 }));

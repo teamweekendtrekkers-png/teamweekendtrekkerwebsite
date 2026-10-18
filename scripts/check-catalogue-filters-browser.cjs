@@ -5,7 +5,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const root=path.resolve(__dirname,'..'),origin='https://catalogue.test';
 const output=process.env.SEARCH_REVIEW_DIR||path.join(root,'build','search-review');
 const fixtures={
- coorg:{title:'Misty Coorg Trek',location:'Coorg',experience:'trek',badge:'Trek',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,499',availableDates:['Oct 23-25, 2099','Oct 30-Nov 1, 2099']},
+ coorg:{title:'Misty Coorg Trek',location:'Coorg',experiences:['trek','adventure'],isBestseller:true,badge:'Trek',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,499',availableDates:['Oct 23-25, 2099','Oct 30-Nov 1, 2099']},
  coast:{title:'Coast and town',location:'Gokarna',experience:'beach',badge:'Road Trip',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,999',availableDates:['Oct 30-Nov 1, 2099']},
  heritage:{title:'Kannur heritage weekend',location:'Kannur',experience:'heritage',badge:'Trip',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹5,999',availableDates:['Oct 23-25, 2099']},
  undated:{title:'Hampi walk',location:'Hampi',experience:'heritage',badge:'Trip',image:'images/test.jpg',availableDates:[]},
@@ -39,9 +39,12 @@ const fixtures={
    assert.equal(await reset.isDisabled(),true);
    await search.fill(' Coorg   Bengaluru ');
    assert.deepEqual(await ids(),['coorg']);
+   assert.equal(await page.locator('.trip-bestseller-badge').innerText(),'Bestseller');
+   assert.deepEqual(await page.locator('.trip-card-types .trip-badge').allTextContents(),['Treks','Adventure']);
    await toggle.focus();await page.keyboard.press('Enter');
    assert.equal(await toggle.getAttribute('aria-expanded'),'true');
    const experience=page.getByLabel('Choose your experience',{exact:true}),departure=page.getByLabel('Choose your departure',{exact:true});
+   await experience.selectOption('adventure');assert.deepEqual(await ids(),['coorg']);
    await experience.selectOption('trek');await departure.selectOption('2099-10-23/2099-10-25');
    assert.deepEqual(await ids(),['coorg']);assert.match(await toggle.innerText(),/Filters \(2\)/);
    const href=await page.locator('[data-trip-id="coorg"] .trip-footer a').getAttribute('href');

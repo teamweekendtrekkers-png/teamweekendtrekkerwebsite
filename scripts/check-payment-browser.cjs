@@ -67,12 +67,17 @@ const server=http.createServer((req,res)=>{
    await page.waitForSelector('#paymentSection', {state:'visible'});assert.equal(posts.length,0);
    assert.equal(await page.locator('#requestReceived').getAttribute('open'),null);
    assert.match(await page.locator('#paymentDue').textContent(),/2,249.5/);
+   assert.equal(await page.locator('#paymentChecklist').isVisible(),true);
+   assert.equal(await page.locator('#paymentChecklist [aria-current="step"]').getAttribute('data-payment-step'),'1');
    await page.locator('#reportPaymentBtn').click();assert.match(await page.locator('#paymentReportFeedback').textContent(),/transaction ID/);assert.equal(posts.length,0);
    await page.fill('#transactionReference','UPI123456789');await page.check('#paymentSent');
+   assert.equal(await page.locator('#paymentChecklist [aria-current="step"]').getAttribute('data-payment-step'),'3');
    await page.locator('#reportPaymentBtn').click();await page.waitForSelector('#requestReceived[open]');
    assert.equal(posts.length,1);assert.match(posts[0].special_requests,/UPI123456789/);
    assert.match(await page.locator('#requestReceived h2').textContent(),/Payment details submitted/);
    assert.match(await page.locator('#requestStatus').textContent(),/verification pending/i);
+   assert.equal(await page.locator('#paymentChecklist [aria-current="step"]').getAttribute('data-payment-step'),'4');
+   assert.match(await page.locator('#paymentChecklist li').last().innerText(),/Verification is pending/);
    const directDetails=decodeURIComponent(await page.locator('#requestReceived [data-send-booking-details]').getAttribute('href'));
    assert.match(directDetails,/Direct UPI payment/);assert.match(directDetails,/Transaction ID: UPI123456789/);
    await page.screenshot({path:path.join(output,`payment-direct-${width}.png`)});
