@@ -69,9 +69,10 @@
         const selected = ranges.find(range => range.key === state.departure);
         const href = selected && typeof links.departureUrl === 'function' ? links.departureUrl(trip.id, selected.originalLabel) : links.detailUrl(trip.id);
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
-        const labels = experiencesFor(trip).map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
+        const selectedExperiences = experiencesFor(trip);
+        const labels = selectedExperiences.map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
-            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><div class="trip-card-types">${labels.map(label => `<span class="trip-badge">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
+            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><div class="trip-card-types">${labels.map((label, index) => `<span class="trip-badge" data-experience="${escape(selectedExperiences[index])}">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
             <div class="trip-content"><h3>${escape(title)}</h3>
             ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${!state.compact && trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
