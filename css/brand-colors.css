@@ -1,0 +1,112 @@
+/* Shared palette. Loaded last so every page uses the same action and status colors. */
+:root {
+  --brand-forest: #173F35;
+  --brand-teal: #087F73;
+  --brand-teal-hover: #06695F;
+  --brand-ivory: #FFF9F2;
+  --brand-sage: #E8F3EC;
+  --brand-orange: #B54716;
+  --brand-gold: #F4C95D;
+  --brand-text: #26352F;
+  --brand-muted: #54645D;
+  --brand-border: #DCE6DF;
+  --brand-whatsapp: #166534;
+  --brand-pending-bg: #FFF1D6;
+  --brand-pending-text: #754700;
+  --brand-error-bg: #FDEBE9;
+  --brand-error-text: #9D241B;
+  --primary: var(--brand-forest);
+  --primary-dark: #12362D;
+  --secondary: var(--brand-orange);
+  --accent: var(--brand-teal);
+  --whatsapp: var(--brand-whatsapp);
+  --upi: var(--brand-teal);
+  --page-cream: var(--brand-ivory);
+  --brand-surface: var(--brand-sage);
+  --text-dark: var(--brand-text);
+  --text-light: var(--brand-muted);
+}
+body { background: var(--brand-ivory); color: var(--brand-text); }
+h1,h2,h3,h4,.section-title { color: var(--brand-forest); }
+.hero h1,.page-header h1,.page-header h2,.cta-section h2 { color: #fff; }
+.page-header,.stats,.cta-section,.footer { background: var(--brand-forest); }
+.footer,.footer h4,.footer a,.footer p,.footer-bottom { color: #fff; }
+.footer a:hover { color: var(--brand-gold); }
+.trips-section,.how-it-works,.testimonials { background: #fff; }
+.upcoming-batches,.why-choose-us { background: var(--brand-ivory); }
+.filter-section,.discovery-controls,.summary-card>h3,.checkout-page .summary-card>h3 { background: var(--brand-sage); }
+.trip-card,.checkout-card,.summary-card { border-color: var(--brand-border); background: #fff; }
+
+/* Primary actions have one treatment; contact actions have a separate, readable green. */
+.btn-primary,.trip-footer .btn,.mobile-book-float>a:first-child,
+.cta-section .btn-primary,#submitDetailsBtn {
+  background: var(--brand-teal); color: #fff; border-color: var(--brand-teal);
+}
+.btn-primary:hover,.trip-footer .btn:hover,.mobile-book-float>a:first-child:hover,
+.cta-section .btn-primary:hover,#submitDetailsBtn:hover {
+  background: var(--brand-teal-hover); color: #fff; border-color: var(--brand-teal-hover);
+}
+.btn-outline { background: transparent; color: var(--brand-teal); border-color: var(--brand-teal); }
+.cta-section .btn-primary { border-color: #fff; }
+.btn-secondary { background: #fff; color: var(--brand-teal); border: 1px solid var(--brand-teal); }
+.btn-secondary:hover { background: var(--brand-sage); color: var(--brand-forest); }
+.btn-whatsapp,.btn[href*="wa.me/"],.nav-menu .btn-nav[href*="wa.me/"],.whatsapp-float,
+#bookingCard .booking-secondary-actions .btn[href*="wa.me/"] {
+  background: var(--brand-whatsapp); color: #fff; border-color: var(--brand-whatsapp);
+}
+.btn-whatsapp:hover,.btn[href*="wa.me/"]:hover,.nav-menu .btn-nav[href*="wa.me/"]:hover,.whatsapp-float:hover,
+#bookingCard .booking-secondary-actions .btn[href*="wa.me/"]:hover {
+  background: #12532B; color: #fff; border-color: #12532B;
+}
+.btn-nav:focus-visible,.btn:focus-visible,button:focus-visible,a:focus-visible,
+input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible {
+  outline: 3px solid var(--brand-orange); outline-offset: 3px;
+  box-shadow: 0 0 0 2px #fff;
+}
+.filter-btn.active,.filter-btn:hover,.tour-refined .trip-section-links a[aria-current] {
+  background: var(--brand-teal); color: #fff; border-color: var(--brand-teal);
+}
+.filter-btn,.catalogue-filter-toggle { color: var(--brand-forest); border-color: #7C9187; }
+.form-group input,.form-group select,.form-group textarea,.discovery-field input,
+.discovery-field select,#transactionReference { border-color: #7C9187; }
+.trip-footer .trip-price,.summary-total,.checkout-page .summary-total,.payment-type-amount {
+  color: var(--brand-forest);
+}
+.checkout-page .summary-total,.payment-amount-summary,.checkout-page .payment-upi-value {
+  background: var(--brand-sage); border-color: #BDDAC9;
+}
+#upcoming-batches-grid>.departure-bar { background: #FFF0E5; border-color: #EDCBB5; }
+.departure-date { background: var(--brand-orange); color: #fff; }
+.departure-arrow,.section-eyebrow { color: var(--brand-orange); }
+#featured-trips-grid .trip-next-departure { color: var(--brand-muted); }
+#featured-trips-grid .trip-next-departure time { color: var(--brand-forest); }
+.stats .stat-number { color: var(--brand-gold); }
+
+/* Labels remain visible: color supplements, rather than replaces, their meaning. */
+.discovery-card .trip-card-types .trip-badge[data-experience="trek"] { background: #E8F3EC; color: #1B5537; border-color: #BDDAC9; }
+.discovery-card .trip-card-types .trip-badge[data-experience="beach"] { background: #EAF3FC; color: #1D5278; border-color: #BED8ED; }
+.discovery-card .trip-card-types .trip-badge[data-experience="heritage"] { background: #FFF1D6; color: #7A4B0A; border-color: #E8D09D; }
+.discovery-card .trip-card-types .trip-badge[data-experience="adventure"] { background: #FFF0E5; color: #9A3F15; border-color: #EDCBB5; }
+.discovery-card .trip-card-types .trip-badge[data-experience="getaway"] { background: #E5F4F2; color: #165E56; border-color: #B5DCD5; }
+.discovery-card .trip-card-types .trip-badge[data-experience="other"] { background: #F0F2EF; color: #46544B; border-color: #CFD8D1; }
+.discovery-card .trip-bestseller-badge { background: var(--brand-gold); color: #533707; }
+.trip-inactive-badge { background: #EEF0ED; color: #46544B; }
+.testimonial-stars,.review-stars { color: #8A5700; }
+
+/* Submission and waiting are not payment verification. */
+.request-status,.payment-reminder,.submit-success,
+.payment-checklist li[data-state="current"] {
+  background: var(--brand-pending-bg); color: var(--brand-pending-text);
+}
+.submit-success h3,.submit-success p,.submit-success>i { color: var(--brand-pending-text); }
+.payment-checklist li[data-state="current"]::before { background: var(--brand-pending-text); color: #fff; }
+.payment-checklist li[data-state="complete"]::before { background: #E4EBE6; color: #46544B; }
+#offerUpdate { background: var(--brand-pending-bg); color: var(--brand-pending-text); }
+#bookingIssue { background: var(--brand-error-bg); color: var(--brand-error-text); }
+
+.form-group input::placeholder,.form-group textarea::placeholder,.discovery-field input::placeholder { color: #627268; opacity: 1; }
+/* Older UPI cards used inline-priority purple declarations. Keep them on the shared palette. */
+.upi-card { background: var(--brand-sage)!important; color: var(--brand-text)!important; border-color: var(--brand-border); }
+.upi-card h4 { color: var(--brand-forest)!important; }
+.upi-card p,.upi-card .upi-id { color: var(--brand-text)!important; }
+.upi-card .copy-upi,.upi-card .btn-upi { background: var(--brand-teal)!important; color: #fff!important; border-color: var(--brand-teal)!important; }

@@ -2,6 +2,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const {assertReadable}=require('./color-contrast.cjs');
 const root=path.resolve(__dirname,'..'),origin='http://127.0.0.1:43210',date='Oct 16-18, 2026',later='Oct 30-Nov 1, 2026';
 const output=process.env.PAYMENT_REVIEW_DIR||path.join(root,'../payment-reviews');
 const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[{id:'primary',label:'Primary',upiId:'first@upi',receiverName:'First receiver',qrImage:'images/test-qr.png'},{id:'backup',label:'Backup',upiId:'second@upi',receiverName:'Second receiver',qrImage:'images/backup-qr.png'}],activeProfileId:'primary',showQr:true});
@@ -43,6 +44,10 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Phone checkout fits without sideways scrolling');
     await page.screenshot({path:path.join(output,`checkout-compact-${width}.png`),fullPage:true});
    }
+   await assertReadable(page.locator('#submitDetailsBtn'));
+   await assertReadable(page.locator('#requestStatus'));
+   await assertReadable(page.locator('.summary-total'));
+   assert.equal(await page.locator('#requestStatus').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 241, 214)');
    await fill();
    assert.equal(await page.locator('input[name="bookingPaymentMode"][value="direct"]').isChecked(),true);
    assert.equal(await page.locator('input[name="bookingPaymentMode"][value="confirmation"]').isVisible(),false);

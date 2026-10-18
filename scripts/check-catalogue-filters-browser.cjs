@@ -2,6 +2,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const {assertReadable}=require('./color-contrast.cjs');
 const root=path.resolve(__dirname,'..'),origin='https://catalogue.test';
 const output=process.env.SEARCH_REVIEW_DIR||path.join(root,'build','search-review');
 const fixtures={
@@ -34,6 +35,13 @@ const fixtures={
    const ids=()=>page.locator('#tripsDynamicGrid .trip-card').evaluateAll(nodes=>nodes.map(node=>node.dataset.tripId));
    await page.goto(origin+'/trips.html');
    await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===3);
+   for(const badge of await page.locator('.trip-card-types .trip-badge,.trip-bestseller-badge').all())await assertReadable(badge);
+   await assertReadable(page.locator('.trip-footer .btn').first());
+   await assertReadable(page.locator('.page-header h1'));
+   if(width>=768)await assertReadable(page.locator('.nav-menu .btn-nav'));
+   const trekColor=await page.locator('[data-experience="trek"]').evaluate(el=>getComputedStyle(el).backgroundColor);
+   const adventureColor=await page.locator('[data-experience="adventure"]').evaluate(el=>getComputedStyle(el).backgroundColor);
+   assert.notEqual(trekColor,adventureColor,'Category labels retain distinct tints');
    const search=page.getByRole('searchbox',{name:'Find your trip',exact:true});
    const toggle=page.locator('.catalogue-filter-toggle'),reset=page.locator('#trip-discovery-controls .discovery-reset');
    assert.equal(await reset.isDisabled(),true);
