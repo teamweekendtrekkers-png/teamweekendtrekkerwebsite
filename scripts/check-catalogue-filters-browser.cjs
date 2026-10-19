@@ -6,9 +6,10 @@ const {assertReadable}=require('./color-contrast.cjs');
 const root=path.resolve(__dirname,'..'),origin='https://catalogue.test';
 const output=process.env.SEARCH_REVIEW_DIR||path.join(root,'build','search-review');
 const fixtures={
- coorg:{title:'Misty Coorg Trek',location:'Coorg',experiences:['trek','adventure'],isBestseller:true,badge:'Trek',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,499',availableDates:['Oct 23-25, 2099','Oct 30-Nov 1, 2099']},
+ coorg:{title:'Misty Coorg Trek',location:'Coorg',experiences:['trek','adventure'],isBestseller:true,badge:'Trek',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,499',originalPrice:5499,availableDates:['Oct 23-25, 2099','Oct 30-Nov 1, 2099']},
  coast:{title:'Coast and town',location:'Gokarna',experience:'beach',badge:'Road Trip',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹4,999',availableDates:['Oct 30-Nov 1, 2099']},
  heritage:{title:'Kannur heritage weekend',location:'Kannur',experience:'heritage',badge:'Trip',departureCity:'Bengaluru',image:'images/test.jpg',price:'₹5,999',availableDates:['Oct 23-25, 2099']},
+ closed:{title:'Closed dates',location:'Wayanad',experience:'trek',image:'images/test.jpg',availableDates:['Oct 23-25, 2099'],closedDepartures:['2099-10-23/2099-10-25']},
  undated:{title:'Hampi walk',location:'Hampi',experience:'heritage',badge:'Trip',image:'images/test.jpg',availableDates:[]},
  inactive:{title:'Next season',location:'Munnar',experience:'getaway',badge:'Trip',image:'images/test.jpg',isActive:false,availableDates:['Oct 23-25, 2099']}
 };
@@ -16,7 +17,7 @@ const fixtures={
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined});
  fs.mkdirSync(output,{recursive:true});
  try {
-  for(const width of [390,768,1440]){
+  for(const width of [360,390,768,1440]){
    const page=await browser.newPage({viewport:{width,height:1000}}),errors=[],writes=[];
    let discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
    page.on('pageerror',error=>errors.push(error.message));
@@ -38,7 +39,16 @@ const fixtures={
    for(const badge of await page.locator('.trip-card-types .trip-badge,.trip-bestseller-badge').all())await assertReadable(badge);
    await assertReadable(page.locator('.trip-footer .btn').first());
    await assertReadable(page.locator('.page-header h1'));
+   assert.equal(await page.locator('.page-header h1').evaluate(el =>
+     el.getBoundingClientRect().top >= document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Banner clears fixed navigation');
+   await page.locator('#show-coming-soon').check();
+   assert.match(await page.locator('[data-trip-id="closed"]').innerText(),/Booking closed for current dates/i);
+   assert.match(await page.locator('[data-trip-id="undated"]').innerText(),/New dates coming soon/i);
+   await page.locator('#show-coming-soon').uncheck();
    if(width>=768)await assertReadable(page.locator('.nav-menu .btn-nav'));
+   assert.equal(await page.locator('[data-trip-id="coorg"] del').innerText(),'₹5,499');
+   assert.equal(await page.locator('[data-trip-id="coorg"] .trip-price').innerText(),'₹4,499');
+   assert.equal(await page.locator('[data-trip-id="coast"] del').count(),0);
    const trekColor=await page.locator('[data-experience="trek"]').evaluate(el=>getComputedStyle(el).backgroundColor);
    const adventureColor=await page.locator('[data-experience="adventure"]').evaluate(el=>getComputedStyle(el).backgroundColor);
    assert.notEqual(trekColor,adventureColor,'Category labels retain distinct tints');
