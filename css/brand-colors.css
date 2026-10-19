@@ -110,3 +110,13 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-vi
 .upi-card h4 { color: var(--brand-forest)!important; }
 .upi-card p,.upi-card .upi-id { color: var(--brand-text)!important; }
 .upi-card .copy-upi,.upi-card .btn-upi { background: var(--brand-teal)!important; color: #fff!important; border-color: var(--brand-teal)!important; }
+
+/* Keep banner text below the fixed navigation at every viewport size. */
+.page-header { padding-top: 111px; padding-bottom: 32px; }
+.booking-package-link,.booking-pickup-link { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width:767px) {
+  .page-header { padding: 96px 16px 24px; }
+}
+
+.trip-footer > div { display:flex; align-items:baseline; flex-wrap:wrap; column-gap:6px; row-gap:2px; }
+.trip-original-price { color:var(--brand-muted); font-size:.95rem; text-decoration:line-through; }

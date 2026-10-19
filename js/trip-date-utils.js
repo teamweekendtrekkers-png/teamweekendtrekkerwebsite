@@ -233,6 +233,12 @@
             .sort((left, right) => left.start.getTime() - right.start.getTime());
     }
 
+    function unavailableDateLabel(trip, referenceDate) {
+        if (trip?.isActive === false) return 'Coming soon';
+        const future = getUpcomingDateRanges({ ...trip, closedDepartures: [] }, referenceDate);
+        return future.length ? 'Booking closed for current dates' : 'New dates coming soon';
+    }
+
     function getTripDateTags(trip, referenceDate, limit) {
         const tagLimit = Number.isInteger(limit) && limit > 0 ? limit : 3;
         const dates = getUpcomingDateRanges(trip, referenceDate);
@@ -259,7 +265,7 @@
         if (tags.visible.length === 0) {
             return `
                 <div class="trip-dates trip-dates-empty" aria-label="Available trip dates">
-                    <span class="trip-dates-label"><i class="far fa-calendar-alt" aria-hidden="true"></i> New dates coming soon</span>
+                    <span class="trip-dates-label"><i class="far fa-calendar-alt" aria-hidden="true"></i> ${escapeHTML(unavailableDateLabel(trip, referenceDate))}</span>
                 </div>`;
         }
 
@@ -317,6 +323,7 @@
     }
 
     return {
+        unavailableDateLabel,
         departureMinutes,
         bookingCutoff,
         parseTripDateRange,

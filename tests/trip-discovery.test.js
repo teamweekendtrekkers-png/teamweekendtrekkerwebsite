@@ -129,3 +129,23 @@ test('multiple experiences match either category and Bestseller is explicitly co
  assert.doesNotMatch(discovery.renderCard({...trip,isBestseller:'true'},now),/>Bestseller</);
  assert.equal(JSON.stringify(trip),before);
 });
+
+test('cards show valid original and selling fares and leave invalid pairs alone', () => {
+    const base = { ...trips[0], price:'₹4,499', originalPrice:5499 };
+    const discounted = discovery.renderCard(base, now, {compact:true});
+    assert.match(discounted, /<del[^>]*>₹5,499<\/del>/);
+    assert.match(discounted, /aria-label="Discounted price ₹4,499"/);
+    for (const originalPrice of [undefined, null, '', 0, 4499, 4000, 'bad', '<img>']) {
+        assert.doesNotMatch(discovery.renderCard({...base, originalPrice}, now), /<del/);
+    }
+    assert.doesNotMatch(discovery.renderCard({...base, price:'Ask us'}, now), /<del/);
+    assert.match(discovery.renderCard(base, now, {hidePrice:true}), /<div hidden>/);
+});
+test('closed future dates are distinct from undated and inactive trips', () => {
+    const closed = {...trips[1], availableDates:['Aug 21-23, 2026'], closedDepartures:['2026-08-21\/2026-08-23']};
+    assert.equal(dates.unavailableDateLabel(closed, now), 'Booking closed for current dates');
+    assert.match(discovery.renderCard(closed, now, {compact:true}), /Booking closed for current dates/);
+    assert.match(discovery.renderCard(closed, now), /Booking closed for current dates/);
+    assert.equal(dates.unavailableDateLabel(trips[2], now), 'New dates coming soon');
+    assert.equal(dates.unavailableDateLabel(trips[3], now), 'Coming soon');
+});

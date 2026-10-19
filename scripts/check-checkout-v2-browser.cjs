@@ -35,7 +35,9 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
      return route.fulfill({contentType:({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'})[path.extname(file)]||'application/octet-stream',body});
     }catch{return route.fulfill({status:404,body:''});}
    });
-   const open=async(label=date)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people=1');await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));};
+   const open=async(label=date)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people=1');await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));
+     assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
+   };
    const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
    await open();
    if(width<=390){
@@ -85,6 +87,13 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.goto(origin+'/trip-detail.html?trip=demo');await page.waitForSelector('#trip-custom_why_choose_us');
    assert.equal(await page.locator('#trip-custom_why_choose_us summary').textContent(),'Why choose us');assert.match(await page.locator('#trip-custom_why_choose_us').textContent(),/Personal support throughout the journey/);assert.equal(await page.locator('#trip-custom_hidden').count(),0);
    await page.locator('#trip-custom_why_choose_us').screenshot({path:path.join(output,`custom-trip-section-${width}.png`)});
+   if(width<768) {
+    await page.locator('#mobileBookBtn a').first().click();
+    await page.locator('.booking-dialog[open] .booking-pickup-link').click();
+    assert.equal(await page.locator('.booking-dialog[open]').count(),0);
+   } else await page.locator('.booking-pickup-link').click();
+   await page.waitForFunction(()=>document.activeElement.id==='tripPickup');
+   assert.equal(new URL(page.url()).pathname,'/trip-detail.html');
    await page.waitForSelector('.gallery-main');await page.locator('.gallery-main').focus();await page.keyboard.press('Enter');
    assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),'Close photo gallery');
    for(let i=0;i<7;i++){await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.getElementById('galleryLightbox').contains(document.activeElement)),true);}
