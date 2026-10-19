@@ -118,5 +118,5 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-vi
   .page-header { padding: 96px 16px 24px; }
 }
 
-.trip-footer > div { display:flex; align-items:baseline; flex-wrap:wrap; column-gap:6px; row-gap:2px; }
+.trip-footer > div:not([hidden]) { display:flex; align-items:baseline; flex-wrap:wrap; column-gap:6px; row-gap:2px; }
 .trip-original-price { color:var(--brand-muted); font-size:.95rem; text-decoration:line-through; }
