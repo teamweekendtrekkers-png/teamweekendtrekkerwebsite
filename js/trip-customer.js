@@ -6,7 +6,8 @@
   const id=getTripFromURL(),trip=typeof tripsData==='object'?tripsData[id]:null;
   if(!trip)return;
   TripDecision.preserveAnchors(document,window.location);
-  const clean=text=>String(text||'').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').replace(/\s+/g,' ').trim();
+  // Preserve authored emojis, including variation selectors and joined sequences.
+  const clean=text=>String(text||'').replace(/\s+/g,' ').trim();
   let heading=clean(trip.title);const letters=heading.replace(/[^A-Za-z]/g,'');if(letters&&letters===letters.toUpperCase())heading=heading.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());document.getElementById('tripTitle').textContent=heading;
   document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>el.textContent=clean(el.textContent));
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
