@@ -27,7 +27,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     if(url.pathname.endsWith('-qr.png'))return route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
     try{
      let body=fs.readFileSync(file);
-     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
+     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',itinerary:[{day:'🌞 Day 1',title:'🙏 Traditions & culture',activities:['🌞 Arrive in Kannur','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']}],highlights:['🔥 Theyyam experience'],contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
      if(url.pathname==='/js/security.js'){
        const upi='first@upi';let checksum=0;for(const c of upi)checksum=((checksum<<5)-checksum+c.charCodeAt(0))|0;
        body=body.toString().replace(/_p1:\s*\[[^\]]+\]/,'_p1: [102,105,114,115,116]').replace(/_p3:\s*\[[^\]]+\]/,'_p3: [117,112,105]').replace(/_checksum:\s*-?\d+/,'_checksum: '+checksum);
@@ -117,6 +117,10 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.screenshot({path:path.join(output,`checkout-v2-unavailable-${width}.png`)});
    // Gallery dialog owns keyboard focus and restores it on Escape.
    await page.goto(origin+'/trip-detail.html?trip=demo');await page.waitForSelector('#trip-custom_why_choose_us');
+   assert.deepEqual((await page.locator('.itinerary-accordion li').allTextContents()).map(text=>text.trim()),['🌞 Arrive in Kannur','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']);
+   assert.equal((await page.locator('.day-badge').first().textContent()).trim(),'🌞 Day 1');
+   assert.equal((await page.locator('.itinerary-accordion h3').first().textContent()).trim(),'🙏 Traditions & culture');
+   assert.match(await page.locator('.highlights-list').textContent(),/🔥 Theyyam experience/);
    assert.equal(await page.locator('#trip-custom_why_choose_us summary').textContent(),'Why choose us');assert.match(await page.locator('#trip-custom_why_choose_us').textContent(),/Personal support throughout the journey/);assert.equal(await page.locator('#trip-custom_hidden').count(),0);
    await page.locator('#trip-custom_why_choose_us').screenshot({path:path.join(output,`custom-trip-section-${width}.png`)});
    if(width<768) {
