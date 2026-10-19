@@ -43,9 +43,11 @@
  }
  window.refreshCheckoutCommerce=refresh;
  function invalidRequest(){
-  byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='This departure is no longer accepting requests. Please choose another date.';
+  const trip=currentTrip();
+  byId('bookingIssue').hidden=false;byId('bookingIssue').textContent=trip?'This departure is no longer accepting requests. Please choose another date.':'The selected trip is missing or unavailable. Please choose a trip to continue.';
+  byId('chooseTripLink').hidden=!!trip;
   byId('submitDetailsBtn').disabled=true;byId('paymentSection').style.display='none';
-  byId('paymentModeNotice').textContent='This departure is unavailable. Choose another available date to continue.';
+  byId('paymentModeNotice').textContent=trip?'This departure is unavailable. Choose another available date to continue.':'Choose an available trip before continuing to payment.';
   document.querySelectorAll('input[name="bookingPaymentMode"]').forEach(r=>r.disabled=true);
  }
  document.addEventListener('DOMContentLoaded',async()=>{

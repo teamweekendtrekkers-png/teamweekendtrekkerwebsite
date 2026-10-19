@@ -12,7 +12,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
  try{
   for(const width of [360,390,1440]){
    const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
-   let p=payment(),closed=[];
+   let p=payment(),closed=[],delayTripData=false;
    page.on('pageerror',e=>errors.push(e.message));
    await page.addInitScript(()=>{const OriginalDate=Date;globalThis.Date=class extends OriginalDate{constructor(...args){super(...(args.length?args:['2026-10-14T05:00:00Z']));}static now(){return new OriginalDate('2026-10-14T05:00:00Z').getTime();}};Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>{window.copiedUpi=text;}}});});
    await page.route('**/*',async route=>{
@@ -27,7 +27,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     if(url.pathname.endsWith('-qr.png'))return route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
     try{
      let body=fs.readFileSync(file);
-     if(url.pathname==='/js/trips-data.js')body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;
+     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
      if(url.pathname==='/js/security.js'){
        const upi='first@upi';let checksum=0;for(const c of upi)checksum=((checksum<<5)-checksum+c.charCodeAt(0))|0;
        body=body.toString().replace(/_p1:\s*\[[^\]]+\]/,'_p1: [102,105,114,115,116]').replace(/_p3:\s*\[[^\]]+\]/,'_p3: [117,112,105]').replace(/_checksum:\s*-?\d+/,'_checksum: '+checksum);
@@ -39,6 +39,33 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
      assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
    };
    const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
+   // Missing, unknown or duplicate trip IDs must never select a fallback trip.
+   for(const query of ['', '?trip=unknown&date='+encodeURIComponent(date), '?trip=demo&trip=other&date='+encodeURIComponent(date), '?trip=__proto__&date='+encodeURIComponent(date)]) {
+    await page.goto(origin+'/checkout.html'+query);
+    await page.waitForFunction(()=>document.getElementById('summaryTripName').textContent==='Choose a trip to continue');
+    assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);
+    assert.equal(await page.locator('#checkoutForm').isVisible(),false);
+    assert.equal(await page.locator('#chooseTripLink').isVisible(),true);
+    assert.equal(await page.evaluate(()=>window.bookingData),null);
+    assert.equal(posts.length,0);
+   }
+   await page.addInitScript(()=>{
+    window.summaryHistory=[];
+    new MutationObserver(()=>{
+     const name=document.getElementById('summaryTripName')?.textContent;
+     if(name&&window.summaryHistory.at(-1)!==name)window.summaryHistory.push(name);
+    }).observe(document,{subtree:true,childList:true,characterData:true});
+   });
+   delayTripData=true;await open();delayTripData=false;
+   assert.equal(await page.locator('#summaryTripName').textContent(),'Demo Trip');
+   assert.equal(await page.evaluate(()=>window.bookingData.trip),'Demo Trip');
+   assert.equal(await page.locator('#hiddenTripName').inputValue(),'Demo Trip');
+   assert.equal(Number((await page.locator('#hiddenTotal').inputValue()).replace(/[₹,]/g,'')),4499);
+   assert.equal(await page.evaluate(()=>window.summaryHistory.some(name=>/Netravat/i.test(name))),false);
+   await page.goto(origin+'/checkout.html?trip=demo');
+   await page.waitForFunction(()=>document.getElementById('summaryTripName').textContent==='Demo Trip');
+   assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);
+   assert.equal(await page.locator('#summaryDate').textContent(),'Choose a departure');
    await open();
    if(width<=390){
     assert.equal(await page.locator('.summary-row').first().evaluate(el=>getComputedStyle(el).marginBottom),'0px');
@@ -46,6 +73,11 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Phone checkout fits without sideways scrolling');
     await page.screenshot({path:path.join(output,`checkout-compact-${width}.png`),fullPage:true});
    }
+   // Initialization enables the button with a CSS transition; measure its final interactive state.
+   await page.locator('#submitDetailsBtn').evaluate(async button=>{
+    getComputedStyle(button).opacity;
+    await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})));
+   });
    await assertReadable(page.locator('#submitDetailsBtn'));
    await assertReadable(page.locator('#requestStatus'));
    await assertReadable(page.locator('.summary-total'));

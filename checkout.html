@@ -46,7 +46,7 @@
                 <div class="checkout-main">
                     <div class="checkout-card">
                         <h2><i class="fas fa-user"></i> Your Details</h2>
-                        <p id="bookingIssue" role="alert" hidden></p><form id="checkoutForm" data-netlify="true" name="booking">
+                        <p id="bookingIssue" role="alert" hidden></p><a id="chooseTripLink" class="btn btn-secondary" href="trips.html" hidden>Browse available trips</a><form id="checkoutForm" data-netlify="true" name="booking">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="fullName">Full Name *</label>
@@ -88,7 +88,7 @@
                             <input type="hidden" id="hiddenPeople" name="peopleCount">
                             <input type="hidden" id="hiddenTotal" name="totalAmount">
                             
-                            <button type="button" id="submitDetailsBtn" class="btn btn-primary btn-full" onclick="submitDetails()">
+                            <button type="button" id="submitDetailsBtn" disabled class="btn btn-primary btn-full" onclick="submitDetails()">
                                 <i class="fas fa-paper-plane"></i> Send Booking Request
                             </button>
                             <p class="submit-note"><i class="fas fa-lock"></i> Our team will confirm availability before you pay.</p>
@@ -119,7 +119,7 @@
                                         <div class="payment-type-badge">Recommended</div>
                                         <span class="payment-type-icon">50%</span>
                                         <span class="payment-type-title">50% payment</span>
-                                        <span class="payment-type-amount" id="halfPayAmount">₹1,750</span>
+                                        <span class="payment-type-amount" id="halfPayAmount">—</span>
                                         <span class="payment-type-desc">Balance as agreed with our team</span>
                                     </div>
                                 </label>
@@ -128,14 +128,14 @@
                                     <div class="payment-type-card">
                                         <span class="payment-type-icon">100%</span>
                                         <span class="payment-type-title">Pay Full Amount</span>
-                                        <span class="payment-type-amount" id="fullPayAmount">₹3,500</span>
+                                        <span class="payment-type-amount" id="fullPayAmount">—</span>
                                         <span class="payment-type-desc">Pay the full trip amount</span>
                                     </div>
                                 </label>
                             </div>
                             <div class="payment-type-note" id="paymentNote">
                                 <i class="fas fa-info-circle"></i>
-                                <span>Remaining ₹<span id="remainingAmount">1,750</span> balance; confirm the payment schedule with our team</span>
+                                <span>Remaining ₹<span id="remainingAmount">—</span> balance; confirm the payment schedule with our team</span>
                             </div>
                         </div>
                         
@@ -167,7 +167,7 @@
                             <h3>💳 Pay Online (Cards/NetBanking/Wallets)</h3>
                             <p class="payment-desc">Pay securely using Credit/Debit Cards, Net Banking, or Wallets</p>
                             <button id="rzpButton" class="btn btn-razorpay btn-full">
-                                <i class="fas fa-lock"></i> Pay ₹<span id="rzpAmount">3,499</span> Securely
+                                <i class="fas fa-lock"></i> Pay ₹<span id="rzpAmount">—</span> Securely
                             </button>
                             <p class="powered-by">Powered by Razorpay</p>
                         </div>
@@ -179,31 +179,31 @@
                     <div class="summary-card">
                         <h3>Booking Summary</h3>
                         <div class="summary-trip">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=100" alt="Trip" class="summary-img">
+                            <img alt="" class="summary-img" hidden>
                             <div class="summary-trip-info">
-                                <h4 id="summaryTripName">Netravati Peak Trek</h4>
-                                <p><i class="fas fa-map-marker-alt"></i> Western Ghats, Karnataka</p>
+                                <h4 id="summaryTripName">Loading your trip…</h4>
+                                <p>Loading trip details…</p>
                             </div>
                         </div>
                         <p id="summaryFacts"></p><button id="changeBooking" type="button" class="change-booking">Change date or travellers</button><div class="summary-details">
                             <div class="summary-row">
                                 <span>Date</span>
-                                <span id="summaryDate">Jan 11-12, 2026</span>
+                                <span id="summaryDate">—</span>
                             </div>
                             <div class="summary-row">
                                 <span>Participants</span>
-                                <span id="summaryPeople">1 Person</span>
+                                <span id="summaryPeople">—</span>
                             </div>
                             <div class="summary-row">
                                 <span>Price per person</span>
-                                <span>₹3,499</span>
+                                <span>—</span>
                             </div>
                             <div class="summary-row" id="couponSavingsRow" hidden><span>Coupon savings</span><span id="couponSavings"></span></div>
                         </div>
                         <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal"></span></div><p id="offerUpdate" role="alert" hidden></p><details id="couponEntry" hidden><summary>Have a coupon?</summary><label for="couponCode">Coupon code</label><div class="coupon-controls"><input id="couponCode" autocomplete="off" maxlength="40"><button id="applyCoupon" type="button">Apply</button></div><button id="removeCoupon" type="button" hidden>Remove coupon</button><p id="couponFeedback" role="status"></p></details>
                         <div class="summary-total">
                             <span>Total Amount</span>
-                            <span id="summaryTotal">₹3,499</span>
+                            <span id="summaryTotal">—</span>
                         </div>
                         <p id="requestStatus" class="request-status">Availability checked after submission</p><div class="summary-note">
                             <i class="fas fa-info-circle"></i>
@@ -259,11 +259,13 @@
         // ========== URL Parameters ==========
         function getTripFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('trip') || 'netravati';
+            const values = urlParams.getAll('trip');
+            return values.length === 1 ? values[0] : '';
         }
         function getDateFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('date') || 'Jan 11-12, 2026';
+            const values = urlParams.getAll('date');
+            return values.length === 1 ? values[0] : '';
         }
         function getPeopleFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -273,7 +275,25 @@
         // ========== Update Checkout Page ==========
         function updateCheckoutPage() {
             const tripId = getTripFromURL();
-            const trip = getTripData(tripId);
+            const trip = typeof tripsData === 'object' &&
+                Object.prototype.hasOwnProperty.call(tripsData, tripId) ? tripsData[tripId] : null;
+            if (!trip) {
+                window.bookingData = null;
+                window.checkoutTrip = '';
+                window.checkoutAmount = 0;
+                window.currentPayAmount = 0;
+                for (const id of ['summaryDate','summaryPeople','summaryTotal','summarySubtotal']) document.getElementById(id).textContent = '—';
+                for (const id of ['hiddenTripName','hiddenTripDate','hiddenPeople','hiddenTotal']) document.getElementById(id).value = '';
+                document.getElementById('summaryFacts').textContent = '';
+                document.getElementById('summaryTripName').textContent = 'Choose a trip to continue';
+                document.querySelector('.summary-trip-info p').textContent = 'No valid trip selected';
+                document.querySelector('.summary-img').hidden = true;
+                document.getElementById('checkoutForm').hidden = true;
+                document.getElementById('submitDetailsBtn').disabled = true;
+                document.getElementById('changeBooking').hidden = true;
+                document.getElementById('chooseTripLink').hidden = false;
+                return false;
+            }
             const date = getDateFromURL();
             const people = getPeopleFromURL();
             
@@ -289,8 +309,10 @@
             // Update summary card
             document.getElementById('summaryTripName').textContent = trip.title;
             document.querySelector('.summary-trip-info p').textContent = trip.location;
+            document.querySelector('.summary-img').hidden = false;
+            document.querySelector('.summary-img').alt = trip.title;
             ResponsiveImages.set(document.querySelector('.summary-img'), trip.cardImage || trip.galleryImages?.[0] || trip.image, {eager:true});
-            document.getElementById('summaryDate').textContent = date;
+            document.getElementById('summaryDate').textContent = date || 'Choose a departure';
             document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
             document.querySelector('.summary-details .summary-row:nth-child(3) span:last-child').textContent = trip.price;
             document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;
@@ -477,7 +499,7 @@
         });
     </script>
     <script src="js/security.js"></script>
-<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=20261016-2"></script><script src="js/checkout-booking-change.js?v=20261016-2"></script><script src="js/checkout-experience.js?v=20261016-3"></script>
+<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=20261016-2"></script><script src="js/checkout-booking-change.js?v=20261016-2"></script><script src="js/checkout-experience.js?v=20261019-1"></script>
 <script src="js/payment-checkout.js?v=20261018-1"></script>
 </body>
 </html>
