@@ -282,6 +282,9 @@
                 window.checkoutTrip = '';
                 window.checkoutAmount = 0;
                 window.currentPayAmount = 0;
+                for (const id of ['summaryDate','summaryPeople','summaryTotal','summarySubtotal']) document.getElementById(id).textContent = '—';
+                for (const id of ['hiddenTripName','hiddenTripDate','hiddenPeople','hiddenTotal']) document.getElementById(id).value = '';
+                document.getElementById('summaryFacts').textContent = '';
                 document.getElementById('summaryTripName').textContent = 'Choose a trip to continue';
                 document.querySelector('.summary-trip-info p').textContent = 'No valid trip selected';
                 document.querySelector('.summary-img').hidden = true;
@@ -309,7 +312,7 @@
             document.querySelector('.summary-img').hidden = false;
             document.querySelector('.summary-img').alt = trip.title;
             ResponsiveImages.set(document.querySelector('.summary-img'), trip.cardImage || trip.galleryImages?.[0] || trip.image, {eager:true});
-            document.getElementById('summaryDate').textContent = date;
+            document.getElementById('summaryDate').textContent = date || 'Choose a departure';
             document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
             document.querySelector('.summary-details .summary-row:nth-child(3) span:last-child').textContent = trip.price;
             document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;

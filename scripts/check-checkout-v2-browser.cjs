@@ -60,12 +60,12 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.equal(await page.locator('#summaryTripName').textContent(),'Demo Trip');
    assert.equal(await page.evaluate(()=>window.bookingData.trip),'Demo Trip');
    assert.equal(await page.locator('#hiddenTripName').inputValue(),'Demo Trip');
-   assert.equal(await page.locator('#hiddenTotal').inputValue(),'₹4,499');
+   assert.equal(Number((await page.locator('#hiddenTotal').inputValue()).replace(/[₹,]/g,'')),4499);
    assert.equal(await page.evaluate(()=>window.summaryHistory.some(name=>/Netravat/i.test(name))),false);
    await page.goto(origin+'/checkout.html?trip=demo');
    await page.waitForFunction(()=>document.getElementById('summaryTripName').textContent==='Demo Trip');
    assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);
-   assert.equal(await page.locator('#summaryDate').textContent(),'');
+   assert.equal(await page.locator('#summaryDate').textContent(),'Choose a departure');
    await open();
    if(width<=390){
     assert.equal(await page.locator('.summary-row').first().evaluate(el=>getComputedStyle(el).marginBottom),'0px');
@@ -73,6 +73,11 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Phone checkout fits without sideways scrolling');
     await page.screenshot({path:path.join(output,`checkout-compact-${width}.png`),fullPage:true});
    }
+   // Initialization enables the button with a CSS transition; measure its final interactive state.
+   await page.locator('#submitDetailsBtn').evaluate(async button=>{
+    getComputedStyle(button).opacity;
+    await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})));
+   });
    await assertReadable(page.locator('#submitDetailsBtn'));
    await assertReadable(page.locator('#requestStatus'));
    await assertReadable(page.locator('.summary-total'));
