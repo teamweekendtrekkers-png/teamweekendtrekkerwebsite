@@ -90,7 +90,7 @@
             ${!state.compact && trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
             ${state.compact ? (ranges[0] ? `<p class="trip-next-departure">Next departure: <time datetime="${escape(ranges[0].startKey)}" title="${escape(ranges[0].fullLabel)}">${escape(ranges[0].shortLabel)}</time></p>` : `<p class="trip-next-departure">${escape(dates.unavailableDateLabel(trip, referenceDate))}</p>`) : dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate, 2)}
             <div class="trip-meta">${trip.duration ? `<span><i class="fas fa-clock" aria-hidden="true"></i> ${escape(trip.duration)}</span>` : ''}${trip.difficulty ? `<span><i class="fas fa-signal" aria-hidden="true"></i> ${escape(trip.difficulty)}</span>` : ''}</div>
-            ${!state.compact && trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
+            ${trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
 
             <div class="trip-footer"><div${state.hidePrice ? ' hidden' : ''}>${renderPrice(trip)}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div></div></article>`;
     }
@@ -134,7 +134,14 @@
         const reset = make('button', 'Reset filters'); reset.type = 'button'; reset.className = 'discovery-reset';
         const resetValues = () => { inputs.forEach(([node, field]) => { node.value = field === 'experience' ? 'all' : ''; }); update(true); };
         reset.addEventListener('click', resetValues); container.append(reset);
-        return { reset: resetValues, state: () => ({ ...state }) };
+        return { reset: resetValues, state: () => ({ ...state }), restore: saved => {
+            for (const [node, field] of inputs) {
+                const value = String(saved[field] || (field === 'experience' ? 'all' : ''));
+                node.value = node.tagName === 'SELECT' && ![...node.options].some(option => option.value === value) ? (field === 'experience' ? 'all' : '') : value.slice(0, 200);
+                state[field] = node.value;
+            }
+            return { ...state };
+        } };
     }
 
     function organiseCatalogControls(container) {
@@ -173,6 +180,22 @@
         const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
         let current = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
         let catalogControls;
+        const readFilters = () => {
+            const params = new URLSearchParams(root.location.search);
+            const category = params.get('type') || 'all';
+            return {query:(params.get('q') || '').slice(0,200), experience:params.get('experience') || 'all',
+                departure:params.get('departure') || '', category:[...document.querySelectorAll('[data-filter]')].some(button=>button.dataset.filter===category)?category:'all',
+                showComingSoon:params.get('unavailable')==='1'};
+        };
+        const writeFilters = () => {
+            if (!root.location.href || !root.history?.replaceState) return;
+            const url = new URL(root.location.href);
+            for (const [key,value] of Object.entries({q:current.query,experience:current.experience==='all'?'':current.experience,
+                departure:current.departure,type:current.category==='all'?'':current.category,unavailable:current.showComingSoon?'1':''})) {
+                if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);
+            }
+            if(url.href!==root.location.href)root.history.replaceState(root.history.state,'',url.href);
+        };
         const status = document.getElementById('trip-results-status'), comingSoon = document.getElementById('show-coming-soon');
         const render = () => {
             const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate);
@@ -180,6 +203,7 @@
             attachImageFallbacks(grid);
             if (status) status.textContent = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ' · scheduled departures first'}`;
             if (catalogControls) catalogControls.update(current);
+            writeFilters();
             const reset = grid.querySelector('[data-reset-results]'); if (reset) reset.onclick = () => { current.category = 'all'; current.showComingSoon = false; if (comingSoon) comingSoon.checked = false; document.querySelectorAll('[data-filter]').forEach(button => { button.classList.toggle('active', button.dataset.filter === 'all'); button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')); }); controls ? controls.reset() : render(); };
         };
         const controls = mountControls(document.getElementById('trip-discovery-controls'), all, config.discovery, referenceDate, (state, reset) => {
@@ -198,8 +222,14 @@
         const container=document.getElementById('trip-discovery-controls');
         if(container){
             catalogControls = organiseCatalogControls(container);
-            const query=new URLSearchParams(root.location.search).get('q');const search=container.querySelector('input[type="search"]');
-            if(query&&search){search.value=query.slice(0,200);search.dispatchEvent(new root.Event('input'));}
+            const restore = () => {
+                const saved = readFilters();
+                current = {...saved,...(controls?.restore(saved) || {query:'',experience:'all',departure:''})};
+                if(comingSoon)comingSoon.checked=current.showComingSoon;
+                document.querySelectorAll('[data-filter]').forEach(button=>{button.classList.toggle('active',button.dataset.filter===current.category);button.setAttribute('aria-pressed',String(button.dataset.filter===current.category));});
+            };
+            restore();
+            root.addEventListener('popstate',()=>{restore();render();});
         }
         render();
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);

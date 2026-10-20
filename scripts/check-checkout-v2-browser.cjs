@@ -36,6 +36,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     }catch{return route.fulfill({status:404,body:''});}
    });
    const open=async(label=date)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people=1');await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));
+     if(width<768){assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null);assert.match(await page.locator('#mobileTripSummaryText').innerText(),/Demo Trip/);await page.locator('.mobile-trip-summary>summary').click();}
      assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
    };
    const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
@@ -82,7 +83,15 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await assertReadable(page.locator('#requestStatus'));
    await assertReadable(page.locator('.summary-total'));
    assert.equal(await page.locator('#requestStatus').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 241, 214)');
+   assert.equal(await page.locator('[data-booking-step="1"]').getAttribute('aria-current'),'step');
    await fill();
+   await page.fill('#email','invalid');await page.click('#submitDetailsBtn');
+   await page.waitForFunction(()=>document.getElementById('email').getAttribute('aria-invalid')==='true');
+   await page.waitForFunction(()=>document.activeElement===document.getElementById('email'));
+   assert.equal(await page.locator('#email').getAttribute('aria-describedby'),'email-error');
+   assert.match(await page.locator('#email-error').innerText(),/email/i);
+   assert.equal(await page.inputValue('#fullName'),'Demo Traveller');assert.equal(posts.length,0);
+   await page.fill('#email','demo@example.com');assert.equal(await page.locator('#email').getAttribute('aria-invalid'),null);
    assert.equal(await page.locator('input[name="bookingPaymentMode"][value="direct"]').isChecked(),true);
    assert.equal(await page.locator('input[name="bookingPaymentMode"][value="confirmation"]').isVisible(),false);
    assert.equal(await page.locator('#openPaymentUpi,#popupOpenUpi,#upiPayBtn').count(),0);
@@ -93,7 +102,11 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.equal(new URL(page.url()).searchParams.get('date'),later);assert.equal(new URL(page.url()).searchParams.get('people'),'2');
    await page.locator('#couponEntry summary').click();await page.fill('#couponCode','SAVE100');await page.click('#applyCoupon');await page.waitForFunction(()=>window.bookingData.total===8898);
    await page.click('#submitDetailsBtn');await page.waitForSelector('#paymentSection',{state:'visible'});
-   assert.equal(posts.length,0);assert.match(await page.textContent('#paymentDue'),/4,449/);
+   assert.equal(await page.locator('[data-booking-step="2"]').getAttribute('aria-current'),'step');
+   assert.match(await page.locator('#paymentTripContext').innerText(),/Demo Trip/);
+   assert.match(await page.locator('#paymentTripContext').innerText(),/8,898/);
+   if(width<768)assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null,'Trip summary collapses when payment starts');
+   assert.equal(posts.length,0);assert.match(await page.textContent('#paymentDue'),/4,449\.00/);assert.equal(await page.locator('#paymentChecklist li').count(),3);assert.equal(await page.locator('#paymentNote').isVisible(),false);
    await page.waitForTimeout(2200); // The legacy masking timer must leave this explicitly visible ID readable.
    assert.equal(await page.textContent('#paymentUpiValue'),'first@upi');
    await page.screenshot({path:path.join(output,`checkout-v2-payment-${width}.png`),fullPage:true});
@@ -102,6 +115,8 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.equal(await page.textContent('#paymentUpiValue'),'second@upi');assert.equal(await page.textContent('#receiverName'),'Second receiver');assert.match(await page.getAttribute('#paymentQrImage','src'),/backup-qr.png/);assert.match(await page.getAttribute('#downloadPaymentQr','href'),/backup-qr.png/);
    await page.check('input[name="paymentType"][value="full"]');assert.match(await page.textContent('#paymentDue'),/8,898/);assert.match(await page.textContent('#paymentBalance'),/₹0/);
    await page.fill('#transactionReference','UPI123456789');await page.check('#paymentSent');await page.click('#reportPaymentBtn');await page.waitForSelector('#requestReceived[open]');
+   assert.equal(await page.locator('[data-booking-step="3"]').getAttribute('aria-current'),'step');
+   assert.match(await page.locator('#bookingJourneyMessage').innerText(),/verif/i);
    assert.equal(posts.length,1);assert.match(posts[0].special_requests,/UPI123456789/);assert.match(await page.textContent('#requestStatus'),/verification pending/i);assert.equal(await page.locator('#changeBooking').isDisabled(),true);
    await page.screenshot({path:path.join(output,`checkout-v2-received-${width}.png`)});
    // An explicitly selected trip offers the secondary request path, with payment still selected first.

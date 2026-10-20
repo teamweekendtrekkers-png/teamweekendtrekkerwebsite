@@ -81,7 +81,17 @@ const fixtures={
    assert.equal(await toggle.evaluate(el=>el===document.activeElement),true);
    assert.match(await toggle.innerText(),/Filters \(2\)/);
    assert.equal(await reset.isVisible(),true);
+   const savedFilters=page.url();
+   await page.goto(origin+'/trips.html?q=Coast');
+   await page.goBack();await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
+   assert.equal(page.url(),savedFilters);
+   assert.equal(await search.inputValue(),' Coorg   Bengaluru ');
+   await toggle.click();
+   assert.equal(await experience.inputValue(),'trek');assert.equal(await departure.inputValue(),'2099-10-23/2099-10-25');
+   await page.reload();await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
+   assert.deepEqual(await ids(),['coorg']);assert.equal(await experience.inputValue(),'trek');
    await reset.click();
+   assert.equal(new URL(page.url()).searchParams.has('q'),false);
    assert.equal(await search.inputValue(),'');assert.equal(await experience.inputValue(),'all');assert.equal(await departure.inputValue(),'');
    assert.equal(await reset.isDisabled(),true);assert.equal((await ids()).length,3);
    await toggle.click();await experience.selectOption('beach');await search.fill('Coorg');

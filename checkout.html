@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="css/site-polish.css?v=1">
 <link rel="stylesheet" href="css/customer-experience.css?v=5">
     <link rel="stylesheet" href="css/design-refresh.css?v=20261016-3">
-<link rel="stylesheet" href="css/payment-options.css?v=20261018-1">
-    <link rel="stylesheet" href="css/brand-colors.css?v=2">
+<link rel="stylesheet" href="css/payment-options.css?v=20261020-1">
+    <link rel="stylesheet" href="css/brand-colors.css?v=4">
 </head>
 <body class="checkout-page">
     <nav class="navbar">
@@ -36,11 +36,15 @@
 
     <section class="page-header checkout-header">
         <h1>Book Your Trip</h1>
-        <p>Choose your payment option. Our team verifies every booking.</p>
+        <p>Review your trip details. Our team verifies payment and availability before confirming your place.</p>
     </section>
 
     <section class="checkout-section">
         <div class="container">
+            <nav id="bookingJourney" class="booking-journey" aria-label="Booking progress" hidden>
+              <ol><li data-booking-step="1" aria-current="step"><span>1</span><strong>Trip details</strong></li><li data-booking-step="2"><span>2</span><strong>UPI payment</strong></li><li data-booking-step="3"><span>3</span><strong>Team verification</strong></li></ol>
+              <p id="bookingJourneyMessage" role="status"></p>
+            </nav>
             <div class="checkout-layout">
                 <!-- Booking Form -->
                 <div class="checkout-main">
@@ -106,7 +110,7 @@
                     <button id="editPaymentDetails" type="button" class="btn btn-secondary" hidden>Return to your details</button>
 <!-- Payment Options (hidden initially) -->
                     <div class="checkout-card" id="paymentSection" style="display: none;">
-                        <h2 id="paymentHeading">Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p>
+                        <h2 id="paymentHeading">Pay after availability is confirmed</h2><p class="payment-reminder">Please wait for our team to confirm availability and your payable amount before paying.</p>
                         
                         <p id="paymentInstructions" hidden></p>
 <!-- Payment Type Selector -->
@@ -118,48 +122,48 @@
                                     <div class="payment-type-card selected">
                                         <div class="payment-type-badge">Recommended</div>
                                         <span class="payment-type-icon">50%</span>
-                                        <span class="payment-type-title">50% payment</span>
+                                        <span class="payment-type-title">Pay 50% now</span>
                                         <span class="payment-type-amount" id="halfPayAmount">—</span>
-                                        <span class="payment-type-desc">Balance as agreed with our team</span>
+                                        <span class="payment-type-desc">Confirm the balance schedule with our team</span>
                                     </div>
                                 </label>
                                 <label class="payment-type-option">
                                     <input type="radio" name="paymentType" value="full" onchange="updatePaymentAmount()">
                                     <div class="payment-type-card">
                                         <span class="payment-type-icon">100%</span>
-                                        <span class="payment-type-title">Pay Full Amount</span>
+                                        <span class="payment-type-title">Pay full amount</span>
                                         <span class="payment-type-amount" id="fullPayAmount">—</span>
                                         <span class="payment-type-desc">Pay the full trip amount</span>
                                     </div>
                                 </label>
                             </div>
-                            <div class="payment-type-note" id="paymentNote">
+                            <div class="payment-type-note" id="paymentNote" hidden>
                                 <i class="fas fa-info-circle"></i>
                                 <span>Remaining ₹<span id="remainingAmount">—</span> balance; confirm the payment schedule with our team</span>
                             </div>
                         </div>
                         
+<p id="paymentTripContext" class="payment-trip-context"></p>
 <ol id="paymentChecklist" class="payment-checklist" aria-label="Payment steps" hidden>
-<li data-payment-step="1">Check the amount and receiver.</li>
-<li data-payment-step="2">Pay by scanning the QR or copying the UPI ID.</li>
-<li data-payment-step="3">Enter your transaction ID and submit payment details.</li>
-<li data-payment-step="4">Wait for our team to verify payment and availability.</li>
+<li data-payment-step="1">Check amount</li>
+<li data-payment-step="2">Pay via UPI</li>
+<li data-payment-step="3">Submit details</li>
 </ol>
-<div class="payment-amount-summary"><strong>Amount to pay: <span id="paymentDue"></span></strong><span>Remaining balance: <span id="paymentBalance"></span></span></div>
+<div class="payment-amount-summary"><strong>Pay now <span id="paymentDue"></span></strong><span>Remaining balance: <span id="paymentBalance"></span></span></div>
 <section id="paymentQrSection" hidden aria-labelledby="paymentQrTitle">
- <h3 id="paymentQrTitle">Scan to pay with UPI</h3>
+ <h3 id="paymentQrTitle">Scan using any UPI app</h3>
  <img id="paymentQrImage" alt="UPI payment QR code" width="260" height="260"><a id="downloadPaymentQr" class="btn btn-secondary" download>Download QR</a>
  <p id="qrLoadFeedback" hidden role="status">The QR image could not load. Use Copy UPI ID instead.</p>
- <p>Scan from another device, or download this QR and choose the saved image in your payment app. You can also copy and paste the UPI ID. Enter the amount shown above and check the receiver before paying.</p>
-</section><section aria-labelledby="copyPaymentTitle"><h3 id="copyPaymentTitle">Or copy the UPI ID</h3><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button></div><p class="payment-upi-value">UPI ID: <strong id="paymentUpiValue" data-show-upi></strong></p><p id="paymentFeedback" role="status" data-show-upi></p></section>
+ <p>Scan from another device, or download the QR and upload it in your UPI app.</p>
+</section><section class="copy-payment-section" aria-labelledby="copyPaymentTitle"><h3 id="copyPaymentTitle">Or copy the UPI ID</h3><div class="payment-copy-row"><p class="payment-upi-value">UPI ID: <strong id="paymentUpiValue" data-show-upi></strong></p><div class="upi-buttons"><button type="button" class="btn btn-primary" id="copyPaymentUpi">Copy UPI ID</button></div></div><p id="receiverLine" hidden>Receiver: <strong id="receiverName"></strong></p><p id="paymentFeedback" role="status" data-show-upi></p></section>
 <span id="upiAmount" hidden></span>
                         <section id="paymentReportSection" aria-labelledby="paymentReportHeading">
  <h3 id="paymentReportHeading">Already paid?</h3>
- <label for="transactionReference">UPI transaction ID</label>
+ <label for="transactionReference">Transaction ID / UTR</label>
  <input id="transactionReference" autocomplete="off" maxlength="40" placeholder="From your payment receipt">
- <label class="payment-sent-check"><input type="checkbox" id="paymentSent"> I have made this payment and will share my receipt.</label>
+ <label class="payment-sent-check"><input type="checkbox" id="paymentSent"> I have paid the amount shown above.</label>
  <button type="button" id="reportPaymentBtn" class="btn btn-primary">I’ve paid — share details on WhatsApp</button>
- <p id="paymentReportFeedback" role="status"></p>
+ <p class="payment-verification-note">Our team will verify your payment and availability before confirming your booking.</p><p id="paymentReportFeedback" role="status"></p>
 </section>
 <a id="paymentScreenshotLink" class="btn btn-whatsapp" target="_blank" rel="noopener" hidden>Share transaction ID and screenshot on WhatsApp</a>
 <!-- Razorpay Payment -->
@@ -387,33 +391,42 @@
         }
 
         // ========== Form Validation ==========
-        function validateForm() {
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            let isValid = true;
-            
-            document.querySelectorAll('.form-error').forEach(el => el.remove());
-            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-            
-            if (!fullName || fullName.length < 3) { showError('fullName', 'Please enter your full name'); isValid = false; }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email || !emailRegex.test(email)) { showError('email', 'Please enter a valid email'); isValid = false; }
-            
-            const phoneRegex = /^[\+]?[0-9]{10,13}$/;
-            const cleanPhone = phone.replace(/[\s\-]/g, '');
-            if (!cleanPhone || !phoneRegex.test(cleanPhone)) { showError('phone', 'Please enter a valid 10-digit phone number'); isValid = false; }
-            
-            return isValid;
+        function fieldError(fieldId) {
+            const value = document.getElementById(fieldId).value.trim();
+            if (fieldId === 'fullName' && value.length < 3) return 'Please enter your full name';
+            if (fieldId === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address';
+            if (fieldId === 'phone' && !/^[+]?[0-9]{10,13}$/.test(value.replace(/[\s-]/g, ''))) return 'Enter a valid phone number with 10–13 digits, including the country code if used.';
+            return '';
         }
-        
+        function clearFieldError(field) {
+            document.getElementById(field.id + '-error')?.remove();
+            field.classList.remove('input-error');
+            field.removeAttribute('aria-invalid');
+            const ids=(field.getAttribute('aria-describedby') || '').split(/\s+/).filter(id=>id && id!==field.id+'-error');
+            if(ids.length)field.setAttribute('aria-describedby',ids.join(' '));else field.removeAttribute('aria-describedby');
+        }
+        function validateForm() {
+            let firstError;
+            for (const id of ['fullName','email','phone']) {
+                const field=document.getElementById(id), message=fieldError(id);
+                clearFieldError(field);
+                if(message){showError(id,message);firstError ||= field;}
+            }
+            if(firstError){
+                const details=firstError.closest('details');if(details)details.open=true;
+                firstError.focus({preventScroll:true});
+                firstError.scrollIntoView({block:'center',behavior:'auto'});
+            }
+            return !firstError;
+        }
         function showError(fieldId, message) {
             const field = document.getElementById(fieldId);
+            clearFieldError(field);
             field.classList.add('input-error');
+            field.setAttribute('aria-invalid','true');
             const errorDiv = document.createElement('div');
-            errorDiv.className = 'form-error';
-            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            errorDiv.id=fieldId+'-error';errorDiv.className='form-error';errorDiv.textContent=message;
+            field.setAttribute('aria-describedby',((field.getAttribute('aria-describedby')||'')+' '+errorDiv.id).trim());
             field.parentElement.appendChild(errorDiv);
         }
 
@@ -494,13 +507,15 @@
         // ========== Initialize ==========
         document.addEventListener('DOMContentLoaded', function() {
             updateCheckoutPage();
-
-
+            for(const id of ['fullName','email','phone']){
+                const field=document.getElementById(id);
+                field.addEventListener('input',()=>{if(field.getAttribute('aria-invalid')==='true'&&!fieldError(id))clearFieldError(field);});
+            }
         });
     </script>
     <script src="js/security.js"></script>
-<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=20261016-2"></script><script src="js/checkout-booking-change.js?v=20261016-2"></script><script src="js/checkout-experience.js?v=20261019-1"></script>
-<script src="js/payment-checkout.js?v=20261018-1"></script>
+<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=20261016-2"></script><script src="js/checkout-booking-change.js?v=20261016-2"></script><script src="js/checkout-experience.js?v=20261020-1"></script>
+<script src="js/payment-checkout.js?v=20261020-1"></script>
 </body>
 </html>
 
