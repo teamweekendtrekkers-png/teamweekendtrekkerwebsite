@@ -25,14 +25,31 @@
     "title": "Upcoming Batches",
     "subtitle": "Choose your next departure",
     "maxBatches": 3,
-    "tripSelection": "selected",
+    "tripSelection": "all",
     "tripIds": [
       "rameshwaram-dhanushkodi",
       "varkala-kochi-christmas",
       "kannur-theyyam"
     ],
-    "departureSelection": "all",
-    "departures": [],
+    "departureSelection": "selected",
+    "departures": [
+      {
+        "tripId": "kannur-theyyam",
+        "date": "Oct 23-25, 2026"
+      },
+      {
+        "tripId": "kannur-theyyam",
+        "date": "Oct 30-Nov 1, 2026"
+      },
+      {
+        "tripId": "rameshwaram-dhanushkodi",
+        "date": "Oct 30-Nov 1, 2026"
+      },
+      {
+        "tripId": "trip_1792519339566",
+        "date": "Oct 23-25, 2026"
+      }
+    ],
     "fields": {
       "price": true,
       "status": true,
