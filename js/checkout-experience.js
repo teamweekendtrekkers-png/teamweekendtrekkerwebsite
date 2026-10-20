@@ -20,6 +20,7 @@
   byId('couponSavingsRow').hidden=!quote.valid;
   byId('removeCoupon').hidden=!quote.valid;
   byId('hiddenTotal').value=data.total;
+  const compact=byId('mobileTripSummaryText');if(compact)compact.textContent=data.trip+' · '+money(data.total);
   updatePaymentAmount();
  }
  function upiId(){return config?.payment.upiId||(Array.isArray(config?.payment.profiles)?'':window.TravelSecurity?.getUPI?.()||'');}
@@ -65,6 +66,14 @@
   const priceRow=document.querySelector('.summary-details .summary-row:nth-child(3)'),subtotalRow=byId('summarySubtotal').closest('.summary-row');priceRow.before(breakdown);breakdown.append(priceRow,subtotalRow,byId('couponSavingsRow'));
   byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
 
+  const disclosure=document.createElement('details');disclosure.className='mobile-trip-summary';
+  const disclosureTitle=document.createElement('summary');const compactText=document.createElement('span');compactText.id='mobileTripSummaryText';compactText.textContent=trip.title+' · '+money(window.bookingData.total);disclosureTitle.append(compactText);disclosureTitle.setAttribute('aria-label','Expand trip summary');
+  const summaryBody=document.createElement('div');summaryBody.className='trip-summary-body';
+  while(summary.firstChild)summaryBody.append(summary.firstChild);
+  disclosure.append(disclosureTitle,summaryBody);summary.append(disclosure);
+  const desktop=matchMedia('(min-width:768px)');
+  const setDisclosure=()=>{disclosure.open=desktop.matches;};setDisclosure();desktop.addEventListener('change',setDisclosure);
+
   const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
   const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
   [anchor,byId('participants').closest('.form-group'),byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
@@ -72,6 +81,7 @@
   const support=document.querySelector('.support-card');support.classList.remove('support-locked');
   const help=document.createElement('details');help.className='checkout-help';help.open=!matchMedia('(max-width:767px)').matches;
   const helpTitle=document.createElement('summary');helpTitle.textContent='Questions about this trip?';help.append(helpTitle,document.querySelector('.summary-note'),support);summary.append(help);
+  byId('changeBooking').addEventListener('click',()=>{disclosure.open=true;});
   byId('checkoutForm').addEventListener('submit',event=>{event.preventDefault();window.submitDetails();});
   byId('applyCoupon').addEventListener('click',async()=>{try{await refresh();if(!config.showCoupons)return;const result=BookingRules.quote(config,byId('couponCode').value,getTripFromURL(),window.bookingData.price*window.bookingData.people);code=result.valid?result.code:'';recalculate();message(result.message);}catch{message('Offers could not be loaded. Please try again.');}});
   byId('removeCoupon').addEventListener('click',()=>{code='';byId('couponCode').value='';message('Coupon removed.');recalculate();});

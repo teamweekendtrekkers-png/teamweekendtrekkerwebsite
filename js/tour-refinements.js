@@ -52,6 +52,11 @@
    activate(current);
   }
   function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(update);}}
+  nav.addEventListener('focusin',event=>{
+   const link=event.target.closest('a');if(!link)return;
+   const r=link.getBoundingClientRect(),n=nav.getBoundingClientRect();
+   if(r.left<n.left||r.right>n.right)nav.scrollTo({left:nav.scrollLeft+r.left-n.left-12,behavior:'auto'});
+  });
   nav.addEventListener('click',event=>{
    const link=event.target.closest('a');const i=links.indexOf(link);if(i<0)return;
    lockedUntil=performance.now()+500;activate(i);setTimeout(update,520);
@@ -61,7 +66,7 @@
   select?.addEventListener('change',measure);
   if(typeof ResizeObserver==='function'){
    const observer=new ResizeObserver(()=>{measure();schedule();});
-   observer.observe(nav);const bar=document.getElementById('mobileBookBtn');if(bar)observer.observe(bar);
+   observer.observe(nav);const header=document.querySelector('.navbar');if(header)observer.observe(header);const bar=document.getElementById('mobileBookBtn');if(bar)observer.observe(bar);
   }
   measure();update();
  });

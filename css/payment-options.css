@@ -49,3 +49,53 @@
 .payment-checklist li[data-state="current"]{background:#e4f3eb;color:#153e30}
 .payment-checklist li[data-state="current"]::before{background:#267d6d;color:white}
 .payment-checklist li[data-state="complete"]::before{content:"✓"}
+
+/* A single amount summary and a short guide keep payment actions together. */
+.checkout-page .checkout-layout{grid-template-columns:minmax(0,1fr) minmax(280px,340px)}
+.checkout-page .checkout-main,.checkout-page .checkout-sidebar{min-width:0}
+.checkout-page .payment-checklist{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.checkout-page .payment-checklist li{padding:8px;gap:6px;font-size:13px;background:#eff5f1;color:#173f35}
+.checkout-page .payment-checklist li[data-state="current"]{background:#e8f3ec;color:#173f35}
+.checkout-page .payment-checklist li[data-state="current"]::before{background:#087f73;color:#fff}
+.checkout-page .payment-amount-summary{margin:12px 0 16px;padding:16px;gap:8px}
+.checkout-page .payment-amount-summary>strong,.checkout-page .payment-amount-summary>span{display:flex;justify-content:space-between;gap:12px}
+.checkout-page .payment-amount-summary>strong{font-size:20px}
+.checkout-page #paymentSection>.payment-reminder{display:none}
+.checkout-page .payment-type-card{padding-top:40px;gap:6px}
+.checkout-page .payment-type-badge{display:none}
+.checkout-page .payment-type-desc{font-size:13px;line-height:1.4}
+.checkout-page .payment-type-selector h3{margin-bottom:8px}
+.checkout-page #paymentQrSection{margin:12px 0;padding:16px}
+.checkout-page #paymentQrSection h3{font-size:18px;margin-bottom:8px}
+.checkout-page #paymentQrImage{width:220px;height:220px;margin:8px auto}
+.checkout-page #paymentQrSection p{font-size:13px;color:#526257;margin:8px 0 0}
+.checkout-page .payment-copy-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.checkout-page .payment-copy-row .payment-upi-value{flex:1;min-width:0;margin:0}
+.checkout-page .payment-copy-row .btn{min-height:44px;padding:10px 16px;white-space:nowrap}
+.checkout-page .copy-payment-section h3{font-size:16px;margin-bottom:10px}
+.checkout-page #receiverLine{font-size:14px;margin-top:8px}
+.checkout-page .payment-verification-note{background:#fff1d6;color:#805000;border-radius:10px;padding:12px;font-size:14px;line-height:1.5;margin:12px 0 0}
+.checkout-page #reportPaymentBtn{width:100%;white-space:normal}
+.mobile-trip-summary>summary{display:none}
+.mobile-trip-summary .trip-summary-body>h3{margin:0 0 12px;font-size:20px}
+@media(max-width:767px){
+ .checkout-page .mobile-trip-summary>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;cursor:pointer;font-size:14px;font-weight:700;list-style:none}
+ .mobile-trip-summary>summary::after{content:"+";font-size:22px;flex-shrink:0}
+ .mobile-trip-summary[open]>summary::after{content:"−"}
+ .mobile-trip-summary>summary::-webkit-details-marker{display:none}
+ .mobile-trip-summary[open]>.trip-summary-body{padding-top:12px;border-top:1px solid #dce5df;margin-top:8px}
+ .checkout-page .payment-checklist li{flex-direction:column;font-size:12px}
+ .checkout-page .payment-type-title{font-size:14px}
+ .checkout-page .payment-type-amount{font-size:20px}
+ .checkout-page .payment-type-card{padding:38px 10px 12px}
+ .checkout-page .payment-amount-summary>strong{font-size:18px}
+ .checkout-page .payment-amount-summary>span{font-size:14px}
+ .checkout-page .payment-copy-row{gap:8px}
+ .checkout-page .payment-copy-row .payment-upi-value{flex-basis:100%}
+ .checkout-page .payment-copy-row .upi-buttons,.checkout-page .payment-copy-row .btn{width:100%}
+}
+
+.checkout-page .payment-checklist li::before{width:1.4rem;min-width:1.4rem;line-height:1.4rem;text-align:center}
+
+.checkout-page .checkout-card.contact-details-saved{padding:0;margin:0;border:0;box-shadow:none;background:transparent}
+.checkout-card.contact-details-saved>h2{display:none}

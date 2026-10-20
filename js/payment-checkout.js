@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   const el=id=>document.getElementById(id);
-  const money=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+  const money=n=>'₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   let config=null,started=false,reported=false,saving=false,selectionReady=false;
   const mode=()=>document.querySelector('input[name="bookingPaymentMode"]:checked')?.value||'confirmation';
   window.paymentCopyMessage=()=>mode()==='direct'?'UPI ID copied. Submit your transaction ID after paying; verification remains pending.':'UPI ID copied. Pay only after our team confirms availability and the amount.';
@@ -30,13 +30,13 @@
     const list=el('paymentChecklist');
     if(!list)return;
     list.hidden=mode()!=='direct';
-    const current=reported?4:el('paymentSent').checked?3:1;
+    const current=reported?3:el('paymentSent').checked?3:el('transactionReference').value.trim()?3:2;
     list.querySelectorAll('[data-payment-step]').forEach(item=>{
       const step=Number(item.dataset.paymentStep);
       item.dataset.state=step<current?'complete':step===current?'current':'next';
       if(step===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
     });
-    list.lastElementChild.textContent=reported?'Payment details submitted. Verification is pending.':'Wait for our team to verify payment and availability.';
+    list.lastElementChild.textContent=reported?'Details submitted':'Submit details';
   }
   function render(){
     if(!config||!window.bookingData)return;
@@ -55,6 +55,23 @@
       el('editPaymentDetails').hidden=false;
     }
     const direct=mode()==='direct';
+    const journey=el('bookingJourney'),step=direct?(reported?3:started?2:1):(started?2:1);
+    if(journey){
+      journey.hidden=false;
+      const labels=direct?['Trip details','UPI payment','Team verification']:['Trip details','Team confirmation','Payment'];
+      journey.querySelectorAll('[data-booking-step]').forEach((item,index)=>{
+        item.querySelector('strong').textContent=labels[index];
+        item.dataset.state=index+1===step?'current':index+1<step?'done':'next';
+        if(index+1===step)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
+      });
+      const message=direct?(reported?'Payment details received. Our team still needs to verify payment and availability.':started?'Check your trip and amount, pay via UPI, then submit your transaction ID.':'Enter your contact details to continue to UPI payment.')
+        :started?'Request received. Wait for our team to confirm availability and the amount before paying.':'Send your details so our team can confirm availability before payment.';
+      if(el('bookingJourneyMessage').textContent!==message)el('bookingJourneyMessage').textContent=message;
+    }
+    el('submitSuccess').hidden=started&&!reported&&direct;
+    el('checkoutForm').closest('.checkout-card').classList.toggle('contact-details-saved',started&&!reported&&direct);
+    const context=el('paymentTripContext');
+    if(context)context.textContent=window.bookingData.trip+' · '+window.bookingData.date+' · '+window.bookingData.people+' traveller(s) · Trip total '+money(window.bookingData.total);
     document.querySelector('.summary-note p').textContent=direct?'Pay using the QR or UPI ID, then submit your transaction ID. Our team verifies payment and availability.':'Submit your request. Our team will confirm availability before you pay.';
     if(!started)el('requestStatus').textContent=direct?'Payment verification after submission':'Availability checked after submission';
     if(!started)el('submitDetailsBtn').innerHTML=direct?'Continue to payment':'Send Booking Request';
@@ -66,7 +83,8 @@
     el('paymentInstructions').textContent=p.instructions;
     el('paymentInstructions').hidden=!p.instructions;
     el('paymentDue').textContent=money(amount().due);el('paymentBalance').textContent=money(amount().balance);
-    el('remainingAmount').textContent=amount().balance.toLocaleString('en-IN',{maximumFractionDigits:2});
+    el('remainingAmount').textContent=amount().balance.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+    el('paymentNote').hidden=true;
     el('halfPayAmount').textContent=money(PaymentOptions.amounts(window.bookingData.total,'half').due);
     el('fullPayAmount').textContent=money(window.bookingData.total);
     el('paymentQrSection').hidden=reported||!(p.showQr&&p.qrImage);
@@ -101,6 +119,7 @@
     el('submitSuccess').querySelector('h3').textContent='Ready to pay directly';
     el('submitSuccess').querySelector('p').textContent='Your payment has not been submitted or verified. Pay the amount shown, then share your transaction ID below.';
     el('paymentSection').style.display='block';el('editPaymentDetails').hidden=false;
+    if(matchMedia('(max-width:767px)').matches){const summary=document.querySelector('.mobile-trip-summary');if(summary)summary.open=false;}
     render();el('paymentSection').scrollIntoView({behavior:'smooth',block:'start'});return false;
   };
   window.renderPaymentResult=function(){
@@ -128,7 +147,7 @@
     document.querySelectorAll('input[name="bookingPaymentMode"],input[name="paymentType"]').forEach(r=>r.addEventListener('change',render));
     el('paymentQrImage').addEventListener('error',()=>{el('paymentQrImage').hidden=true;el('qrLoadFeedback').hidden=false;});
     el('editPaymentDetails').addEventListener('click',()=>{if(reported)return;started=false;window.bookingData.paymentReport=null;el('checkoutForm').style.display='block';el('submitSuccess').style.display='none';el('paymentSection').style.display='none';el('editPaymentDetails').hidden=true;el('bookingIssue').hidden=true;render();});
-    el('transactionReference').addEventListener('input',()=>{el('paymentScreenshotLink').href=contactLink(true);});
+    el('transactionReference').addEventListener('input',()=>{updateChecklist();el('paymentScreenshotLink').href=contactLink(true);});
     el('reportPaymentBtn').addEventListener('click',async()=>{
       if(saving||reported)return;
       const ref=el('transactionReference').value.trim();
