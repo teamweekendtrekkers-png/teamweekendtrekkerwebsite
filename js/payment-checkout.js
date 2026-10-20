@@ -69,6 +69,7 @@
       if(el('bookingJourneyMessage').textContent!==message)el('bookingJourneyMessage').textContent=message;
     }
     el('submitSuccess').hidden=started&&!reported&&direct;
+    el('checkoutForm').closest('.checkout-card').classList.toggle('contact-details-saved',started&&!reported&&direct);
     const context=el('paymentTripContext');
     if(context)context.textContent=window.bookingData.trip+' · '+window.bookingData.date+' · '+window.bookingData.people+' traveller(s) · Trip total '+money(window.bookingData.total);
     document.querySelector('.summary-note p').textContent=direct?'Pay using the QR or UPI ID, then submit your transaction ID. Our team verifies payment and availability.':'Submit your request. Our team will confirm availability before you pay.';

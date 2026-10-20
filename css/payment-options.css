@@ -96,3 +96,6 @@
 }
 
 .checkout-page .payment-checklist li::before{width:1.4rem;min-width:1.4rem;line-height:1.4rem;text-align:center}
+
+.checkout-page .checkout-card.contact-details-saved{padding:0;margin:0;border:0;box-shadow:none;background:transparent}
+.checkout-card.contact-details-saved>h2{display:none}
