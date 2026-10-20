@@ -11,10 +11,8 @@
 
 const featuredTripIds = [
     "kannur-theyyam",
-    "wayanad",
-    "rameshwaram-dhanushkodi",
-    "yercaud",
     "trip_1792519339566",
+    "rameshwaram-dhanushkodi",
 ];
 
 // Function to get featured trips data
