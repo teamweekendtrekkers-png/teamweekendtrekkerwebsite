@@ -188,6 +188,7 @@ jobs:
         npm run test:checkout
         node scripts/check-trip-brochure-browser.cjs
         node scripts/check-catalogue-filters-browser.cjs
+        node scripts/check-site-motion-browser.cjs
 
     - name: Save catalogue filter review screenshots
       if: always()

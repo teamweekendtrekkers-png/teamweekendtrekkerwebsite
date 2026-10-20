@@ -85,7 +85,7 @@
   <legend>How would you like to book?</legend>
   <label><input type="radio" name="bookingPaymentMode" value="direct" checked disabled> Pay via UPI</label>
   <label hidden><input type="radio" name="bookingPaymentMode" value="confirmation" disabled> Request availability before paying</label>
-  <p id="paymentModeNotice" role="status">Loading payment optionsâ€¦</p>
+  <p id="paymentModeNotice" role="status">Loading payment options…</p>
 </fieldset>
 <!-- Hidden fields for booking info -->
                             <input type="hidden" id="hiddenTripName" name="tripName">
@@ -124,7 +124,7 @@
                                         <div class="payment-type-badge">Recommended</div>
                                         <span class="payment-type-icon">50%</span>
                                         <span class="payment-type-title">Pay 50% now</span>
-                                        <span class="payment-type-amount" id="halfPayAmount">â€”</span>
+                                        <span class="payment-type-amount" id="halfPayAmount">—</span>
                                         <span class="payment-type-desc">Confirm the balance schedule with our team</span>
                                     </div>
                                 </label>
@@ -133,14 +133,14 @@
                                     <div class="payment-type-card">
                                         <span class="payment-type-icon">100%</span>
                                         <span class="payment-type-title">Pay full amount</span>
-                                        <span class="payment-type-amount" id="fullPayAmount">â€”</span>
+                                        <span class="payment-type-amount" id="fullPayAmount">—</span>
                                         <span class="payment-type-desc">Pay the full trip amount</span>
                                     </div>
                                 </label>
                             </div>
                             <div class="payment-type-note" id="paymentNote" hidden>
                                 <i class="fas fa-info-circle"></i>
-                                <span>Remaining â‚¹<span id="remainingAmount">â€”</span> balance; confirm the payment schedule with our team</span>
+                                <span>Remaining ₹<span id="remainingAmount">—</span> balance; confirm the payment schedule with our team</span>
                             </div>
                         </div>
                         
@@ -163,16 +163,16 @@
  <label for="transactionReference">Transaction ID / UTR</label>
  <input id="transactionReference" autocomplete="off" maxlength="40" placeholder="From your payment receipt">
  <label class="payment-sent-check"><input type="checkbox" id="paymentSent"> I have paid the amount shown above.</label>
- <button type="button" id="reportPaymentBtn" class="btn btn-primary">Iâ€™ve paid â€” share details on WhatsApp</button>
+ <button type="button" id="reportPaymentBtn" class="btn btn-primary">I’ve paid — share details on WhatsApp</button>
  <p class="payment-verification-note">Our team will verify your payment and availability before confirming your booking.</p><p id="paymentReportFeedback" role="status"></p>
 </section>
 <a id="paymentScreenshotLink" class="btn btn-whatsapp" target="_blank" rel="noopener" hidden>Share transaction ID and screenshot on WhatsApp</a>
 <!-- Razorpay Payment -->
                         <div class="payment-option" hidden>
-                            <h3>ðŸ’³ Pay Online (Cards/NetBanking/Wallets)</h3>
+                            <h3>💳 Pay Online (Cards/NetBanking/Wallets)</h3>
                             <p class="payment-desc">Pay securely using Credit/Debit Cards, Net Banking, or Wallets</p>
                             <button id="rzpButton" class="btn btn-razorpay btn-full">
-                                <i class="fas fa-lock"></i> Pay â‚¹<span id="rzpAmount">â€”</span> Securely
+                                <i class="fas fa-lock"></i> Pay ₹<span id="rzpAmount">—</span> Securely
                             </button>
                             <p class="powered-by">Powered by Razorpay</p>
                         </div>
@@ -186,29 +186,29 @@
                         <div class="summary-trip">
                             <img alt="" class="summary-img" hidden>
                             <div class="summary-trip-info">
-                                <h4 id="summaryTripName">Loading your tripâ€¦</h4>
-                                <p>Loading trip detailsâ€¦</p>
+                                <h4 id="summaryTripName">Loading your trip…</h4>
+                                <p>Loading trip details…</p>
                             </div>
                         </div>
                         <p id="summaryFacts"></p><button id="changeBooking" type="button" class="change-booking">Change date or travellers</button><div class="summary-details">
                             <div class="summary-row">
                                 <span>Date</span>
-                                <span id="summaryDate">â€”</span>
+                                <span id="summaryDate">—</span>
                             </div>
                             <div class="summary-row">
                                 <span>Participants</span>
-                                <span id="summaryPeople">â€”</span>
+                                <span id="summaryPeople">—</span>
                             </div>
                             <div class="summary-row">
                                 <span>Price per person</span>
-                                <span>â€”</span>
+                                <span>—</span>
                             </div>
                             <div class="summary-row" id="couponSavingsRow" hidden><span>Coupon savings</span><span id="couponSavings"></span></div>
                         </div>
                         <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal"></span></div><p id="offerUpdate" role="alert" hidden></p><details id="couponEntry" hidden><summary>Have a coupon?</summary><label for="couponCode">Coupon code</label><div class="coupon-controls"><input id="couponCode" autocomplete="off" maxlength="40"><button id="applyCoupon" type="button">Apply</button></div><button id="removeCoupon" type="button" hidden>Remove coupon</button><p id="couponFeedback" role="status"></p></details>
                         <div class="summary-total">
                             <span>Total Amount</span>
-                            <span id="summaryTotal">â€”</span>
+                            <span id="summaryTotal">—</span>
                         </div>
                         <p id="requestStatus" class="request-status">Availability checked after submission</p><div class="summary-note">
                             <i class="fas fa-info-circle"></i>
@@ -219,7 +219,7 @@
                     <!-- Contact Support -->
                     <div class="support-card">
                         <h4>Have a question before you book?</h4>
-                        <p>Want to check availability, pickup points or any trip details? Message us on WhatsAppâ€”weâ€™re happy to help.</p>
+                        <p>Want to check availability, pickup points or any trip details? Message us on WhatsApp—we’re happy to help.</p>
                         <a href="https://wa.me/917019235581?text=Hi!%20I%20need%20help%20with%20my%20booking" class="btn btn-whatsapp btn-full" target="_blank">
                             <i class="fab fa-whatsapp"></i> Chat about this trip
                         </a>
@@ -287,7 +287,7 @@
                 window.checkoutTrip = '';
                 window.checkoutAmount = 0;
                 window.currentPayAmount = 0;
-                for (const id of ['summaryDate','summaryPeople','summaryTotal','summarySubtotal']) document.getElementById(id).textContent = 'â€”';
+                for (const id of ['summaryDate','summaryPeople','summaryTotal','summarySubtotal']) document.getElementById(id).textContent = '—';
                 for (const id of ['hiddenTripName','hiddenTripDate','hiddenPeople','hiddenTotal']) document.getElementById(id).value = '';
                 document.getElementById('summaryFacts').textContent = '';
                 document.getElementById('summaryTripName').textContent = 'Choose a trip to continue';
@@ -302,12 +302,12 @@
             const date = getDateFromURL();
             const people = getPeopleFromURL();
             
-            const priceNum = parseInt(trip.price.replace(/[â‚¹,]/g, ''));
+            const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
             const totalAmount = priceNum * people;
             const formattedTotal = totalAmount.toLocaleString('en-IN');
             const halfAmount = Math.round(totalAmount * 50) / 100;
-            document.getElementById('halfPayAmount').textContent = 'â‚¹'+halfAmount.toLocaleString('en-IN');
-            document.getElementById('fullPayAmount').textContent = 'â‚¹'+totalAmount.toLocaleString('en-IN');
+            document.getElementById('halfPayAmount').textContent = '₹'+halfAmount.toLocaleString('en-IN');
+            document.getElementById('fullPayAmount').textContent = '₹'+totalAmount.toLocaleString('en-IN');
             document.getElementById('remainingAmount').textContent = (totalAmount-halfAmount).toLocaleString('en-IN');
             const formattedHalf = halfAmount.toLocaleString('en-IN');
             
@@ -320,13 +320,13 @@
             document.getElementById('summaryDate').textContent = date || 'Choose a departure';
             document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
             document.querySelector('.summary-details .summary-row:nth-child(3) span:last-child').textContent = trip.price;
-            document.getElementById('summaryTotal').textContent = 'â‚¹' + formattedTotal;
+            document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;
             
             // Update hidden fields
             document.getElementById('hiddenTripName').value = trip.title;
             document.getElementById('hiddenTripDate').value = date;
             document.getElementById('hiddenPeople').value = people;
-            document.getElementById('hiddenTotal').value = 'â‚¹' + formattedTotal;
+            document.getElementById('hiddenTotal').value = '₹' + formattedTotal;
             
             // Update UPI payment (default to half amount)
             document.getElementById('upiAmount').textContent = formattedHalf;
@@ -344,8 +344,8 @@
             window.bookingData = { trip: trip.title, location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
             
             // Update half payment option amounts (using already declared halfAmount)
-            document.getElementById('halfPayAmount').textContent = 'â‚¹' + halfAmount.toLocaleString('en-IN');
-            document.getElementById('fullPayAmount').textContent = 'â‚¹' + formattedTotal;
+            document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
+            document.getElementById('fullPayAmount').textContent = '₹' + formattedTotal;
             document.getElementById('remainingAmount').textContent = PaymentOptions.amounts(totalAmount, 'half').balance.toLocaleString('en-IN');
             
             // Set default payment type to half
@@ -359,8 +359,8 @@
             const totalAmount = window.bookingData.total;
             const halfAmount = Math.round(totalAmount * 50) / 100;
             
-            document.getElementById('halfPayAmount').textContent = 'â‚¹' + halfAmount.toLocaleString('en-IN');
-            document.getElementById('fullPayAmount').textContent = 'â‚¹' + totalAmount.toLocaleString('en-IN');
+            document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');
+            document.getElementById('fullPayAmount').textContent = '₹' + totalAmount.toLocaleString('en-IN');
             document.getElementById('remainingAmount').textContent = (totalAmount - halfAmount).toLocaleString('en-IN');
             // Update card selection visual
             document.querySelectorAll('.payment-type-card').forEach(card => card.classList.remove('selected'));
@@ -396,7 +396,7 @@
             const value = document.getElementById(fieldId).value.trim();
             if (fieldId === 'fullName' && value.length < 3) return 'Please enter your full name';
             if (fieldId === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address';
-            if (fieldId === 'phone' && !/^[+]?[0-9]{10,13}$/.test(value.replace(/[\s-]/g, ''))) return 'Enter a valid phone number with 10â€“13 digits, including the country code if used.';
+            if (fieldId === 'phone' && !/^[+]?[0-9]{10,13}$/.test(value.replace(/[\s-]/g, ''))) return 'Enter a valid phone number with 10–13 digits, including the country code if used.';
             return '';
         }
         function clearFieldError(field) {
@@ -454,7 +454,7 @@
                 'Location': window.bookingData.location,
                 'Trip Date': window.bookingData.date,
                 'Number of People': window.bookingData.people,
-                'Total Amount': 'â‚¹' + window.bookingData.total.toLocaleString('en-IN'),
+                'Total Amount': '₹' + window.bookingData.total.toLocaleString('en-IN'),
                 'Subtotal': window.bookingData.subtotal,
                 'Coupon Code': window.bookingData.coupon || 'None',
                 'Coupon Savings': window.bookingData.discount || 0,
