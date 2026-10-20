@@ -1,10 +1,10 @@
 (function (root, factory) {
     const node = typeof module === 'object' && module.exports;
-    const api = factory(node ? require('./trip-date-utils') : root.TripDateUtils, node ? require('./trip-links') : root.TripLinks);
+    const api = factory(node ? require('./trip-date-utils') : root.TripDateUtils, node ? require('./trip-links') : root.TripLinks, node ? require('./departure-colors') : root.DepartureColors, node ? require('./inline-format') : root.TripText);
     if (node) module.exports = api;
     else root.TripDiscovery = api;
     if (!node && root.document) root.document.addEventListener('DOMContentLoaded', () => api.initCatalog(root.document));
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, links) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, links, colors, textFormat) {
     'use strict';
     const experiences = Object.freeze({ trek: 'Treks', beach: 'Beaches', heritage: 'Heritage', getaway: 'Relaxed getaways', adventure: 'Adventure', other: 'Other experiences' });
     const escape = dates.escapeHTML;
@@ -54,14 +54,15 @@
         return keyed.sort((a, b) => rank(a) - rank(b) || (a.ranges[0] && b.ranges[0] ? a.ranges[0].start - b.ranges[0].start : 0) || Number(b.trip.featured === true) - Number(a.trip.featured === true) || a.index - b.index).map(item => item.trip);
     }
     function displayTitle(trip) {
-        let value = String(trip.cardTitle || trip.title || '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').trim();
+        let value = (textFormat ? textFormat.plain(trip.cardTitle || trip.title || '') : String(trip.cardTitle || trip.title || '')).replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').trim();
         const letters = value.replace(/[^A-Za-z]/g,'');
         if (letters && letters === letters.toUpperCase()) value = value.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());
         return value;
     }
+    function formattedTitle(trip){const raw=String(trip.cardTitle||trip.title||'');return textFormat&&raw.includes('*')?textFormat.html(raw):escape(displayTitle(trip));}
     function renderDeparture(trip, range) {
         const title=displayTitle(trip),href=links.departureUrl(trip.id,range.originalLabel);
-        return '<a class="departure-bar" href="'+escape(href)+'" aria-label="'+escape(title+' — '+range.fullLabel)+'"><time class="departure-date" datetime="'+escape(range.startKey)+'">'+escape(range.shortLabel)+'</time><span class="departure-name">'+escape(title)+'</span><span class="departure-arrow" aria-hidden="true">→</span></a>';
+        return '<a class="departure-bar" data-batch-color="'+(colors?colors.key(trip.batchColor,trip.id):'forest')+'" href="'+escape(href)+'" aria-label="'+escape(title+' — '+range.fullLabel)+'"><time class="departure-date" datetime="'+escape(range.startKey)+'">'+escape(range.shortLabel)+'</time><span class="departure-name">'+formattedTitle(trip)+'</span><span class="departure-arrow" aria-hidden="true">→</span></a>';
     }
     function renderPrice(trip) {
         const amount = value => {
@@ -85,7 +86,7 @@
         const labels = selectedExperiences.map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
             <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><div class="trip-card-types">${labels.map((label, index) => `<span class="trip-badge" data-experience="${escape(selectedExperiences[index])}">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
-            <div class="trip-content"><h3>${escape(title)}</h3>
+            <div class="trip-content"><h3>${formattedTitle(trip)}</h3>
             ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${!state.compact && trip.cardSummary && String(trip.cardSummary).trim() ? `<p class="trip-card-summary">${escape(String(trip.cardSummary).trim().slice(0, 160))}</p>` : ''}
             ${state.compact ? (ranges[0] ? `<p class="trip-next-departure">Next departure: <time datetime="${escape(ranges[0].startKey)}" title="${escape(ranges[0].fullLabel)}">${escape(ranges[0].shortLabel)}</time></p>` : `<p class="trip-next-departure">${escape(dates.unavailableDateLabel(trip, referenceDate))}</p>`) : dates.renderTripDateTags(selected ? { ...trip, availableDates: [selected.originalLabel] } : trip, referenceDate, 2)}

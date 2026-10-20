@@ -252,6 +252,7 @@
     <script src="js/mobile-experience.js?v=5"></script>
     <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js"></script>
+    <script src="js/inline-format.js?v=1"></script>
     <script src="js/trips-data.js?v=1791748800"></script>
     <script src="js/trip-date-utils.js?v=20261017-2"></script>
     <script src="js/trip-decision.js?v=4"></script>
@@ -312,10 +313,10 @@
             const formattedHalf = halfAmount.toLocaleString('en-IN');
             
             // Update summary card
-            document.getElementById('summaryTripName').textContent = trip.title;
+            TripText.set(document.getElementById('summaryTripName'),trip.title);
             document.querySelector('.summary-trip-info p').textContent = trip.location;
             document.querySelector('.summary-img').hidden = false;
-            document.querySelector('.summary-img').alt = trip.title;
+            document.querySelector('.summary-img').alt = TripText.plain(trip.title);
             ResponsiveImages.set(document.querySelector('.summary-img'), trip.cardImage || trip.galleryImages?.[0] || trip.image, {eager:true});
             document.getElementById('summaryDate').textContent = date || 'Choose a departure';
             document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
@@ -323,7 +324,7 @@
             document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;
             
             // Update hidden fields
-            document.getElementById('hiddenTripName').value = trip.title;
+            document.getElementById('hiddenTripName').value = TripText.plain(trip.title);
             document.getElementById('hiddenTripDate').value = date;
             document.getElementById('hiddenPeople').value = people;
             document.getElementById('hiddenTotal').value = '₹' + formattedTotal;
@@ -332,16 +333,16 @@
             document.getElementById('upiAmount').textContent = formattedHalf;
             // Store amount for secure payment function
             window.checkoutAmount = halfAmount;
-            window.checkoutTrip = trip.title;
+            window.checkoutTrip = TripText.plain(trip.title);
             
             // Update Razorpay button (default to half amount)
             document.getElementById('rzpAmount').textContent = formattedHalf;
             
             // Update page title
-            document.title = 'Checkout - ' + trip.title + ' | Team Weekend Trekkers';
+            document.title = 'Checkout - ' + TripText.plain(trip.title) + ' | Team Weekend Trekkers';
             
             // Store data for later
-            window.bookingData = { trip: trip.title, location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
+            window.bookingData = { trip: TripText.plain(trip.title), location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
             
             // Update half payment option amounts (using already declared halfAmount)
             document.getElementById('halfPayAmount').textContent = '₹' + halfAmount.toLocaleString('en-IN');

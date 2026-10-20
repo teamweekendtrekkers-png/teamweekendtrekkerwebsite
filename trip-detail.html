@@ -454,7 +454,7 @@
 
     <dialog id="tripBrochureDialog" class="trip-brochure-dialog" aria-labelledby="tripBrochureHeading">
         <h2 id="tripBrochureHeading">Trip brochure</h2>
-        <p class="trip-brochure-hint">Preview the pages below. Your PDF includes the itinerary and trip details to keep or share.</p>
+        <p class="trip-brochure-hint">Preview the pages below. Your PDF includes the selected departure, price, itinerary and travel essentials, with searchable text and booking links.</p>
         <p id="tripBrochureStatus" role="status" aria-live="polite"></p>
         <div id="tripBrochurePreview" class="trip-brochure-preview"></div>
         <div class="trip-brochure-controls">
@@ -471,7 +471,9 @@
     <script src="js/mobile-experience.js?v=5"></script>
     <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js"></script>
-    <script src="js/trip-detail-lists.js?v=2"></script>
+    <script src="js/inline-format.js?v=1"></script>
+    <script src="js/trip-gallery.js?v=1"></script>
+    <script src="js/trip-detail-lists.js?v=20261021"></script>
     <script src="js/trip-sections.js?v=1"></script>
     <script src="js/trips-data.js?v=1791748800"></script>
     <script>
@@ -506,8 +508,8 @@
         }
 
         function updateTripMetadata(trip, tripId) {
-            const pageTitle = `${trip.title} - Team Weekend Trekkers`;
-            const rawDescription = trip.about || `Explore ${trip.title} with Team Weekend Trekkers.`;
+            const pageTitle = `${TripText.plain(trip.title)} - Team Weekend Trekkers`;
+            const rawDescription = TripText.plain(trip.about) || `Explore ${trip.title} with Team Weekend Trekkers.`;
             const compactDescription = rawDescription.replace(/\s+/g, ' ').trim();
             const descriptionCharacters = Array.from(compactDescription);
             let description = compactDescription;
@@ -614,14 +616,14 @@
 
             // Update title
             const titleEl = document.getElementById('tripTitle');
-            if (titleEl) titleEl.textContent = trip.title;
+            if (titleEl) TripText.set(titleEl, trip.title);
 
             // Update breadcrumb
             const breadcrumbTitle = document.getElementById('breadcrumbTitle');
-            if (breadcrumbTitle) breadcrumbTitle.textContent = trip.title;
+            if (breadcrumbTitle) breadcrumbTitle.textContent = TripText.plain(trip.title);
 
             // Update gallery images - use galleryImages array if available
-            const galleryImagesArray = [...new Set([trip.cardImage || trip.galleryImages?.[0] || trip.image, ...(trip.galleryImages || []), trip.image].filter(Boolean))];
+            const galleryImagesArray = TripGallery.orderedPhotos(trip);
             
             // Store all gallery images globally for lightbox
             window.allGalleryImages = galleryImagesArray;
@@ -679,14 +681,14 @@
 
             // Replace every paragraph, including when content is cleared.
             const aboutContainer = document.querySelector('[data-trip-section="about"] .trip-section-body');
-            aboutContainer.replaceChildren(...String(trip.about || '').split(/\n\s*\n/).filter(p => p.trim()).map(text => { const p = document.createElement('p'); p.textContent = text.trim(); return p; }));
+            aboutContainer.replaceChildren(...String(trip.about || '').split(/\n\s*\n/).filter(p => p.trim()).map(text => { const p = document.createElement('p'); TripText.set(p, text.trim()); return p; }));
             document.querySelector('[data-trip-section="about"]').hidden = !String(trip.about || '').trim();
 
             // Update Highlights
             const highlightsList = document.querySelector('.highlights-list');
             if (highlightsList && trip.highlights) {
                 highlightsList.innerHTML = trip.highlights.map(h => 
-                    `<li><i class="fas fa-check-circle"></i> ${h}</li>`
+                    `<li><i class="fas fa-check-circle"></i> ${TripText.html(h)}</li>`
                 ).join('');
             }
 
@@ -696,13 +698,13 @@
                 accordionContainer.innerHTML = trip.itinerary.map((day, index) => `
                     <div class="accordion-item ${index === 0 ? 'active' : ''}">
                         <div class="accordion-header">
-                            <span class="day-badge">${day.day}</span>
-                            <h3>${day.title}</h3>
+                            <span class="day-badge">${TripText.html(day.day)}</span>
+                            <h3>${TripText.html(day.title)}</h3>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <ul>
-                                ${day.activities.map(a => `<li>${a}</li>`).join('')}
+                                ${day.activities.map(a => `<li>${TripText.html(a)}</li>`).join('')}
                             </ul>
                         </div>
                     </div>
@@ -722,25 +724,25 @@
             // Update Includes
             const includesBox = document.querySelector('.includes-box ul');
             if (includesBox && trip.includes) {
-                includesBox.innerHTML = trip.includes.map(i => `<li>${i}</li>`).join('');
+                includesBox.innerHTML = trip.includes.map(i => `<li>${TripText.html(i)}</li>`).join('');
             }
 
             // Update Excludes
             const excludesBox = document.querySelector('.excludes-box ul');
             if (excludesBox && trip.excludes) {
-                excludesBox.innerHTML = trip.excludes.map(e => `<li>${e}</li>`).join('');
+                excludesBox.innerHTML = trip.excludes.map(e => `<li>${TripText.html(e)}</li>`).join('');
             }
 
             // Update WhatsApp link
             const whatsappLink = document.querySelector('.quick-contact .btn-whatsapp');
             if (whatsappLink) {
-                whatsappLink.href = `https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(trip.title)}`;
+                whatsappLink.href = `https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(TripText.plain(trip.title))}`;
             }
 
             // Update floating WhatsApp link
             const floatingWhatsapp = document.getElementById('whatsappLink');
             if (floatingWhatsapp) {
-                floatingWhatsapp.href = `https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(trip.title)}`;
+                floatingWhatsapp.href = `https://wa.me/917019235581?text=Hi!%20I'm%20interested%20in%20${encodeURIComponent(TripText.plain(trip.title))}`;
             }
 
             // ============================================
@@ -798,8 +800,8 @@
                     <div class="guideline-item">
                         <div class="guideline-icon"><i class="fas ${guideline.icon || 'fa-info-circle'}"></i></div>
                         <div class="guideline-content">
-                            <h4>${guideline.title}</h4>
-                            <p>${guideline.desc}</p>
+                            <h4>${TripText.html(guideline.title)}</h4>
+                            <p>${TripText.html(guideline.desc)}</p>
                         </div>
                     </div>
                 `).join('');
@@ -816,11 +818,11 @@
                 faqAccordion.innerHTML = faqData.map((faq, index) => `
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(${index})">
-                            <span>${faq.q}</span>
+                            <span>${TripText.html(faq.q)}</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="faq-answer" id="faq-${index}">
-                            <p>${faq.a}</p>
+                            <p>${TripText.html(faq.a)}</p>
                         </div>
                     </div>
                 `).join('');
@@ -906,7 +908,7 @@
             document.querySelectorAll('.faq-item').forEach((faq, i) => {
                 if (i !== index) {
                     faq.classList.remove('active');
-                    const otherAnswer = document.getElementById(`faq-${i}`);
+                    const otherAnswer = document.getElementById(`faq-${TripText.html(i)}`);
                     if (otherAnswer) otherAnswer.style.maxHeight = null;
                 }
             });
@@ -1027,8 +1029,8 @@
     <script src="js/trip-date-utils.js?v=20261017-2"></script>
     <script src="js/trip-decision.js?v=5"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=11"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=4"></script>
-    <script src="js/trip-brochure.js?v=5"></script>
+<script src="js/trip-customer.js?v=20261021"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=20261021"></script>
+    <script src="js/trip-brochure.js?v=6"></script>
 <script src="js/tour-refinements.js?v=2"></script>
 <script src="js/site-motion.js?v=1"></script>
 </body>

@@ -25,7 +25,7 @@ test('generated descriptions accept manager edits and escape markup across parag
  const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
  const trip={about:'🌴 Coastal culture & heritage.\n\nMeet <locals> and "artists" at Kerala\'s festivals.'};
  const output=require('../scripts/trip-body').renderBody(template,trip,config);
- assert.ok(output.includes('<p>Coastal culture &amp; heritage.</p><p>Meet &lt;locals&gt; and &quot;artists&quot; at Kerala&#39;s festivals.</p>'));
+ assert.ok(output.includes('<p>🌴 Coastal culture &amp; heritage.</p><p>Meet &lt;locals&gt; and &quot;artists&quot; at Kerala&#39;s festivals.</p>'));
  assert.ok(!output.includes('<locals>'));
  for(const text of ['camping under starlit','Netravati Peak, nestled','misty mountain views'])assert.ok(!output.includes(text));
 });

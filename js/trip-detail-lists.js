@@ -85,7 +85,7 @@
             icon.setAttribute('aria-hidden', 'true');
             const text = document.createElement('span');
             // Labels are administrator input, never HTML.
-            text.textContent = label;
+            if(typeof TripText!=='undefined')TripText.set(text,label);else text.textContent = label;
             element.append(icon, text);
             return element;
         });

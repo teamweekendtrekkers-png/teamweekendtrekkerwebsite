@@ -8,8 +8,8 @@
   TripDecision.preserveAnchors(document,window.location);
   // Preserve authored emojis, including variation selectors and joined sequences.
   const clean=text=>String(text||'').replace(/\s+/g,' ').trim();
-  let heading=clean(trip.title);const letters=heading.replace(/[^A-Za-z]/g,'');if(letters&&letters===letters.toUpperCase())heading=heading.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());document.getElementById('tripTitle').textContent=heading;
-  document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>el.textContent=clean(el.textContent));
+  let heading=clean(trip.title);const letters=heading.replace(/[^A-Za-z]/g,'');if(letters&&letters===letters.toUpperCase())heading=heading.toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());TripText.set(document.getElementById('tripTitle'),heading);
+  document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>{if(!el.querySelector('strong,em'))TripText.set(el,clean(el.textContent));});
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
   const essentials=document.createElement('div');essentials.className='trip-essentials';document.getElementById('tripTitle').after(essentials);
