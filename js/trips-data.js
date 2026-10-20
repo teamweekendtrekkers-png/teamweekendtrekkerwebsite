@@ -193,7 +193,7 @@ const tripsData = {
             {name: "Mekhri circle", landmark: "Mekhri circle bus stop\r", time: "9:00 PM ", mapLink: "https://maps.app.goo.gl/VRUiXm6cptJvz8Gf8"},
             {name: "Hebbal", landmark: "Esteem Mall Bus stop", time: "9:15 PM ", mapLink: "https://maps.app.goo.gl/XV88QhaAoc6AUso49"},
         ],
-        galleryImages: ["images/gallery/trip_1792519339566/img_1792522627584.png", "images/gallery/trip_1792519339566/img_1792522631038.png", "images/gallery/trip_1792519339566/img_1792522633928.png", "images/gallery/trip_1792519339566/img_1792522637056.png", "images/gallery/trip_1792519339566/img_1792522641722.png", "images/gallery/trip_1792519339566/img_1792525705023.png", "images/gallery/trip_1792519339566/img_1792525708218.png", "images/gallery/trip_1792519339566/img_1792525711187.png", "images/gallery/trip_1792519339566/img_1792525715046.png", "images/gallery/trip_1792519339566/img_1792525719356.png"],
+        galleryImages: ["images/gallery/trip_1792519339566/img_1792525705023.png", "images/gallery/trip_1792519339566/img_1792525711187.png", "images/gallery/trip_1792519339566/img_1792527046576.png", "images/gallery/trip_1792519339566/img_1792527049979.png", "images/gallery/trip_1792519339566/img_1792527053726.png", "images/gallery/trip_1792519339566/img_1792527057702.png", "images/gallery/trip_1792519339566/img_1792527083372.png", "images/gallery/trip_1792519339566/img_1792527087180.png", "images/gallery/trip_1792519339566/img_1792527090254.png", "images/gallery/trip_1792519339566/img_1792527093551.png", "images/gallery/trip_1792519339566/img_1792527096747.png"],
         groupSize: "12",
         isActive: true,
     },
