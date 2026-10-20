@@ -268,14 +268,14 @@
         if (typeof document.createElement !== 'function') return; // permits minimal consumers
         const make = (tag, className, text) => {
             const node = document.createElement(tag); node.className = className;
-            if (text !== undefined) node.textContent = text;
+            if (text !== undefined) {if(typeof TripText!=='undefined')TripText.set(node,text);else node.textContent = text;}
             return node;
         };
         const link = (label, url) => {
             const node = make('a', 'review-google-link', label);
             node.href = url; node.target = '_blank'; node.rel = 'noopener noreferrer'; return node;
         };
-        const setText = (selector, text) => { const node = document.querySelector(selector); if (node) node.textContent = text; };
+        const setText = (selector, text) => { const node = document.querySelector(selector); if (node) {if(typeof TripText!=='undefined')TripText.set(node,text);else node.textContent = text;} };
         for (const [name, selector] of [['stats', '.stats'], ['howItWorks', '.how-it-works'], ['whyChooseUs', '.why-choose-us'], ['reviews', '.testimonials'], ['cta', '.cta-section']]) {
             const node = document.querySelector(selector); if (node) node.hidden = !sections[name].enabled;
         }

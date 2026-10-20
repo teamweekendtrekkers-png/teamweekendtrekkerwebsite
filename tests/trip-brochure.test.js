@@ -58,7 +58,7 @@ test('brochure follows shared and per-trip section headings, visibility, empty l
 test('inactive and empty trips never advertise stale dates and do not require an itinerary', () => {
     for (const value of [{}, { ...trip(), isActive: false }, { ...trip(), availableDates: [] }]) {
         const content = brochure.buildModel(value, { referenceDate }).blocks.map(block => block.text).join('\n');
-        assert.ok(content.includes('New dates coming soon'));
+        assert.ok(content.includes(value.isActive === false ? 'Coming soon' : 'New dates coming soon'));
         assert.ok(content.includes('Comfortable walking shoes') || content.includes('Raincoat'));
     }
     assert.ok(brochure.buildModel({}, { referenceDate }).blocks.some(block => block.text.includes('Detailed itinerary coming soon')));
@@ -123,5 +123,31 @@ test('all authoritative trips build brochures without losing itinerary activitie
         for (const day of data.itinerary || []) for (const activity of day.activities || []) assert.ok(body.includes(activity.trim()), `${id}: ${activity}`);
         assert.equal(JSON.stringify(data), before);
     }
+});
+
+
+test('cover uses a genuine discount, selected departure and manager visibility',()=>{
+    const value={...trip(),price:'₹5,999',originalPrice:6499,publicSlug:'misty-hills-trip',image:'images/poster.jpg',galleryImages:['images/photo.jpg'],imageFocalPoint:'top'};
+    const model=brochure.buildModel(value,{referenceDate,selectedDate:'Aug 21-23, 2026',whatsapp:'7019235581'});
+    assert.equal(model.cover.image,'images/photo.jpg');assert.equal(model.cover.focal,'top');
+    assert.equal(model.cover.price,5999);assert.equal(model.cover.originalPrice,6499);
+    assert.match(model.cover.departure,/AUG 21/);
+    assert.equal(new URL(model.selectedBookingUrl).searchParams.get('date'),'Aug 21-23, 2026');
+    assert.equal(model.whatsappUrl,'https://wa.me/917019235581');
+    for(const originalPrice of [5999,4999,'invalid'])assert.equal(brochure.buildModel({...value,originalPrice},{referenceDate}).cover.originalPrice,null);
+    const hidden=brochure.buildModel({...value,hidePrice:true,contentSections:{glance:{mode:'hidden'}}},{referenceDate});
+    assert.equal(hidden.cover.price,null);assert.equal(hidden.cover.originalPrice,null);assert.deepEqual(hidden.cover.facts,[]);
+    assert.ok(!hidden.blocks.some(block=>block.text.includes('Price:')));
+});
+test('closed departures are not advertised as upcoming on the cover',()=>{
+    const value={...trip(),closedDepartures:trip().availableDates.map(label=>require('../js/trip-date-utils').parseTripDateRange(label).key)};
+    const model=brochure.buildModel(value,{referenceDate});
+    assert.equal(model.cover.departure,'Booking closed for current dates');
+});
+test('PDF Unicode text layer and both contact links survive serialization',()=>{
+    const jpeg=new Uint8Array([255,216,255,217]),line={text:'₹5,999 🌞',x:80,y:200,size:25,bold:true,advances:[20,14,7,14,14,14,7,25]};
+    const source=Buffer.from(brochure.encodePdf([jpeg],'https://www.teamweekendtrekkers.com/trips/misty-hills/',{textPages:[[line]],title:'Misty 🌞',whatsappUrl:'https://wa.me/917019235581'})).toString('latin1');
+    assert.match(source,/\/ToUnicode/);assert.match(source,/20b9/);assert.match(source,/d83cdf1e/);
+    assert.equal((source.match(/\/Subtype \/Link/g)||[]).length,2);assert.match(source,/3 Tr/);
 });
 

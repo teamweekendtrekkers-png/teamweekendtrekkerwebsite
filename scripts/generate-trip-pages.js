@@ -1,3 +1,4 @@
+const {plain:plainInline,html:richInline}=require('../js/inline-format');
 'use strict';
 
 const fs = require('node:fs');
@@ -132,10 +133,10 @@ function buildMetadata({ tripId, trip, imagePath, siteOrigin }) {
         throw new Error(`Trip "${tripId}" must have a title.`);
     }
 
-    const title = `${trip.title.trim()} - Team Weekend Trekkers`;
+    const title = `${plainInline(trip.title.trim())} - Team Weekend Trekkers`;
     const description = compactDescription(
-        trip.about,
-        `Explore ${trip.title.trim()} with Team Weekend Trekkers.`,
+        plainInline(trip.about),
+        `Explore ${plainInline(trip.title.trim())} with Team Weekend Trekkers.`,
     );
     const pageUrl = `${siteOrigin}/trips/${encodeURIComponent(trip.publicSlug || tripId)}/`;
     const imageUrl = new URL(`/${imagePath}`, siteOrigin).href;
@@ -185,7 +186,7 @@ function renderTripPage({ template, tripId, trip, projectRoot, siteOrigin }) {
     page = replaceExactlyOnce(
         page,
         '<h1 id="tripTitle">Trip details</h1>',
-        `<h1 id="tripTitle">${escapeHtml(trip.title.trim())}</h1>`,
+        `<h1 id="tripTitle">${richInline(trip.title.trim())}</h1>`,
         'trip heading',
     );
     // The root base URL serves shared assets; fragment links must keep this trip.

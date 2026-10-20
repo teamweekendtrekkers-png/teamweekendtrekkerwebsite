@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, '..');
 const styleLinks = fs.readFileSync(path.join(root, 'trip-detail.html'), 'utf8').match(/<link[^>]*rel="stylesheet"[^>]*>/g).join('');
 const output = process.env.BROCHURE_OUTPUT || path.join(root, 'build', 'brochure-review');
 fs.mkdirSync(output, { recursive: true });
-const fixture = { id: 'misty-hills', title: 'Misty Hills 🥾', location: 'Coorg, Karnataka', price: '₹3,499', duration: '2 days / 1 night', difficulty: 'Easy', availableDates: ['Oct 23-25, 2030'], about: 'Coffee country, misty trails and a weekend outdoors.', highlights: ['Sunrise views', 'Coffee plantations'], includes: ['Transport from Bengaluru', 'Stay and meals as listed'], excludes: ['Personal expenses'], thingsToCarry: ['Walking shoes', 'Water bottle'], perfectFor: ['Friends and solo travellers'], itinerary: [
+const fixture = { id: 'misty-hills', title: 'Misty Hills 🥾', location: 'Coorg, Karnataka', price: '₹3,499', duration: '2 days / 1 night', difficulty: 'Easy', availableDates: ['Oct 23-25, 2030'], about: 'Coffee **country**, *misty trails* and a weekend outdoors.', highlights: ['Sunrise views', 'Coffee plantations'], includes: ['Transport from Bengaluru', 'Stay and meals as listed'], excludes: ['Personal expenses'], thingsToCarry: ['Walking shoes', 'Water bottle'], perfectFor: ['Friends and solo travellers'], itinerary: [
     { day: 'Day 0', title: 'Departure from Bengaluru', activities: ['Board at your selected pickup point.', 'Meet your fellow travellers.'] },
     { day: 'Day 1', title: 'Explore the hills', description: 'An early start for a memorable day.', activities: ['Breakfast and a guided walk.', 'Enjoy the views and return to the stay.'] },
     { day: 'Day 2', title: 'Coffee and the journey home', activities: ['Explore a coffee plantation.', 'Return to Bengaluru in the evening.'] }
@@ -15,7 +15,7 @@ async function respond(route, origin) {
     const request = route.request(), url = new URL(request.url()), pathname = url.pathname;
     if (url.origin !== origin || request.method() !== 'GET') return route.abort();
     if (pathname === '/') {
-        return route.fulfill({ contentType: 'text/html', body: `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${styleLinks}<button id="tripBrochureButton">Brochure (PDF)</button><select id="dateSelect"><option>Oct 23-25, 2030</option></select><div class="quick-contact"><a class="btn-whatsapp" href="https://wa.me/917019235581">WhatsApp</a></div><dialog id="tripBrochureDialog" class="trip-brochure-dialog" aria-labelledby="heading"><h2 id="heading">Trip brochure</h2><p class="trip-brochure-hint">Preview the pages below. Your PDF includes the itinerary and trip details to keep or share.</p><p id="tripBrochureStatus" role="status"></p><div id="tripBrochurePreview" class="trip-brochure-preview"></div><div class="trip-brochure-controls"><button class="btn btn-primary" id="tripBrochureDownload">Download PDF</button><button class="btn btn-secondary" id="tripBrochureShare" hidden>Share PDF</button><button class="btn btn-primary" id="tripBrochureRetry" hidden>Try again</button><button class="btn btn-secondary" id="tripBrochureClose">Close</button></div></dialog><script>const tripsData={'misty-hills':${JSON.stringify(fixture)}}; function getTripFromURL(){return 'misty-hills'} function getTripData(id){return tripsData[id]}</script><script src="/js/trip-date-utils.js"></script><script src="/js/trip-detail-lists.js"></script><script src="/js/trip-content-defaults.js"></script><script src="/js/trip-content.js"></script><script src="/js/trip-brochure.js"></script>` });
+        return route.fulfill({ contentType: 'text/html', body: `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${styleLinks}<button id="tripBrochureButton">Brochure (PDF)</button><select id="dateSelect"><option>Oct 23-25, 2030</option></select><div class="quick-contact"><a class="btn-whatsapp" href="https://wa.me/917019235581">WhatsApp</a></div><dialog id="tripBrochureDialog" class="trip-brochure-dialog" aria-labelledby="heading"><h2 id="heading">Trip brochure</h2><p class="trip-brochure-hint">Preview the pages below. Your PDF includes the itinerary and trip details to keep or share.</p><p id="tripBrochureStatus" role="status"></p><div id="tripBrochurePreview" class="trip-brochure-preview"></div><div class="trip-brochure-controls"><button class="btn btn-primary" id="tripBrochureDownload">Download PDF</button><button class="btn btn-secondary" id="tripBrochureShare" hidden>Share PDF</button><button class="btn btn-primary" id="tripBrochureRetry" hidden>Try again</button><button class="btn btn-secondary" id="tripBrochureClose">Close</button></div></dialog><script>const tripsData={'misty-hills':${JSON.stringify(fixture)}}; function getTripFromURL(){return 'misty-hills'} function getTripData(id){return tripsData[id]}</script><script src="/js/inline-format.js"></script><script src="/js/trip-date-utils.js"></script><script src="/js/trip-detail-lists.js"></script><script src="/js/trip-content-defaults.js"></script><script src="/js/trip-content.js"></script><script src="/js/trip-brochure.js"></script>` });
     }
     const file = path.resolve(root, '.' + pathname);
     if (!file.startsWith(root + path.sep)) return route.fulfill({ status: 403 });
@@ -67,6 +67,10 @@ async function respond(route, origin) {
             fs.writeFileSync(path.join(output, 'misty-hills-brochure.pdf'), Buffer.from(bytes));
             const source = fs.readFileSync(path.join(output, 'misty-hills-brochure.pdf')).toString('latin1');
             assert.ok(source.startsWith('%PDF-1.4'));
+            assert.match(source,/\/ToUnicode/,'Downloaded PDF must include searchable Unicode text');
+            assert.match(source,/Helvetica-Oblique/,'Italic text remains italic in the PDF');
+            assert.match(source,/d83edd7e/,'The authored boot emoji must survive in the text layer');
+            assert.equal((source.match(/\/Subtype \/Link/g)||[]).length,count*2,'Every page retains booking and WhatsApp links');
             assert.equal(Number(source.match(/\/Type \/Pages \/Count (\d+)/)[1]), count);
             await page.getByText('Read brochure text', { exact: true }).click();
             assert.ok((await page.locator('#tripBrochurePreview').innerText()).includes('Why choose us'));
@@ -93,3 +97,4 @@ async function respond(route, origin) {
         console.log('Brochure browser checks passed: phone/desktop, real page previews, valid PDF download, section visibility, retry and close/reopen.');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
+
