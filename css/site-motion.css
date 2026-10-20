@@ -1,0 +1,24 @@
+/* Short feedback without delaying navigation or form submission. */
+.trip-card,.btn,button,.mobile-book-float>a{transition:background-color 180ms ease,color 180ms ease,box-shadow 180ms ease,transform 180ms ease}
+.trip-card:active{background-color:#eaf3ee}
+.btn:active,button:active,.mobile-book-float>a:active{filter:brightness(.94)}
+.btn:focus-visible,button:focus-visible,.trip-card a:focus-visible{outline:3px solid #087f73;outline-offset:3px}
+.gallery-counter{min-height:44px}
+.tour-refined .trip-section-links a::after{content:'';position:absolute;height:2px;bottom:4px;left:14px;right:14px;background:currentColor;border-radius:2px;transform:scaleX(0);transition:transform 180ms ease}
+.tour-refined .trip-section-links a[aria-current]::after{transform:scaleX(1)}
+[aria-busy=true]{cursor:progress}
+@media(hover:hover) and (pointer:fine){
+ .trip-card:hover{transform:translateY(-3px)}
+ .btn:not(:disabled):hover{transform:translateY(-2px)}
+}
+@media(max-width:767px){
+ body:has(#mobileBookBtn){padding-bottom:max(var(--booking-clearance,84px),var(--tour-book-space,84px))}
+ html{scroll-padding-bottom:var(--booking-clearance,84px)}
+ .gallery-counter{right:10px;bottom:10px;background:rgba(0,0,0,.8)}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .trip-card:hover,.btn:hover,.tour-refined .btn:hover,.gallery-main:hover img{transform:none!important}
+}
+@media print{body:has(#mobileBookBtn){padding-bottom:0}}

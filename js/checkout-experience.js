@@ -90,6 +90,9 @@
   window.submitPaymentReport=originalSubmit;
   window.submitDetails=async()=>{
    if(busy)return;busy=true;submit.disabled=true;
+   const previousLabel=submit.innerHTML;
+   submit.textContent='Submitting…';submit.setAttribute('aria-busy','true');
+   byId('bookingIssue').setAttribute('role','status');
    try{
     const previousTotal=window.bookingData.total,previousCoupon=window.bookingData.coupon;
     await refresh();
@@ -100,7 +103,7 @@
     if(window.preparePaymentSubmission && !await window.preparePaymentSubmission())return;
     await originalSubmit();
    }catch{byId('bookingIssue').hidden=false;byId('bookingIssue').textContent='Unable to verify current booking settings. Please retry or contact us on WhatsApp.';}
-   finally{busy=false;if(dateValid()&&byId('checkoutForm').style.display!=='none')submit.disabled=false;}
+   finally{busy=false;submit.removeAttribute('aria-busy');if(dateValid()&&byId('checkoutForm').style.display!=='none'){submit.disabled=false;submit.innerHTML=previousLabel;}}
   };
   byId('copyPaymentUpi').addEventListener('click',async()=>{const value=upiId();if(!value){byId('paymentFeedback').textContent='Please ask our team for the current UPI ID.';return;}try{await navigator.clipboard.writeText(value);byId('paymentFeedback').textContent=window.paymentCopyMessage?.()||'UPI ID copied. Pay only after availability is confirmed.';}catch{byId('paymentFeedback').textContent='UPI ID: '+value;}});
   const originalSuccess=window.showPaymentSection;

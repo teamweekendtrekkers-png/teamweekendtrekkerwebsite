@@ -27,8 +27,13 @@
   const images=[...new Set((window.allGalleryImages||[trip.image]).filter(Boolean))];
   if(main&&image){
    let index=0,start=null,swiped=false;
+   let shown=false,fadeNext=false,photoAnimation=null;
+   image.addEventListener('load',()=>{
+    if(!fadeNext)return;fadeNext=false;photoAnimation?.cancel();
+    if(image.animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)photoAnimation=image.animate([{opacity:.55},{opacity:1}],{duration:180,easing:'ease-out'});
+   });
    const counter=document.createElement('button');counter.className='gallery-counter';main.querySelector('.gallery-counter')?.remove();main.append(counter);
-   const show=()=>{if(window.ResponsiveImages)ResponsiveImages.set(image,images[index],{eager:true,avif:true,focal:trip.imageFocalPoint,sizes:'(max-width:767px) calc(100vw - 36px), (max-width:1000px) calc(100vw - 64px), 960px'});else image.src=images[index];image.alt=trip.title+' — photo '+(index+1);counter.textContent=(index+1)+' / '+images.length+' · View all';};
+   const show=()=>{fadeNext=shown;shown=true;if(window.ResponsiveImages)ResponsiveImages.set(image,images[index],{eager:true,avif:true,focal:trip.imageFocalPoint,sizes:'(max-width:767px) calc(100vw - 36px), (max-width:1000px) calc(100vw - 64px), 960px'});else image.src=images[index];image.alt=trip.title+' — photo '+(index+1);counter.textContent=(index+1)+' / '+images.length+' · View all';};
    main.setAttribute('role','group');main.tabIndex=0;main.setAttribute('aria-label','Trip photos. Use arrow keys to browse or Enter to enlarge.');
    main.querySelectorAll('.gallery-arrow').forEach(button=>button.remove());
    if(images.length>1)for(const [direction,label,symbol] of [[-1,'Previous photo','‹'],[1,'Next photo','›']]){

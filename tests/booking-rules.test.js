@@ -51,10 +51,26 @@ test('submission stops for changed offers, expired dates or unavailable settings
  const text=fs.readFileSync(path.join(__dirname,'../js/checkout-experience.js'),'utf8');
  const wrapper=text.slice(text.indexOf('const originalSubmit=window.submitDetails;'),text.indexOf("byId('copyPaymentUpi').addEventListener"));
  for(const scenario of ['unchanged','changed','expired','offline']){
-  let sends=0;const elements={checkoutForm:{style:{display:''}},offerUpdate:{hidden:true},bookingIssue:{hidden:true}};
-  const context={busy:false,submit:{disabled:false},window:{bookingData:{total:100,coupon:'TEST'},submitDetails:async()=>sends++},byId:id=>elements[id],dateValid:()=>scenario!=='expired',invalidRequest:()=>{elements.bookingIssue.hidden=false;},validateForm:()=>true,refresh:async()=>{if(scenario==='offline')throw Error('offline');if(scenario==='changed')context.window.bookingData.total=120;}};
+  let sends=0;const elements={checkoutForm:{style:{display:''}},offerUpdate:{hidden:true},bookingIssue:{hidden:true,setAttribute(){}}};
+  const context={busy:false,submit:{disabled:false,innerHTML:'Send Booking Request',setAttribute(){},removeAttribute(){}},window:{bookingData:{total:100,coupon:'TEST'},submitDetails:async()=>sends++},byId:id=>elements[id],dateValid:()=>scenario!=='expired',invalidRequest:()=>{elements.bookingIssue.hidden=false;},validateForm:()=>true,refresh:async()=>{if(scenario==='offline')throw Error('offline');if(scenario==='changed')context.window.bookingData.total=120;}};
   vm.createContext(context);vm.runInContext(wrapper,context);await context.window.submitDetails();
   assert.equal(sends,scenario==='unchanged'?1:0);
   if(scenario==='changed')assert.equal(elements.offerUpdate.hidden,false);
  }
+});
+
+test('submission immediately shows progress, prevents duplicate taps and restores on failure',async()=>{
+ const text=fs.readFileSync(path.join(__dirname,'../js/checkout-experience.js'),'utf8');
+ const wrapper=text.slice(text.indexOf('const originalSubmit=window.submitDetails;'),text.indexOf("byId('copyPaymentUpi').addEventListener"));
+ let rejectRefresh,sends=0;const attributes=new Map();
+ const pending=new Promise((_,reject)=>{rejectRefresh=reject;});
+ const elements={checkoutForm:{style:{display:''}},bookingIssue:{hidden:true,setAttribute(){}},offerUpdate:{hidden:true}};
+ const submit={disabled:false,innerHTML:'Send Booking Request',textContent:'',setAttribute:(k,v)=>attributes.set(k,v),removeAttribute:k=>attributes.delete(k)};
+ const context={busy:false,submit,window:{bookingData:{total:100,coupon:''},submitDetails:async()=>sends++},byId:id=>elements[id],dateValid:()=>true,invalidRequest(){},validateForm:()=>true,refresh:()=>pending};
+ vm.createContext(context);vm.runInContext(wrapper,context);
+ const request=context.window.submitDetails();
+ assert.equal(submit.textContent,'Submitting…');assert.equal(submit.disabled,true);assert.equal(attributes.get('aria-busy'),'true');
+ await context.window.submitDetails();assert.equal(sends,0);
+ rejectRefresh(Error('offline'));await request;
+ assert.equal(submit.disabled,false);assert.equal(submit.innerHTML,'Send Booking Request');assert.equal(attributes.has('aria-busy'),false);assert.equal(elements.bookingIssue.hidden,false);
 });
