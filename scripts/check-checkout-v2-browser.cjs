@@ -12,6 +12,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
  try{
   for(const width of [360,390,1440]){
    const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
+   await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    let p=payment(),closed=[],delayTripData=false;
    page.on('pageerror',e=>errors.push(e.message));
    await page.addInitScript(()=>{const OriginalDate=Date;globalThis.Date=class extends OriginalDate{constructor(...args){super(...(args.length?args:['2026-10-14T05:00:00Z']));}static now(){return new OriginalDate('2026-10-14T05:00:00Z').getTime();}};Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>{window.copiedUpi=text;}}});});

@@ -25,6 +25,7 @@ const server=http.createServer((req,res)=>{
  try{
   for(const width of [390,1440]){
    const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
+   await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    page.on('pageerror',error=>errors.push(error.message));
    await page.addInitScript(()=>{
     const OriginalDate=Date;globalThis.Date=class extends OriginalDate{constructor(...args){super(...(args.length?args:['2026-10-14T05:00:00Z']));}static now(){return new OriginalDate('2026-10-14T05:00:00Z').getTime();}};

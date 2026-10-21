@@ -9,8 +9,8 @@ function page(config,response) {
  for(const id of ['submitSuccess','requestReceived'])elements[id]={children:[],querySelector(){return this.children[0] || null;},append(element){this.children.push(element);}};
  const calls=[],stored=new Map();let legacy=0,success=0;
  const window={submitDetails:async()=>{legacy++;},bookingData:{date:'Oct 16-18, 2026',people:2,total:8998,coupon:''}};
- const context=vm.createContext({window,document:{getElementById:id=>elements[id],createElement:()=>({dataset:{}})},
-  crypto:webcrypto,TextEncoder,AbortSignal,validateForm:()=>true,getTripFromURL:()=>'wayanad',showPaymentSection:()=>{success++;},
+ const context=vm.createContext({window,document:{getElementById:id=>elements[id],createElement:()=>({dataset:{}}),dispatchEvent:event=>calls.push({event:event.type,detail:event.detail})},
+  CustomEvent:class{constructor(type,options){this.type=type;this.detail=options?.detail;}},Event:class{constructor(type){this.type=type;}},crypto:webcrypto,TextEncoder,AbortSignal,validateForm:()=>true,getTripFromURL:()=>'wayanad',showPaymentSection:()=>{success++;},
   sessionStorage:{getItem:key=>stored.get(key),setItem:(key,value)=>stored.set(key,value)},
   fetch:async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>options?.method==='POST'?response:config};}});
  vm.runInContext(source,context);
@@ -24,12 +24,16 @@ test('an enabled service saves a stable request key and displays the returned re
   {accepted:true,booking_reference:'TWT-DEMO'});
  await env.window.submitDetails();await env.window.submitDetails();
  assert.equal(env.legacy(),0);assert.equal(env.success(),2);
- const first=JSON.parse(env.calls[1].options.body),second=JSON.parse(env.calls[2].options.body);
+ const posts=env.calls.filter(call=>call.options?.method==='POST');
+ const first=JSON.parse(posts[0].options.body),second=JSON.parse(posts[1].options.body);
+ assert.equal(env.calls.filter(call=>call.event==='twt:booking-accepted').length,2);
  assert.equal(first.idempotency_key,second.idempotency_key);assert.equal(first.expected_total,8998);
  assert.match(env.elements.requestReceived.children[0].textContent,/TWT-DEMO/);
 });
 test('a rejected database request never displays success or falls back to email alone',async()=>{
  const env=page({enabled:true,endpoint:'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request',anonKey:'public-test-key'},{error:'rate_limited'});
  await env.window.submitDetails();assert.equal(env.success(),0);assert.equal(env.legacy(),0);
+ assert.equal(env.calls.filter(call=>call.event==='twt:booking-accepted').length,0);
+ assert.equal(env.calls.filter(call=>call.event==='twt:booking-error').length,1);
  assert.equal(env.elements.bookingIssue.hidden,false);assert.match(env.elements.bookingIssue.textContent,/Too many requests/);
 });

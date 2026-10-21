@@ -18,6 +18,29 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  analytics-database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: analytics_test
+        ports: [5432:5432]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGPASSWORD: analytics_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test analytics grants and ordered cohorts
+        run: |
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-db-fixture.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f supabase/migrations/20261021_journey_analytics.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-db.test.sql
+
   # Job 1: Basic Validation
   validate:
     runs-on: ubuntu-latest
@@ -189,6 +212,7 @@ jobs:
         node scripts/check-trip-brochure-browser.cjs
         node scripts/check-catalogue-filters-browser.cjs
         node scripts/check-editor-presentation-browser.cjs
+        node scripts/check-journey-analytics-browser.cjs
         node scripts/check-site-motion-browser.cjs
 
     - name: Save catalogue filter review screenshots
@@ -484,7 +508,7 @@ jobs:
 
   # Job 12: Test Summary
   test-summary:
-    needs: [validate, trip-data-validation, common-data-validation, javascript-validation, html-validation, css-validation, inactive-trip-validation, images-validation, security-check, mobile-responsive-check, comprehensive-tests]
+    needs: [analytics-database, validate, trip-data-validation, common-data-validation, javascript-validation, html-validation, css-validation, inactive-trip-validation, images-validation, security-check, mobile-responsive-check, comprehensive-tests]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -508,7 +532,8 @@ jobs:
            [ "${{ needs.images-validation.result }}" == "success" ] && \
            [ "${{ needs.security-check.result }}" == "success" ] && \
            [ "${{ needs.mobile-responsive-check.result }}" == "success" ] && \
-           [ "${{ needs.comprehensive-tests.result }}" == "success" ]; then
+           [ "${{ needs.comprehensive-tests.result }}" == "success" ] && \
+           [ "${{ needs.analytics-database.result }}" == "success" ]; then
           echo "✅ All critical validations passed!"
         else
           echo "❌ Some validations failed - check job details"
