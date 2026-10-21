@@ -23,6 +23,8 @@
     };
     const presentation = typeof module === 'object' && module.exports ? require('./site-presentation') : globalThis.SitePresentation;
     defaults.presentation = presentation ? presentation.defaults : {};
+    const pages = typeof module === 'object' && module.exports ? require('./website-pages') : globalThis.WebsitePages;
+    defaults.pages = pages ? pages.defaults : {};
     const clone = value => JSON.parse(JSON.stringify(value));
     defaults.sections = clone(sections.defaults);
     defaults.footer = clone(footer.defaults);
@@ -37,6 +39,7 @@
     function normalize(raw) {
         if (!raw || raw.version !== 1) return clone(defaults);
         const result = clone(defaults);
+        result.pages = pages ? pages.normalize(raw.pages) : {};
         const gallery = raw.tripGallery || {};
         if (typeof gallery.autoSlide === 'boolean') result.tripGallery.autoSlide = gallery.autoSlide;
         if (Number.isInteger(gallery.intervalSeconds) && gallery.intervalSeconds >= 3 && gallery.intervalSeconds <= 30) result.tripGallery.intervalSeconds = gallery.intervalSeconds;

@@ -13,7 +13,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
   for(const width of [360,390,1440]){
    const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
    await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
-   let p=payment(),closed=[],delayTripData=false;
+   let p=payment(),closed=[],delayTripData=false,maxTravellers=50;
    page.on('pageerror',e=>errors.push(e.message));
    await page.addInitScript(()=>{const OriginalDate=Date;globalThis.Date=class extends OriginalDate{constructor(...args){super(...(args.length?args:['2026-10-14T05:00:00Z']));}static now(){return new OriginalDate('2026-10-14T05:00:00Z').getTime();}};Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>{window.copiedUpi=text;}}});});
    await page.route('**/*',async route=>{
@@ -28,7 +28,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     if(url.pathname.endsWith('-qr.png'))return route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
     try{
      let body=fs.readFileSync(file);
-     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',about:'Meet **local hosts** and *explore*.',cardImage:'images/card-only.jpg',galleryImages:['images/gallery-second.jpg','images/gallery-first.jpg'],price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',itinerary:[{day:'🌞 Day 1',title:'🙏 Traditions & culture',activities:['🌞 **Arrive** in *Kannur*','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']}],highlights:['🔥 Theyyam experience'],contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
+     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',maxTravellers:${maxTravellers},about:'Meet **local hosts** and *explore*.',cardImage:'images/card-only.jpg',galleryImages:['images/gallery-second.jpg','images/gallery-first.jpg'],price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',itinerary:[{day:'🌞 Day 1',title:'🙏 Traditions & culture',activities:['🌞 **Arrive** in *Kannur*','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']}],highlights:['🔥 Theyyam experience'],contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
      if(url.pathname==='/js/security.js'){
        const upi='first@upi';let checksum=0;for(const c of upi)checksum=((checksum<<5)-checksum+c.charCodeAt(0))|0;
        body=body.toString().replace(/_p1:\s*\[[^\]]+\]/,'_p1: [102,105,114,115,116]').replace(/_p3:\s*\[[^\]]+\]/,'_p3: [117,112,105]').replace(/_checksum:\s*-?\d+/,'_checksum: '+checksum);
@@ -36,7 +36,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
      return route.fulfill({contentType:({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'})[path.extname(file)]||'application/octet-stream',body});
     }catch{return route.fulfill({status:404,body:''});}
    });
-   const open=async(label=date)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people=1');await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));
+   const open=async(label=date,count=1)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people='+count);await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));
      if(width<768){assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null);assert.match(await page.locator('#mobileTripSummaryText').innerText(),/Demo Trip/);await page.locator('.mobile-trip-summary>summary').click();}
      assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
    };
@@ -154,6 +154,20 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    for(let i=0;i<7;i++){await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.getElementById('galleryLightbox').contains(document.activeElement)),true);}
    await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.getElementById('galleryLightbox').contains(document.activeElement)),true);
    await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.matches('.gallery-main')),true);assert.equal(await page.locator('nav.navbar').evaluate(n=>n.inert),false);
+   // Per-trip limits apply to both selectors and edited checkout URLs.
+   closed=[];maxTravellers=6;
+   await page.goto(origin+'/trip-detail.html?trip=demo');
+   await page.waitForFunction(()=>document.getElementById('tripTitle').textContent==='Demo Trip');
+   assert.equal(await page.locator('#peopleCount option').count(),6);
+   await open(later,7);
+   assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);
+   assert.match(await page.textContent('#bookingIssue'),/up to 6 travellers/);
+   await page.click('#changeBooking');
+   assert.equal(await page.locator('#changeTravellers option').count(),6);
+   assert.equal(await page.inputValue('#changeTravellers'),'6');
+   await page.click('.booking-change-dialog [type="submit"]');
+   await page.waitForFunction(()=>!document.getElementById('submitDetailsBtn').disabled);
+   assert.match(await page.textContent('#summaryPeople'),/6/);
    assert.deepEqual(errors,[]);await page.close();
   }
   console.log('PASS: custom trip sections, compact checkout, v2 payment default, selected requests, profile switching, copy/download, date edits, totals/coupons, payment reports, expired/closed recovery, contrast and gallery focus at 360/390/1440px. All payment POSTs mocked.');

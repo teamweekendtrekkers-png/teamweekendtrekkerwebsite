@@ -30,6 +30,9 @@
     const button=doc.createElement('button');
     button.type='button';button.className='gallery-playback';button.hidden=true;
     button.addEventListener('click',event=>{event.stopPropagation();userPaused=!userPaused;update();});
+    const icon=doc.createElement('span');icon.className='gallery-playback-icon';icon.setAttribute('aria-hidden','true');
+    const label=doc.createElement('span');label.className='gallery-playback-label';
+    button.append(icon,label);
     main.append(button);
     const lightbox=doc.getElementById('galleryLightbox');
     const blocked=()=>!config||!config.autoSlide||userPaused||hover||!inView||doc.hidden||reduced.matches||
@@ -38,7 +41,8 @@
     const clock=timer({advance,blocked});
     function update(){
       button.hidden=!config?.autoSlide||reduced.matches;
-      button.textContent=userPaused?'▶ Play':'Ⅱ Pause';
+      label.textContent=userPaused?'Play':'Pause';
+      button.dataset.paused=String(userPaused);
       button.setAttribute('aria-label',userPaused?'Play photo slideshow':'Pause photo slideshow');
       clock.refresh();
     }

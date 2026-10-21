@@ -19,7 +19,9 @@ function buildCatalog(root) {
   for (const [id, trip] of Object.entries(context.catalogTrips)) {
     const price = Number(String(trip.price).replace(/[^\d.]/g, ''));
     if (!Number.isFinite(price) || price < 0) throw new Error('Invalid price for ' + id);
-    trips[id] = {title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
+    const maxTravellers = trip.maxTravellers ?? 50;
+    if (!Number.isInteger(maxTravellers) || maxTravellers < 1 || maxTravellers > 50) throw new Error('Invalid traveller limit for ' + id);
+    trips[id] = {maxTravellers, title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
       departures: (trip.availableDates || []).filter(label => !(trip.closedDepartures || []).includes(dates.parseTripDateRange(label)?.key)).map(label => {
         const range = dates.parseTripDateRange(label);
         if (!range) throw new Error('Invalid departure for ' + id + ': ' + label);

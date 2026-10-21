@@ -6,7 +6,7 @@
   const mode=()=>document.querySelector('input[name="bookingPaymentMode"]:checked')?.value||'confirmation';
   window.paymentCopyMessage=()=>mode()==='direct'?'UPI ID copied. Submit your transaction ID after paying; verification remains pending.':'UPI ID copied. Pay only after our team confirms availability and the amount.';
   function dateKey(){return TripDateUtils.parseTripDateRange(getDateFromURL())?.key||'';}
-  function valid(){const trip=tripsData[getTripFromURL()];return trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
+  function valid(){const trip=tripsData[getTripFromURL()];return trip&&TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
   function amount(){return PaymentOptions.amounts(window.bookingData.total,document.querySelector('input[name="paymentType"]:checked')?.value||'half');}
   function contactLink(payment){
     const b=window.bookingData,ref=b.bookingReference?' Reference: '+b.bookingReference+'.':'';
