@@ -162,7 +162,7 @@ const tripsData = {
         departureTime: "20:30",
         title: "Srisailam, Yaganti & Belum Caves Road Trip",
         location: "Andhra Pradesh",
-        badge: "Trek\\",
+        badge: "Heritage ",
         featured: true,
         experiences: ["heritage"],
         price: "₹5,998",
