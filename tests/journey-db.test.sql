@@ -24,6 +24,8 @@ do $$declare r jsonb; d date:=(now() at time zone 'Asia/Kolkata')::date;begin
  if (r->'funnel'->0->>'count')::int<>2 or (r->'funnel'->4->>'count')::int<>1 or (r->>'direct_checkout')::int<>1 then raise exception 'incorrect funnel: %',r;end if;
  if (r->'review'->>'verified')::int<>1 then raise exception 'incorrect review: %',r;end if;
  if r::text like '%special_requests%' or r::text like '%email%' then raise exception 'private data in aggregate';end if;
+ r:=public.twt_journey_report(d,d,'trip_1792519339566','');
+ if (r->>'direct_checkout')::int<>1 then raise exception 'generated ID filter incorrect: %',r;end if;
  r:=public.twt_journey_report(d,d,'theyyam','desktop');
  if (r->'funnel'->0->>'count')::int<>1 or (r->'funnel'->4->>'count')::int<>0 or r->'review'<>'null'::jsonb then raise exception 'filters incorrect: %',r;end if;
  begin perform public.twt_journey_report(d-100,d);raise exception 'unbounded report allowed';exception when raise_exception then if sqlerrm<>'invalid_range' then raise;end if;end;
