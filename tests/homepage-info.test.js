@@ -45,7 +45,7 @@ test('selection and reordering renumber only visible steps; explicit empty lists
     raw.howItWorks.items.reverse(); raw.howItWorks.items[1].visible = false;
     const cards = render(raw).get('.how-it-works .homepage-info-grid').children;
     assert.deepEqual(cards.map(card => card.children[1].textContent), ['1','2']);
-    assert.deepEqual(cards.map(card => card.children[2].textContent), ['Show Up & Explore','Pick a Weekend']);
+    assert.deepEqual(cards.map(card => card.children[2].textContent), ['Get Confirmed & Explore','Choose Your Trip']);
     for (const name of names) raw[name].items = [];
     for (const selector of ['.how-it-works', '.why-choose-us']) assert.equal(render(raw).get(selector + ' .homepage-info-grid').children.length, 0);
 });
