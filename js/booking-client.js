@@ -49,6 +49,7 @@
         throw new Error(messages[result.error] || 'Your request could not be saved. Please retry or contact our team on WhatsApp.');
       }
       window.bookingData.bookingReference = result.booking_reference;
+      document.dispatchEvent(new CustomEvent('twt:booking-accepted', {detail: {payment: !!booking.paymentReport}}));
       showPaymentSection();
       for (const parent of [document.getElementById('submitSuccess'), document.getElementById('requestReceived')]) {
         let reference = parent.querySelector('[data-booking-reference]');
@@ -57,6 +58,7 @@
       }
       button.innerHTML = '<i class="fas fa-check"></i> Request Saved!';
     } catch (error) {
+      document.dispatchEvent(new Event('twt:booking-error'));
       button.disabled = false;
       button.innerHTML = '<i class="fas fa-paper-plane"></i> Send Booking Request';
       const issue = document.getElementById('bookingIssue'); issue.hidden = false;
