@@ -7,6 +7,7 @@
     'use strict';
     const defaults = {
         version: 1,
+        tripGallery: { autoSlide: true, intervalSeconds: 5 },
         hero: {
             backgroundImage: 'images/wix/hero1.jpg', title: 'Explore. Travel. Experience.',
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
@@ -36,6 +37,9 @@
     function normalize(raw) {
         if (!raw || raw.version !== 1) return clone(defaults);
         const result = clone(defaults);
+        const gallery = raw.tripGallery || {};
+        if (typeof gallery.autoSlide === 'boolean') result.tripGallery.autoSlide = gallery.autoSlide;
+        if (Number.isInteger(gallery.intervalSeconds) && gallery.intervalSeconds >= 3 && gallery.intervalSeconds <= 30) result.tripGallery.intervalSeconds = gallery.intervalSeconds;
         const hero = raw.hero || {};
         for (const key of ['title', 'tagline', 'description']) {
             if (typeof hero[key] === 'string' && hero[key].trim()) result.hero[key] = hero[key].trim();

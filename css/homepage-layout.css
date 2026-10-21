@@ -1,0 +1,54 @@
+/* Homepage rhythm: size the banner to its content, not the viewport. */
+.homepage .hero {
+  min-height: 0;
+  min-block-size: 0;
+  height: auto;
+  max-height: none;
+  aspect-ratio: auto;
+  padding: 80px 0 0;
+}
+.homepage .hero-content { padding: 40px 32px; }
+.homepage .hero .hero-trust { margin-bottom: 14px; }
+.homepage .hero h1 { margin-bottom: 12px; }
+.homepage .hero-tagline { margin-bottom: 8px; }
+.homepage .hero-desc { margin-bottom: 16px; }
+.homepage .hero-search { margin: 18px 0 14px; }
+.homepage .hero-buttons { display: flex; max-width: none; margin: 0; align-items: center; }
+.homepage .hero-help { display: inline-flex; align-items: center; min-height: 44px; }
+.homepage .upcoming-batches { padding-block: 28px 24px; }
+.homepage .upcoming-batches .section-title { margin-bottom: 8px; }
+.homepage .upcoming-batches .section-subtitle { margin-bottom: 18px; }
+.homepage .stats { padding-block: 20px; }
+.homepage .stat-number { font-size: 32px; line-height: 1.2; margin-bottom: 4px; }
+.homepage .stat-label { font-size: 14px; line-height: 1.4; }
+.homepage .trips-section { padding-block: 32px; }
+.homepage .trips-section .section-title { margin-bottom: 8px; }
+.homepage .trips-section .section-subtitle { margin-bottom: 20px; }
+@media (max-width: 767px) {
+  .homepage .hero { padding-top: 64px; }
+  .homepage .hero-content { padding: 20px 18px; }
+  .homepage .hero .hero-trust { margin-bottom: 10px; }
+  .homepage .hero h1 { margin-bottom: 10px; }
+  .homepage .hero-tagline { margin: 0; }
+  .homepage .hero-search { margin: 14px 0 10px; }
+  .homepage .hero-buttons { flex-direction: row; flex-wrap: wrap; gap: 8px 14px; }
+  .homepage .hero-buttons .btn { min-height: 48px; }
+  .homepage .hero-help { display: inline-flex; align-items: center; min-height: 44px; padding: 0; }
+  .homepage .upcoming-batches { padding-block: 20px 16px; }
+  .homepage .upcoming-batches .section-subtitle { margin-bottom: 12px; }
+  .homepage .upcoming-batches-action { margin-top: 8px; }
+  .homepage .stats { padding-block: 14px; }
+  .homepage .stats-grid { gap: 10px 12px; }
+  .homepage .stat-number { font-size: 24px; margin-bottom: 2px; }
+  .homepage .stat-label { font-size: 13px; }
+  .homepage .trips-section { padding-block: 20px 24px; }
+  .homepage .trips-section .section-subtitle { margin-bottom: 14px; }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+  .homepage .hero-content { padding: 28px 24px; }
+  .homepage .hero h1 { max-width: none; font-size: 36px; }
+  .homepage .hero-tagline { font-size: 20px; line-height: 1.4; }
+  .homepage .hero-desc { font-size: 16px; line-height: 1.5; margin-bottom: 12px; }
+  .homepage .hero-search { margin: 14px 0 10px; }
+}

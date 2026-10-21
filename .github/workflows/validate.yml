@@ -214,6 +214,15 @@ jobs:
         node scripts/check-editor-presentation-browser.cjs
         node scripts/check-journey-analytics-browser.cjs
         node scripts/check-site-motion-browser.cjs
+        node scripts/check-gallery-layout-browser.cjs
+
+    - name: Save homepage layout screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: homepage-layout-review
+        path: build/layout-review/*.png
+        if-no-files-found: warn
 
     - name: Save catalogue filter review screenshots
       if: always()
