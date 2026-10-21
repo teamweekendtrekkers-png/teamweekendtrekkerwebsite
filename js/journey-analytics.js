@@ -1,4 +1,4 @@
-/* Anonymous, opt-in journey analytics. No contact fields, UTRs, URLs or free text. */
+/* Anonymous session journey analytics. No contact fields, UTRs, URLs or free text. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',()=>api.install(root));else api.install(root);})(typeof window==='undefined'?null:window,function(){
 'use strict';
 const events=new Set(['site_visit','trip_view','date_selected','checkout_open','payment_shown','payment_submitted','booking_requested','upi_copied','qr_downloaded','checkout_error']);
@@ -11,7 +11,7 @@ function source(referrer,location){
  if(tag)return classify(tag)||'campaign';
  try{const ref=new URL(referrer);if(ref.hostname===url.hostname)return 'direct';return classify(ref.hostname)||'referral';}catch{return 'direct';}
 }
-function clean(name,trip,error){if(!events.has(name))return null;return {name,trip:typeof trip==='string'&&/^[a-z0-9][a-z0-9-]{0,99}$/.test(trip)?trip:null,error:name==='checkout_error'&&errors.has(error)?error:null};}
+function clean(name,trip,error){if(!events.has(name))return null;return {name,trip:typeof trip==='string'&&/^[a-z0-9][a-z0-9_-]{0,99}$/.test(trip)?trip:null,error:name==='checkout_error'&&errors.has(error)?error:null};}
 function createTracker(env){
  let enabled=false,session=null,queue=[],seen=new Set(),timer=null,stopped=false;
  const read=(key)=>{try{return env.storage.getItem(key);}catch{return null;}};
@@ -31,19 +31,11 @@ function install(w){if(!w||w.TwtJourney)return;const d=w.document;const blocked=
  w.TwtJourney=tracker;
  const trip=()=>{try{return typeof w.getTripFromURL==='function'?w.getTripFromURL():w.currentTrip?.id||null;}catch{return null;}};
  let saved=null;try{saved=w.localStorage.getItem('twt-analytics-consent');}catch{}
- const style=d.createElement('link');style.rel='stylesheet';style.href='/css/journey-analytics.css';d.head.append(style);
- let notice;
- function saveConsent(value){try{w.localStorage.setItem('twt-analytics-consent',value?'yes':'no');}catch{}tracker.consent(value);notice?.remove();if(value)observeState();}
- function preferences(){notice?.remove();notice=d.createElement('section');notice.className='journey-consent';notice.setAttribute('aria-label','Optional website analytics');
- const text=d.createElement('p');text.textContent=blocked?'Your browser privacy preference is respected. Optional analytics is off.':'Help us improve booking? Optional analytics records anonymous trip and checkout steps for up to 90 days. We do not record your contact details, payment IDs, full URLs or screen recordings. Session identifiers expire after 24 hours. You can change this choice below.';notice.append(text);
- for(const [label,value]of blocked?[['Close',false]]:[['Allow analytics',true],['No thanks',false]]){const b=d.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>saveConsent(value));notice.append(b);}d.body.append(notice);
- }
  function observeState(){if(!tracker.enabled)return;const id=trip(),checkout=d.getElementById('checkoutForm');if(checkout)tracker.track('checkout_open',id);else if(d.getElementById('tripTitle')){tracker.track('trip_view',id);if(d.getElementById('dateSelect')?.value)tracker.track('date_selected',id);}
  const payment=d.getElementById('paymentSection');if(payment&&payment.getClientRects().length&&w.getComputedStyle(payment).display!=='none')tracker.track('payment_shown',id);
  const issue=d.getElementById('bookingIssue');if(issue&&!issue.hidden&&issue.textContent.trim())tracker.track('checkout_error',id,'checkout_unavailable');
  }
- const button=d.createElement('button');button.type='button';button.className='journey-preferences';button.textContent='Analytics preferences';button.addEventListener('click',preferences);(d.querySelector('footer')||d.body).append(button);
- if(saved==='yes'&&!blocked){tracker.consent(true);observeState();}else if(saved!=='no'&&!blocked)preferences();
+ if(saved!=='no'&&!blocked){tracker.consent(true);observeState();}
  d.addEventListener('change',e=>{if(e.target.id==='dateSelect'&&e.target.value)tracker.track('date_selected',trip());});
  d.addEventListener('click',e=>{if(e.target.closest('#copyPaymentUpi'))tracker.track('upi_copied',trip());if(e.target.closest('#downloadPaymentQr'))tracker.track('qr_downloaded',trip());});
  d.addEventListener('twt:booking-accepted',e=>tracker.track(e.detail?.payment===true?'payment_submitted':'booking_requested',trip()));
@@ -52,7 +44,7 @@ function install(w){if(!w||w.TwtJourney)return;const d=w.document;const blocked=
  const observed=d.getElementById('paymentSection');if(observed)new MutationObserver(observeState).observe(observed,{attributes:true,attributeFilter:['style','hidden']});
  const issue=d.getElementById('bookingIssue');if(issue)new MutationObserver(observeState).observe(issue,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
  w.addEventListener('pagehide',()=>tracker.flush());
- w.addEventListener('storage',e=>{if(e.key==='twt-analytics-consent'){tracker.consent(e.newValue==='yes');if(tracker.enabled)observeState();}});
+ w.addEventListener('storage',e=>{if(e.key==='twt-analytics-consent'){tracker.consent(e.newValue!=='no');if(tracker.enabled)observeState();}});
 }
 return {source,clean,createTracker,install};
 });

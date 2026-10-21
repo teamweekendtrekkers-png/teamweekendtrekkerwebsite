@@ -11,7 +11,7 @@ do $$begin
 end $$;
 reset role;
 select public.twt_track_journey('22222222-2222-4222-8222-222222222222','direct','desktop','[{"id":"00000000-0000-4000-8000-000000000008","name":"trip_view","trip":"theyyam"}]');
-select public.twt_track_journey('33333333-3333-4333-8333-333333333333','google','desktop','[{"id":"00000000-0000-4000-8000-000000000009","name":"checkout_open","trip":"other-trip"},{"id":"00000000-0000-4000-8000-000000000010","name":"payment_shown","trip":"other-trip"}]');
+select public.twt_track_journey('33333333-3333-4333-8333-333333333333','google','desktop','[{"id":"00000000-0000-4000-8000-000000000009","name":"checkout_open","trip":"trip_1792519339566"},{"id":"00000000-0000-4000-8000-000000000010","name":"payment_shown","trip":"trip_1792519339566"}]');
 insert into public.bookings(trip_id,special_requests,payment_review_status,payment_reviewed_at)values('theyyam','[TWT_PAYMENT:report','verified',now());
 set local role authenticated;
 do $$begin
@@ -24,6 +24,8 @@ do $$declare r jsonb; d date:=(now() at time zone 'Asia/Kolkata')::date;begin
  if (r->'funnel'->0->>'count')::int<>2 or (r->'funnel'->4->>'count')::int<>1 or (r->>'direct_checkout')::int<>1 then raise exception 'incorrect funnel: %',r;end if;
  if (r->'review'->>'verified')::int<>1 then raise exception 'incorrect review: %',r;end if;
  if r::text like '%special_requests%' or r::text like '%email%' then raise exception 'private data in aggregate';end if;
+ r:=public.twt_journey_report(d,d,'trip_1792519339566','');
+ if (r->>'direct_checkout')::int<>1 then raise exception 'generated ID filter incorrect: %',r;end if;
  r:=public.twt_journey_report(d,d,'theyyam','desktop');
  if (r->'funnel'->0->>'count')::int<>1 or (r->'funnel'->4->>'count')::int<>0 or r->'review'<>'null'::jsonb then raise exception 'filters incorrect: %',r;end if;
  begin perform public.twt_journey_report(d-100,d);raise exception 'unbounded report allowed';exception when raise_exception then if sqlerrm<>'invalid_range' then raise;end if;end;
