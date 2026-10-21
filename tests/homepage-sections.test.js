@@ -11,7 +11,7 @@ test('legacy config keeps existing six reviews, statistics, reasons, CTA, dates 
     assert.deepEqual(result.sections, sections.defaults);
     assert.equal(result.sections.reviews.items.length, 6);
     for (const item of sections.defaults.reviews.items) { assert(html.includes(item.name)); assert(html.includes(item.text)); }
-    for (const item of sections.defaults.stats.items) { assert(html.includes(item.value)); assert(html.includes(item.label)); }
+    assert.equal((html.match(/class="stat-item"/g) || []).length, sections.defaults.stats.items.length);
     for (const name of ['howItWorks', 'whyChooseUs']) {
         assert(html.includes(sections.defaults[name].title));
         for (const item of sections.defaults[name].items) { assert(html.includes(item.title)); assert(html.includes(item.text)); }

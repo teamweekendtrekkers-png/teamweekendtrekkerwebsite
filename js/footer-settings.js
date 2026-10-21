@@ -67,6 +67,10 @@
         }).map(item => ({id: item.id, label: item.label.trim(), url: item.url, visible: item.visible !== false}));
         return result;
     }
+    function formatPhone(digits) {
+        if (typeof digits !== 'string' || !/^[1-9]\\d{7,14}$/.test(digits)) return '';
+        return /^91\\d{10}$/.test(digits) ? '+91 ' + digits.slice(2,7) + ' ' + digits.slice(7) : '+' + digits;
+    }
     function apply(raw, document) {
         if (typeof document.createElement !== 'function') return;
         const footer = document.querySelector('footer.footer');
@@ -107,7 +111,14 @@
         if (contact) {
             const location = make('p', config.location);
             contact.replaceChildren(make('h4', config.contactTitle), location);
-            if (whatsapp) { const row = make('p'); row.append(link('WhatsApp: +' + (config.whatsAppNumber || whatsapp.match(/wa\.me\/(\d+)/)?.[1] || ''), whatsapp, true)); contact.append(row); }
+            const digits = config.whatsAppNumber || whatsapp.match(/wa\\.me\\/([1-9]\\d{7,14})(?:[/?#]|$)/)?.[1] || '';
+            const phone = formatPhone(digits);
+            if (phone) {
+                const row = make('p'), call = link(phone, 'tel:+' + digits);
+                call.setAttribute('aria-label', 'Call ' + phone);
+                row.append(call, document.createTextNode(' · '), link('WhatsApp', 'https://wa.me/' + digits, true));
+                contact.append(row);
+            }
             if (instagram) { const row = make('p'); row.append(link(config.instagramLabel || '@' + new URL(instagram).pathname.split('/').filter(Boolean).pop(), instagram, true)); contact.append(row); }
             if (config.email) { const row = make('p'); row.append(link(config.email, 'mailto:' + config.email)); contact.append(row); }
         }
@@ -145,5 +156,5 @@
         } catch (_) { return {...clone(defaults), showUpi: false}; }
         finally { clearTimeout(timer); }
     }
-    return {defaults, safeLink, safeInstagram, normalize, apply, load};
+    return {defaults, safeLink, safeInstagram, normalize, formatPhone, apply, load};
 }));
