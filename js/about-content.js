@@ -17,7 +17,7 @@
    if(!item||typeof item.value!=='string'||!item.value.trim()||item.value.length>120)continue;
    let value=item.value.trim();
    const rating=config?.sections?.reviews?.rating;
-   if(id==='rating'&&typeof rating==='string'&&/^(?:[0-4](?:\\.\\d+)?|5(?:\\.0+)?)$/.test(rating))value=rating+'⭐';
+   if(id==='rating'&&typeof rating==='string'&&/^(?:[0-4](?:\.\d+)?|5(?:\.0+)?)$/.test(rating))value=rating+'⭐';
    const card=document.querySelector('[data-about-stat="'+id+'"]');
    const number=card?.querySelector('.number'),label=card?.querySelector('.label');
    if(number)number.textContent=value;

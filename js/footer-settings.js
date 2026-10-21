@@ -68,8 +68,8 @@
         return result;
     }
     function formatPhone(digits) {
-        if (typeof digits !== 'string' || !/^[1-9]\\d{7,14}$/.test(digits)) return '';
-        return /^91\\d{10}$/.test(digits) ? '+91 ' + digits.slice(2,7) + ' ' + digits.slice(7) : '+' + digits;
+        if (typeof digits !== 'string' || !/^[1-9]\d{7,14}$/.test(digits)) return '';
+        return /^91\d{10}$/.test(digits) ? '+91 ' + digits.slice(2,7) + ' ' + digits.slice(7) : '+' + digits;
     }
     function apply(raw, document) {
         if (typeof document.createElement !== 'function') return;
@@ -111,7 +111,7 @@
         if (contact) {
             const location = make('p', config.location);
             contact.replaceChildren(make('h4', config.contactTitle), location);
-            const digits = config.whatsAppNumber || whatsapp.match(/wa\\.me\\/([1-9]\\d{7,14})(?:[/?#]|$)/)?.[1] || '';
+            const digits = config.whatsAppNumber || whatsapp.match(/wa\.me\/([1-9]\d{7,14})(?:[/?#]|$)/)?.[1] || '';
             const phone = formatPhone(digits);
             if (phone) {
                 const row = make('p'), call = link(phone, 'tel:+' + digits);
