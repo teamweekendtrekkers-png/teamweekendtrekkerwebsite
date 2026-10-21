@@ -19,6 +19,7 @@ const fixtures={
  try {
   for(const width of [360,390,768,1440]){
    const page=await browser.newPage({viewport:{width,height:1000}}),errors=[],writes=[];
+   await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    let discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
    page.on('pageerror',error=>errors.push(error.message));
    await page.route('**/*',async route=>{

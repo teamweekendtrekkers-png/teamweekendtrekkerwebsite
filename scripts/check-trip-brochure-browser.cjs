@@ -29,6 +29,7 @@ async function respond(route, origin) {
     try {
         const origin = 'https://brochure.test';
         const page = await browser.newPage({ acceptDownloads: true }), errors = [];
+   await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
         await page.addInitScript(() => {
             const original = URL.createObjectURL;
             URL.createObjectURL = function(blob) {

@@ -97,4 +97,17 @@ begin
 end; $$;
 revoke all on function public.twt_journey_report(date,date,text,text) from public,anon,authenticated;
 grant execute on function public.twt_journey_report(date,date,text,text) to authenticated;
+create or replace function public.twt_purge_journey() returns void language plpgsql security definer set search_path='' as $
+begin
+ delete from public.twt_journey_events where occurred_at<now()-interval '90 days';
+ delete from public.twt_journey_limits where bucket<now()-interval '1 day';
+end; $;
+revoke all on function public.twt_purge_journey() from public,anon,authenticated;
+-- Supabase provides pg_cron. The isolated CI database intentionally does not.
+do $begin
+ if exists(select 1 from pg_available_extensions where name='pg_cron') then
+  execute 'create extension if not exists pg_cron';
+  perform cron.schedule('twt-journey-retention','17 2 * * *','select public.twt_purge_journey();');
+ end if;
+end $;
 commit;
