@@ -37,7 +37,7 @@
       "type": "fixed",
       "value": 5998,
       "maxDiscount": null,
-      "enabled": false,
+      "enabled": true,
       "startsAt": null,
       "expiresAt": null,
       "tripIds": [
