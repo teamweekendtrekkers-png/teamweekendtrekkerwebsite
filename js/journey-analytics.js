@@ -11,7 +11,7 @@ function source(referrer,location){
  if(tag)return classify(tag)||'campaign';
  try{const ref=new URL(referrer);if(ref.hostname===url.hostname)return 'direct';return classify(ref.hostname)||'referral';}catch{return 'direct';}
 }
-function clean(name,trip,error){if(!events.has(name))return null;return {name,trip:typeof trip==='string'&&/^[a-z0-9][a-z0-9-]{0,99}$/.test(trip)?trip:null,error:name==='checkout_error'&&errors.has(error)?error:null};}
+function clean(name,trip,error){if(!events.has(name))return null;return {name,trip:typeof trip==='string'&&/^[a-z0-9][a-z0-9_-]{0,99}$/.test(trip)?trip:null,error:name==='checkout_error'&&errors.has(error)?error:null};}
 function createTracker(env){
  let enabled=false,session=null,queue=[],seen=new Set(),timer=null,stopped=false;
  const read=(key)=>{try{return env.storage.getItem(key);}catch{return null;}};

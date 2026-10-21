@@ -39,7 +39,7 @@ begin
  for item in select value from jsonb_array_elements(p_events) loop
   if jsonb_typeof(item)<>'object' or (item->>'id') is null or (item->>'id') !~* '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
   or (item->>'name') is null or (item->>'name') not in ('site_visit','trip_view','date_selected','checkout_open','payment_shown','payment_submitted','booking_requested','upi_copied','qr_downloaded','checkout_error')
-  or (item->>'trip') is not null and (item->>'trip') !~ '^[a-z0-9][a-z0-9-]{0,99}$'
+  or (item->>'trip') is not null and (item->>'trip') !~ '^[a-z0-9][a-z0-9_-]{0,99}$'
   or (item->>'error') is not null and (item->>'error') not in ('date_unavailable','payment_unavailable','checkout_unavailable','booking_submit_failed','qr_failed')
   or exists(select 1 from jsonb_object_keys(item) k where k not in ('id','name','trip','error')) then raise exception 'invalid_analytics'; end if;
   if v_count>=200 then exit; end if;
@@ -60,7 +60,7 @@ declare result jsonb; lower_at timestamptz; upper_at timestamptz;
 begin
  if auth.uid() is null or coalesce(auth.jwt()->'app_metadata'->>'trip_manager_admin','')<>'true' then raise insufficient_privilege using message='Booking administrator access required'; end if;
  if p_start is null or p_end is null or p_start>p_end or p_end-p_start>89 or p_start<(now() at time zone 'Asia/Kolkata')::date-90 or p_end>(now() at time zone 'Asia/Kolkata')::date
- or p_trip is null or p_trip<>'' and p_trip !~ '^[a-z0-9][a-z0-9-]{0,99}$' or p_device is null or p_device not in ('','mobile','tablet','desktop') then raise exception 'invalid_range'; end if;
+ or p_trip is null or p_trip<>'' and p_trip !~ '^[a-z0-9][a-z0-9_-]{0,99}$' or p_device is null or p_device not in ('','mobile','tablet','desktop') then raise exception 'invalid_range'; end if;
  lower_at:=p_start::timestamp at time zone 'Asia/Kolkata';upper_at:=(p_end+1)::timestamp at time zone 'Asia/Kolkata';
  with e as materialized (
  select * from public.twt_journey_events where occurred_at>=lower_at and occurred_at<upper_at and (p_device='' or device=p_device)
