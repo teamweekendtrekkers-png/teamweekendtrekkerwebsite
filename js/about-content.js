@@ -22,7 +22,7 @@
    const number=card?.querySelector('.number'),label=card?.querySelector('.label');
    if(number)number.textContent=value;
    if(label&&typeof item.label==='string'&&item.label.trim()&&item.label.length<=120)label.textContent=item.label.trim();
-   if(id==='travellers'){const intro=document.getElementById('aboutTravellersCount');if(intro)intro.textContent=value;}
+   if(id==='travellers'){for(const elementId of ['aboutTravellersCount','aboutCtaTravellersCount']){const count=document.getElementById(elementId);if(count)count.textContent=value;}}
   }
  }
  return {apply};
