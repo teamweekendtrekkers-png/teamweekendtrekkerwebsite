@@ -2,3 +2,39 @@
 .rail-playback{width:auto;min-width:92px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;font-size:13px;font-weight:500;line-height:1;padding:10px 12px;border-radius:12px}.rail-playback[hidden]{display:none}.rail-playback[data-paused=true] .gallery-playback-icon:before{width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:9px solid currentColor;border-radius:0;background:none}.rail-playback[data-paused=true] .gallery-playback-icon:after{display:none}
 
 .rail-controls[hidden]{display:none}
+
+/* Compact photo control on phones; preserve the full 44px touch target. */
+@media (max-width: 767px) {
+  .gallery-playback {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    gap: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    isolation: isolate;
+  }
+  .gallery-playback::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    z-index: -1;
+    border: 1px solid #ffffff66;
+    border-radius: 50%;
+    background: #102f28c7;
+    box-shadow: 0 2px 8px #0002;
+  }
+  .gallery-playback:hover {
+    background: transparent;
+  }
+  .gallery-playback:hover::before,
+  .gallery-playback:active::before {
+    background: #102f28eb;
+  }
+  .gallery-playback-label {
+    display: none;
+  }
+}
