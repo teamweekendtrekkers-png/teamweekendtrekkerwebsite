@@ -4,7 +4,7 @@
  let config=null,code='',busy=false;
  const byId=id=>document.getElementById(id);
  function currentTrip(){const id=getTripFromURL();return typeof tripsData==='object'&&Object.prototype.hasOwnProperty.call(tripsData,id)?tripsData[id]:null;}
- function dateValid(){const trip=currentTrip();return new URLSearchParams(location.search).getAll('date').length===1&&trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
+ function dateValid(){const trip=currentTrip();return TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))&&new URLSearchParams(location.search).getAll('date').length===1&&trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
  function message(text){byId('couponFeedback').textContent=text;}
  function recalculate(){
   const data=window.bookingData;if(!data||!config)return;
@@ -45,10 +45,10 @@
  window.refreshCheckoutCommerce=refresh;
  function invalidRequest(){
   const trip=currentTrip();
-  byId('bookingIssue').hidden=false;byId('bookingIssue').textContent=trip?'This departure is no longer accepting requests. Please choose another date.':'The selected trip is missing or unavailable. Please choose a trip to continue.';
+  byId('bookingIssue').hidden=false;byId('bookingIssue').textContent=trip&&!TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))?'This trip allows up to '+TripTravellers.limit(trip)+' travellers per booking. Use Change date or travellers to update your selection.':trip?'This departure is no longer accepting requests. Please choose another date.':'The selected trip is missing or unavailable. Please choose a trip to continue.';
   byId('chooseTripLink').hidden=!!trip;
   byId('submitDetailsBtn').disabled=true;byId('paymentSection').style.display='none';
-  byId('paymentModeNotice').textContent=trip?'This departure is unavailable. Choose another available date to continue.':'Choose an available trip before continuing to payment.';
+  byId('paymentModeNotice').textContent=trip&&!TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))?'Reduce the number of travellers before continuing to payment.':trip?'This departure is unavailable. Choose another available date to continue.':'Choose an available trip before continuing to payment.';
   document.querySelectorAll('input[name="bookingPaymentMode"]').forEach(r=>r.disabled=true);
  }
  document.addEventListener('DOMContentLoaded',async()=>{

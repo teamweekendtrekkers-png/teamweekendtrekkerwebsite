@@ -34,9 +34,11 @@
 <link rel="stylesheet" href="css/tour-refinements.css?v=2">
     <link rel="stylesheet" href="css/brand-colors.css?v=4">
     <link rel="stylesheet" href="css/site-motion.css?v=1">
-<link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=1">
+<link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=2">
+<script src="js/trip-travellers.js?v=1"></script>
+<script src="/js/website-pages.js?v=1"></script>
 </head>
-<body>
+<body data-site-page="trip-detail">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -426,7 +428,7 @@
                 <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
-                    <p><i class="fab fa-whatsapp"></i> +91 7019235581</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 70192 35581</p>
                 </div>
                 <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
@@ -469,10 +471,10 @@
     <script src="js/image-manifest.js"></script>
     <script src="js/responsive-images.js?v=2"></script>
     <script src="js/site-presentation.js?v=1"></script>
-    <script src="js/trip-gallery-slideshow.js?v=1"></script>
+    <script src="js/trip-gallery-slideshow.js?v=2"></script>
     <script src="js/mobile-experience.js?v=6"></script>
     <script src="js/main.js?v=4"></script>
-    <script src="js/footer-settings.js"></script>
+    <script src="js/footer-settings.js?v=2"></script>
     <script src="js/inline-format.js?v=1"></script>
     <script src="js/trip-gallery.js?v=1"></script>
     <script src="js/trip-detail-lists.js?v=20261021"></script>
@@ -861,6 +863,7 @@
             document.getElementById('totalAmount').textContent = trip.price;
             // Store price for calculations
             window.tripPrice = priceNum;
+            TripTravellers.populate(document.getElementById("peopleCount"), trip);
             // Update total when people count changes
             document.getElementById('peopleCount').addEventListener('change', updateTotal);
             document.getElementById('dateSelect').addEventListener('change', updateTotal);

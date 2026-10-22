@@ -40,6 +40,9 @@ export function bookingFromCatalog(request,catalog,now=new Date()) {
     throw new BookingError('departure_unavailable',409);
   }
   if (!Number.isFinite(trip.price) || trip.price<0) throw new BookingError('service_unavailable',503);
+  const maxTravellers = trip.maxTravellers ?? 50;
+  if (!Number.isInteger(maxTravellers) || maxTravellers < 1 || maxTravellers > 50) throw new BookingError('service_unavailable',503);
+  if (request.travellers > maxTravellers) throw new BookingError('traveller_limit',409);
   const subtotal = trip.price * request.travellers;
   let discount=0;
   if (request.coupon_code) {

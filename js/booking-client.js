@@ -42,7 +42,7 @@
         body: JSON.stringify(payload)});
       const result = await response.json();
       if (!response.ok || result.accepted !== true || typeof result.booking_reference !== 'string') {
-        const messages = {booking_request_unavailable: 'This trip accepts UPI payment submissions. Please return to payment or contact our team.', invalid_request: 'Check your contact details and selected trip.', departure_unavailable: 'This departure is no longer available. Please select another date.',
+        const messages = {traveller_limit: "This trip’s traveller limit has changed. Reduce the number of travellers and try again.",booking_request_unavailable: 'This trip accepts UPI payment submissions. Please return to payment or contact our team.', invalid_request: 'Check your contact details and selected trip.', departure_unavailable: 'This departure is no longer available. Please select another date.',
           quote_changed: 'The trip price or coupon has changed. Reload and review your total before submitting.', rate_limited: 'Too many requests. Please wait a few minutes or contact our team.',
           request_conflict: 'This request changed during a retry. Reload and review your details.',
           direct_payment_unavailable: 'Direct payment is no longer enabled for this departure. If you have paid, share your transaction ID and receipt with our team on WhatsApp.'};

@@ -87,3 +87,14 @@ test('concurrent retries share one booking and notification leases',async()=>{
  assert.equal(env.sent.filter(k=>k==='telegram').length,1);assert.equal(env.sent.filter(k=>k==='email').length,1);
 });
 
+
+test('each trip enforces its own traveller cap before accepting a booking',async()=>{
+ const {bookingFromCatalog}=await core;
+ const now=new Date('2026-10-12T12:00:00Z'),data=catalog();
+ data.trips.demo.maxTravellers=1;
+ assert.throws(()=>bookingFromCatalog(input(),data,now),/traveller_limit/);
+ data.trips.demo.maxTravellers=2;
+ assert.doesNotThrow(()=>bookingFromCatalog(input(),data,now));
+ data.trips.demo.maxTravellers=0;
+ assert.throws(()=>bookingFromCatalog(input(),data,now),/service_unavailable/);
+});

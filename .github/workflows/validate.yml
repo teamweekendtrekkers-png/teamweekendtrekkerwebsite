@@ -215,6 +215,7 @@ jobs:
         node scripts/check-journey-analytics-browser.cjs
         node scripts/check-site-motion-browser.cjs
         node scripts/check-gallery-layout-browser.cjs
+        node scripts/check-destination-slider-browser.cjs
 
     - name: Save homepage layout screenshots
       if: always()

@@ -57,3 +57,9 @@ const appPath = path.resolve(__dirname,'../../trip_manager_app/lib/models/footer
 test('website and Flutter footer defaults stay exactly in parity', {skip:!fs.existsSync(appPath)}, () => {
     assert.deepEqual(JSON.parse(fs.readFileSync(appPath,'utf8').replace(/\r\n/g, '\n').match(/r'''\n([\s\S]*?)\n'''/)[1]), footer.defaults);
 });
+
+test('Indian footer numbers are readable while destinations retain canonical digits', () => {
+ assert.equal(footer.formatPhone('917019235581'), '+91 70192 35581');
+ assert.equal(footer.formatPhone('14155552671'), '+14155552671');
+ for (const invalid of ['+91 7019235581', '91', '', 'undefined', '917019235581?x', null]) assert.equal(footer.formatPhone(invalid), '');
+});

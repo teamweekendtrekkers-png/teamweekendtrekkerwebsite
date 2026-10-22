@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="css/design-refresh.css?v=20261016-3">
     <link rel="stylesheet" href="css/brand-colors.css?v=4">
     <link rel="stylesheet" href="css/site-motion.css?v=1">
+<script src="/js/website-pages.js?v=1"></script>
 </head>
-<body>
+<body data-site-page="about">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -43,26 +44,26 @@
     <section class="about-content">
         <div class="container">
             <div class="about-intro">
-                <h2>🧗 Treks | Tours | Unique Trips 🏕️</h2>
-                <p>Welcome to <strong>Team Weekend Trekkers</strong> — your gateway to unforgettable weekend adventures from Bangalore. We're not just a travel company; we're a community of passionate explorers who believe that the best memories are made outside the comfort zone.</p>
-                <p>Founded with a simple mission — to help working professionals escape the city chaos and reconnect with nature — we've grown into a family of 7,200+ happy travellers who've explored the unexplored with us.</p>
+                <h2>Weekend adventures from Bengaluru</h2>
+                <p>Explore treks, beaches and cultural getaways with <strong>Team Weekend Trekkers</strong>. Meet fellow travellers and discover new places on a weekend away from Bengaluru.</p>
+                <p>Join a community of <span id="aboutTravellersCount">10,000+</span> happy travellers. Choose your next trip, review the itinerary and inclusions, and reach our team whenever you need help.</p>
             </div>
 
             <div class="stats-inline">
-                <div class="stat-box">
+                <div class="stat-box" data-about-stat="trips">
                     <span class="number">683+</span>
-                    <span class="label">Trips Organized</span>
+                    <span class="label">Trips Completed</span>
                 </div>
-                <div class="stat-box">
-                    <span class="number">7.2k+</span>
+                <div class="stat-box" data-about-stat="travellers">
+                    <span class="number">10,000+</span>
                     <span class="label">Happy Travellers</span>
                 </div>
-                <div class="stat-box">
-                    <span class="number">4.8⭐</span>
+                <div class="stat-box" data-about-stat="rating">
+                    <span class="number">4.9⭐</span>
                     <span class="label">Google Rating</span>
                 </div>
-                <div class="stat-box">
-                    <span class="number">50+</span>
+                <div class="stat-box" data-about-stat="destinations">
+                    <span class="number">20+</span>
                     <span class="label">Destinations</span>
                 </div>
             </div>
@@ -144,7 +145,7 @@
                 <div class="footer-col" data-footer-contact>
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Kalkere, Bangalore</p>
-                    <p><i class="fab fa-whatsapp"></i> +91 7019235581</p>
+                    <p><i class="fab fa-whatsapp"></i> +91 70192 35581</p>
                 </div>
                 <div class="footer-col" data-footer-upi hidden>
                     <h4>Pay via UPI</h4>
@@ -168,7 +169,8 @@
     <script src="js/site-presentation.js?v=1"></script>
     <script src="js/mobile-experience.js?v=5"></script>
     <script src="js/main.js?v=4"></script>
-    <script src="js/footer-settings.js"></script>
+    <script src="js/about-content.js?v=1"></script>
+    <script src="js/footer-settings.js?v=2"></script>
     <script>
     // UPI Protection - Display masked, copy actual
     (function() {
