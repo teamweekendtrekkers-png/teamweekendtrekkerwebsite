@@ -10,6 +10,7 @@ function prepare(root){
  };
  const desktop=choose(config.hero.backgroundImage,1600),mobile=choose(config.presentation.heroMobileImage||config.hero.backgroundImage,640);
  if(!safeImage(desktop)||!safeImage(mobile))throw new Error('Invalid homepage image');
+ require('./bundle-homepage-styles.cjs').bundleHomepageStyles(root);
  let html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  html=html.replace(/<!-- INITIAL_HOMEPAGE_START -->[\s\S]*?<!-- INITIAL_HOMEPAGE_END -->\s*/,'');
  const data=JSON.stringify(config).replace(/</g,'\\u003c');
