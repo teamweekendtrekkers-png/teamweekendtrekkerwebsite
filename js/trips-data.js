@@ -108,7 +108,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sept - Nov",
         duration: "2D/1N",
-        availableDates: ["Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026"],
+        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026"],
         about: "An offbeat weekend escape through misty mountains, hidden waterfalls, scenic treks, coffee estates, and thrilling jeep rides—all in one unforgettable adventure.",
         highlights: ["Hidden Waterfalls – Take a refreshing dip in pristine waterfalls tucked away in the Western Ghats.", "Doddabetta Trek – Trek through dense forests to a breathtaking summit with panoramic mountain views", "Mallalli Waterfalls – Witness one of Karnataka's most spectacular waterfalls in full flow.", "Coffee Estate Walk – Wander through lush coffee plantations surrounded by mist-covered hills.", "Manjarabad Fort – Explore the historic star-shaped fort overlooking the valleys of Sakleshpur.", "Ancient Shiva Temple – Visit a peaceful temple nestled amidst nature.", "Scenic Western Ghats Drive – Travel through winding roads, misty hills, forests, and coffee plantations."],
         itinerary: [
@@ -188,7 +188,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Dec",
         duration: "2D/1N",
-        availableDates: ["Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
+        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
         about: "One weekend. Three incredible destinations. A journey worth experiencing.\n\nEscape Bengaluru on a memorable road trip through Srisailam, Yaganti and Belum Caves, where spirituality meets nature, history and adventure.\n\nSeek blessings at the sacred Mallikarjuna Jyotirlinga, surrounded by the Nallamala Hills. Discover the ancient Yaganti Temple, famous for its remarkable rock formations and legendary growing Nandi. Venture underground to explore Belum Caves, one of India's longest natural cave systems.\n\nFrom divine temples to fascinating underground wonders, this weekend brings together unforgettable experiences, beautiful landscapes and new friendships.",
         highlights: ["\uD83D\uDED5 Mallikarjuna Jyotirlinga – Seek blessings at one of India's 12 sacred Jyotirlingas.", "\uD83C\uDF04 Srisaila Sikharam – Enjoy panoramic views of the beautiful Nallamala Hills.", "\uD83C\uDF3F Paladhara–Panchadhara – Discover peaceful surroundings steeped in spiritual significance.", "\uD83D\uDE4F Hatakeswaram Temple – Visit an ancient Shiva shrine near Srisailam.", "\uD83D\uDEA1 Patalganga – Enjoy scenic Krishna River views and an optional ropeway experience.", "\uD83D\uDED5 Yaganti Temple – Explore a historic Shiva temple surrounded by remarkable rock formations, sacred caves and the legendary growing Nandi.", "\uD83E\uDEA8 Belum Caves – Explore underground tunnels, limestone formations and naturally sculpted chambers."],
         itinerary: [
@@ -213,6 +213,7 @@ const tripsData = {
     },
     theyyam: {
         publicSlug: "neelakurinji-nelji-hills-trek",
+        departureTime: "22:00",
         previousSlugs: ["theyyam"],
         title: "Neelakurinji & Nelji Hills Escape ",
         location: "Madikeri, Karnataka ",
@@ -227,7 +228,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Aug - Sept",
         duration: "2D/1N",
-        availableDates: ["Sep 11-13, 2026", "Sep 18-20, 2026", "Sep 25-27, 2026", "Oct 2-4, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026"],
+        availableDates: ["Nov 6-8, 2026", "Nov 20-22, 2026"],
         about: " THE NELJI HILLS EXPERIENCE\n\nExplore one of Coorg's highest peaks on the Nelji Twin Hills Trek, set along the Karnataka–Kerala border. ⛰️\n\nThe 5+5 km trail passes through open grasslands before reaching a summit with sweeping views across the Western Ghats.\n\n\uD83C\uDF38 During the rare Neelakurinji bloom season, the hills take on an unforgettable charm.",
         highlights: ["\uD83C\uDF38 Rare Neelakurinji Blooms — Experience the hills during the special bloom season", "⛰️ Nelji Twin Hills Trek — 5+5 km adventure through scenic grasslands", "\uD83C\uDF04 Karnataka–Kerala Border Views — Panoramic Western Ghats landscapes from the summit", "\uD83C\uDF71 Summit Lunch Experience — Enjoy a packed lunch surrounded by mountains", "\uD83D\uDCA7 Chiklihole Reservoir — Peaceful landscapes and scenic views", "\uD83D\uDED5 Tibetan Golden Temple — Explore the beautiful Namdroling Monastery at Bylakuppe", "\uD83D\uDE98 Payana Car Museum — Discover a unique collection of vintage & classic cars", "\uD83E\uDEA8 Iconic Stone Chariot — A unique architectural highlight of the temple"],
         itinerary: [
@@ -845,7 +846,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Jan",
         duration: "2D/1N",
-        availableDates: ["Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
+        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
         about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
         highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
