@@ -183,8 +183,10 @@ img {
 .logo-img {
     width: 45px;
     height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
+    border-radius: 0;
+    object-fit: contain;
+    /* Fill the existing icon space despite the supplied image's transparent margin. */
+    transform: scale(1.28);
 }
 
 .nav-menu {
