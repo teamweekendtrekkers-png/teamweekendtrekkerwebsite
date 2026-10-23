@@ -183,8 +183,10 @@ img {
 .logo-img {
     width: 45px;
     height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
+    border-radius: 0;
+    object-fit: contain;
+    /* Account for the supplied mark's transparent margins. */
+    transform: scale(1.28);
 }
 
 .nav-menu {
