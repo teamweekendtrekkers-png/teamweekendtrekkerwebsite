@@ -185,7 +185,7 @@ img {
     height: 45px;
     border-radius: 0;
     object-fit: contain;
-    /* Fill the existing icon space despite the supplied image's transparent margin. */
+    /* Account for the supplied mark's transparent margins. */
     transform: scale(1.28);
 }
 
