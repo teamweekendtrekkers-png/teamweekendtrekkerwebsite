@@ -24,7 +24,7 @@ const tripsData = {
         difficulty: "Moderate",
         bestTime: "July - Dec",
         duration: "2D/1N",
-        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026"],
+        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026"],
         about: "Escape to the heart of the Western Ghats with a weekend packed with adventure, waterfalls, rainforest trails, scenic viewpoints, an off-road jeep ride, and peaceful Malenadu landscapes. Trek to Kodachadri Peak, unwind at Hidlumane Falls, and return with unforgettable memories.",
         highlights: ["\uD83C\uDF3F Kodachadri Trek – Trek through misty forests to a breathtaking summit.", "\uD83D\uDCA6 Hidlumane Falls – Refresh at a beautiful multi-tiered waterfall.", "\uD83D\uDE99 Jeep Ride (Optional) – Thrilling off-road adventure through forest trails.", "\uD83D\uDCA7 Devagange Ponds – Relax by peaceful natural poo", "\uD83C\uDFEF Nagara Fort – Explore a historic fort with scenic views.", "\uD83C\uDFAC Malgudi Museum (Optional) – Relive the charm of R.K. Narayan's Malgudi.", "\uD83C\uDF3F Rainforest Trails – Walk through lush forests and streams.", "\uD83D\uDCF8 Mountain Views – Capture stunning Western Ghats landscapes.", "\uD83C\uDFE1 Homestay Stay – Enjoy local food and a peaceful stay.", "\uD83D\uDD25 Campfire Night – Good food, music, and great company.", "\uD83D\uDC9A Perfect Weekend – Adventure, nature, and unforgettable memories."],
         itinerary: [
@@ -65,7 +65,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Dec",
         duration: "2D/1N",
-        availableDates: ["Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026"],
+        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026"],
         about: "Step into the mystical world of Theyyam, where ancient rituals, powerful drumbeats and vibrant traditions come alive! \uD83D\uDD25\n\nJourney through Kannur & Thalassery to witness sacred Theyyam performances, explore historic forts, soak in beautiful coastal sunsets and savour authentic Malabar flavours.\n\nFrom fascinating cultural experiences to unforgettable moments with fellow travellers, this is no ordinary weekend getaway!\n\n✨ One Weekend. Ancient Traditions. Unforgettable Memories!",
         highlights: ["\uD83D\uDD25 Experience the magical Theyyam performance & receive divine blessings", "\uD83D\uDE4F Visit the famous Parassinikadavu Sri Muthappan Temple(Famosly known for welcoming dogs and pet)", "⛴️ Enjoy a scenic backwater ferry ride", "\uD83C\uDFAD Explore the fascinating folklore behind Theyyam", "\uD83C\uDFF0 Explore historic forts, street art & local markets", "⛪ Discover charming churches & hidden beaches", "\uD83C\uDF05 Enjoy beautiful coastal sunsets", "\uD83C\uDFA8 Walk through the colourful Graffiti Street", "\uD83E\uDD1D Travel with strangers, return with friends!"],
         itinerary: [
@@ -188,7 +188,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Dec",
         duration: "2D/1N",
-        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
+        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
         about: "One weekend. Three incredible destinations. A journey worth experiencing.\n\nEscape Bengaluru on a memorable road trip through Srisailam, Yaganti and Belum Caves, where spirituality meets nature, history and adventure.\n\nSeek blessings at the sacred Mallikarjuna Jyotirlinga, surrounded by the Nallamala Hills. Discover the ancient Yaganti Temple, famous for its remarkable rock formations and legendary growing Nandi. Venture underground to explore Belum Caves, one of India's longest natural cave systems.\n\nFrom divine temples to fascinating underground wonders, this weekend brings together unforgettable experiences, beautiful landscapes and new friendships.",
         highlights: ["\uD83D\uDED5 Mallikarjuna Jyotirlinga – Seek blessings at one of India's 12 sacred Jyotirlingas.", "\uD83C\uDF04 Srisaila Sikharam – Enjoy panoramic views of the beautiful Nallamala Hills.", "\uD83C\uDF3F Paladhara–Panchadhara – Discover peaceful surroundings steeped in spiritual significance.", "\uD83D\uDE4F Hatakeswaram Temple – Visit an ancient Shiva shrine near Srisailam.", "\uD83D\uDEA1 Patalganga – Enjoy scenic Krishna River views and an optional ropeway experience.", "\uD83D\uDED5 Yaganti Temple – Explore a historic Shiva temple surrounded by remarkable rock formations, sacred caves and the legendary growing Nandi.", "\uD83E\uDEA8 Belum Caves – Explore underground tunnels, limestone formations and naturally sculpted chambers."],
         itinerary: [
@@ -846,7 +846,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Jan",
         duration: "2D/1N",
-        availableDates: ["Oct 30-Nov 1, 2026", "Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
+        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
         about: "Journey to the sacred island of Rameswaram, where Lord Rama built the legendary bridge to Lanka! Visit the magnificent Ramanathaswamy Temple with its stunning corridor of 1,212 ornate pillars (world's longest!), explore the haunting beauty of Dhanushkodi ghost town, and witness the UNESCO gem Brihadeeswara Temple in Thanjavur.\n\nThis spiritual circuit covers the most sacred sites associated with the Ramayana and the royal Chola heritage.",
         highlights: ["Ramanathaswamy Temple - 12 Jyotirlingas", "Dhanushkodi Ghost Town & Beach", "Pamban Bridge - Iconic sea bridge", "Ram Setu Viewpoint", "Dhanushkodi Lighthouse", "Brihadeeswara Temple (UNESCO)", "Thanjavur Maratha Palace", "Kothanda Ramar Temple"],
         itinerary: [
