@@ -1,5 +1,64 @@
 {
   "version": 1,
+  "pages": {
+    "aboutTitle": "About Us",
+    "aboutSubtitle": "A Travel Community for Travellers, By Travellers",
+    "aboutIntroHeading": "Weekend adventures from Bengaluru",
+    "aboutIntroFirst": "Explore treks, beaches and cultural getaways with Team Weekend Trekkers. Meet fellow travellers and discover new places on a weekend away from Bengaluru.",
+    "aboutIntroSecond": "Join a community of {travellers} happy travellers. Choose your next trip, review the itinerary and inclusions, and reach our team whenever you need help.",
+    "aboutValuesHeading": "Why We're Different",
+    "aboutValue1Icon": "🗺️",
+    "aboutValue1Title": "We Go Where Google Maps Doesn't",
+    "aboutValue1Text": "Forget overcrowded tourist spots. We take you to hidden waterfalls, secret viewpoints, and offbeat trails that even locals don't know about. Every trip is a discovery.",
+    "aboutValue2Icon": "✅",
+    "aboutValue2Title": "Everything Is Taken Care Of",
+    "aboutValue2Text": "From Bangalore pickup to the summit and back — transport, stays, permits, meals, guides — we handle it all. No hidden costs, no last-minute surprises. Just pure adventure.",
+    "aboutValue3Icon": "🎉",
+    "aboutValue3Title": "Vibe Over Volume",
+    "aboutValue3Text": "We keep groups small intentionally. Music playlists, bonfire conversations, and shared sunrises create friendships that last beyond the trip. It's not a tour — it's an experience.",
+    "aboutStoryHeading": "Our Story",
+    "aboutStory1": "It all started with a simple weekend trek to the Western Ghats. A group of friends, tired of the Monday-to-Friday grind, decided to explore the mountains instead of binge-watching another series. That first trek changed everything.",
+    "aboutStory2": "We realized there were thousands like us — people craving adventure but not knowing where to start. So we decided to become that starting point. Today, every weekend, we help people swap their screens for sunrises, their AC rooms for mountain air, and their weekend plans for lifelong memories.",
+    "aboutPromiseHeading": "Our Promise",
+    "aboutPromises": "Safe and well-planned adventures\nExperienced trek leads on every trip\nSmall groups for better experience\nTransparent pricing, no hidden costs\n24/7 support during trips\nMemories that last a lifetime",
+    "contactTitle": "Contact Us",
+    "contactSubtitle": "We'd love to hear from you!",
+    "contactIntroTitle": "Get In Touch",
+    "contactIntroText": "Have questions about a trip or a group booking? Message our team for help choosing your next adventure.",
+    "contactCard1Title": "WhatsApp (Fastest)",
+    "contactCard1Note": "Message us for trip availability and details.",
+    "contactCard2Title": "Instagram",
+    "contactCard2Note": "Follow us for trip updates and photos",
+    "contactLocationTitle": "Location",
+    "contactLocation1": "Kalkere Main Road",
+    "contactLocation2": "Kalkere, Bengaluru",
+    "contactFormTitle": "Send Us a Message",
+    "contactSuccessTitle": "Message Sent Successfully!",
+    "contactSuccessText": "Thank you for contacting us. Our team will get back to you.",
+    "contactFaqTitle": "Frequently Asked Questions",
+    "contactFaq1Title": "How do I book a trip?",
+    "contactFaq1Text": "Choose your trip, departure date and travellers. Pay using the QR code or UPI ID shown at checkout, then submit your transaction ID. Our team verifies payment and availability before confirming your booking. Some trips also offer a booking request option.",
+    "contactFaq2Title": "What's included in the trip cost?",
+    "contactFaq2Text": "Check your chosen trip's inclusions and exclusions for transport, stays, meals, permits and other details.",
+    "contactFaq3Title": "Can I join as a solo traveller?",
+    "contactFaq3Text": "Yes. You can join a group departure and meet fellow travellers. Contact our team if you have questions before booking.",
+    "contactFaq4Title": "What's the cancellation policy?",
+    "contactFaq4Text": "Read the cancellation policy on your chosen trip page before booking. Contact our team if you need help changing or cancelling a booking.",
+    "tripsTitle": "All Trips & Adventures",
+    "tripsSubtitle": "Choose your next adventure from our curated collection",
+    "navHome": "Home",
+    "navTrips": "Trips",
+    "navAbout": "About",
+    "navContact": "Contact"
+  },
+  "tripGallery": {
+    "autoSlide": true,
+    "intervalSeconds": 5
+  },
+  "destinationSlider": {
+    "autoSlide": true,
+    "intervalSeconds": 5
+  },
   "discovery": {
     "enabled": true,
     "showSearch": true,
@@ -48,6 +107,22 @@
       {
         "tripId": "trip_1792519339566",
         "date": "Oct 23-25, 2026"
+      },
+      {
+        "tripId": "kannur-theyyam",
+        "date": "Nov 6-8, 2026"
+      },
+      {
+        "tripId": "kannur-theyyam",
+        "date": "Nov 13-15, 2026"
+      },
+      {
+        "tripId": "rameshwaram-dhanushkodi",
+        "date": "Nov 13-15, 2026"
+      },
+      {
+        "tripId": "rameshwaram-dhanushkodi",
+        "date": "Nov 6-8, 2026"
       }
     ],
     "fields": {
