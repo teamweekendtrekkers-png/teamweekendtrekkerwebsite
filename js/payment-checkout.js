@@ -115,6 +115,7 @@
   window.preparePaymentSubmission=async function(){
     if(mode()!=='direct')return true;
     if(!valid()){el('bookingIssue').hidden=false;el('bookingIssue').textContent='This departure is no longer accepting bookings. Please contact us on WhatsApp.';return false;}
+    if(!window.notifyCheckoutStarted || !await window.notifyCheckoutStarted())return false;
     started=true;el('checkoutForm').style.display='none';el('submitSuccess').style.display='block';
     el('submitSuccess').querySelector('h3').textContent='Ready to pay directly';
     el('submitSuccess').querySelector('p').textContent='Your payment has not been submitted or verified. Pay the amount shown, then share your transaction ID below.';

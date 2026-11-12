@@ -33,6 +33,9 @@ const server=http.createServer((req,res)=>{
    await page.route('**/*',async route=>{
     const request=route.request();
     if(request.method()==='POST'){
+      if(request.url()==='https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/checkout-started'){
+        return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({accepted:true})});
+      }
       assert.equal(request.url(),'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request');
       posts.push(JSON.parse(request.postData()));
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({accepted:true,booking_reference:'TWT-LOCAL-DEMO'})});

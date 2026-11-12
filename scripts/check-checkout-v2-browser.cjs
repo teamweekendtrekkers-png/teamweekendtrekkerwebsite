@@ -11,7 +11,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
  fs.mkdirSync(output,{recursive:true});
  try{
   for(const width of [360,390,1440]){
-   const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
+   const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[],leads=[];
    await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    let p=payment(),closed=[],delayTripData=false,maxTravellers=50;
    page.on('pageerror',e=>errors.push(e.message));
@@ -19,6 +19,10 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.route('**/*',async route=>{
     const req=route.request(),url=new URL(req.url());
     if(req.method()==='POST'){
+     if(req.url()==='https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/checkout-started'){
+      leads.push(JSON.parse(req.postData()));
+      return route.fulfill({contentType:'application/json',body:JSON.stringify({accepted:true})});
+     }
      assert.equal(req.url(),'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request');posts.push(JSON.parse(req.postData()));
      return route.fulfill({contentType:'application/json',body:JSON.stringify({accepted:true,booking_reference:'TWT-TEST-'+posts.length})});
     }
@@ -107,6 +111,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.match(await page.locator('#paymentTripContext').innerText(),/Demo Trip/);
    assert.match(await page.locator('#paymentTripContext').innerText(),/8,898/);
    if(width<768)assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null,'Trip summary collapses when payment starts');
+   assert.equal(leads.length,1);assert.equal(leads[0].full_name,'Demo Traveller');
    assert.equal(posts.length,0);assert.match(await page.textContent('#paymentDue'),/4,449\.00/);assert.equal(await page.locator('#paymentChecklist li').count(),3);assert.equal(await page.locator('#paymentNote').isVisible(),false);
    await page.waitForTimeout(2200); // The legacy masking timer must leave this explicitly visible ID readable.
    assert.equal(await page.textContent('#paymentUpiValue'),'first@upi');

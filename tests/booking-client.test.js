@@ -37,3 +37,22 @@ test('a rejected database request never displays success or falls back to email 
  assert.equal(env.calls.filter(call=>call.event==='twt:booking-error').length,1);
  assert.equal(env.elements.bookingIssue.hidden,false);assert.match(env.elements.bookingIssue.textContent,/Too many requests/);
 });
+
+test('Continue sends a separate lead with a stable key and no payment or booking reference',async()=>{
+ const env=page({enabled:true,endpoint:'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request',anonKey:'public-test-key'},{accepted:true});
+ assert.equal(await env.window.notifyCheckoutStarted(),true);
+ assert.equal(await env.window.notifyCheckoutStarted(),true);
+ const posts=env.calls.filter(c=>c.options?.method==='POST');
+ assert.equal(posts[0].url,'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/checkout-started');
+ assert.equal(JSON.parse(posts[0].options.body).idempotency_key,JSON.parse(posts[1].options.body).idempotency_key);
+ assert.equal(env.window.bookingData.bookingReference,undefined);
+ assert.equal(env.success(),0);
+ assert.equal(env.legacy(),0);
+});
+
+test('Continue stays on details when saving fails',async()=>{
+ const env=page({enabled:true,endpoint:'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request',anonKey:'public-test-key'},{error:'rate_limited'});
+ assert.equal(await env.window.notifyCheckoutStarted(),false);
+ assert.equal(env.elements.bookingIssue.hidden,false);
+ assert.equal(env.success(),0);
+});
