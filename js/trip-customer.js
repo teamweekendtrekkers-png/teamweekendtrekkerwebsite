@@ -12,6 +12,16 @@
   document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>{if(!el.querySelector('strong,em'))TripText.set(el,clean(el.textContent));});
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
+  const continueButton=document.getElementById('bookNowBtn');
+  const dateFeedback=document.createElement('p');dateFeedback.id='departureFeedback';dateFeedback.className='booking-date-feedback';dateFeedback.setAttribute('role','status');dateFeedback.hidden=true;select.after(dateFeedback);
+  select.setAttribute('aria-describedby',[select.getAttribute('aria-describedby'),'departureFeedback'].filter(Boolean).join(' '));
+  const updateBookingAction=()=>{
+   const valid=!!TripDecision.matchingDeparture(trip,select.value);
+   continueButton.textContent=select.disabled?'Dates unavailable':valid?'Continue to payment':'Choose a departure date';
+   continueButton.setAttribute('aria-disabled',String(select.disabled));
+   if(valid){dateFeedback.hidden=true;select.removeAttribute('aria-invalid');}
+  };
+  select.addEventListener('change',updateBookingAction);
   const essentials=document.createElement('div');essentials.className='trip-essentials';document.getElementById('tripTitle').after(essentials);
   const fragment=document.createDocumentFragment();
   [trip.duration,trip.difficulty,trip.price&&trip.price+' / person'].filter(Boolean).forEach(text=>{const chip=document.createElement('span');chip.textContent=text;fragment.append(chip);});essentials.append(fragment);
@@ -29,7 +39,14 @@
   }
   refresh();setInterval(refresh,30000);window.addEventListener('pageshow',refresh);
   const originalCheckout=window.goToCheckout;
-  window.goToCheckout=event=>{if(!TripDecision.matchingDeparture(trip,select.value)){event.preventDefault();refresh();select.focus();return false;}return originalCheckout(event);};
+  window.goToCheckout=event=>{
+   if(!TripDecision.matchingDeparture(trip,select.value)){
+    event.preventDefault();refresh();
+    dateFeedback.textContent=select.disabled?'No departures are available. Please contact our team.':'Choose a departure date above to continue.';
+    dateFeedback.hidden=false;select.setAttribute('aria-invalid','true');select.focus();return false;
+   }
+   return originalCheckout(event);
+  };
   const dialog=document.createElement('dialog');dialog.className='booking-dialog';dialog.setAttribute('aria-label','Choose date and travellers');
   const close=document.createElement('button');close.className='booking-dialog-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close date selection');dialog.append(close);document.body.append(dialog);
   const anchor=document.createComment('Booking card position');card.before(anchor);

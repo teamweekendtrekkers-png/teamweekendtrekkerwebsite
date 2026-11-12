@@ -42,10 +42,14 @@ const fixtures={
    await assertReadable(page.locator('.page-header h1'));
    assert.equal(await page.locator('.page-header h1').evaluate(el =>
      el.getBoundingClientRect().top >= document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Banner clears fixed navigation');
+   assert.equal(await page.locator('#show-coming-soon').isVisible(),false,'Unscheduled trips stay in advanced filters');
+   await page.locator('.catalogue-filter-toggle').click();
    await page.locator('#show-coming-soon').check();
+   assert.match(await page.locator('.catalogue-filter-toggle').innerText(),/Filters \(1\)/);
    assert.match(await page.locator('[data-trip-id="closed"]').innerText(),/Booking closed for current dates/i);
    assert.match(await page.locator('[data-trip-id="undated"]').innerText(),/New dates coming soon/i);
    await page.locator('#show-coming-soon').uncheck();
+   await page.locator('.catalogue-filter-toggle').click();
    if(width>=768)await assertReadable(page.locator('.nav-menu .btn-nav'));
    assert.equal(await page.locator('[data-trip-id="coorg"] del').innerText(),'₹5,499');
    assert.equal(await page.locator('[data-trip-id="coorg"] .trip-price').innerText(),'₹4,499');

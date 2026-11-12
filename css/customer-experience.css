@@ -1,4 +1,34 @@
 /* Customer journey: warm surfaces, compact information and consistent actions. */
+/* Booking state stays visible even when the full summary is collapsed. */
+.checkout-summary-title,.checkout-summary-facts,.checkout-summary-action{display:block}
+.checkout-summary-title{overflow-wrap:anywhere}
+.checkout-summary-facts{margin-top:6px;font-size:13px;font-weight:500;line-height:1.5;color:#526257}
+.checkout-summary-action{margin-top:6px;font-size:12px;font-weight:600;text-decoration:underline;text-underline-offset:3px;color:#174b32}
+.booking-date-feedback{margin:8px 0 0;color:#922d14;font-size:14px;line-height:1.5}
+#trip-discovery-controls .coming-soon-toggle{grid-column:1/-1;color:#385141;font-size:14px}
+#trip-discovery-controls .discovery-reset:disabled{display:none}
+@media(max-width:767px){
+ body[data-site-page="trips"] .page-header,.checkout-page .page-header{padding:88px 16px 16px}
+ body[data-site-page="trips"] .page-header h1,.checkout-page .page-header h1{font-size:24px;line-height:1.25}
+ body[data-site-page="trips"] .page-header p,.checkout-page .page-header p{font-size:14px;line-height:1.5;margin-top:6px}
+ body[data-site-page="trips"] .filter-section{padding:12px 0}
+ body[data-site-page="trips"] .filter-context{font-size:12px;margin:8px 0 6px}
+ body[data-site-page="trips"] .filter-buttons{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:6px;padding-bottom:4px;scrollbar-width:thin}
+ body[data-site-page="trips"] .filter-btn{flex-shrink:0}
+ body[data-site-page="trips"] .catalogue-status{margin-bottom:12px;gap:8px;font-size:13px}
+ body[data-site-page="trips"] .trips-section{padding-top:16px}
+ .checkout-page .checkout-section{padding-top:16px}
+ .checkout-page .booking-journey{padding:10px;margin-bottom:12px}
+ .checkout-page .booking-journey li{flex-direction:row;align-items:center;gap:5px}
+ .checkout-page .booking-journey li>span{width:20px;height:20px}
+ .checkout-page .booking-journey li strong{min-width:0}
+ .checkout-page .booking-journey p{margin-top:8px}
+ .checkout-page .checkout-sidebar{margin-bottom:12px}
+ .checkout-page .mobile-trip-summary>summary>span{min-width:0}
+}
+@media(max-width:360px){
+ .checkout-page .booking-journey li{flex-direction:column;align-items:flex-start}
+}
 :root{--page-cream:#fff8ee;--peach:#fff0e4;--sky:#edf6fb;--secondary:#c65317}
 [hidden]{display:none!important}
 body{background:var(--page-cream)}
