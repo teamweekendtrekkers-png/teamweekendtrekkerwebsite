@@ -19,6 +19,42 @@
       return window.twtRequestKeys[hash] || (window.twtRequestKeys[hash] = crypto.randomUUID());
     }
   }
+  window.notifyCheckoutStarted = async function () {
+    if (!validateForm()) return false;
+    try {
+      const config = await configPromise;
+      if (config.enabled !== true || !config.anonKey ||
+          config.endpoint !== 'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request') {
+        throw new Error('Unable to save your details. Please contact our team on WhatsApp.');
+      }
+      const booking = window.bookingData;
+      const payload = {trip_id: getTripFromURL(), departure_label: booking.date, travellers: booking.people,
+        full_name: value('fullName'), email: value('email'), phone: value('phone'),
+        alternate_phone: value('altPhone'),
+        participant_names: value('participants').split(/[,\n]/).map(name => name.trim()).filter(Boolean),
+        special_requests: value('notes'), coupon_code: booking.coupon || '', expected_total: booking.total};
+      payload.idempotency_key = await requestKey({event: 'checkout-started', ...payload});
+      const response = await fetch(config.endpoint.replace(/booking-request$/, 'checkout-started'), {
+        method: 'POST', signal: AbortSignal.timeout(25000),
+        headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + config.anonKey, apikey: config.anonKey},
+        body: JSON.stringify(payload)});
+      const result = await response.json();
+      if (!response.ok || result.accepted !== true) {
+        throw new Error(result.error === 'rate_limited'
+          ? 'Too many requests. Please wait a few minutes or contact our team.'
+          : 'Unable to save your details. Retry or contact our team on WhatsApp.');
+      }
+      document.getElementById('bookingIssue').hidden = true;
+      return true;
+    } catch (error) {
+      const issue = document.getElementById('bookingIssue');
+      issue.hidden = false;
+      issue.textContent = error.name === 'TimeoutError' || error.name === 'AbortError'
+        ? 'We could not confirm the response. Retry with the same details; repeat clicks will not create duplicate alerts.'
+        : error.message;
+      return false;
+    }
+  };
   window.submitDetails = async function () {
     if (!validateForm()) return;
     const button = document.getElementById('submitDetailsBtn');
