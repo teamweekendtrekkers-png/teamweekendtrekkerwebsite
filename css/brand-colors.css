@@ -3,13 +3,13 @@
   --brand-forest: #173F35;
   --brand-teal: #087F73;
   --brand-teal-hover: #06695F;
-  --brand-ivory: #FFF9F2;
+  --brand-ivory: #F7FAF7;
   --brand-sage: #E8F3EC;
   --brand-orange: #B54716;
   --brand-gold: #F4C95D;
   --brand-text: #26352F;
   --brand-muted: #54645D;
-  --brand-border: #DCE6DF;
+  --brand-border: #CCDCD3;
   --brand-whatsapp: #166534;
   --brand-pending-bg: #FFF1D6;
   --brand-pending-text: #754700;
@@ -27,6 +27,23 @@
   --text-light: var(--brand-muted);
 }
 body { background: var(--brand-ivory); color: var(--brand-text); }
+/* Quiet surfaces keep photos prominent; orange highlights dates and guidance. */
+.testimonials-section,.reviews-section,.why-choose-us { background: #EDF4EF; }
+.upcoming-batches { background: #F7FAF7; }
+.checkout-page .checkout-section { background: var(--brand-ivory); }
+.form-group input,.form-group select,.form-group textarea,
+.discovery-field input,.discovery-field select {
+  background: #fff; color: var(--brand-text);
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus,
+.discovery-field input:focus,.discovery-field select:focus {
+  border-color: var(--brand-teal);
+}
+.btn-outline:hover { background: var(--brand-sage); color: var(--brand-forest); }
+.hero .btn-outline { color: #fff; border-color: #fff; }
+.hero .btn-outline:hover { background: #fff; color: var(--brand-forest); }
+.nav-menu a[aria-current="page"] { color: var(--brand-teal); text-decoration: underline; text-underline-offset: 6px; }
+::selection { background: #CDE8DC; color: #12362D; }
 h1,h2,h3,h4,.section-title { color: var(--brand-forest); }
 .hero h1,.page-header h1,.page-header h2,.cta-section h2 { color: #fff; }
 .page-header,.stats,.cta-section,.footer { background: var(--brand-forest); }
