@@ -119,7 +119,7 @@
         const inputs = [];
         const update = reset => { for (const [node, field] of inputs) state[field] = node.value; onChange({ ...state }, reset === true); };
         if (options.showSearch) {
-            const input = make('input'); input.type = 'search'; input.placeholder = 'Destination, trip or departure city'; input.maxLength = 200; input.addEventListener('input', update); inputs.push([input, 'query']); control('Find your trip', input);
+            const input = make('input'); input.type = 'search'; input.placeholder = 'Search trips or places'; input.maxLength = 200; input.addEventListener('input', update); inputs.push([input, 'query']); control('Find your trip', input);
         }
         if (options.showExperienceFilter) {
             const select = make('select'), all = make('option', 'All experiences'); all.value = 'all'; select.append(all);
@@ -164,11 +164,13 @@
             toggle.addEventListener('click', () => setOpen(panel.hidden));
             panel.addEventListener('keydown', event => { if (event.key === 'Escape') { event.preventDefault(); setOpen(false); toggle.focus(); } });
             fields.forEach(field => panel.append(field));
+            const comingSoon = document.getElementById('show-coming-soon')?.closest('label');
+            if (!container.hidden && comingSoon) panel.append(comingSoon);
             actions.append(toggle); container.append(actions, panel);
         } else container.append(actions);
         if (reset) actions.append(reset);
         return { update: state => {
-            const count = Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure));
+            const count = Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure)) + Number(Boolean(state.showComingSoon));
             if (caption) caption.textContent = count ? `Filters (${count})` : 'Filters';
             if (toggle) toggle.classList.toggle('has-filters', count > 0);
             if (reset) reset.disabled = !(state.query || count || (state.category && state.category !== 'all') || state.showComingSoon);

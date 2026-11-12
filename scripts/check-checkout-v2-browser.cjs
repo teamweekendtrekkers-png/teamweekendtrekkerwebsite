@@ -41,7 +41,15 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     }catch{return route.fulfill({status:404,body:''});}
    });
    const open=async(label=date,count=1)=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(label)+'&people='+count);await page.waitForFunction(()=>!document.getElementById('paymentModeNotice').textContent.includes('Loading'));
-     if(width<768){assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null);assert.match(await page.locator('#mobileTripSummaryText').innerText(),/Demo Trip/);await page.locator('.mobile-trip-summary>summary').click();}
+     if(width<768){
+      assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null);
+      assert.match(await page.locator('#mobileTripSummaryText').innerText(),/Demo Trip/);
+      const facts=page.locator('.checkout-summary-facts');
+      assert.equal(await facts.isVisible(),true,'Date, travellers and total remain visible while collapsed');
+      assert.ok((await facts.innerText()).includes(label));
+      assert.match(await facts.innerText(),new RegExp(count+' traveller'));
+      await page.locator('.mobile-trip-summary>summary').click();
+     }
      assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
    };
    const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
@@ -164,6 +172,15 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.goto(origin+'/trip-detail.html?trip=demo');
    await page.waitForFunction(()=>document.getElementById('tripTitle').textContent==='Demo Trip');
    assert.equal(await page.locator('#peopleCount option').count(),6);
+   if(width<768)await page.locator('#mobileBookBtn a').first().click();
+   assert.equal(await page.locator('#bookNowBtn').innerText(),'Choose a departure date');
+   await page.locator('#bookNowBtn').click();
+   assert.match(await page.locator('#departureFeedback').innerText(),/Choose a departure date/);
+   assert.equal(new URL(page.url()).pathname,'/trip-detail.html','No navigation before choosing a date');
+   await page.selectOption('#dateSelect',later);
+   assert.equal(await page.locator('#bookNowBtn').innerText(),'Continue to payment');
+   assert.equal(await page.locator('#departureFeedback').isVisible(),false);
+   if(width<768)await page.locator('.booking-dialog-close').click();
    await open(later,7);
    assert.equal(await page.locator('#submitDetailsBtn').isDisabled(),true);
    assert.match(await page.textContent('#bookingIssue'),/up to 6 travellers/);

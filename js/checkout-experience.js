@@ -6,6 +6,15 @@
  function currentTrip(){const id=getTripFromURL();return typeof tripsData==='object'&&Object.prototype.hasOwnProperty.call(tripsData,id)?tripsData[id]:null;}
  function dateValid(){const trip=currentTrip();return TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))&&new URLSearchParams(location.search).getAll('date').length===1&&trip&&TripDecision.matchingDeparture(trip,getDateFromURL())!==null;}
  function message(text){byId('couponFeedback').textContent=text;}
+ function updateCompactSummary(){
+  const data=window.bookingData,compact=byId('mobileTripSummaryText');
+  if(!data||!compact)return;
+  const title=document.createElement('span');title.className='checkout-summary-title';title.textContent=data.trip;
+  const facts=document.createElement('span');facts.className='checkout-summary-facts';
+  facts.textContent=data.date+' · '+data.people+' '+(data.people===1?'traveller':'travellers')+' · '+money(data.total);
+  const action=document.createElement('span');action.className='checkout-summary-action';action.textContent='View details or change date';
+  compact.replaceChildren(title,facts,action);
+ }
  function recalculate(){
   const data=window.bookingData;if(!data||!config)return;
   const subtotal=data.price*data.people;
@@ -20,7 +29,7 @@
   byId('couponSavingsRow').hidden=!quote.valid;
   byId('removeCoupon').hidden=!quote.valid;
   byId('hiddenTotal').value=data.total;
-  const compact=byId('mobileTripSummaryText');if(compact)compact.textContent=data.trip+' · '+money(data.total);
+  updateCompactSummary();
   updatePaymentAmount();
  }
  function upiId(){return config?.payment.upiId||(Array.isArray(config?.payment.profiles)?'':window.TravelSecurity?.getUPI?.()||'');}
@@ -67,10 +76,10 @@
   byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
 
   const disclosure=document.createElement('details');disclosure.className='mobile-trip-summary';
-  const disclosureTitle=document.createElement('summary');const compactText=document.createElement('span');compactText.id='mobileTripSummaryText';compactText.textContent=trip.title+' · '+money(window.bookingData.total);disclosureTitle.append(compactText);disclosureTitle.setAttribute('aria-label','Expand trip summary');
+  const disclosureTitle=document.createElement('summary');const compactText=document.createElement('span');compactText.id='mobileTripSummaryText';disclosureTitle.append(compactText);
   const summaryBody=document.createElement('div');summaryBody.className='trip-summary-body';
   while(summary.firstChild)summaryBody.append(summary.firstChild);
-  disclosure.append(disclosureTitle,summaryBody);summary.append(disclosure);
+  disclosure.append(disclosureTitle,summaryBody);summary.append(disclosure);updateCompactSummary();
   const desktop=matchMedia('(min-width:768px)');
   const setDisclosure=()=>{disclosure.open=desktop.matches;};setDisclosure();desktop.addEventListener('change',setDisclosure);
 
