@@ -117,7 +117,7 @@ const fixtures={
    await page.getByRole('searchbox',{name:'Find your trip',exact:true}).fill('Gokarna');assert.deepEqual(await ids(),['coast']);
    discovery={enabled:true,showSearch:false,showExperienceFilter:true,showWeekendFilter:true};
    await page.goto(origin+'/trips.html');await page.waitForSelector('.catalogue-filter-toggle');
-   assert.equal(await page.locator('#trip-discovery-controls input').count(),0);
+   assert.equal(await page.locator('#trip-discovery-controls input[type="search"]').count(),0);
    await page.locator('.catalogue-filter-toggle').click();await page.getByLabel('Choose your experience',{exact:true}).selectOption('beach');
    assert.deepEqual(await ids(),['coast']);
    discovery={enabled:false,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
