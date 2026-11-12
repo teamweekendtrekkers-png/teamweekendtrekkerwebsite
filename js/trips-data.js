@@ -878,7 +878,7 @@ const tripsData = {
         experiences: ["adventure"],
         price: "₹5,499",
         originalPrice: 5999,
-        image: "images/trips/default.jpg",
+        image: "images/trips/trip_1793817467369_1794464399036.png",
         distance: "450",
         elevation: "",
         difficulty: "Easy-Moderate",
