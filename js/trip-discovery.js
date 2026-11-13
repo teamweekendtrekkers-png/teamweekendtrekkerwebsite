@@ -40,6 +40,7 @@
     function filterTrips(trips, state, referenceDate) {
         const terms = String(state.query || '').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
         return trips.filter(trip => {
+            if (state.collection === 'long' && !(Number.parseInt(String(trip.duration || ''), 10) >= 3)) return false;
             if (!state.showComingSoon && (trip.isActive === false || !dates.getUpcomingDateRanges(trip, referenceDate).length)) return false;
             const window = dates.dateWindow(state.when, referenceDate);
             if(window && !dates.getUpcomingDateRanges(trip, referenceDate).some(range=>range.start.getTime()>=window.start&&range.start.getTime()<window.end))return false;
@@ -76,7 +77,7 @@
         const money = value => '₹' + value.toLocaleString('en-IN', { maximumFractionDigits: 2 });
         if (!trip.price) return '<span class="trip-price-unit">Ask us for pricing</span>';
         return (discounted ? '<del class="trip-original-price" aria-label="Original price '+escape(money(original))+'">'+escape(money(original))+'</del>' : '') +
-            '<span class="trip-price"'+(discounted ? ' aria-label="Discounted price '+escape(money(selling))+'"' : '')+'>'+escape(trip.price)+'</span><span class="trip-price-unit">per person</span>';
+            '<span class="trip-price"'+(discounted ? ' aria-label="Discounted price '+escape(money(selling))+'"' : '')+'>'+escape(trip.price)+'</span><span class="trip-price-unit">per person</span>'+(discounted?'<span class="trip-savings">Save '+escape(money(original-selling))+'</span>':'');
     }
     function renderCard(trip, referenceDate, state) {
         state = state || {};
@@ -98,7 +99,7 @@
             <div class="trip-meta">${trip.duration ? `<span><i class="fas fa-clock" aria-hidden="true"></i> ${escape(trip.duration)}</span>` : ''}${trip.difficulty ? `<span><i class="fas fa-signal" aria-hidden="true"></i> ${escape(trip.difficulty)}</span>` : ''}</div>
             ${trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
 
-            <div class="trip-footer"><div${state.hidePrice ? ' hidden' : ''}>${renderPrice(trip)}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div></div></article>`;
+            <div class="trip-footer"><div${state.hidePrice ? ' hidden' : ''}>${renderPrice(trip)}</div><a href="${escape(href)}" class="btn btn-small" aria-label="${escape((trip.isActive === false ? 'View details for ' : 'View dates and details for ') + title)}">${trip.isActive === false ? 'View Details' : 'View trip'}</a></div><button type="button" class="planner-enquiry trip-callback" data-enquiry-trip="${escape(trip.id)}" data-enquiry-date="${escape(selected?.originalLabel||'')}" aria-label="${escape('Request a callback about '+title)}">Help me choose</button></div></article>`;
     }
     function attachImageFallbacks(container) {
         if (!container || typeof container.querySelectorAll !== 'function') return;
@@ -201,13 +202,13 @@
             const category = params.get('type') || 'all';
             return {query:(params.get('q') || '').slice(0,200), experience:params.get('experience') || 'all',
                 departure:params.get('departure') || '', category:[...document.querySelectorAll('[data-filter]')].some(button=>button.dataset.filter===category)?category:'all',
-                showComingSoon:params.get('unavailable')==='1',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
+                showComingSoon:params.get('unavailable')==='1',collection:params.get('collection')==='long'?'long':'',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
         };
         const writeFilters = () => {
             if (!root.location.href || !root.history?.replaceState) return;
             const url = new URL(root.location.href);
             for (const [key,value] of Object.entries({q:current.query,experience:current.experience==='all'?'':current.experience,
-                departure:current.departure,when:current.when||'',type:current.category==='all'?'':current.category,unavailable:current.showComingSoon?'1':''})) {
+                departure:current.departure,collection:current.collection||'',when:current.when||'',type:current.category==='all'?'':current.category,unavailable:current.showComingSoon?'1':''})) {
                 if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);
             }
             if(url.href!==root.location.href)root.history.replaceState(root.history.state,'',url.href);
@@ -221,6 +222,7 @@
         const updateSelectedFilters = () => {
             const entries = [];
             if (current.query.trim()) entries.push(['query', `Search: ${current.query.trim()}`]);
+            if (current.collection === 'long') entries.push(['collection', 'Three days or more']);
             if (current.experience !== 'all') entries.push(['experience', experiences[current.experience] || 'Experience']);
             if (current.when) entries.push(['when',dates.dateWindow(current.when,referenceDate)?.label||'Selected weekend']);
             if (current.departure) entries.push(['departure', departureOptions(all, referenceDate).find(range => range.key === current.departure)?.fullLabel || 'Selected departure']);
@@ -255,7 +257,7 @@
             const reset = grid.querySelector('[data-reset-results]'); if (reset) reset.onclick = () => { current.category = 'all'; current.showComingSoon = false; current.when=''; if (comingSoon) comingSoon.checked = false; document.querySelectorAll('[data-filter]').forEach(button => { button.classList.toggle('active', button.dataset.filter === 'all'); button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')); }); controls ? controls.reset() : render(); };
         };
         const controls = mountControls(document.getElementById('trip-discovery-controls'), all, config.discovery, referenceDate, (state, reset) => {
-            current = { ...state, category: reset ? 'all' : current.category, showComingSoon: reset ? false : current.showComingSoon, when:reset?'':current.when };
+            current = { ...state, category: reset ? 'all' : current.category, showComingSoon: reset ? false : current.showComingSoon, when:reset?'':current.when, collection:reset?'':current.collection };
             if (reset) {
                 if (comingSoon) comingSoon.checked = false;
                 document.querySelectorAll('[data-filter]').forEach(button => { button.classList.toggle('active', button.dataset.filter === 'all'); button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')); });
