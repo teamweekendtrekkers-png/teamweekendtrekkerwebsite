@@ -5,6 +5,13 @@
 @media(max-width:767px){.planner-section{padding:18px 0}.planner-section .container{padding-left:16px;padding-right:16px}.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.collection-card{padding:13px;gap:6px}.collection-card strong{font-size:15px}.collection-card span{font-size:12px}.moment-card{flex-basis:72vw;max-width:280px}.moment-card img{height:175px}.planner-help{margin:0 16px}.planner-help .container{padding:16px}.planner-help .planner-enquiry{font-size:13px}.calendar-content{padding:0 8px 12px}.calendar-table{border-spacing:2px}.calendar-day{min-height:44px;font-size:14px}.calendar-navigation h3{font-size:18px}.planner-dialog{padding:18px}.planner-dialog .btn{min-height:44px}.planner-dialog form{margin:0}}
 @media(prefers-reduced-motion:no-preference){.collection-card,.planner-enquiry{transition:transform .16s ease,box-shadow .16s ease}.collection-card:hover,.planner-enquiry:hover{transform:translateY(-2px);box-shadow:0 4px 14px #173f3514}.planner-dialog[open]{animation:planner-enter .16s ease-out}@keyframes planner-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
 /* Keep useful content close together without shrinking controls or body text. */
+.discovery-card .trip-footer,#featured-trips-grid .trip-footer{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.discovery-card .trip-footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px;min-width:0;width:100%;box-sizing:border-box}
+.trip-footer-top>div:not([hidden]){flex:1;min-width:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 5px}
+.trip-footer-top .trip-price-unit{white-space:nowrap;margin-left:0}
+.discovery-card .trip-date-tag{gap:6px;align-items:center}
+.discovery-card .trip-card-help{margin:0;flex-shrink:0;white-space:nowrap;padding:9px 12px}
+.discovery-card .trip-footer .trip-card-details,#featured-trips-grid .trip-footer .trip-card-details{display:flex;align-items:center;justify-content:center;width:100%;max-width:none;box-sizing:border-box;min-height:44px;padding:11px 13px;border-radius:10px}
 .homepage .testimonials,.homepage .homepage-info-section,.homepage .cta-section{padding-block:32px}
 .homepage .homepage-info-section>.container,.homepage .cta-section>.container{max-width:1600px}
 .homepage .homepage-info-header{margin-bottom:18px}
@@ -29,6 +36,7 @@
  .homepage .trips-section{padding-block:24px}
 }
 @media(max-width:767px){
+ .discovery-card .trip-card-help{font-size:13px;padding-inline:10px}
  .homepage .testimonials,.homepage .homepage-info-section,.homepage .cta-section{padding-block:20px}
  .homepage .homepage-info-header{margin-bottom:14px}
  .homepage .homepage-info-card{padding:16px}
