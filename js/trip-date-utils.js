@@ -213,7 +213,7 @@
         return new Date(range.start.getTime() + (departureMinutes(trip) - 330) * 60000 + 86400000);
     }
     function getUpcomingDateRanges(trip, referenceDate) {
-        const closed=new Set(Array.isArray(trip?.closedDepartures)?trip.closedDepartures:[]);
+        const closed=new Set([...(Array.isArray(trip?.closedDepartures)?trip.closedDepartures:[]),...(Array.isArray(trip?.soldOutDepartures)?trip.soldOutDepartures:[])]);
         if (!trip || trip.isActive === false || !Array.isArray(trip.availableDates)) {
             return [];
         }
@@ -235,8 +235,27 @@
 
     function unavailableDateLabel(trip, referenceDate) {
         if (trip?.isActive === false) return 'Coming soon';
-        const future = getUpcomingDateRanges({ ...trip, closedDepartures: [] }, referenceDate);
+        const future = getUpcomingDateRanges({ ...trip, closedDepartures: [], soldOutDepartures: [] }, referenceDate);
+        if(future.length && future.every(range=>(trip.soldOutDepartures||[]).includes(range.key)))return 'Sold out for current dates';
         return future.length ? 'Booking closed for current dates' : 'New dates coming soon';
+    }
+
+    function departureStatus(trip,key){
+        if((trip.soldOutDepartures||[]).includes(key))return {key:'sold-out',label:'Sold out'};
+        if((trip.closedDepartures||[]).includes(key))return {key:'closed',label:'Bookings closed'};
+        if((trip.confirmedDepartures||[]).includes(key))return {key:'confirmed',label:'Confirmed departure'};
+        return {key:'available',label:'Available to book'};
+    }
+
+    function dateWindow(value,referenceDate){
+        const today=getIndiaTodayTimestamp(referenceDate),day=86400000,now=new Date(today);
+        if(value==='weekend'||value==='next-weekend'){
+            const weekday=now.getUTCDay(),friday=today+((weekday===0?-2:weekday===6?-1:5-weekday)+(value==='next-weekend'?7:0))*day;
+            return {start:friday,end:friday+3*day,label:value==='weekend'?'This weekend':'Next weekend'};
+        }
+        const month=/^month:(\d{4})-(\d{2})$/.exec(value||'');
+        if(month&&Number(month[2])>=1&&Number(month[2])<=12){const start=Date.UTC(Number(month[1]),Number(month[2])-1,1);return {start,end:Date.UTC(Number(month[1]),Number(month[2]),1),label:new Intl.DateTimeFormat('en-IN',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(start))};}
+        return null;
     }
 
     function getTripDateTags(trip, referenceDate, limit) {
@@ -272,6 +291,7 @@
         const dateTags = tags.visible.map(date => `
             <span class="trip-date-tag" title="${escapeHTML(date.fullLabel)}">
                 <time datetime="${date.startKey}">${escapeHTML(date.shortLabel)}</time>
+                <span class="departure-status" data-status="${departureStatus(trip,date.key).key}">${departureStatus(trip,date.key).label}</span>
             </span>`).join('');
         const remaining = tags.remaining > 0
             ? `<span class="trip-date-more" aria-label="${tags.remaining} more dates">+${tags.remaining} more</span>`
@@ -323,6 +343,8 @@
     }
 
     return {
+        departureStatus,
+        dateWindow,
         unavailableDateLabel,
         departureMinutes,
         bookingCutoff,
