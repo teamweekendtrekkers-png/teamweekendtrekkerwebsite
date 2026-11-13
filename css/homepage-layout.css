@@ -1,4 +1,30 @@
 /* Homepage rhythm: size the banner to its content, not the viewport. */
+.homepage .homepage-hero-layout {
+  width: min(1600px, 100%);
+  max-width: 1600px;
+  padding: 24px 32px 12px;
+  gap: 28px;
+  align-items: start;
+}
+.homepage .homepage-hero-layout .hero-content { padding: 0; margin: 0; }
+.homepage .homepage-hero-layout .hero-trust { margin-bottom: 10px; }
+.homepage .homepage-hero-layout .hero-desc { margin-bottom: 8px; }
+.homepage .homepage-hero-layout .hero-search { margin: 12px 0 10px; }
+.homepage .homepage-hero-layout .hero-buttons { margin: 4px 0 0; }
+.homepage .traveller-collage img:first-child { height: 240px; }
+.homepage .traveller-collage img { height: 180px; }
+.homepage .weekend-finder { margin-top: 10px; padding: 16px; }
+.homepage .weekend-finder h2 { margin-bottom: 10px; }
+.homepage .finder-label { margin-top: 12px; }
+.homepage .finder-results { margin-top: 12px; }
+@media (min-width: 1200px) {
+  .homepage .nav-container, .homepage>.upcoming-batches>.container,
+  .homepage>.trips-section>.container, .homepage>.stats>.container,
+  .homepage>.testimonials>.container { max-width: 1600px; }
+}
+@media (min-width: 768px) {
+  .homepage #upcoming-batches-grid:has(>.departure-bar:nth-child(2):last-child) { grid-auto-columns: calc((100% - 20px)/2); }
+}
 .homepage .hero {
   min-height: 0;
   min-block-size: 0;
@@ -43,6 +69,24 @@
   .homepage .stat-label { font-size: 13px; }
   .homepage .trips-section { padding-block: 20px 24px; }
   .homepage .trips-section .section-subtitle { margin-bottom: 14px; }
+  .homepage .homepage-hero-layout { padding: 14px 16px 8px; gap: 14px; }
+  .homepage .homepage-hero-layout .hero-content { padding: 0; }
+  .homepage .homepage-hero-layout h1 { font-size: 28px; line-height: 1.15; margin-bottom: 8px; }
+  .homepage .homepage-hero-layout .hero-tagline { font-size: 15px; line-height: 1.45; }
+  .homepage .homepage-hero-layout .hero-desc { display: none; }
+  .homepage .homepage-hero-layout .hero-search { margin: 8px 0; }
+  .homepage .homepage-hero-layout .traveller-collage { display: none; }
+  .homepage .hero:has(.weekend-finder:not([hidden])) .hero-buttons { display: none; }
+  .homepage .homepage-hero-layout .hero-trust { font-size: 12px; gap: 4px 8px; margin-bottom: 8px; }
+  .homepage .weekend-finder { padding: 12px; border-radius: 14px; }
+  .homepage .weekend-finder h2 { font-size: 17px; margin-bottom: 8px; }
+  .homepage .finder-choices { gap: 5px; }
+  .homepage .finder-choice { padding: 7px 9px; min-height: 44px; font-size: 12px; }
+  .homepage .finder-label { margin: 10px 0 6px; font-size: 13px; }
+  .homepage .finder-results { margin-top: 10px; }
+  .homepage .finder-status { margin-top: 6px; font-size: 12px; }
+  .homepage .hero-help { font-size: 13px; }
+  .homepage .upcoming-batches .section-title { font-size: 23px; }
 }
 
 @media (min-width: 768px) and (max-width: 1000px) {
