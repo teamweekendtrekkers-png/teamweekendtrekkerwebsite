@@ -6,6 +6,12 @@ function inner(source,attribute,value,html){
  const re=new RegExp('<(div|ul|span|p|section)\\b[^>]*\\b'+attribute+'="'+value+'"[^>]*>');const start=re.exec(source);if(!start)return source;const tag=start[1],offset=start.index+start[0].length;const tokens=new RegExp('</?'+tag+'\\b[^>]*>','g');tokens.lastIndex=offset;let depth=1,m;while((m=tokens.exec(source))){depth+=m[0].startsWith('</')?-1:1;if(!depth)return source.slice(0,offset)+html+source.slice(m.index);}throw Error('Unclosed '+value);
 }
 function renderBody(source,trip,config){
+ const intro=require('../js/trip-decision').introduction(trip);
+ source=inner(source,'id','tripHeadingSummary',escape(intro));
+ if(intro)source=source.replace('id="tripHeadingSummary" hidden','id="tripHeadingSummary"');
+ const overview=require('../js/trip-content').overviewItems(trip,config);
+ source=inner(source,'id','tripHighlightsPreview',overview.slice(0,4).map(item=>'<li>'+(item.title?'<strong>'+rich(item.title)+(item.description?' — ':'')+'</strong>':'')+rich(item.description||'')+'</li>').join(''));
+ if(overview.length)source=source.replace('id="tripHighlightsOverview" hidden','id="tripHighlightsOverview"');
  source=inner(source,'class','trip-section-body',String(trip.about||'').split(/\n\s*\n/).filter(Boolean).map(p=>'<p>'+rich(cleanText(p))+'</p>').join(''));
  source=inner(source,'class','highlights-list',(trip.highlights||[]).map(h=>'<li>'+rich(cleanText(h))+'</li>').join(''));
  source=inner(source,'class','itinerary-accordion',(trip.itinerary||[]).map((d,i)=>'<div class="accordion-item '+(i===0?'active':'')+'"><div class="accordion-header" onclick="toggleAccordion('+i+')"><span class="day-badge">'+rich(cleanText(d.day))+'</span><h3>'+rich(cleanText(d.title))+'</h3><i class="fas fa-chevron-down"></i></div><div class="accordion-content"><ul>'+(d.activities||[]).map(a=>'<li>'+rich(cleanText(a))+'</li>').join('')+'</ul></div></div>').join(''));

@@ -1,4 +1,25 @@
 /* Customer journey: warm surfaces, compact information and consistent actions. */
+.trip-heading-summary,.tour-refined .trip-heading-summary{max-width:65ch;color:var(--brand-muted,#54645d);font-size:clamp(16px,2vw,19px);line-height:1.6;margin:12px 0 16px;overflow-wrap:anywhere}
+.trip-highlights-overview{padding:24px 0;background:var(--brand-sage,#e8f3ec)}
+.trip-highlights-overview h2{font-size:22px;margin:0 0 16px}
+#tripHighlightsPreview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:0}
+#tripHighlightsPreview li{padding:16px;border:1px solid var(--brand-border,#ccdcD3);border-radius:12px;background:#fff;line-height:1.6;color:var(--brand-forest,#173f35);overflow-wrap:anywhere}
+.trip-highlights-more{margin-top:16px;min-height:44px;padding:8px 16px;border:1px solid var(--brand-teal,#087f73);border-radius:10px;color:var(--brand-teal,#087f73);background:#fff;font:inherit;cursor:pointer}
+@media(prefers-reduced-motion:no-preference){.trip-heading-summary:not([hidden]),.trip-highlights-overview:not([hidden]){animation:trip-intro-reveal 180ms ease-out}@keyframes trip-intro-reveal{from{opacity:.7;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
+@media(max-width:767px){
+ #tripHighlightsPreview{grid-template-columns:1fr;gap:8px}
+ #tripHighlightsPreview li{padding:12px 14px;font-size:14px}
+ #tripPickup .pickup-table-wrapper{overflow:visible;box-shadow:none}
+ #pickupTable{display:block;width:100%;border:0;background:transparent}
+ #pickupTable thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ #pickupTable tbody{display:grid;gap:12px;counter-reset:pickup}
+ #pickupTable tbody tr{display:block;counter-increment:pickup;padding:14px;border:1px solid var(--brand-border,#ccdcd3);border-radius:12px;background:#fff}
+ #pickupTable td{display:grid;grid-template-columns:80px minmax(0,1fr);gap:8px;padding:8px 0;border:0;white-space:normal;overflow-wrap:anywhere}
+ #pickupTable td::before{content:attr(data-label);font-size:13px;color:var(--brand-muted,#54645d)}
+ #pickupTable td:first-child{display:flex;align-items:center;color:var(--brand-forest,#173f35);font-size:16px}
+ #pickupTable td:first-child::before{content:counter(pickup);display:grid;place-items:center;width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--brand-sage,#e8f3ec);color:var(--brand-forest,#173f35);font-weight:700}
+ #pickupTable .map-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;width:fit-content;padding:8px 12px}
+}
 .catalogue-selected-filters{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin:4px 0 16px}
 .catalogue-filter-chip{display:inline-flex;align-items:center;min-height:44px;max-width:100%;padding:8px 12px;border:1px solid #7c9187;border-radius:22px;background:#e8f3ec;color:#173f35;font:inherit;font-size:14px;line-height:1.4;text-align:left;overflow-wrap:anywhere;cursor:pointer}
 .catalogue-filter-chip:hover{background:#ccdfd2}

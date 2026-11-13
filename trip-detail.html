@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="css/trip-decision.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/site-polish.css?v=1">
-<link rel="stylesheet" href="css/customer-experience.css?v=7">
+<link rel="stylesheet" href="css/customer-experience.css?v=8">
     <link rel="stylesheet" href="css/design-refresh.css?v=20261016-3">
 <link rel="stylesheet" href="css/tour-refinements.css?v=2">
     <link rel="stylesheet" href="css/brand-colors.css?v=5">
@@ -79,6 +79,14 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <section class="trip-highlights-overview" id="tripHighlightsOverview" hidden aria-labelledby="tripHighlightsPreviewHeading">
+        <div class="container">
+            <h2 id="tripHighlightsPreviewHeading">Experience highlights</h2>
+            <ul id="tripHighlightsPreview"></ul>
+            <button type="button" class="trip-highlights-more" id="tripHighlightsMore" hidden>See all highlights</button>
         </div>
     </section>
 
@@ -301,7 +309,7 @@
                         <h2><i class="fas fa-map-marker-alt"></i> Bangalore Pickup Points</h2>
                         <p class="section-note">All pickups are on the night of Day 0. Please reach 15 minutes before departure time.</p>
                         <div class="pickup-table-wrapper">
-                            <table class="pickup-table" id="pickupTable">
+                            <table class="pickup-table" id="pickupTable" role="table" aria-label="Pickup locations and timings">
                                 <thead>
                                     <tr>
                                         <th>Location</th>
@@ -767,11 +775,11 @@
                     : (typeof commonPickupPoints !== 'undefined' ? commonPickupPoints : []);
                 
                 pickupTable.innerHTML = pickupPoints.map(point => `
-                    <tr>
-                        <td><strong>${point.name || ''}</strong></td>
-                        <td>${point.landmark || ''}</td>
-                        <td><span class="pickup-time">${point.time || ''}</span></td>
-                        <td>${point.mapLink ? `<a href="${point.mapLink}" target="_blank" class="map-link"><i class="fas fa-map-marker-alt"></i> View</a>` : ''}</td>
+                    <tr role="row">
+                        <td role="cell" data-label="Pickup"><strong>${point.name || ''}</strong></td>
+                        <td role="cell" data-label="Landmark">${point.landmark || ''}</td>
+                        <td role="cell" data-label="Time"><span class="pickup-time">${point.time || ''}</span></td>
+                        <td role="cell" data-label="Map">${point.mapLink ? `<a href="${point.mapLink}" target="_blank" rel="noopener noreferrer" class="map-link"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> View map</a>` : ''}</td>
                     </tr>
                 `).join('');
             }
@@ -1032,9 +1040,9 @@
         })();
     </script>
     <script src="js/trip-date-utils.js?v=20261017-2"></script>
-    <script src="js/trip-decision.js?v=5"></script>
+    <script src="js/trip-decision.js?v=6"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=20261112"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=20261021"></script>
+<script src="js/trip-customer.js?v=20261112"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=20261114"></script>
     <script src="js/trip-brochure.js?v=6"></script>
 <script src="js/tour-refinements.js?v=2"></script>
 <script src="js/site-motion.js?v=1"></script>

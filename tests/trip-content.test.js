@@ -42,3 +42,23 @@ test('static highlights use custom heading and safe literal content',()=>{const 
 
 test('published content settings remain valid after manager edits',()=>{const published=JSON.parse(fs.readFileSync(path.join(__dirname,'../js/trip-content-config.json')));assert.equal(content.validate(published),published);});
 
+test('visible highlight preview respects manager hidden, disabled and custom choices',()=>{
+ const trip={highlights:['Temple visit','Coastal walk']};
+ assert.deepEqual(content.overviewItems(trip,config).map(item=>item.description),trip.highlights);
+ assert.deepEqual(content.overviewItems({...trip,contentSections:{highlights:{mode:'hidden'}}},config),[]);
+ const custom={mode:'custom',heading:'Highlights',expanded:false,useTripHighlights:false,items:[{title:'Local hosts',description:'Meet the community'},{description:'Hidden',enabled:false},{description:'  '}]};
+ assert.deepEqual(content.overviewItems({...trip,contentSections:{highlights:custom}},config),[custom.items[0]]);
+});
+
+test('generated trip page includes safe introduction and only four preview highlights',()=>{
+ const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
+ const trip={about:'Meet **local hosts**. Explore together.',highlights:['One','Two','Three','Four','<Fifth>']};
+ const html=require('../scripts/trip-body').renderBody(template,trip,config);
+ assert.match(html,/id="tripHeadingSummary">Meet local hosts\./);
+ assert.match(html,/id="tripHighlightsOverview" aria-labelledby/);
+ const preview=html.split('id="tripHighlightsPreview">')[1].split('</ul>')[0];
+ assert.equal((preview.match(/<li>/g)||[]).length,4);assert.ok(!preview.includes('Fifth'));
+ const hidden=require('../scripts/trip-body').renderBody(template,{...trip,contentSections:{highlights:{mode:'hidden'}}},config);
+ assert.match(hidden,/id="tripHighlightsOverview" hidden/);
+});
+

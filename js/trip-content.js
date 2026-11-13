@@ -7,6 +7,7 @@
  function validate(config){if(config?.version!==1||!config.sections)throw Error('Invalid trip content settings');for(const key of keys){const s=config.sections[key];if(key==='highlights'&&!s)continue;if(!s||!['default','custom','hidden'].includes(s.mode)||typeof s.heading!=='string'||typeof s.expanded!=='boolean'||!Array.isArray(s.items))throw Error('Invalid '+key+' section');if(key==='cancellation'&&s.mode!=='hidden'){const sorted=[...s.items].sort((a,b)=>a.minDays-b.minDays);let next=0;for(const rule of sorted){if(!Number.isInteger(rule.minDays)||rule.minDays!==next||!(rule.maxDays===null||Number.isInteger(rule.maxDays)&&rule.maxDays>=rule.minDays)||!Number.isFinite(rule.percent)||rule.percent<0||rule.percent>100)throw Error('Cancellation ranges must cover every day without overlap');next=rule.maxDays===null?Infinity:rule.maxDays+1;}if(next!==Infinity)throw Error('Cancellation ranges need an open-ended last range');}}return config;}
  function node(doc,tag,text,cls){const el=doc.createElement(tag);if(text!==undefined){if(typeof TripText!=='undefined')TripText.set(el,text);else el.textContent=text;}if(cls)el.className=cls;return el;}
  function cleanText(text){return String(text||'').replace(/\s+/g,' ').trim();}
+ function overviewItems(trip,config){const s=section(trip,config,'highlights');return s?(s.items||[]).filter(item=>item.enabled!==false&&(cleanText(item.title)||cleanText(item.description))):[];}
  function policyLabel(rule){return rule.maxDays===null?rule.minDays+'+ days before departure':rule.minDays+'–'+rule.maxDays+' days before departure';}
  function apply(trip,config,doc){
   const glance=doc.querySelector('.trek-glance')||doc.getElementById('glanceDuration')?.closest('section');
@@ -18,11 +19,20 @@
    if(key==='faqs')for(const item of s.items.filter(item=>item.enabled!==false)){const row=node(doc,'details',undefined,'faq-row');row.append(node(doc,'summary',item.question),node(doc,'p',item.answer));container.append(row);}
    if(key==='cancellation'){for(const rule of [...s.items].sort((a,b)=>b.minDays-a.minDays)){const card=node(doc,'div',undefined,'policy-card');card.append(node(doc,'strong',policyLabel(rule)),node(doc,'p','Cancellation fee: '+rule.percent+'%'));container.append(card);}const notes=panel.querySelector('.policy-notes');notes.replaceChildren();for(const text of [s.refundNote,s.changeNote].filter(Boolean))notes.append(node(doc,'p',text));let brief=panel.previousElementSibling;if(!brief?.classList.contains('cancellation-brief')){brief=node(doc,'div',undefined,'cancellation-brief');panel.before(brief);}brief.replaceChildren(node(doc,'strong',s.heading),...s.items.map(r=>node(doc,'span',policyLabel(r)+': '+r.percent+'%')));brief.hidden=false;}
   }
+  const overview=doc.getElementById('tripHighlightsOverview');
+  if(overview){
+   const items=overviewItems(trip,config),list=doc.getElementById('tripHighlightsPreview'),more=doc.getElementById('tripHighlightsMore');
+   overview.hidden=!items.length;
+   list.replaceChildren();
+   for(const item of items.slice(0,4)){const row=node(doc,'li');if(item.title)row.append(node(doc,'strong',item.title+(item.description?' — ':'')));if(item.description)row.append(node(doc,'span',item.description));list.append(row);}
+   more.hidden=items.length<=4;more.textContent='See all '+items.length+' highlights';
+   more.onclick=()=>{const panel=doc.getElementById('tripHighlights')?.closest('details');if(panel){panel.open=true;panel.tabIndex=-1;panel.scrollIntoView({block:'start'});panel.focus({preventScroll:true});}};
+  }
   if(!section(trip,config,'cancellation')){doc.querySelector('.cancellation-brief')?.remove();}
   const extras=doc.getElementById('customTripSections');if(extras){const sections=extraSections(trip);extras.replaceChildren();extras.hidden=!sections.length;for(const s of sections){const panel=node(doc,'details',undefined,'content-section mobile-section custom-trip-section');panel.id='trip-'+s.key;panel.open=s.expanded;panel.append(node(doc,'summary',s.heading));const grid=node(doc,'div',undefined,'guidelines-grid');for(const item of s.items){const card=node(doc,'div',undefined,'guideline-card'),icon=node(doc,'i');icon.className='fas '+icons[item.icon];icon.setAttribute('aria-hidden','true');card.append(icon);if(item.title)card.append(node(doc,'h4',item.title));card.append(node(doc,'p',item.description));grid.append(card);}panel.append(grid);extras.append(panel);}}
  }
  function init(win){win.document.addEventListener('DOMContentLoaded',async()=>{const id=win.getTripFromURL(),trip=win.tripsData?.[id]||(typeof tripsData==='object'?tripsData[id]:null);if(!trip)return;let config=win.TRIP_CONTENT_CONFIG;if(config)apply(trip,config,win.document);try{const r=await win.fetch('js/trip-content-config.json',{cache:'no-store'});if(r.ok)config=validate(await r.json());}catch{}if(config)apply(trip,config,win.document);});}
- return {keys,icons,section,extraSections,validate,cleanText,policyLabel,apply,init};
+ return {keys,icons,section,extraSections,validate,cleanText,overviewItems,policyLabel,apply,init};
 }));
 if(typeof window!=='undefined')TripContent.init(window);
 

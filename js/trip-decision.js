@@ -1,10 +1,11 @@
 // Small, additive trip-page improvements; checkout and payment handlers stay unchanged.
 (function (root, factory) {
     const api = factory(typeof module === 'object' && module.exports
-        ? require('./trip-date-utils') : root.TripDateUtils);
+        ? require('./trip-date-utils') : root.TripDateUtils,
+        typeof module === 'object' && module.exports ? require('./inline-format') : root.TripText);
     if (typeof module === 'object' && module.exports) module.exports = api;
     else root.TripDecision = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (dates, text) {
     'use strict';
 
     const installedDocuments = new WeakSet();
@@ -17,6 +18,17 @@
 
     function stringValue(value) {
         return typeof value === 'string' ? value.trim() : '';
+    }
+
+    function introduction(trip) {
+        const summary = stringValue(trip?.cardSummary);
+        const source = summary || stringValue(trip?.about);
+        const plain = (text ? text.plain(source) : source).replace(/\s+/g, ' ').trim();
+        const sentence = summary ? plain : (plain.match(/^.*?[.!?](?=\s|$)/)?.[0] || plain);
+        if (Array.from(sentence).length <= 220) return sentence;
+        const clipped = Array.from(sentence).slice(0, 220).join('');
+        const boundary = clipped.lastIndexOf(' ');
+        return (boundary > 140 ? clipped.slice(0, boundary) : clipped).trimEnd() + '…';
     }
 
     function matchingDeparture(trip, candidate, referenceDate) {
@@ -68,7 +80,7 @@
         const title = document.getElementById('tripTitle');
         if (title) title.textContent = stringValue(currentTrip.title) || 'Trip details';
         setOptionalText(document, 'tripHeadingLocation', stringValue(currentTrip.location));
-        setOptionalText(document, 'tripHeadingSummary', stringValue(currentTrip.cardSummary));
+        setOptionalText(document, 'tripHeadingSummary', introduction(currentTrip));
         const city = stringValue(currentTrip.departureCity);
         setOptionalText(document, 'tripHeadingDeparture', city ? `Departing from ${city}` : '');
         for (const [id, field] of Object.entries(factFields)) {
@@ -96,5 +108,5 @@
         installShortcuts(document);
     }
 
-    return { factFields, matchingDeparture, queryDeparture, preserveAnchors, apply };
+    return { factFields, introduction, matchingDeparture, queryDeparture, preserveAnchors, apply };
 }));

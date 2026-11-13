@@ -9,6 +9,16 @@ const template = fs.readFileSync(path.join(root, 'trip-detail.html'), 'utf8');
 const now = new Date('2026-10-11T06:00:00Z');
 const trip = {availableDates: ['Oct 9-11, 2026', 'Oct 16-18, 2026', 'Oct 30-Nov 1, 2026']};
 
+test('trip introduction uses authored summary or first description sentence without inventing content', () => {
+    assert.equal(decision.introduction({cardSummary:'A **cultural** weekend.',about:'Long description.'}), 'A cultural weekend.');
+    assert.equal(decision.introduction({about:'Meet local hosts. Then explore the coast.'}), 'Meet local hosts.');
+    assert.equal(decision.introduction({about:'Visit a temple\nand explore the coast'}), 'Visit a temple and explore the coast');
+    assert.equal(decision.introduction({}), '');
+    const long = decision.introduction({about:'Explore the coastline '.repeat(25)});
+    assert.ok(long.length<=221); assert.ok(long.endsWith('…'));
+    assert.equal(decision.introduction({about:'<script>alert(1)</script>'}), '<script>alert(1)</script>');
+});
+
 test('departure matching accepts only canonical-equivalent stored upcoming ranges', () => {
     assert.equal(decision.matchingDeparture(trip, '  October 16 — 18.2026 ', now), 'Oct 16-18, 2026');
     assert.equal(decision.matchingDeparture(trip, 'Oct 30–Nov 1, 2026', now), 'Oct 30-Nov 1, 2026');
