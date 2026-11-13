@@ -152,7 +152,7 @@
         const fields = [...container.querySelectorAll('.discovery-field:not(.discovery-search)')];
         const actions = document.createElement('div'); actions.className = 'catalogue-search-actions';
         container.classList.toggle('catalogue-controls-only', !container.querySelector('.discovery-search'));
-        let toggle, caption;
+        let toggle, caption, resultsButton;
         if (fields.length) {
             const panel = document.createElement('div'); panel.id = container.id + '-panel'; panel.className = 'catalogue-filter-panel'; panel.hidden = true;
             toggle = document.createElement('button'); toggle.type = 'button'; toggle.className = 'catalogue-filter-toggle';
@@ -166,14 +166,22 @@
             fields.forEach(field => panel.append(field));
             const comingSoon = document.getElementById('show-coming-soon')?.closest('label');
             if (!container.hidden && comingSoon) panel.append(comingSoon);
+            resultsButton = document.createElement('button'); resultsButton.type = 'button'; resultsButton.className = 'catalogue-show-results';
+            resultsButton.addEventListener('click', () => {
+                setOpen(false);
+                const status = document.getElementById('trip-results-status');
+                if (status) { status.tabIndex = -1; status.focus({ preventScroll: true }); status.scrollIntoView({ block: 'start' }); }
+            });
+            panel.append(resultsButton);
             actions.append(toggle); container.append(actions, panel);
         } else container.append(actions);
         if (reset) actions.append(reset);
-        return { update: state => {
+        return { update: (state, resultCount) => {
             const count = Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure)) + Number(Boolean(state.showComingSoon));
             if (caption) caption.textContent = count ? `Filters (${count})` : 'Filters';
             if (toggle) toggle.classList.toggle('has-filters', count > 0);
             if (reset) reset.disabled = !(state.query || count || (state.category && state.category !== 'all') || state.showComingSoon);
+            if (resultsButton) resultsButton.textContent = resultCount ? `Show ${resultCount} ${resultCount === 1 ? 'trip' : 'trips'}` : 'See results · no matches';
         } };
     }
     async function initCatalog(document) {
@@ -200,12 +208,43 @@
             if(url.href!==root.location.href)root.history.replaceState(root.history.state,'',url.href);
         };
         const status = document.getElementById('trip-results-status'), comingSoon = document.getElementById('show-coming-soon');
+        if (status) status.tabIndex = -1;
+        const selectedFilters = document.createElement('div'); selectedFilters.className = 'catalogue-selected-filters'; selectedFilters.setAttribute('aria-label', 'Your trip filters'); selectedFilters.setAttribute('role', 'group');
+        if (status) status.after(selectedFilters);
+        selectedFilters.hidden = true;
+        let selectionSignature = '', lastMarkup;
+        const updateSelectedFilters = () => {
+            const entries = [];
+            if (current.query.trim()) entries.push(['query', `Search: ${current.query.trim()}`]);
+            if (current.experience !== 'all') entries.push(['experience', experiences[current.experience] || 'Experience']);
+            if (current.departure) entries.push(['departure', departureOptions(all, referenceDate).find(range => range.key === current.departure)?.fullLabel || 'Selected departure']);
+            if (current.category !== 'all') entries.push(['category', [...document.querySelectorAll('[data-filter]')].find(button => button.dataset.filter === current.category)?.textContent.trim() || 'Trip type']);
+            if (current.showComingSoon) entries.push(['showComingSoon', 'Includes trips without dates']);
+            const signature = JSON.stringify(entries);
+            if (signature === selectionSignature) return;
+            selectionSignature = signature; selectedFilters.replaceChildren(); selectedFilters.hidden = !entries.length;
+            entries.forEach(([field, label]) => {
+                const button = document.createElement('button'); button.type = 'button'; button.dataset.removeFilter = field; button.className = 'catalogue-filter-chip';
+                button.textContent = label + ' ×'; button.setAttribute('aria-label', 'Remove filter: ' + label);
+                button.addEventListener('click', () => {
+                    current[field] = field === 'showComingSoon' ? false : ['experience', 'category'].includes(field) ? 'all' : '';
+                    controls?.restore(current);
+                    if (comingSoon) comingSoon.checked = current.showComingSoon;
+                    document.querySelectorAll('[data-filter]').forEach(node => { node.classList.toggle('active', node.dataset.filter === current.category); node.setAttribute('aria-pressed', String(node.dataset.filter === current.category)); });
+                    render();
+                    (selectedFilters.querySelector('button') || document.querySelector('#trip-discovery-controls input[type="search"]') || status)?.focus({ preventScroll: true });
+                });
+                selectedFilters.append(button);
+            });
+        };
         const render = () => {
             const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate);
-            grid.innerHTML = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
-            attachImageFallbacks(grid);
-            if (status) status.textContent = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ' · scheduled departures first'}`;
-            if (catalogControls) catalogControls.update(current);
+            const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
+            if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
+            const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ' · scheduled departures first'}`;
+            if (status && status.textContent !== resultText) status.textContent = resultText;
+            if (catalogControls) catalogControls.update(current, visible.length);
+            updateSelectedFilters();
             writeFilters();
             const reset = grid.querySelector('[data-reset-results]'); if (reset) reset.onclick = () => { current.category = 'all'; current.showComingSoon = false; if (comingSoon) comingSoon.checked = false; document.querySelectorAll('[data-filter]').forEach(button => { button.classList.toggle('active', button.dataset.filter === 'all'); button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')); }); controls ? controls.reset() : render(); };
         };
