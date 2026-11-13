@@ -7,7 +7,7 @@
 /* Keep useful content close together without shrinking controls or body text. */
 .discovery-card .trip-footer,#featured-trips-grid .trip-footer{display:flex;flex-direction:column;align-items:stretch;gap:8px}
 .discovery-card .trip-footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px;min-width:0;width:100%;box-sizing:border-box}
-.trip-footer-top>div{flex:1;min-width:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 5px}
+.trip-footer-top>div:not([hidden]){flex:1;min-width:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 5px}
 .trip-footer-top .trip-price-unit{white-space:nowrap;margin-left:0}
 .discovery-card .trip-date-tag{gap:6px;align-items:center}
 .discovery-card .trip-card-help{margin:0;flex-shrink:0;white-space:nowrap;padding:9px 12px}
