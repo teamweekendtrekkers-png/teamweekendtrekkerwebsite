@@ -39,7 +39,7 @@
    hidden.when.value=state.when;hidden.experience.value=state.experience==='all'?'':state.experience;
    const url=new URL(win.location.href);for(const key of ['q','when','experience']){if(params.has(key))url.searchParams.set(key,params.get(key));else url.searchParams.delete(key);}if(url.href!==win.location.href)win.history.replaceState(win.history.state,'',url.href);
   }
-  function buttons(group,items,field){for(const item of items){const button=make('button','finder-choice',item.label);button.type='button';button.dataset.value=item.value;button.setAttribute('aria-pressed',String(state[field]===item.value));button.onclick=()=>{state[field]=item.value;group.querySelectorAll('button').forEach(node=>node.setAttribute('aria-pressed',String(node===button)));update();};group.append(button);}}
+  function buttons(group,items,field){for(const item of items){const button=make('button','finder-choice',item.label);button.type='button';button.dataset.value=item.value;button.setAttribute('aria-pressed',String(state[field]===item.value));button.onclick=()=>{state[field]=item.value;group.querySelectorAll('button').forEach(node=>node.setAttribute('aria-pressed',String(node===button)));update();search?.dispatchEvent(new Event('finderchange'));};group.append(button);}}
   buttons(categoryGroup,[{value:'all',label:'All experiences'},{value:'trek',label:'Treks'},{value:'beach',label:'Beaches'},{value:'heritage',label:'Heritage'},{value:'getaway',label:'Getaways'},{value:'adventure',label:'Adventure'}],'experience');
   const whenLabel=make('p','finder-label','When can you go?');
   buttons(whenGroup,choices(),'when');finder.append(categoryGroup,whenLabel,whenGroup,result,status);

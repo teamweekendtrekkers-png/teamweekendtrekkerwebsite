@@ -146,6 +146,11 @@ const fixtures={
    assert.equal(await page.locator('.traveller-collage img').count(),3);
    await finder.getByRole('button',{name:'Treks',exact:true}).click();
    assert.match(await finder.locator('.finder-results').innerText(),/Show 2 departures/);
+   const heroSearch=page.getByRole('searchbox',{name:'Search destinations or trips',exact:true});
+   await heroSearch.fill('Gokarna');assert.match(await page.locator('#heroSearchResults').innerText(),/No matching trips/);
+   await heroSearch.fill('Coorg');assert.equal(await page.locator('#heroSearchResults .hero-search-result').count(),1);
+   assert.equal(new URL(await page.locator('#heroSearchResults a').last().getAttribute('href'),origin).searchParams.get('experience'),'trek');
+   await heroSearch.fill('');
    await finder.getByRole('button',{name:'Next weekend',exact:true}).click();
    assert.equal(new URL(await finder.locator('.finder-results').getAttribute('href'),origin).searchParams.get('when'),'next-weekend');
    await finder.getByRole('button',{name:'Any date',exact:true}).click();
