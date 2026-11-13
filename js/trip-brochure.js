@@ -224,7 +224,7 @@
             if(cover){
                 if(logo){ctx.save();ctx.beginPath();ctx.arc(114,72,34,0,Math.PI*2);ctx.clip();ctx.drawImage(logo,80,38,68,68);ctx.restore();}
                 draw('Team Weekend Trekkers',logo?166:MARGIN,70,32,true,palette.forest);
-                draw('WEEKEND PLANS. LASTING MEMORIES.',logo?166:MARGIN,103,17,false,palette.muted);
+                draw('YOUR TRIP GUIDE',logo?166:MARGIN,103,17,false,palette.muted);
             }else{
                 draw('TEAM WEEKEND TREKKERS',MARGIN,58,23,true,palette.teal);
                 draw(clippedLabel(model.title,WIDTH-MARGIN*2,25,true),MARGIN,100,25,true,palette.forest);
@@ -244,7 +244,7 @@
         };
         const newPage=async(continued=false)=>{await finish();header();if(continued&&activeDay){draw(clippedLabel(activeDay+' (continued)',1080,22,true),MARGIN,187,22,true,palette.teal);y=215;}};
         const ensure=async(height,continued=false)=>{if(y+height>BOTTOM&&y>176)await newPage(continued);};
-        const paragraph=async(value,{size=25,bold=false,color=palette.ink,indent=0,gap=9}={})=>{
+        const paragraph=async(value,{size=28,bold=false,color=palette.ink,indent=0,gap=12}={})=>{
             const tokens=textFormat?textFormat.runs(value,bold):[{text:String(value),bold,italic:false}];
             const lines=[];let line=[],width=0;
             const trim=units=>{while(units.length&&/\s/u.test(units.at(-1).ch))units.pop();return units;};
@@ -267,22 +267,22 @@
             }
             if(line.length)lines.push(trim(line));
             for(const line of lines){
-                await ensure(size*1.4,true);let x=MARGIN+indent,run=null;
+                await ensure(size*1.45,true);let x=MARGIN+indent,run=null;
                 const output=[];
                 for(const unit of line){if(!run||run.bold!==unit.bold||run.italic!==unit.italic){run={text:'',bold:unit.bold,italic:unit.italic,width:0};output.push(run);}run.text+=unit.ch;run.width+=unit.width;}
                 for(const run of output){draw(run.text,x,y+size,size,run.bold,color,run.italic);x+=run.width;}
-                y+=line.length?size*1.4:size*.65;
+                y+=line.length?size*1.45:size*.65;
             }
             y+=gap;
         };
         header(true);
         if(hero){
-            const top=y,height=420,width=WIDTH-MARGIN*2,scale=Math.max(width/hero.naturalWidth,height/hero.naturalHeight);
+            const top=y,height=340,width=WIDTH-MARGIN*2,scale=Math.max(width/hero.naturalWidth,height/hero.naturalHeight);
             ctx.save();ctx.beginPath();ctx.roundRect(MARGIN,top,width,height,22);ctx.clip();
             const focus=model.cover?.focal;
             const dx=focus==='left'?0:focus==='right'?width-hero.naturalWidth*scale:(width-hero.naturalWidth*scale)/2;
             const dy=focus==='top'?0:focus==='bottom'?height-hero.naturalHeight*scale:(height-hero.naturalHeight*scale)/2;
-            ctx.drawImage(hero,MARGIN+dx,top+dy,hero.naturalWidth*scale,hero.naturalHeight*scale);ctx.restore();y+=450;
+            ctx.drawImage(hero,MARGIN+dx,top+dy,hero.naturalWidth*scale,hero.naturalHeight*scale);ctx.restore();y+=370;
         }else{
             rectangle(MARGIN,y,1080,150,palette.forest,22);draw('YOUR NEXT WEEKEND STARTS HERE',MARGIN+30,y+88,30,true,'#fff');y+=180;
         }
@@ -312,46 +312,18 @@
             }y+=130;
         }
         await finish();header();
-        const columnPair=async(left,right)=>{
-            const prepare=section=>{
-                font(26,true);const heading=wrap(section.heading,line=>ctx.measureText(line).width,486);
-                font(24,false);const paragraphs=section.lines.map(value=>wrap(value,line=>ctx.measureText(line).width,486));
-                const headerHeight=heading.length*36+18;
-                const height=headerHeight+16+paragraphs.reduce((sum,lines)=>sum+lines.length*33.6+10,0);
-                return {heading,paragraphs,headerHeight,height};
-            };
-            const columns=[prepare(left),prepare(right)],height=Math.max(...columns.map(column=>column.height));
-            if(height>1300)return false;
-            activeDay='';await ensure(height+30);y+=22;const top=y;
-            columns.forEach((column,index)=>{
-                const x=MARGIN+index*558;
-                rectangle(x,top,522,column.headerHeight,index?palette.cream:palette.sage,12);
-                column.heading.forEach((line,i)=>draw(line,x+18,top+32+i*36,26,true,palette.forest));
-                let baseline=top+column.headerHeight+39;
-                column.paragraphs.forEach(lines=>{lines.forEach(line=>{if(line)draw(line,x+18,baseline,24,false,palette.ink);baseline+=33.6;});baseline+=10;});
-            });
-            y=top+height+12;return true;
-        };
         for(let index=0;index<model.blocks.length;index++){
             const block=model.blocks[index];
             if(block.kind==='title')continue;
             if(block.group==='contacts')break;
-            if(block.group==='inclusions'||block.group==='packing'){
-                let end=index+1;while(model.blocks[end]?.kind==='body')end++;
-                const partner=model.blocks[end];
-                if(partner?.group===(block.group==='inclusions'?'exclusions':'audience')){
-                    let last=end+1;while(model.blocks[last]?.kind==='body')last++;
-                    if(await columnPair({heading:block.text,lines:model.blocks.slice(index+1,end).map(item=>item.text)},{heading:partner.text,lines:model.blocks.slice(end+1,last).map(item=>item.text)})){index=last-1;continue;}
-                }
-            }
             const heading=block.kind!=='body';
             if(heading){
-                activeDay=block.group==='itinerary'?block.text:'';
-                const size=block.group==='itinerary'?29:28;font(size,true);
+                activeDay=block.text;
+                const size=block.group==='itinerary'?32:30;font(size,true);
                 const lines=wrap(textFormat?textFormat.plain(block.text):block.text,line=>ctx.measureText(line).width,1036);
                 let nextHeight=0;
                 for(let look=index+1;model.blocks[look]?.kind==='body';look++){
-                    font(25,false);nextHeight+=wrap(model.blocks[look].text,line=>ctx.measureText(line).width,1062).length*35+9;if(nextHeight>340)break;
+                    font(28,false);nextHeight+=wrap(textFormat?textFormat.plain(model.blocks[look].text):model.blocks[look].text,line=>ctx.measureText(line).width,1062).length*40.6+12;if(nextHeight>340)break;
                 }
                 const required=lines.length*41+50+(nextHeight<=340?nextHeight:105);
                 await ensure(required);y+=22;
@@ -360,11 +332,11 @@
                 lines.forEach((line,i)=>draw(line,MARGIN+22,y+34+i*41,size,true,block.group==='itinerary'?'#fff':palette.forest));
                 y+=height+15;
             }else{
-                font(25,false);const bullet=/^[•✓✗]/u.test(block.text),indent=bullet?16:0;
+                font(28,false);const bullet=/^[•✓✗]/u.test(block.text),indent=bullet?16:0;
                 const lines=wrap(textFormat?textFormat.plain(block.text):block.text,line=>ctx.measureText(line).width,1080-indent);
-                const needed=lines.length*35+9;
+                const needed=lines.length*40.6+12;
                 if(needed<BOTTOM-230)await ensure(needed,true);
-                await paragraph(block.text,{size:25,indent});
+                await paragraph(block.text,{size:28,indent});
             }
         }
         await finish();
