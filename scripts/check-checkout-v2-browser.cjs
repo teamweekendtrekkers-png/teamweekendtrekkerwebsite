@@ -32,7 +32,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     if(url.pathname.endsWith('-qr.png'))return route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
     try{
      let body=fs.readFileSync(file);
-     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',maxTravellers:${maxTravellers},about:'Meet **local hosts** and *explore*.',cardImage:'images/card-only.jpg',galleryImages:['images/gallery-second.jpg','images/gallery-first.jpg'],price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',itinerary:[{day:'🌞 Day 1',title:'🙏 Traditions & culture',activities:['🌞 **Arrive** in *Kannur*','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']}],highlights:['🔥 Theyyam experience'],contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
+     if(url.pathname==='/js/trips-data.js'){if(delayTripData)await new Promise(resolve=>setTimeout(resolve,350));body=body.toString()+`\ntripsData.demo={...tripsData['kannur-theyyam'],title:'Demo Trip',cardSummary:'',boardingLocations:[{name:'Central pickup',landmark:'Station entrance',time:'9:30 PM',mapLink:'https://maps.google.com/?q=central'},{name:'Second pickup',landmark:'Metro entrance',time:'10:00 PM'}],maxTravellers:${maxTravellers},about:'Meet **local hosts** and *explore*.',cardImage:'images/card-only.jpg',galleryImages:['images/gallery-second.jpg','images/gallery-first.jpg'],price:'₹4,499',isActive:true,availableDates:${JSON.stringify([date,later])},closedDepartures:${JSON.stringify(closed)},departureTime:'22:00',itinerary:[{day:'🌞 Day 1',title:'🙏 Traditions & culture',activities:['🌞 **Arrive** in *Kannur*','👨‍👩‍👧‍👦 Explore together','✈️ Travel safely']}],highlights:['🔥 Theyyam experience','Meet local hosts','Heritage walk','Coastal views','Explore together'],contentSections:{custom_why_choose_us:{mode:'custom',heading:'Why choose us',expanded:true,items:[{title:'Local hosts',description:'Personal support throughout the journey.',icon:'group'}]},custom_hidden:{mode:'hidden',heading:'Hidden section',items:[]}}};`;}
      if(url.pathname==='/js/security.js'){
        const upi='first@upi';let checksum=0;for(const c of upi)checksum=((checksum<<5)-checksum+c.charCodeAt(0))|0;
        body=body.toString().replace(/_p1:\s*\[[^\]]+\]/,'_p1: [102,105,114,115,116]').replace(/_p3:\s*\[[^\]]+\]/,'_p3: [117,112,105]').replace(/_checksum:\s*-?\d+/,'_checksum: '+checksum);
@@ -146,6 +146,22 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.screenshot({path:path.join(output,`checkout-v2-unavailable-${width}.png`)});
    // Gallery dialog owns keyboard focus and restores it on Escape.
    await page.goto(origin+'/trip-detail.html?trip=demo');await page.waitForSelector('#trip-custom_why_choose_us');
+   assert.equal(await page.locator('#tripHeadingSummary').innerText(),'Meet local hosts and explore.');
+   assert.equal(await page.locator('#tripHighlightsPreview li').count(),4);
+   assert.equal(await page.locator('#tripHighlightsOverview').isVisible(),true);
+   await page.getByRole('button',{name:'See all 5 highlights',exact:true}).click();
+   assert.equal(await page.locator('[data-trip-section="highlights"]').evaluate(el=>el.open),true);
+   assert.equal(await page.locator('#pickupTable tbody tr').count(),2);
+   assert.equal(await page.locator('#pickupTable td[data-label="Time"]').first().innerText(),'9:30 PM');
+   assert.equal(await page.locator('#pickupTable .map-link').getAttribute('href'),'https://maps.google.com/?q=central');
+   if(width<768){
+    assert.equal(await page.locator('#pickupTable tbody tr').first().evaluate(el=>getComputedStyle(el).display),'block');
+    assert.ok((await page.locator('#pickupTable .map-link').boundingBox()).height>=44);
+   }
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+   await page.emulateMedia({reducedMotion:'reduce'});
+   assert.equal(await page.locator('#tripHighlightsOverview').evaluate(el=>getComputedStyle(el).animationName),'none');
+   await page.emulateMedia({reducedMotion:'no-preference'});
    assert.deepEqual(await page.evaluate(()=>window.allGalleryImages),['images/gallery-second.jpg','images/gallery-first.jpg']);
    assert.equal(await page.locator('.itinerary-accordion li strong').first().innerText(),'Arrive');
    assert.equal(await page.locator('.itinerary-accordion li em').first().innerText(),'Kannur');
