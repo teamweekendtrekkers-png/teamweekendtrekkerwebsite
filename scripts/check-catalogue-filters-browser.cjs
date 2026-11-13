@@ -70,6 +70,14 @@ const fixtures={
    await experience.selectOption('adventure');assert.deepEqual(await ids(),['coorg']);
    await experience.selectOption('trek');await departure.selectOption('2099-10-23/2099-10-25');
    assert.deepEqual(await ids(),['coorg']);assert.match(await toggle.innerText(),/Filters \(2\)/);
+   assert.equal(await page.locator('.catalogue-filter-chip').count(),3);
+   await page.getByRole('button',{name:'Remove filter: Treks',exact:true}).click();
+   assert.equal(await experience.inputValue(),'all');
+   assert.equal(await departure.inputValue(),'2099-10-23/2099-10-25');
+   assert.equal(await search.inputValue(),' Coorg   Bengaluru ');
+   assert.equal(new URL(page.url()).searchParams.has('experience'),false);
+   assert.deepEqual(await ids(),['coorg']);
+   await experience.selectOption('trek');
    const href=await page.locator('[data-trip-id="coorg"] .trip-footer a').getAttribute('href');
    assert.equal(new URL(href,origin).searchParams.get('date'),'Oct 23-25, 2099');
    const layout=await page.locator('#trip-discovery-controls').evaluate(el=>{
@@ -81,6 +89,11 @@ const fixtures={
    assert.ok(Math.abs(layout.left-layout.searchLeft)<2,'Filter panel aligns with search');
    assert.ok(layout.panelWidth>=layout.searchWidth,'Filter panel spans the search width');
    await page.locator('#trip-discovery-controls').screenshot({path:path.join(output,'filters-open-'+width+'.png')});
+   await page.getByRole('button',{name:'Show 1 trip',exact:true}).click();
+   assert.equal(await toggle.getAttribute('aria-expanded'),'false');
+   assert.equal(await page.locator('#trip-results-status').evaluate(el=>el===document.activeElement),true);
+   assert.equal(await page.locator('.catalogue-filter-chip').count(),3);
+   await toggle.click();
    await departure.focus();await page.keyboard.press('Escape');
    assert.equal(await toggle.getAttribute('aria-expanded'),'false');
    assert.equal(await toggle.evaluate(el=>el===document.activeElement),true);
@@ -108,6 +121,9 @@ const fixtures={
    assert.equal(await page.locator('#show-coming-soon').isChecked(),false);
    assert.equal(await page.locator('[data-filter="all"]').getAttribute('aria-pressed'),'true');
    await search.fill('Coast');await search.fill('');assert.equal((await ids()).length,3);
+   await page.emulateMedia({reducedMotion:'reduce'});
+   assert.equal(await page.locator('.discovery-card').first().evaluate(el=>getComputedStyle(el).animationName),'none');
+   await page.emulateMedia({reducedMotion:'no-preference'});
    await page.goto(origin+'/trips.html?q=Coorg%20Bengaluru');
    await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
    assert.deepEqual(await ids(),['coorg']);

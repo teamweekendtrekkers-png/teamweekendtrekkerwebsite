@@ -1,4 +1,15 @@
 /* Customer journey: warm surfaces, compact information and consistent actions. */
+.catalogue-selected-filters{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin:4px 0 16px}
+.catalogue-filter-chip{display:inline-flex;align-items:center;min-height:44px;max-width:100%;padding:8px 12px;border:1px solid #7c9187;border-radius:22px;background:#e8f3ec;color:#173f35;font:inherit;font-size:14px;line-height:1.4;text-align:left;overflow-wrap:anywhere;cursor:pointer}
+.catalogue-filter-chip:hover{background:#ccdfd2}
+.catalogue-show-results{grid-column:1/-1;min-height:48px;padding:12px 20px;border:1px solid #087f73;border-radius:10px;background:#087f73;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.catalogue-show-results:hover{background:#06695f}
+#trip-results-status{scroll-margin-top:90px}
+@media(prefers-reduced-motion:no-preference){
+ .catalogue-filter-panel:not([hidden]){animation:catalogue-reveal 160ms ease-out}
+ .discovery-card{animation:catalogue-reveal 180ms ease-out}
+ @keyframes catalogue-reveal{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+}
 /* Booking state stays visible even when the full summary is collapsed. */
 .checkout-summary-title,.checkout-summary-facts,.checkout-summary-action{display:block}
 .checkout-summary-title{overflow-wrap:anywhere}
