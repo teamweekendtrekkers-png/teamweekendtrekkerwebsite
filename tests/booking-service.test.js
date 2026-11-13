@@ -33,6 +33,21 @@ test('catalogue generator reflects the actual website settings',()=>{
  assert.equal(result.version,1);assert.ok(Object.keys(result.trips).length>10);
  for(const trip of Object.values(result.trips)) {assert.ok(Number.isFinite(trip.price));for(const departure of trip.departures)assert.ok(Number.isFinite(Date.parse(departure.cutoff)));}
 });
+
+test('published catalogue excludes sold-out dates even without the legacy closed flag',()=>{
+ const fs=require('node:fs'),os=require('node:os'),root=fs.mkdtempSync(path.join(os.tmpdir(),'twt-status-catalog-'));
+ try{
+  fs.mkdirSync(path.join(root,'js'));
+  fs.writeFileSync(path.join(root,'js/booking-config.json'),JSON.stringify({enabled:false}));
+  fs.writeFileSync(path.join(root,'js/commerce-config.json'),JSON.stringify({payment:{},coupons:[]}));
+  fs.writeFileSync(path.join(root,'js/trips-data.js'),'const tripsData={demo:{title:"Demo",price:"4499",availableDates:["Jan 1-3, 2099","Jan 8-10, 2099"],soldOutDepartures:["2099-01-01/2099-01-03"]}};');
+  const result=buildCatalog(root);
+  assert.deepEqual(Array.from(result.trips.demo.departures,row=>row.dateKey),['2099-01-08/2099-01-10']);
+ }finally{
+  if(!path.resolve(root).startsWith(path.resolve(os.tmpdir())+path.sep+'twt-status-catalog-'))throw Error('Unexpected temporary test path');
+  fs.rmSync(root,{recursive:true,force:true});
+ }
+});
 test('publishing rejects privileged or incorrect project keys',()=>{
  const key=role=>'header.'+Buffer.from(JSON.stringify({role,ref:'vdxunrhcahgkwtzvjjdj'})).toString('base64url')+'.signature';
  assert.doesNotThrow(()=>validatePublicConfig({enabled:true,anonKey:key('anon')}));

@@ -22,7 +22,7 @@ function buildCatalog(root) {
     const maxTravellers = trip.maxTravellers ?? 50;
     if (!Number.isInteger(maxTravellers) || maxTravellers < 1 || maxTravellers > 50) throw new Error('Invalid traveller limit for ' + id);
     trips[id] = {maxTravellers, title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
-      departures: (trip.availableDates || []).filter(label => !(trip.closedDepartures || []).includes(dates.parseTripDateRange(label)?.key)).map(label => {
+      departures: (trip.availableDates || []).filter(label => ![...(trip.closedDepartures || []),...(trip.soldOutDepartures || [])].includes(dates.parseTripDateRange(label)?.key)).map(label => {
         const range = dates.parseTripDateRange(label);
         if (!range) throw new Error('Invalid departure for ' + id + ': ' + label);
         return {label, date: range.startKey, dateKey: range.key, cutoff: dates.bookingCutoff(trip, range).toISOString()};

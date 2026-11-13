@@ -1,4 +1,24 @@
 /* Customer journey: warm surfaces, compact information and consistent actions. */
+.hero.homepage-discovery-ready{background:#f7faf7!important;color:#173f35}
+.hero.homepage-discovery-ready>.hero-photo-layer,.hero.homepage-discovery-ready>.hero-overlay{display:none}
+.hero.homepage-discovery-ready h1,.hero.homepage-discovery-ready p{text-shadow:none}
+.homepage-hero-layout{max-width:1320px;margin:auto;display:grid;grid-template-columns:1.05fr 1fr;gap:32px;align-items:center;padding:40px 24px}
+.homepage-hero-layout .hero-content{padding:0;width:100%;min-width:0}
+.hero.homepage-discovery-ready h1{color:#173f35;font-size:clamp(30px,3.5vw,48px)}
+.hero.homepage-discovery-ready .hero-tagline,.hero.homepage-discovery-ready .hero-desc,.hero.homepage-discovery-ready .hero-trust,.hero.homepage-discovery-ready .hero-help{color:#385247}
+.homepage-discovery-ready .hero-buttons{margin:16px 0 0}
+.homepage-discovery-ready:has(.weekend-finder:not([hidden])) .hero-buttons>.btn-primary{display:none}
+.weekend-finder{background:#fff;padding:20px;border:1px solid #ccdcd3;border-radius:18px;margin-top:16px;box-shadow:0 8px 24px #173f350a}
+.weekend-finder h2{font-size:19px;margin:0 0 14px;color:#173f35}
+.finder-choices{display:flex;flex-wrap:wrap;gap:6px}.finder-label{margin:16px 0 8px;font-size:14px;font-weight:600;color:#385247}
+.finder-choice{min-height:44px;padding:8px 12px;border:1px solid #7c9187;border-radius:22px;background:#fff;color:#173f35;font:inherit;font-size:14px;cursor:pointer}
+.finder-choice[aria-pressed="true"]{background:#087f73;color:#fff;border-color:#087f73}.finder-results{display:flex;justify-content:center;margin-top:16px;min-height:48px}.finder-status{font-size:13px;line-height:1.5;margin:10px 0 0;color:#54645d}
+.traveller-collage{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}.traveller-collage img{width:100%;height:220px;object-fit:cover;border-radius:18px}.traveller-collage img:first-child{grid-column:1/-1;height:280px}.traveller-collage figcaption{grid-column:1/-1;color:#385247;font-size:14px;text-align:center}
+.departure-status{display:block;font-size:10px;line-height:1.4;font-weight:600;color:#385247}.departure-status[data-status="confirmed"]{color:#165b31}.departure-status[data-status="sold-out"]{color:#922d14}
+.sold-out-notice{font-size:13px;color:#922d14;line-height:1.5}.booking-card .departure-status{font-size:14px}
+#featured-trips-grid .trip-card-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:14px;line-height:1.5;color:#54645d;min-height:3em}
+@media(prefers-reduced-motion:no-preference){.home-revealed{animation:home-section-reveal 220ms ease-out}@keyframes home-section-reveal{from{opacity:.75;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}}
+@media(max-width:767px){.homepage-hero-layout{grid-template-columns:1fr;padding:28px 16px;gap:24px}.traveller-collage{gap:8px;grid-template-columns:1.2fr 1fr}.traveller-collage img{height:110px;border-radius:12px}.traveller-collage img:first-child{grid-column:auto;grid-row:1/3;height:228px}.traveller-collage figcaption{font-size:12px}.weekend-finder{padding:16px}.finder-choice{font-size:13px;padding:8px 10px}.homepage-discovery-ready .hero-search{margin-top:18px}}
 .trip-heading-summary,.tour-refined .trip-heading-summary{max-width:65ch;color:var(--brand-muted,#54645d);font-size:clamp(16px,2vw,19px);line-height:1.6;margin:12px 0 16px;overflow-wrap:anywhere}
 .trip-highlights-overview{padding:24px 0;background:var(--brand-sage,#e8f3ec)}
 .trip-highlights-overview h2{font-size:22px;margin:0 0 16px}

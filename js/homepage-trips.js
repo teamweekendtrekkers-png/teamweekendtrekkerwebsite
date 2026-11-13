@@ -62,7 +62,7 @@
         }
 
         grid.innerHTML = featuredTrips.map(trip => {
-            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {compact:true});
+            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {compact:true,enhanced:true});
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';
             const title = String(trip.title || '').trim();

@@ -13,12 +13,16 @@
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
   const continueButton=document.getElementById('bookNowBtn');
+  const departureState=document.createElement('p');departureState.id='selectedDepartureStatus';departureState.className='departure-status';departureState.setAttribute('role','status');departureState.hidden=true;select.after(departureState);
+  const soldOutNotice=document.createElement('p');soldOutNotice.className='sold-out-notice';soldOutNotice.hidden=true;departureState.after(soldOutNotice);
   const dateFeedback=document.createElement('p');dateFeedback.id='departureFeedback';dateFeedback.className='booking-date-feedback';dateFeedback.setAttribute('role','status');dateFeedback.hidden=true;select.after(dateFeedback);
   select.setAttribute('aria-describedby',[select.getAttribute('aria-describedby'),'departureFeedback'].filter(Boolean).join(' '));
   const updateBookingAction=()=>{
    const valid=!!TripDecision.matchingDeparture(trip,select.value);
    continueButton.textContent=select.disabled?'Dates unavailable':valid?'Continue to payment':'Choose a departure date';
    continueButton.setAttribute('aria-disabled',String(select.disabled));
+   departureState.hidden=!valid;
+   if(valid){const state=TripDateUtils.departureStatus(trip,TripDateUtils.parseTripDateRange(select.value).key);departureState.textContent=state.label;departureState.dataset.status=state.key;}
    if(valid){dateFeedback.hidden=true;select.removeAttribute('aria-invalid');}
   };
   select.addEventListener('change',updateBookingAction);
@@ -32,6 +36,8 @@
    select.replaceChildren();const placeholder=new Option(ranges.length?'Choose a date':TripDateUtils.unavailableDateLabel(trip,new Date()),'');select.add(placeholder);
    for(const range of ranges)select.add(new Option(range.originalLabel,range.originalLabel));
    select.disabled=!ranges.length;
+   const soldOut=TripDateUtils.getUpcomingDateRanges({...trip,closedDepartures:[],soldOutDepartures:[]},new Date()).filter(range=>(trip.soldOutDepartures||[]).includes(range.key));
+   soldOutNotice.hidden=!soldOut.length;soldOutNotice.textContent=soldOut.length?'Sold out: '+soldOut.map(range=>range.shortLabel).join(', '):'';
    if(ranges.some(range=>range.originalLabel===chosen))select.value=chosen;
    else if(chosen){const notice=document.createElement('p');notice.className='booking-expired';notice.setAttribute('role','status');notice.textContent='The selected departure has closed. Please choose another date.';card.querySelector('.booking-expired')?.remove();select.after(notice);}
    dateChip.textContent=ranges.length?'Next: '+ranges[0].shortLabel:TripDateUtils.unavailableDateLabel(trip,new Date());
