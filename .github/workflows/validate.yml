@@ -210,6 +210,7 @@ jobs:
         npm run test:payment
         npm run test:checkout
         node scripts/check-trip-brochure-browser.cjs
+        node scripts/check-travel-planner-browser.cjs
         node scripts/check-catalogue-filters-browser.cjs
         node scripts/check-editor-presentation-browser.cjs
         node scripts/check-journey-analytics-browser.cjs
