@@ -31,8 +31,8 @@
             grid.innerHTML = `
                 <div class="upcoming-empty">
                     <i class="far fa-calendar-check" aria-hidden="true"></i>
-                    <h3>${filtered ? 'No matching departures' : 'New departures are on the way'}</h3>
-                    <p>${filtered ? 'Try another experience or departure date within our selected upcoming trips.' : 'Browse every adventure now and check back soon for the next batch dates.'}</p>
+                    <h3>${filtered ? 'No matching departures' : 'Explore upcoming dates'}</h3>
+                    <p>${filtered ? 'Try another experience or departure date within our selected upcoming trips.' : 'Browse the full trip list or open the calendar to find your next departure.'}</p>
                     ${filtered ? '<button type="button" class="discovery-reset" data-reset-home>Reset filters</button>' : ''}
                     <a href="trips.html" class="btn btn-primary">Browse All Trips</a>
                 </div>`;

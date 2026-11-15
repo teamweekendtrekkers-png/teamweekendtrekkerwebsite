@@ -94,6 +94,14 @@
     container.append(rail);reviews.before(section);
    }
    if(featured){const help=make('section','planner-section planner-help'),container=make('div','container');help.append(container);container.append(make('h2','','A trip that fits your plans'),make('p','planner-muted','Need help choosing, or planning for friends, family or your team?'),enquiryButton('Help me choose'),enquiryButton('Plan a group trip','','group'));featured.after(help);}
+   // Keep bookable trips and their reviews together before secondary browsing.
+   if(featured){
+    const collections=doc.querySelector('.trip-collections'),moments=doc.querySelector('.travel-moments'),help=doc.querySelector('.planner-help');
+    if(reviews)featured.after(reviews);
+    if(collections)(reviews||featured).after(collections);
+    if(moments)(collections||reviews||featured).after(moments);
+    if(help)(moments||collections||reviews||featured).after(help);
+   }
   }
   if(current){const controls=doc.querySelector('.quick-contact');controls?.append(enquiryButton('Request a callback',current.id),enquiryButton('Plan a group trip',current.id,'group'));}
   // One delegated handler survives catalogue filtering and card refreshes.
