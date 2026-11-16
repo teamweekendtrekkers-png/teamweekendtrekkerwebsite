@@ -26,3 +26,15 @@
 html[data-site-animations="false"]{scroll-behavior:auto!important}
 html[data-site-animations="false"] *,html[data-site-animations="false"] *::before,html[data-site-animations="false"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 html[data-site-animations="false"] .trip-card:hover,html[data-site-animations="false"] .btn:hover,html[data-site-animations="false"] .collection-card:hover,html[data-site-animations="false"] .planner-enquiry:hover{transform:none!important}
+
+@media(prefers-reduced-motion:no-preference){
+ html:not([data-site-animations="false"]) .home-revealed .homepage-info-card{animation:home-card-enter 260ms ease-out both}
+ html:not([data-site-animations="false"]) .home-revealed .homepage-info-card:nth-child(2){animation-delay:40ms}
+ html:not([data-site-animations="false"]) .home-revealed .homepage-info-card:nth-child(3){animation-delay:80ms}
+ @keyframes home-card-enter{from{opacity:.65;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+}
+
+@media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine){
+ html:not([data-site-animations="false"]) .homepage-info-card{transition:transform 180ms ease,box-shadow 180ms ease}
+ html:not([data-site-animations="false"]) .homepage-info-card:hover{transform:translateY(-2px);box-shadow:0 5px 16px #173f3514}
+}

@@ -109,3 +109,48 @@ body[data-site-page] .footer{padding-top:32px}
  .booking-dialog[open]{animation:booking-panel-enter 180ms ease-out}
  @keyframes booking-panel-enter{from{opacity:.6;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 }
+
+/* Compact discovery and a consistent rhythm below the trip cards. */
+.homepage .finder-preferences{border:0;background:transparent;padding:0}
+.homepage .finder-preferences>summary{cursor:pointer;min-height:44px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;list-style:none;color:#173f35}
+.homepage .finder-preferences>summary::-webkit-details-marker{display:none}
+.homepage .finder-preferences-title{font-size:14px;font-weight:700}
+.homepage .finder-preferences>summary:after{content:'+';margin-left:auto;font-size:22px;line-height:1}
+.homepage .finder-preferences[open]>summary:after{content:'−'}
+.homepage .finder-selection{font-size:12px;color:#53695f}
+.homepage .finder-preferences[open]>summary{margin-bottom:10px}
+.homepage .finder-preferences>summary:focus-visible{outline:3px solid #087f73;outline-offset:3px;border-radius:6px}
+.homepage .testimonials,.homepage .homepage-info-section{padding-block:32px}
+.homepage .homepage-info-header{margin-bottom:20px}
+.homepage .homepage-info-card{padding:22px 20px}
+.homepage .reviews-cta{margin-top:20px}
+.homepage .testimonials .section-title{flex-wrap:wrap;gap:8px}
+.homepage .cta-section{padding-block:36px}
+@media(max-width:767px){
+ .homepage .weekend-finder{margin-top:8px}
+ .homepage .weekend-finder h2{font-size:16px;margin-bottom:2px}
+ .homepage .finder-preferences>summary{align-items:flex-start;padding-block:6px;position:relative;padding-right:24px;gap:2px 10px}
+ .homepage .finder-preferences-title,.homepage .finder-selection{flex-basis:100%}
+ .homepage .finder-preferences>summary:after{position:absolute;right:0;top:12px}
+ .homepage .finder-preferences .finder-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .homepage .finder-choice{width:100%;white-space:normal;line-height:1.2;border-radius:10px}
+ .homepage .finder-results{margin-top:8px}
+ .homepage .testimonials,.homepage .homepage-info-section{padding-block:24px}
+ .homepage .homepage-info-header{margin-bottom:16px}
+ .homepage .homepage-info-card{padding:16px 14px}
+ .homepage .how-it-works .homepage-info-grid{gap:10px}
+ .homepage .homepage-info-card p{font-size:14px;line-height:1.5}
+ .homepage .how-it-works .homepage-info-card h3{font-size:16px;margin-bottom:4px}
+ .homepage .cta-section{padding-block:28px}
+ .homepage .cta-section h2{font-size:26px;line-height:1.25}
+ .homepage .cta-section p{margin-bottom:16px}
+}
+
+@media(max-width:767px){
+ .homepage .upcoming-empty{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:12px}
+ .homepage .upcoming-empty h3{font-size:16px;line-height:1.3;margin:0}
+ .homepage .upcoming-empty p{display:none}
+ .homepage .upcoming-empty>.btn{grid-column:2;grid-row:1;font-size:12px;padding:8px 10px;min-height:44px}
+}
+
+@media(min-width:768px){.homepage .finder-preferences>summary{display:none}}

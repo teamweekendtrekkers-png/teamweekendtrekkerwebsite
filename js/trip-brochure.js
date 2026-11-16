@@ -382,6 +382,15 @@
         button.dataset.ready = 'true';
         let generation = 0;
         let pageUrls = [];
+        const previewPanel=document.getElementById('tripBrochurePreview');
+        const pageToolbar=document.createElement('div');pageToolbar.className='trip-brochure-page-tools';
+        const pageLabel=document.createElement('label');pageLabel.htmlFor='tripBrochurePage';pageLabel.textContent='Jump to page';
+        const pageSelect=document.createElement('select');pageSelect.id='tripBrochurePage';pageSelect.disabled=true;
+        pageToolbar.append(pageLabel,pageSelect);previewPanel.before(pageToolbar);
+        pageSelect.addEventListener('change',()=>{
+            const figure=previewPanel.querySelectorAll('figure')[Number(pageSelect.value)-1];
+            if(figure)previewPanel.scrollTo({top:figure.getBoundingClientRect().top-previewPanel.getBoundingClientRect().top+previewPanel.scrollTop,behavior:'auto'});
+        });
         const releasePages = () => { pageUrls.forEach(url => URL.revokeObjectURL(url)); pageUrls = []; };
         document.getElementById('tripBrochureDialog').addEventListener('close', () => {
             generation++; releasePages(); document.getElementById('tripBrochurePreview').replaceChildren();
@@ -394,6 +403,7 @@
             const download = document.getElementById('tripBrochureDownload');
             const share = document.getElementById('tripBrochureShare');
             const retry = document.getElementById('tripBrochureRetry');
+            pageSelect.disabled=true;pageSelect.replaceChildren();
             download.disabled = true; share.hidden = true; download.onclick = null; share.onclick = null;
             retry.hidden = true; releasePages(); preview.replaceChildren(); preview.setAttribute('aria-busy', 'true'); status.textContent = 'Preparing your PDF…';
             if (!dialog.open) dialog.showModal();
@@ -414,13 +424,14 @@
                     const url = URL.createObjectURL(blob); pageUrls.push(url); pageCount = number;
                     const figure = document.createElement('figure'), image = document.createElement('img'), caption = document.createElement('figcaption');
                     image.src = url; image.alt = `${model.title} - PDF page ${number}`; image.width = WIDTH; image.height = HEIGHT;
+                    const option=document.createElement('option');option.value=String(number);option.textContent=`Page ${number}`;pageSelect.append(option);
                     caption.textContent = `Page ${number}`; figure.append(image, caption); preview.append(figure);
                     status.textContent = `Preparing PDF - ${number} ${number === 1 ? 'page' : 'pages'}…`;
                 } });
                 if (request !== generation || !dialog.open) return;
                 const blob = new Blob([bytes], { type: 'application/pdf' });
                 const file = new File([bytes], model.filename, { type: 'application/pdf' });
-                download.disabled = false;
+                download.disabled = false;pageSelect.disabled=false;
                 preview.setAttribute('aria-busy', 'false');
                 const transcript = document.createElement('details'), summary = document.createElement('summary');
                 summary.textContent = 'Read brochure text'; transcript.append(summary);

@@ -44,6 +44,23 @@ const trip=trips[id],template=fs.readFileSync(path.join(root,'trip-detail.html')
   await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));await page.waitForTimeout(80);
   const layout=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,padding:parseFloat(getComputedStyle(document.body).paddingBottom),bar:document.getElementById('mobileBookBtn').getBoundingClientRect().height}));
   assert.equal(layout.overflow,false);if(width<768)assert.ok(layout.padding>=layout.bar);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(origin+'/index.html');
+  const preferences=page.locator('.finder-preferences');await preferences.waitFor();
+  assert.equal(await preferences.evaluate(node=>node.open),width>=768);
+  if(width<768)await preferences.locator('summary').click();
+  await preferences.getByRole('button',{name:'Heritage',exact:true}).click();
+  assert.match(await page.locator('.finder-selection').innerText(),/Heritage/);
+  assert.equal(new URL(await page.locator('.finder-results').getAttribute('href'),origin).searchParams.get('experience'),'heritage');
+  if(width<768){
+   await preferences.locator('summary').click();await page.waitForTimeout(230);
+   assert.equal(await preferences.evaluate(node=>node.open),false);
+   assert.ok(await page.locator('.finder-results').isVisible());
+  }
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  await page.locator('html').evaluate(node=>node.setAttribute('data-site-animations','false'));
+  await page.locator('.homepage-info-card').first().scrollIntoViewIfNeeded();
+  assert.equal(await page.locator('.homepage-info-card').first().evaluate(node=>getComputedStyle(node).animationName),'none');
   assert.deepEqual(errors,[]);results.push({width,...layout});await page.close();
  }}finally{await browser.close();}
  console.log(JSON.stringify({pass:true,results,checks:'Manual gallery, visible controls, animated/reversible disclosures, keyboard, reduced motion, bottom-bar clearance; no external writes.'},null,2));

@@ -23,6 +23,10 @@
   const all=Object.entries(tripsData).map(([id,trip])=>({...trip,id}));
   const make=(tag,cls,text)=>{const node=doc.createElement(tag);node.className=cls||'';if(text!==undefined)node.textContent=text;return node;};
   const finder=make('div','weekend-finder'),heading=make('h2','','Find your kind of weekend');finder.append(heading);
+  const preferences=make('details','finder-preferences'),summary=make('summary'),selection=make('span','finder-selection');
+  summary.append(make('span','finder-preferences-title','Trip preferences'),selection);preferences.append(summary);
+  const mobileFinder=win.matchMedia('(max-width:767px)');preferences.open=!mobileFinder.matches;
+  mobileFinder.addEventListener('change',()=>{if(!mobileFinder.matches)preferences.open=true;});
   const saved=new URLSearchParams(win.location.search),categories=['all','trek','beach','heritage','getaway','adventure'];
   const state={query:'',when:choices().some(item=>item.value===saved.get('when'))?saved.get('when'):'',experience:categories.includes(saved.get('experience'))?saved.get('experience'):'all'};
   const categoryGroup=make('div','finder-choices');categoryGroup.setAttribute('role','group');categoryGroup.setAttribute('aria-label','Choose a trip experience');
@@ -36,14 +40,17 @@
    for(const [key,value] of Object.entries({q:state.query,when:state.when,experience:state.experience==='all'?'':state.experience}))if(value)params.set(key,value);
    result.href='trips.html'+(params.size?'?'+params:'');result.textContent=count?`Show ${count} ${count===1?'departure':'departures'} →`:'Explore trips · no matching dates';
    const text=count?'Choose a departure, then review dates and prices.':'Try another date or experience. You can still browse all trips.';if(status.textContent!==text)status.textContent=text;
+   const experienceLabel=categoryGroup.querySelector('[aria-pressed="true"]')?.textContent||'All experiences';
+   const dateLabel=whenGroup.querySelector('[aria-pressed="true"]')?.textContent||'Any date';
+   selection.textContent=[!categoryGroup.hidden&&experienceLabel,!whenGroup.hidden&&dateLabel].filter(Boolean).join(' · ');
    hidden.when.value=state.when;hidden.experience.value=state.experience==='all'?'':state.experience;
    const url=new URL(win.location.href);for(const key of ['q','when','experience']){if(params.has(key))url.searchParams.set(key,params.get(key));else url.searchParams.delete(key);}if(url.href!==win.location.href)win.history.replaceState(win.history.state,'',url.href);
   }
   function buttons(group,items,field){for(const item of items){const button=make('button','finder-choice',item.label);button.type='button';button.dataset.value=item.value;button.setAttribute('aria-pressed',String(state[field]===item.value));button.onclick=()=>{state[field]=item.value;group.querySelectorAll('button').forEach(node=>node.setAttribute('aria-pressed',String(node===button)));update();search?.dispatchEvent(new Event('finderchange'));};group.append(button);}}
   buttons(categoryGroup,[{value:'all',label:'All experiences'},{value:'trek',label:'Treks'},{value:'beach',label:'Beaches'},{value:'heritage',label:'Heritage'},{value:'getaway',label:'Getaways'},{value:'adventure',label:'Adventure'}],'experience');
   const whenLabel=make('p','finder-label','When can you go?');
-  buttons(whenGroup,choices(),'when');finder.append(categoryGroup,whenLabel,whenGroup,result,status);
-  finder.hidden=!config.discovery.enabled;categoryGroup.hidden=!config.discovery.showExperienceFilter;whenGroup.hidden=whenLabel.hidden=!config.discovery.showWeekendFilter;
+  buttons(whenGroup,choices(),'when');preferences.append(categoryGroup,whenLabel,whenGroup);finder.append(preferences,result,status);
+  finder.hidden=!config.discovery.enabled;categoryGroup.hidden=!config.discovery.showExperienceFilter;whenGroup.hidden=whenLabel.hidden=!config.discovery.showWeekendFilter;preferences.hidden=categoryGroup.hidden&&whenGroup.hidden;
   const searchResults=doc.getElementById('heroSearchResults');(searchResults||form).after(finder);search?.addEventListener('input',update);win.addEventListener('pageshow',update);win.setInterval(update,30000);update();
   const layout=make('div','homepage-hero-layout'),collage=make('figure','traveller-collage');collage.setAttribute('aria-label','Moments from our travel community');
   const photos=[{path:config.hero.backgroundImage,alt:'Travellers sharing a weekend outdoors'},

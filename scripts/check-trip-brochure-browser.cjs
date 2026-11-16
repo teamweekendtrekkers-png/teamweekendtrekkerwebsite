@@ -46,6 +46,11 @@ async function respond(route, origin) {
             await page.waitForFunction(() => !document.getElementById('tripBrochureDownload').disabled && document.getElementById('tripBrochureStatus').textContent.includes('PDF ready'));
             const count = await page.locator('#tripBrochurePreview figure').count();
             assert.ok(count >= 2);
+            assert.equal(await page.locator('#tripBrochurePage option').count(),count);
+            await page.getByLabel('Jump to page',{exact:true}).selectOption(String(count));
+            assert.ok(await page.locator('#tripBrochurePreview').evaluate(node=>node.scrollTop>0));
+            await page.getByLabel('Jump to page',{exact:true}).selectOption('1');
+            assert.ok(await page.locator('#tripBrochurePreview').evaluate(node=>node.scrollTop<20));
             const overflow = await page.locator('#tripBrochureDialog').evaluate(el => el.scrollWidth > el.clientWidth + 1);
             assert.equal(overflow, false, 'Dialog must fit the viewport');
             const controls = await page.locator('#tripBrochureDialog').evaluate(el => ({
