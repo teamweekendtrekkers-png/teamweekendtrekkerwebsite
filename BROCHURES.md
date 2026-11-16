@@ -26,8 +26,11 @@ settings migrations, PDF uploads or GitHub permissions are needed.
 
 Brochures are locally generated, branded, multipage A4 PDFs. Pages are rendered
 as images to preserve system Unicode fonts, rupee symbols and emoji without
-fetching third-party fonts or PDF libraries. The booking footer is clickable.
-Body text is not selectable/searchable and the PDF is not accessibility-tagged.
+fetching third-party fonts or PDF libraries. The booking and WhatsApp footer actions are clickable. A cover overview, hanging
+bullets, labelled pickup details and bold FAQ questions make the guide easier to scan.
+Short sections and itinerary days stay together when they fit a page.
+A searchable text layer preserves the trip wording and bold/italic emphasis.
+PDF bookmarks jump directly to each section. The document is not accessibility-tagged.
 Dates/prices include a reminder to confirm availability before booking.
 
 There are no new packages, CDN scripts, server endpoints or live writes.
