@@ -121,6 +121,7 @@ const fixtures={
    assert.equal(new URL(page.url()).searchParams.has('q'),false);
    assert.equal(await search.inputValue(),'');assert.equal(await experience.inputValue(),'all');assert.equal(await departure.inputValue(),'');
    assert.equal(await reset.isDisabled(),true);assert.equal((await ids()).length,3);
+   if(width<768){assert.equal(await toggle.getAttribute('aria-expanded'),'false');assert.equal(await toggle.evaluate(node=>node===document.activeElement),true);}
    await toggle.click();await experience.selectOption('beach');await search.fill('Coorg');
    assert.equal(await page.locator('.discovery-empty').count(),1);
    await page.locator('[data-reset-results]').click();

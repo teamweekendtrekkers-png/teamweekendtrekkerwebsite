@@ -181,6 +181,7 @@
                     else{anchor.after(group);if(reset)actions.append(reset);}
                 };
                 mobile.addEventListener('change',placeTypes);
+                if(reset)reset.addEventListener('click',()=>{if(mobile.matches){setOpen(false);toggle.focus();}});
             }
             const comingSoon = document.getElementById('show-coming-soon')?.closest('label');
             if (!container.hidden && comingSoon) panel.append(comingSoon);
