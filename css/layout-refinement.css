@@ -104,3 +104,8 @@ body[data-site-page] .footer{padding-top:32px}
 #bookingCard .booking-price-note{display:flex;flex-wrap:wrap;gap:4px 12px;margin-bottom:12px}
 #bookingCard .booking-price-note br{display:none}
 #bookingCard .booking-price-note a{display:inline-flex;align-items:center;min-height:44px}
+
+@media(prefers-reduced-motion:no-preference){
+ .booking-dialog[open]{animation:booking-panel-enter 180ms ease-out}
+ @keyframes booking-panel-enter{from{opacity:.6;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+}

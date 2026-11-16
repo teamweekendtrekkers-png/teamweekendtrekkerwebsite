@@ -22,3 +22,7 @@
  .trip-card:hover,.btn:hover,.tour-refined .btn:hover,.gallery-main:hover img{transform:none!important}
 }
 @media print{body:has(#mobileBookBtn){padding-bottom:0}}
+
+html[data-site-animations="false"]{scroll-behavior:auto!important}
+html[data-site-animations="false"] *,html[data-site-animations="false"] *::before,html[data-site-animations="false"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html[data-site-animations="false"] .trip-card:hover,html[data-site-animations="false"] .btn:hover,html[data-site-animations="false"] .collection-card:hover,html[data-site-animations="false"] .planner-enquiry:hover{transform:none!important}
