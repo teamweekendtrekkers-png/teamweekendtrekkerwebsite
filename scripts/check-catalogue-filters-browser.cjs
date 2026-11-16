@@ -107,7 +107,7 @@ const fixtures={
     assert.equal(await reset.evaluate(node=>node.parentElement.classList.contains('catalogue-filter-panel')),true);
     assert.ok(await search.evaluate(node=>node.getBoundingClientRect().width>=120));
    }
-   assert.equal(await reset.isVisible(),true);
+   assert.equal(await reset.isVisible(),width>=768);
    const savedFilters=page.url();
    await page.goto(origin+'/trips.html?q=Coast');
    await page.goBack();await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
@@ -117,7 +117,7 @@ const fixtures={
    assert.equal(await experience.inputValue(),'trek');assert.equal(await departure.inputValue(),'2099-10-23/2099-10-25');
    await page.reload();await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
    assert.deepEqual(await ids(),['coorg']);assert.equal(await experience.inputValue(),'trek');
-   await reset.click();
+   if(!(await reset.isVisible()))await toggle.click();await reset.click();
    assert.equal(new URL(page.url()).searchParams.has('q'),false);
    assert.equal(await search.inputValue(),'');assert.equal(await experience.inputValue(),'all');assert.equal(await departure.inputValue(),'');
    assert.equal(await reset.isDisabled(),true);assert.equal((await ids()).length,3);
@@ -128,7 +128,7 @@ const fixtures={
    if(!(await page.locator('[data-filter="roadtrip"]').isVisible()))await toggle.click();
    await page.locator('[data-filter="roadtrip"]').click();await page.locator('#show-coming-soon').check();
    assert.match(await toggle.innerText(),/Filters \(2\)/);
-   assert.equal(await reset.isEnabled(),true);await reset.click();
+   assert.equal(await reset.isEnabled(),true);if(!(await reset.isVisible()))await toggle.click();await reset.click();
    assert.equal(await page.locator('#show-coming-soon').isChecked(),false);
    assert.equal(await page.locator('[data-filter="all"]').getAttribute('aria-pressed'),'true');
    await search.fill('Coast');await search.fill('');assert.equal((await ids()).length,3);
