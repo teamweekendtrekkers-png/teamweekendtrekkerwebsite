@@ -151,3 +151,18 @@ test('PDF Unicode text layer and both contact links survive serialization',()=>{
     assert.equal((source.match(/\/Subtype \/Link/g)||[]).length,2);assert.match(source,/3 Tr/);
 });
 
+
+test('PDF bookmarks point to real pages and preserve Unicode section titles',()=>{
+ const jpeg=new Uint8Array([255,216,255,217]);
+ const source=Buffer.from(brochure.encodePdf([jpeg,jpeg],'',{bookmarks:[
+  {title:'Pickup ₹',page:1,y:200},{title:'Invalid',page:12,y:100}
+ ]})).toString('latin1');
+ assert.match(source,/\/Type \/Outlines/);
+ assert.match(source,/\/Dest \[7 0 R \/XYZ null 745\.89 null\]/);
+ assert.ok(source.includes('FEFF005000690063006b00750070002020b9'));
+ assert.ok(!source.includes('FEFF0049006e00760061006c00690064'));
+ const xref=Number(source.match(/startxref\n(\d+)/)[1]);
+ assert.equal(source.slice(xref,xref+4),'xref');
+ for(const [index,match] of [...source.matchAll(/^(\d{10}) 00000 n /gm)].entries())
+  assert.ok(source.slice(Number(match[1])).startsWith((index+1)+' 0 obj\n'));
+});

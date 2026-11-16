@@ -17,7 +17,7 @@
         const blocks = [{ kind: 'title', text: title }];
         const section = (heading, lines, metadata = {}) => {
             if (!lines.length) return;
-            blocks.push({ kind: 'heading', text: heading, ...metadata }, ...lines.map(value => ({ kind: 'body', text: value })));
+            blocks.push({ kind: 'heading', text: heading, ...metadata }, ...lines.map(value => ({ kind: 'body', text: value, ...metadata })));
         };
         const config = options.contentConfig || { sections: {} };
         const resolve = key => content.section(trip, config, key);
@@ -53,14 +53,14 @@
         section('Inclusions', items(trip.includes || trip.inclusions).map(value => '• ' + value), {group:'inclusions'});
         section('Exclusions', items(trip.excludes || trip.exclusions).map(value => '• ' + value), {group:'exclusions'});
         const boarding = Array.isArray(trip.boardingLocations) && trip.boardingLocations.some(point => point && text(point.name) && text(point.time)) ? trip.boardingLocations : options.boardingPoints || [];
-        section('Boarding points', boarding.filter(point => point && text(point.name) && text(point.time)).map(point => [text(point.name), text(point.time), text(point.landmark)].filter(Boolean).join(' — ')));
+        section('Boarding points', boarding.filter(point => point && text(point.name) && text(point.time)).map(point => [text(point.name), text(point.time), text(point.landmark)].filter(Boolean).join(' — ')), {group:'boarding'});
         section('Things to carry', lists.getItems(trip, 'thingsToCarry').map(value => '• ' + value), {group:'packing'});
         section('Perfect for', lists.getItems(trip, 'perfectFor'), {group:'audience'});
         for (const extra of content.extraSections(trip)) {
             section(text(extra.heading), extra.items.map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')));
         }
         const guidelines = resolve('guidelines');
-        section(text(guidelines?.heading) || 'Trip guidelines', visibleItems(guidelines).map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')).filter(Boolean));
+        section(text(guidelines?.heading) || 'Trip guidelines', visibleItems(guidelines).map(item => [text(item.title), text(item.description)].filter(Boolean).join('\n')).filter(Boolean), {group:'guidelines'});
         const cancellation = resolve('cancellation');
         section(text(cancellation?.heading) || 'Cancellation policy', [
             ...visibleItems(cancellation).filter(rule => Number.isFinite(rule.minDays) && Number.isFinite(rule.percent))
@@ -68,7 +68,7 @@
             ...items([cancellation?.refundNote, cancellation?.changeNote])
         ]);
         const faqs = resolve('faqs');
-        section(text(faqs?.heading) || 'Frequently asked questions', visibleItems(faqs).map(item => [text(item.question), text(item.answer)].filter(Boolean).join('\n')).filter(Boolean));
+        section(text(faqs?.heading) || 'Frequently asked questions', visibleItems(faqs).map(item => [text(item.question), text(item.answer)].filter(Boolean).join('\n')).filter(Boolean), {group:'faqs'});
         const id = text(trip.publicSlug || trip.id);
         const bookingUrl = /^[a-z0-9][a-z0-9_-]*$/.test(id) ? `https://www.teamweekendtrekkers.com/trips/${encodeURIComponent(id)}/` : 'https://www.teamweekendtrekkers.com/trips.html';
         let phone = text(options.whatsapp).replace(/[^0-9]/g, '');
@@ -146,11 +146,13 @@
         let next=3;
         const pages=images.map(()=>({page:next++,image:next++,content:next++,booking:next++,whatsapp:whatsapp?next++:null}));
         fonts.forEach(font=>{font.object=next++;font.cmap=next++;});
+        const bookmarks=(options.bookmarks||[]).filter(item=>item && typeof item.title==='string' && Number.isInteger(item.page) && item.page>=0 && item.page<pages.length && Number.isFinite(item.y)).map(item=>({...item,object:next++}));
+        const outline=bookmarks.length?next++:null;
         const info=next++,chunks=[],offsets=[0];let length=0;
         const append=value=>{const bytes=typeof value==='string'?ascii(value):value;chunks.push(bytes);length+=bytes.length;};
         const object=(id,body,stream)=>{offsets[id]=length;append(id+' 0 obj\n'+body);if(stream){append('\nstream\n');append(stream);append('\nendstream');}append('\nendobj\n');};
         append('%PDF-1.4\n');
-        object(1,'<< /Type /Catalog /Pages 2 0 R /Lang (en-IN) >>');
+        object(1,'<< /Type /Catalog /Pages 2 0 R /Lang (en-IN)'+(outline?' /Outlines '+outline+' 0 R /PageMode /UseOutlines':'')+' >>');
         object(2,'<< /Type /Pages /Count '+pages.length+' /Kids ['+pages.map(page=>page.page+' 0 R').join(' ')+'] >>');
         pages.forEach((page,index)=>{
             const jpeg=images[index];
@@ -174,6 +176,10 @@
             object(font.object,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica'+(font.bold&&font.italic?'-BoldOblique':font.bold?'-Bold':font.italic?'-Oblique':'')+' /Encoding /WinAnsiEncoding /FirstChar 1 /LastChar '+font.glyphs.size+' /Widths ['+font.widths.join(' ')+'] /ToUnicode '+font.cmap+' 0 R >>');
             object(font.cmap,'<< /Length '+cmap.length+' >>',cmap);
         });
+        if(outline){
+            object(outline,'<< /Type /Outlines /First '+bookmarks[0].object+' 0 R /Last '+bookmarks.at(-1).object+' 0 R /Count '+bookmarks.length+' >>');
+            bookmarks.forEach((item,index)=>object(item.object,'<< /Title <FEFF'+unicode(item.title)+'> /Parent '+outline+' 0 R'+(index?' /Prev '+bookmarks[index-1].object+' 0 R':'')+(index+1<bookmarks.length?' /Next '+bookmarks[index+1].object+' 0 R':'')+' /Dest ['+pages[item.page].page+' 0 R /XYZ null '+((HEIGHT-Math.max(0,Math.min(HEIGHT,item.y)))*841.89/HEIGHT).toFixed(2)+' null] >>'));
+        }
         object(info,'<< /Title <FEFF'+unicode(textFormat?textFormat.plain(options.title||'Trip brochure'):options.title||'Trip brochure')+'> /Author (Team Weekend Trekkers) /Subject (Trip itinerary and travel essentials) >>');
         const start=length;
         append('xref\n0 '+next+'\n0000000000 65535 f \n');
@@ -187,7 +193,7 @@
         const canvas=document.createElement('canvas');canvas.width=WIDTH;canvas.height=HEIGHT;
         const ctx=canvas.getContext('2d');if(!ctx)throw new Error('PDF generation is unavailable in this browser.');
         if(document.fonts?.ready)await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,2500))]);
-        const images=[],textPages=[];let pageText=[],y=190,activeDay='';
+        const images=[],textPages=[],bookmarks=[{title:'Trip summary',page:0,y:0}];let pageText=[],y=190,activeDay='';
         const palette={forest:'#173f35',teal:'#087f73',sage:'#e8f3ec',cream:'#fff8ef',ink:'#253b33',muted:'#53695f',line:'#cfdfd5'};
         const segmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
         const font=(size,bold,italic=false)=>{ctx.font=(italic?'italic ':'')+(bold?'bold ':'')+size+'px Arial, sans-serif';};
@@ -311,6 +317,19 @@
                 draw('Save '+money(model.cover.originalPrice-model.cover.price),MARGIN+630,y+75,24,true,palette.teal);
             }y+=130;
         }
+        const guideItems=[
+            ['itinerary','Day-by-day itinerary'],['inclusions','Inclusions & exclusions'],
+            ['boarding','Pickup points & timings'],['packing','Packing checklist'],
+            ['guidelines','Traveller guidelines'],['faqs','Questions & answers'],
+        ].filter(([group])=>model.blocks.some(block=>block.group===group)).map(([,label])=>label);
+        const guideHeight=78+Math.ceil(guideItems.length/2)*42;
+        if(guideItems.length && y+guideHeight<BOTTOM-12){
+            y+=20;draw('INSIDE YOUR GUIDE',MARGIN,y+24,20,true,palette.teal);y+=44;
+            guideItems.forEach((label,index)=>{
+                const x=MARGIN+(index%2)*552,top=y+Math.floor(index/2)*42;
+                draw('• '+label,x,top+27,24,false,palette.ink);
+            });
+        }
         await finish();header();
         for(let index=0;index<model.blocks.length;index++){
             const block=model.blocks[index];
@@ -323,10 +342,13 @@
                 const lines=wrap(textFormat?textFormat.plain(block.text):block.text,line=>ctx.measureText(line).width,1036);
                 let nextHeight=0;
                 for(let look=index+1;model.blocks[look]?.kind==='body';look++){
-                    font(28,false);nextHeight+=wrap(textFormat?textFormat.plain(model.blocks[look].text):model.blocks[look].text,line=>ctx.measureText(line).width,1062).length*40.6+12;if(nextHeight>340)break;
+                    font(28,false);nextHeight+=wrap(textFormat?textFormat.plain(model.blocks[look].text):model.blocks[look].text,line=>ctx.measureText(line).width,1062).length*40.6+12;if(nextHeight>BOTTOM-250)break;
                 }
-                const required=lines.length*41+50+(nextHeight<=340?nextHeight:105);
+                const headingHeight=lines.length*41+50;
+                const keepLimit=block.group==='itinerary'?BOTTOM-200-headingHeight:500;
+                const required=headingHeight+(nextHeight<=keepLimit?nextHeight:105);
                 await ensure(required);y+=22;
+                bookmarks.push({title:textFormat?textFormat.plain(block.text):block.text,page:images.length,y:y-12});
                 const height=lines.length*41+18;
                 rectangle(MARGIN,y,1080,height,block.group==='itinerary'?palette.forest:palette.sage,12);
                 lines.forEach((line,i)=>draw(line,MARGIN+22,y+34+i*41,size,true,block.group==='itinerary'?'#fff':palette.forest));
@@ -334,13 +356,24 @@
             }else{
                 font(28,false);const bullet=/^[•✓✗]/u.test(block.text),indent=bullet?16:0;
                 const lines=wrap(textFormat?textFormat.plain(block.text):block.text,line=>ctx.measureText(line).width,1080-indent);
-                const needed=lines.length*40.6+12;
+                const needed=lines.length*40.6+(['boarding','faqs','guidelines'].includes(block.group)?42:12);
                 if(needed<BOTTOM-230)await ensure(needed,true);
-                await paragraph(block.text,{size:28,indent});
+                if((block.group==='faqs'||block.group==='guidelines') && block.text.includes('\n')){
+                    const [lead,...rest]=block.text.split('\n');
+                    await paragraph(lead,{size:28,bold:true,gap:4});
+                    await paragraph(rest.join('\n'),{size:28,gap:18});
+                }else if(block.group==='boarding'){
+                    const [place,...details]=block.text.split(' — ');
+                    await paragraph(place,{size:28,bold:true,gap:4});
+                    if(details.length)await paragraph(details.join(' · '),{size:28,color:palette.muted,gap:18});
+                }else if(block.text.startsWith('• ')){
+                    draw('•',MARGIN,y+28,28,false,palette.teal);
+                    await paragraph(block.text.slice(2),{size:28,indent:32});
+                }else await paragraph(block.text,{size:28,indent});
             }
         }
         await finish();
-        return encodePdf(images,model.bookingUrl,{textPages,title:model.title,selectedBookingUrl:model.selectedBookingUrl,whatsappUrl:model.whatsappUrl});
+        return encodePdf(images,model.bookingUrl,{textPages,bookmarks,title:model.title,selectedBookingUrl:model.selectedBookingUrl,whatsappUrl:model.whatsappUrl});
     }
 
     function init(document) {
