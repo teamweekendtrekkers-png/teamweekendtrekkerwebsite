@@ -142,6 +142,8 @@ const fixtures={
    discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
    await page.goto(origin+'/index.html');await page.waitForSelector('.weekend-finder');
    const finder=page.locator('.weekend-finder');
+   const preferences=finder.locator('.finder-preferences');
+   if(!(await preferences.evaluate(node=>node.open)))await preferences.locator('summary').click();
    assert.match(await finder.locator('.finder-results').innerText(),/Show 4 departures/);
    assert.equal(await page.locator('.traveller-collage img').count(),3);
    await finder.getByRole('button',{name:'Treks',exact:true}).click();
