@@ -158,7 +158,7 @@
         const fields = [...container.querySelectorAll('.discovery-field:not(.discovery-search)')];
         const actions = document.createElement('div'); actions.className = 'catalogue-search-actions';
         container.classList.toggle('catalogue-controls-only', !container.querySelector('.discovery-search'));
-        let toggle, caption, resultsButton;
+        let toggle, caption, resultsButton, placeTypes=()=>{};
         if (fields.length) {
             const panel = document.createElement('div'); panel.id = container.id + '-panel'; panel.className = 'catalogue-filter-panel'; panel.hidden = true;
             toggle = document.createElement('button'); toggle.type = 'button'; toggle.className = 'catalogue-filter-toggle';
@@ -170,6 +170,18 @@
             toggle.addEventListener('click', () => setOpen(panel.hidden));
             panel.addEventListener('keydown', event => { if (event.key === 'Escape') { event.preventDefault(); setOpen(false); toggle.focus(); } });
             fields.forEach(field => panel.append(field));
+            const types=document.querySelector('.filter-buttons'),typeHint=document.querySelector('.filter-context');
+            if(types && typeHint && !container.hidden){
+                const anchor=document.createComment('Trip types position');typeHint.before(anchor);
+                const group=document.createElement('div');group.className='catalogue-trip-types';anchor.after(group);group.append(typeHint,types);
+                const mobile=document.defaultView.matchMedia('(max-width:767px)'),originalHint=typeHint.textContent;
+                placeTypes=()=>{
+                    typeHint.textContent=mobile.matches?'Trip type':originalHint;
+                    if(mobile.matches){panel.prepend(group);if(reset)panel.insertBefore(reset,resultsButton);}
+                    else{anchor.after(group);if(reset)actions.append(reset);}
+                };
+                mobile.addEventListener('change',placeTypes);
+            }
             const comingSoon = document.getElementById('show-coming-soon')?.closest('label');
             if (!container.hidden && comingSoon) panel.append(comingSoon);
             resultsButton = document.createElement('button'); resultsButton.type = 'button'; resultsButton.className = 'catalogue-show-results';
@@ -181,9 +193,9 @@
             panel.append(resultsButton);
             actions.append(toggle); container.append(actions, panel);
         } else container.append(actions);
-        if (reset) actions.append(reset);
+        if (reset) actions.append(reset);placeTypes();
         return { update: (state, resultCount) => {
-            const count = Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure)) + Number(Boolean(state.showComingSoon)) + Number(Boolean(state.when));
+            const count = Number(Boolean(state.category && state.category !== 'all')) + Number(Boolean(state.experience && state.experience !== 'all')) + Number(Boolean(state.departure)) + Number(Boolean(state.showComingSoon)) + Number(Boolean(state.when));
             if (caption) caption.textContent = count ? `Filters (${count})` : 'Filters';
             if (toggle) toggle.classList.toggle('has-filters', count > 0);
             if (reset) reset.disabled = !(state.query || count || (state.category && state.category !== 'all') || state.showComingSoon);

@@ -154,3 +154,29 @@ body[data-site-page] .footer{padding-top:32px}
 }
 
 @media(min-width:768px){.homepage .finder-preferences>summary{display:none}}
+
+/* Keep mobile trip browsing focused on search and results. */
+.catalogue-trip-types{display:contents}
+@media(max-width:767px){
+ body[data-site-page="trips"] .catalogue-filter-panel .catalogue-trip-types{display:block;grid-column:1/-1}
+ body[data-site-page="trips"] .catalogue-trip-types .filter-context{font-size:14px;font-weight:600;margin-bottom:8px}
+ body[data-site-page="trips"] .catalogue-trip-types .filter-buttons{gap:6px}
+ body[data-site-page="trips"] .discovery-field input,body[data-site-page="trips"] .discovery-field select{font-size:16px}
+ body[data-site-page="trips"] .page-header{padding-bottom:16px}
+ body[data-site-page="trips"] .filter-section{padding-bottom:8px}
+ body[data-site-page="trips"] .catalogue-status{margin-bottom:12px}
+ body[data-site-page="trips"] .trips-grid{gap:16px}
+ #tripsDynamicGrid .trip-content{padding:14px}
+ #tripsDynamicGrid .trip-content h3{font-size:18px;line-height:1.35;margin-bottom:6px}
+ #tripsDynamicGrid .trip-location{margin:0 0 10px;line-height:1.4}
+ #tripsDynamicGrid .trip-dates{margin-bottom:10px}
+ #tripsDynamicGrid .trip-meta{margin-bottom:6px;gap:6px 12px}
+ #tripsDynamicGrid .trip-departure-city{margin:0 0 8px;font-size:13px;line-height:1.4}
+ #tripsDynamicGrid .trip-footer{padding-top:10px;gap:8px}
+ body[data-site-page="trips"] .whatsapp-float{display:none!important}
+}
+
+@media(max-width:767px){
+ body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset{grid-column:1/-1;width:100%}
+ body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset:disabled{display:none}
+}
