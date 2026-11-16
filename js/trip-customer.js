@@ -13,13 +13,14 @@
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
   const continueButton=document.getElementById('bookNowBtn');
+  const nextStep=document.createElement('p');nextStep.className='booking-next-step';nextStep.textContent='Next: traveller details, then UPI payment. Our team reviews payment and availability before confirming your place.';continueButton.after(nextStep);
   const departureState=document.createElement('p');departureState.id='selectedDepartureStatus';departureState.className='departure-status';departureState.setAttribute('role','status');departureState.hidden=true;select.after(departureState);
   const soldOutNotice=document.createElement('p');soldOutNotice.className='sold-out-notice';soldOutNotice.hidden=true;departureState.after(soldOutNotice);
   const dateFeedback=document.createElement('p');dateFeedback.id='departureFeedback';dateFeedback.className='booking-date-feedback';dateFeedback.setAttribute('role','status');dateFeedback.hidden=true;select.after(dateFeedback);
   select.setAttribute('aria-describedby',[select.getAttribute('aria-describedby'),'departureFeedback'].filter(Boolean).join(' '));
   const updateBookingAction=()=>{
    const valid=!!TripDecision.matchingDeparture(trip,select.value);
-   continueButton.textContent=select.disabled?'Dates unavailable':valid?'Continue to payment':'Choose a departure date';
+   continueButton.textContent=select.disabled?'Dates unavailable':valid?'Continue to traveller details':'Choose a departure date';
    continueButton.setAttribute('aria-disabled',String(select.disabled));
    departureState.hidden=!valid;
    if(valid){const state=TripDateUtils.departureStatus(trip,TripDateUtils.parseTripDateRange(select.value).key);departureState.textContent=state.label;departureState.dataset.status=state.key;}

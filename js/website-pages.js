@@ -2,7 +2,7 @@
  const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;
  else {root.WebsitePages=api;const start=async()=>{
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5000);
-  try{const response=await root.fetch('/js/homepage-config.json',{cache:'no-cache',signal:controller.signal});if(response.ok){const data=await response.json();if(data?.version===1)api.apply(data,root.document);}}
+  try{const response=await root.fetch('/js/homepage-config.json',{cache:'no-cache',signal:controller.signal});if(response.ok){const data=await response.json();if(data?.version===1){api.apply(data,root.document);if(!root.document.querySelector('.hero'))root.SitePresentation?.apply(data,root.document,root);}}}
   catch(_){}finally{clearTimeout(timeout);}
  };if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',start,{once:true});else start();}
 }(typeof globalThis!=='undefined'?globalThis:this,function(){

@@ -3,9 +3,10 @@
  document.addEventListener('DOMContentLoaded', () => queueMicrotask(() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Map();
+  const motionOff = () => reduced.matches || document.documentElement.getAttribute('data-site-animations') === 'false';
   function animateHeight(node, from, to, finish) {
    running.get(node)?.();
-   if (reduced.matches || !node.animate) { finish(); return; }
+   if (motionOff() || !node.animate) { finish(); return; }
    const animation = node.animate([{height: from+'px'}, {height: to+'px'}], {duration:180, easing:'ease-out'});
    node.style.overflow = 'hidden';
    let done = false;
@@ -19,7 +20,7 @@
    const summary = event.target.closest('summary');
    if (!summary || event.defaultPrevented || event.target.closest('a,button,input')) return;
    const panel = summary.parentElement;
-   if (panel.tagName !== 'DETAILS' || reduced.matches || !panel.animate) return;
+   if (panel.tagName !== 'DETAILS' || motionOff() || !panel.animate) return;
    event.preventDefault();
    running.get(panel)?.();
    const wasOpen = panel.open, from = panel.getBoundingClientRect().height;
@@ -30,7 +31,7 @@
   });
   // Existing itinerary handlers keep control of which day is open.
   document.addEventListener('click', event => {
-   if (!event.target.closest('.accordion-header')) return;
+   if (motionOff() || !event.target.closest('.accordion-header')) return;
    const panels = [...document.querySelectorAll('.accordion-content')];
    panels.forEach(panel => running.get(panel)?.());
    const heights = panels.map(panel => panel.getBoundingClientRect().height);

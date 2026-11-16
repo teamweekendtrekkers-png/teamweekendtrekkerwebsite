@@ -1,7 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const presentation=require('../js/site-presentation');
 test('appearance accepts only approved palettes, safe photos and bounded motion',()=>{
- const valid={preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMobileFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
+ const valid={animationsEnabled:true,preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMobileFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
  assert.deepEqual(presentation.normalize(valid),valid);
  for(const preset of ['__proto__','constructor','evil'])assert.equal(presentation.normalize({preset}).preset,'forest');
  for(const image of ['javascript:alert(1)','images/../secret','https://user:pass@example.com/a','https://[/bad','images/a.jpg")'])assert.equal(presentation.normalize({heroMobileImage:image,heroSlides:[image]}).heroMobileImage,'');
@@ -28,4 +28,14 @@ test('responsive fallback clears stale candidates before switching images',()=>{
  assert.equal(image.src,'images/960.webp');assert.equal(image.style.objectPosition,'top');assert.match(image.srcset,/320w/);
  context.ResponsiveImages.set(image,'https://example.com/external.jpg',{focal:'url(evil)'});
  assert.equal(image.srcset,'');assert.equal(image.style.objectPosition,'center');assert.equal(image.src,'https://example.com/external.jpg');
+});
+
+test('manager animation choice applies on pages without a hero',()=>{
+ const attributes={};
+ const document={documentElement:{style:{setProperty(){}},setAttribute(key,value){attributes[key]=value;}},querySelector:()=>null};
+ presentation.apply({presentation:{animationsEnabled:false}},document,{});
+ assert.equal(attributes['data-site-animations'],'false');
+ presentation.apply({presentation:{}},document,{});
+ assert.equal(attributes['data-site-animations'],'true');
+ assert.equal(presentation.normalize({animationsEnabled:'false'}).animationsEnabled,true);
 });

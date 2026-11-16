@@ -194,7 +194,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.match(await page.locator('#departureFeedback').innerText(),/Choose a departure date/);
    assert.equal(new URL(page.url()).pathname,'/trip-detail.html','No navigation before choosing a date');
    await page.selectOption('#dateSelect',later);
-   assert.equal(await page.locator('#bookNowBtn').innerText(),'Continue to payment');
+   assert.equal(await page.locator('#bookNowBtn').innerText(),'Continue to traveller details');
    assert.equal(await page.locator('#departureFeedback').isVisible(),false);
    if(width<768)await page.locator('.booking-dialog-close').click();
    await open(later,7);
