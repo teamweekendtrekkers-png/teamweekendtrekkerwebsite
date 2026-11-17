@@ -197,7 +197,7 @@ body[data-site-page] .footer{padding-top:32px}
  body[data-site-page="trip-detail"].tour-refined .content-section{margin-bottom:12px}
  body[data-site-page="trip-detail"].tour-refined .trip-section-body{padding:12px 14px}
  body[data-site-page="trip-detail"].tour-refined .trip-section>summary,body[data-site-page="trip-detail"].tour-refined .mobile-section>summary{padding:12px 14px}
- .checkout-page .optional-fields>summary,.checkout-page .checkout-help>summary,.checkout-page .mobile-trip-summary>summary{min-height:44px;display:flex;align-items:center}
+
 }
 @media(max-width:359px){
  body[data-site-page="trip-detail"].tour-refined #bookNowBtn{font-size:14px}
