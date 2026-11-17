@@ -57,6 +57,18 @@
   const dialog=document.createElement('dialog');dialog.className='booking-dialog';dialog.setAttribute('aria-label','Choose date and travellers');
   const close=document.createElement('button');close.className='booking-dialog-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close date selection');dialog.append(close);document.body.append(dialog);
   const anchor=document.createComment('Booking card position');card.before(anchor);
+  // Move the same form, including its values and handlers, into the reading order on phones.
+  const desktopAnchor=document.createComment('Desktop booking position');anchor.before(desktopAnchor);
+  const mobileBooking=document.createElement('section');mobileBooking.className='mobile-booking-section';mobileBooking.setAttribute('aria-label','Trip dates and price');
+  const mobileContainer=document.createElement('div');mobileContainer.className='container';mobileBooking.append(mobileContainer);
+  document.getElementById('tripHeroGallery').after(mobileBooking);
+  const phoneLayout=matchMedia('(max-width:767px)');
+  function placeBooking(){
+   mobileBooking.hidden=!phoneLayout.matches;
+   if(phoneLayout.matches)mobileContainer.append(anchor);else desktopAnchor.after(anchor);
+   if(!dialog.open)anchor.after(card);
+  }
+  placeBooking();phoneLayout.addEventListener('change',()=>{if(dialog.open)dialog.close();placeBooking();});
   close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>anchor.after(card));
   card.querySelectorAll('.booking-package-link,.booking-pickup-link').forEach(link=>link.addEventListener('click',event=>{
    event.preventDefault();if(dialog.open)dialog.close();
