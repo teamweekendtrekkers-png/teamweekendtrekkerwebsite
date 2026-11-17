@@ -1,2 +1,5 @@
 [functions.booking-request]
 verify_jwt = true
+
+[functions.google-reviews]
+verify_jwt = true

@@ -130,6 +130,7 @@
     },
     "reviews": {
         "enabled": true,
+        "source": "manual",
         "title": "Google Reviews",
         "rating": "4.8",
         "googleMapsUrl": "https://maps.app.goo.gl/6ZimFRc231p2BWMv6",
@@ -233,6 +234,7 @@
                     if (key !== 'googleMapsUrl' || safeGoogleMapsUrl(input[key])) section[key] = input[key].trim();
                 }
             }
+            if (name === 'reviews') section.source = input.source === 'google' ? 'google' : 'manual';
             if (name === 'reviews' && Number.isInteger(input.intervalSeconds) && input.intervalSeconds >= 4 && input.intervalSeconds <= 30) section.intervalSeconds = input.intervalSeconds;
             if (name === 'reviews' && (!Number.isFinite(Number(section.rating)) || Number(section.rating) < 1 || Number(section.rating) > 5)) section.rating = defaults.reviews.rating;
             if (!Array.isArray(input.items)) continue;
