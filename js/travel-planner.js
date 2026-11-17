@@ -93,7 +93,7 @@
     }
     container.append(rail);reviews.before(section);
    }
-   if(featured){const help=make('section','planner-section planner-help'),container=make('div','container');help.append(container);container.append(make('h2','','A trip that fits your plans'),make('p','planner-muted','Need help choosing, or planning for friends, family or your team?'),enquiryButton('Help me choose'),enquiryButton('Plan a group trip','','group'));featured.after(help);}
+   if(featured){const help=make('section','planner-section planner-help'),container=make('div','container');help.append(container);container.append(make('h2','','A trip that fits your plans'),make('p','planner-muted','Need help choosing, or planning for friends, family or your team?'),enquiryButton('Help me choose'),enquiryButton('Plan private group trip','','group'));featured.after(help);}
    // Keep bookable trips and their reviews together before secondary browsing.
    if(featured){
     const collections=doc.querySelector('.trip-collections'),moments=doc.querySelector('.travel-moments'),help=doc.querySelector('.planner-help');
@@ -103,7 +103,7 @@
     if(help)(moments||collections||reviews||featured).after(help);
    }
   }
-  if(current){const controls=doc.querySelector('.quick-contact');controls?.append(enquiryButton('Request a callback',current.id),enquiryButton('Plan a group trip',current.id,'group'));}
+  if(current){const controls=doc.querySelector('.quick-contact');controls?.append(enquiryButton('Request a callback',current.id),enquiryButton('Plan private group trip',current.id,'group'));}
   // One delegated handler survives catalogue filtering and card refreshes.
   let dialog,form,contextTrip='',contextType='callback',opener,busy=false;
   function setup(){
@@ -133,10 +133,10 @@
   doc.addEventListener('click',event=>{
    const trigger=event.target.closest('[data-enquiry-trip]');if(!trigger)return;event.preventDefault();if(!dialog)setup();if(busy)return;
    opener=trigger;contextTrip=trigger.dataset.enquiryTrip||'';contextType=trigger.dataset.enquiryType==='group'?'group':'callback';const trip=all.find(item=>item.id===contextTrip);
-   form.querySelector('a').href='https://wa.me/917019235581?text='+encodeURIComponent((contextType==='group'?'I would like to plan a group trip':'Please help me choose a trip')+(trip?' · '+title(trip):''));
+   form.querySelector('a').href='https://wa.me/917019235581?text='+encodeURIComponent((contextType==='group'?'I would like to plan a private group trip':'Please help me choose a trip')+(trip?' · '+title(trip):''));
    form.reset();form.querySelectorAll('input,textarea').forEach(input=>input.disabled=false);const field=name=>form.elements.namedItem(name);
    field('trip').value=trip?title(trip):'';field('travellers').value=contextType==='group'?'6':doc.getElementById('peopleCount')?.value||'1';field('date').value=trigger.dataset.enquiryDate||(trip&&current?.id===trip.id?doc.getElementById('dateSelect')?.value||'':'');
-   field('group').closest('label').hidden=contextType!=='group';dialog.querySelector('h2').textContent=contextType==='group'?'Plan a group trip':'Request a callback';dialog.querySelector('#enquiry-status').textContent='';const submit=form.querySelector('[type="submit"]');submit.disabled=false;submit.textContent='Send enquiry';dialog.showModal();field('name').focus();
+   field('group').closest('label').hidden=contextType!=='group';dialog.querySelector('h2').textContent=contextType==='group'?'Plan private group trip':'Request a callback';dialog.querySelector('#enquiry-status').textContent='';const submit=form.querySelector('[type="submit"]');submit.disabled=false;submit.textContent='Send enquiry';dialog.showModal();field('name').focus();
   });
  }
  return {entries,collections,enquiryPayload,init};
