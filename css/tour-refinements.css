@@ -80,3 +80,51 @@
  .tour-refined:has(#mobileBookBtn){padding-bottom:0}
  .tour-refined .trip-section>summary,.tour-refined .mobile-section>summary{background:white;box-shadow:none}
 }
+
+/* On phones, show the booking decision before the long trip information. */
+.mobile-booking-section[hidden]{display:none}
+@media(max-width:767px){
+ .tour-refined .trip-hero-gallery{padding-bottom:12px}
+ .tour-refined .gallery-main{aspect-ratio:16/10}
+ .tour-refined .mobile-booking-section{padding:0 0 16px}
+ .tour-refined .mobile-booking-section #bookingCard{margin:0;padding:16px;border:1px solid #ccddd5;border-radius:16px;box-shadow:0 4px 16px rgba(23,63,53,.06)}
+ .tour-refined #bookingCard h3{font-size:20px;margin:0 0 8px}
+ .tour-refined #bookingCard .price-display{margin-bottom:4px}
+ .tour-refined #bookingCard .booking-price-note{margin:0 0 8px;gap:0 14px}
+ .tour-refined #bookingCard .booking-price-note a{font-size:13px}
+ .tour-refined #bookingForm{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:10px}
+ .tour-refined #bookingForm .form-group{min-width:0;margin:0}
+ .tour-refined #bookingForm label{display:block;font-size:14px;margin-bottom:6px}
+ .tour-refined #bookingForm select{width:100%;min-width:0;min-height:48px;font-size:16px;padding:10px 8px}
+ .tour-refined #bookingForm .total-price,.tour-refined #bookNowBtn,.tour-refined #bookingForm .booking-next-step{grid-column:1/-1}
+ .tour-refined #bookingForm .total-price{margin:0;padding:10px 0}
+ .tour-refined #bookNowBtn{min-height:48px;font-size:15px;padding:12px 8px;margin:0}
+ .tour-refined #bookingForm .booking-next-step{font-size:13px;line-height:1.45}
+ .tour-refined #bookingCard .booking-secondary-actions{margin-top:12px}
+ .tour-refined .trip-sidebar:has(> .upi-card):not(:has(#bookingCard)){display:none}
+ .tour-refined .trip-highlights-overview{padding-block:12px}
+ .tour-refined .trek-glance{padding-block:12px}
+}
+@media(max-width:767px){
+ .tour-refined #bookingForm>.departure-calendar{grid-column:1/-1;margin:0}
+ .tour-refined #bookingForm>.departure-calendar>summary{min-height:44px;padding:8px 10px;font-size:14px}
+}
+
+@media(max-width:767px){
+ .tour-refined #mobileBookBtn.inline-booking-visible{opacity:0!important;visibility:hidden;pointer-events:none}
+ .tour-refined #bookingForm .total-price{gap:12px;font-size:16px}
+ .tour-refined #bookingForm .total-price>span:first-child{font-size:14px;font-weight:500;color:#526257}
+ .tour-refined #bookingForm #totalAmount{white-space:nowrap;font-weight:700}
+}
+@media(max-width:359px){
+ .tour-refined #bookingForm{grid-template-columns:minmax(0,1fr)}
+ .tour-refined #bookingCard .booking-price-note{gap:0 8px}
+}
+
+.tour-refined #tripCancellation{scroll-margin-top:var(--tour-anchor-offset,144px)}
+#bookingCard .booking-price-note a[hidden]{display:none}
+@media(max-width:767px){
+ .tour-refined #bookingCard .booking-price-note{display:flex;flex-wrap:wrap}
+ .tour-refined #bookingCard .booking-price-note a{min-height:44px;text-underline-offset:3px}
+ .tour-refined #bookingCard .booking-price-note a:focus-visible{outline:3px solid #087f73;outline-offset:2px;border-radius:4px}
+}

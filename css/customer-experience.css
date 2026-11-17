@@ -132,3 +132,17 @@ body{background:var(--page-cream)}
 @media(max-width:767px){.hero-content{padding-bottom:48px}.hero-buttons{margin-bottom:24px}.glance-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}.glance-item{padding:14px 10px;min-height:100px}.glance-item i{font-size:22px}.glance-label{font-size:12px}.glance-value{font-size:15px}.guidelines-grid{grid-template-columns:1fr!important}.cancellation-brief{display:grid;gap:6px}.trip-content{padding:16px}.hero-help{display:block;padding:8px 0}}
 
 .trip-content h3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+
+/* Reduce form chrome on phones while preserving readable inputs and touch targets. */
+@media(max-width:767px){
+ .checkout-page .checkout-section>.container{padding-inline:16px}
+ .checkout-page .checkout-layout{gap:12px}
+ .checkout-page .checkout-card{padding:16px;border-radius:14px}
+ .checkout-page .checkout-card h2{font-size:20px;margin-bottom:16px}
+ .checkout-page #checkoutForm .form-group{margin-bottom:14px}
+ .checkout-page #checkoutForm label{font-size:14px;line-height:1.4;margin-bottom:6px}
+ .checkout-page #checkoutForm input:not([type=radio]):not([type=checkbox]):not([type=hidden]),.checkout-page #checkoutForm textarea{font-size:16px;padding:10px 12px;min-height:48px}
+ .checkout-page #bookingPaymentOptions{margin-block:12px 16px;padding:12px}
+ .checkout-page #paymentModeNotice{font-size:14px;line-height:1.45}
+ .checkout-page #submitDetailsBtn{font-size:16px;min-height:48px}
+}

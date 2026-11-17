@@ -12,7 +12,17 @@
   document.querySelectorAll('.itinerary-accordion li,.itinerary-accordion h3,.day-badge,.highlights-list li').forEach(el=>{if(!el.querySelector('strong,em'))TripText.set(el,clean(el.textContent));});
   document.getElementById('thingsToCarryGrid').closest('details').hidden=Array.isArray(trip.thingsToCarry)&&!trip.thingsToCarry.length;
   const select=document.getElementById('dateSelect'),people=document.getElementById('peopleCount'),card=document.getElementById('bookingCard');
+  const policyPanel=document.getElementById('tripCancellation');
+  if(policyPanel){
+   const policyLink=document.createElement('a');policyLink.className='booking-policy-link';policyLink.textContent='Cancellation terms';policyLink.href=location.pathname+location.search+'#tripCancellation';
+   card.querySelector('.booking-price-note').append(policyLink);
+   const syncPolicyLink=()=>{policyLink.hidden=policyPanel.hidden;};syncPolicyLink();
+   new MutationObserver(syncPolicyLink).observe(policyPanel,{attributes:true,attributeFilter:['hidden']});
+  }
   const continueButton=document.getElementById('bookNowBtn');
+  const totalLabel=card.querySelector('.total-price > span');
+  const labelTotal=()=>{if(totalLabel)totalLabel.textContent='Total for '+people.value+(people.value==='1'?' traveller':' travellers');};
+  people.addEventListener('change',labelTotal);labelTotal();
   const nextStep=document.createElement('p');nextStep.className='booking-next-step';nextStep.textContent='Next: traveller details, then UPI payment. Our team reviews payment and availability before confirming your place.';continueButton.after(nextStep);
   const departureState=document.createElement('p');departureState.id='selectedDepartureStatus';departureState.className='departure-status';departureState.setAttribute('role','status');departureState.hidden=true;select.after(departureState);
   const soldOutNotice=document.createElement('p');soldOutNotice.className='sold-out-notice';soldOutNotice.hidden=true;departureState.after(soldOutNotice);
@@ -33,6 +43,7 @@
   const dateChip=document.createElement('span');essentials.append(dateChip);
   const suppliedPeople=new URLSearchParams(location.search).get('people');if([...people.options].some(option=>option.value===suppliedPeople)){people.value=suppliedPeople;updateTotal();}
   function refresh(){
+   labelTotal();
    const chosen=select.value,ranges=TripDateUtils.getUpcomingDateRanges(trip,new Date());
    select.replaceChildren();const placeholder=new Option(ranges.length?'Choose a date':TripDateUtils.unavailableDateLabel(trip,new Date()),'');select.add(placeholder);
    for(const range of ranges)select.add(new Option(range.originalLabel,range.originalLabel));
@@ -57,15 +68,31 @@
   const dialog=document.createElement('dialog');dialog.className='booking-dialog';dialog.setAttribute('aria-label','Choose date and travellers');
   const close=document.createElement('button');close.className='booking-dialog-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close date selection');dialog.append(close);document.body.append(dialog);
   const anchor=document.createComment('Booking card position');card.before(anchor);
+  // Move the same form, including its values and handlers, into the reading order on phones.
+  const desktopAnchor=document.createComment('Desktop booking position');anchor.before(desktopAnchor);
+  const mobileBooking=document.createElement('section');mobileBooking.className='mobile-booking-section';mobileBooking.setAttribute('aria-label','Trip dates and price');
+  const mobileContainer=document.createElement('div');mobileContainer.className='container';mobileBooking.append(mobileContainer);
+  document.getElementById('tripHeroGallery').after(mobileBooking);
+  const phoneLayout=matchMedia('(max-width:767px)');
+  function placeBooking(){
+   mobileBooking.hidden=!phoneLayout.matches;
+   if(phoneLayout.matches)mobileContainer.append(anchor);else desktopAnchor.after(anchor);
+   if(!dialog.open)anchor.after(card);
+  }
+  placeBooking();phoneLayout.addEventListener('change',()=>{if(dialog.open)dialog.close();placeBooking();});
   close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>anchor.after(card));
-  card.querySelectorAll('.booking-package-link,.booking-pickup-link').forEach(link=>link.addEventListener('click',event=>{
+  card.querySelectorAll('.booking-package-link,.booking-pickup-link,.booking-policy-link').forEach(link=>link.addEventListener('click',event=>{
    event.preventDefault();if(dialog.open)dialog.close();
-   const panel=document.getElementById(link.classList.contains('booking-pickup-link')?'tripPickup':'tripIncludes');if(panel){if(panel.tagName==='DETAILS')panel.open=true;requestAnimationFrame(()=>{panel.scrollIntoView({block:'start',behavior:'auto'});panel.setAttribute('tabindex','-1');panel.focus({preventScroll:true});});}
+   const panel=document.getElementById(link.classList.contains('booking-pickup-link')?'tripPickup':link.classList.contains('booking-policy-link')?'tripCancellation':'tripIncludes');if(panel){if(panel.tagName==='DETAILS')panel.open=true;requestAnimationFrame(()=>{panel.scrollIntoView({block:'start',behavior:'auto'});panel.setAttribute('tabindex','-1');panel.focus({preventScroll:true});});}
   }));
   function open(event){if(!matchMedia('(max-width:767px)').matches)return;event.preventDefault();refresh();dialog.append(card);if(!dialog.open)dialog.showModal();select.focus();}
   document.querySelectorAll('.trip-section-links a').forEach(link=>{if(link.href.includes('#bookingCard'))link.addEventListener('click',open);});
   document.querySelector('.trip-hero-gallery a[href*="#bookingCard"]')?.addEventListener('click',open);
   const bar=document.getElementById('mobileBookBtn'),oldLink=bar?.querySelector('a');
+  if(bar&&typeof IntersectionObserver==='function'){
+   // Keep the fixed action available while reading, without duplicating the visible form action.
+   new IntersectionObserver(entries=>bar.classList.toggle('inline-booking-visible',entries[0].isIntersecting),{rootMargin:'-80px 0px -90px 0px'}).observe(continueButton);
+  }
   if(oldLink){const link=oldLink.cloneNode(true);oldLink.replaceWith(link);link.addEventListener('click',open);
    const update=()=>{link.setAttribute('aria-label','Choose dates and travellers to book');link.setAttribute('aria-haspopup','dialog');link.querySelector('.float-cta').textContent=select.disabled?'Dates unavailable':select.value?'Change date':'View dates';const price=link.querySelector('#floatPrice');price.firstChild.textContent=trip.price+' / person';const date=link.querySelector('.mobile-book-date');if(date)date.textContent=TripDateUtils.parseTripDateRange(select.value)?.shortLabel||'Pick your departure';};select.addEventListener('change',update);update();
   }
