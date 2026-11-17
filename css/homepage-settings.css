@@ -24,3 +24,5 @@
 @media (max-width: 900px) { .reviews-slider .testimonial-card { flex-basis: calc((100% - 20px) / 2); } }
 @media (max-width: 600px) { .reviews-slider .testimonial-card { flex-basis: 92%; } }
 @media (prefers-reduced-motion: reduce) { .reviews-slider { scroll-behavior: auto; } }
+
+.reviews-source-note{text-align:center;font-size:14px;color:#526257;margin:-6px 0 16px;line-height:1.5}

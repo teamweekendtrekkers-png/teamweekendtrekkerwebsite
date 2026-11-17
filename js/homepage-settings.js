@@ -105,6 +105,7 @@
         const section = document.querySelector('.upcoming-batches');
         if (section) section.hidden = !normalized.upcomingBatches.enabled;
         sections.apply(normalized.sections, document);
+        document.defaultView?.GoogleReviewFeed?.refresh(normalized, document);
         if (presentation) presentation.apply(normalized, document, typeof window !== 'undefined' ? window : null);
         return normalized;
     }
