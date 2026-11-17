@@ -180,3 +180,25 @@ body[data-site-page] .footer{padding-top:32px}
  body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset{grid-column:1/-1;width:100%}
  body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset:disabled{display:none}
 }
+
+/* Compact phone spacing around the decisions needed to book a trip. */
+@media(max-width:767px){
+ body[data-site-page="trip-detail"].tour-refined .trip-heading{margin-bottom:12px}
+ body[data-site-page="trip-detail"].tour-refined .gallery-main{aspect-ratio:16/9}
+ body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note{flex-wrap:nowrap;gap:8px;overflow-x:auto;scrollbar-width:thin;scroll-padding-inline:4px;margin-bottom:8px}
+ body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note a{flex:0 0 auto;white-space:nowrap;font-size:12px}
+ body[data-site-page="trip-detail"].tour-refined .trip-highlights-overview{padding-block:12px}
+ body[data-site-page="trip-detail"] .trip-highlights-overview h2{font-size:20px;margin-bottom:12px}
+ body[data-site-page="trip-detail"] #tripHighlightsPreview li{padding:10px 12px;line-height:1.5}
+ body[data-site-page="trip-detail"].tour-refined .trek-glance{padding-block:12px}
+ body[data-site-page="trip-detail"].tour-refined .glance-grid{gap:8px}
+ body[data-site-page="trip-detail"].tour-refined .glance-item{min-height:64px;padding:8px 10px}
+ body[data-site-page="trip-detail"].tour-refined .trip-details{padding-block:12px 24px}
+ body[data-site-page="trip-detail"].tour-refined .content-section{margin-bottom:12px}
+ body[data-site-page="trip-detail"].tour-refined .trip-section-body{padding:12px 14px}
+ body[data-site-page="trip-detail"].tour-refined .trip-section>summary,body[data-site-page="trip-detail"].tour-refined .mobile-section>summary{padding:12px 14px}
+
+}
+@media(max-width:359px){
+ body[data-site-page="trip-detail"].tour-refined #bookNowBtn{font-size:14px}
+}

@@ -146,3 +146,5 @@ body{background:var(--page-cream)}
  .checkout-page #paymentModeNotice{font-size:14px;line-height:1.45}
  .checkout-page #submitDetailsBtn{font-size:16px;min-height:48px}
 }
+
+@media(max-width:767px){ .checkout-page .optional-fields>summary,.checkout-page .checkout-help>summary,.checkout-page .mobile-trip-summary>summary{min-height:44px;display:flex;align-items:center}}
