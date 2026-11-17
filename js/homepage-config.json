@@ -347,7 +347,14 @@
     "aboutLabel": "About Us",
     "contactLabel": "Contact",
     "informationTitle": "Information",
-    "informationLinks": [],
+    "informationLinks": [
+      {
+        "id": "google-review-privacy",
+        "label": "Google review privacy",
+        "url": "https://www.teamweekendtrekkers.com/google-reviews-privacy.html",
+        "visible": true
+      }
+    ],
     "contactTitle": "Contact Us",
     "location": "Kalkere, Bangalore",
     "whatsAppNumber": "",

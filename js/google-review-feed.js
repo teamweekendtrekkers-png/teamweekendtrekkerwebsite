@@ -31,7 +31,8 @@
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
   try{
    const payload=await load(fetcher||view.fetch.bind(view),controller.signal),items=select(payload,now);
-   if(!items.length||generations.get(doc)!==generation)return;
+   if(generations.get(doc)!==generation)return;
+   if(!items.length)throw Error('No reviews available');
    const next=JSON.parse(JSON.stringify(config.sections));next.reviews.items=items;next.reviews.rating=String(Math.round(payload.averageRating*10)/10);
    // Use the same safe renderer, links and slider as manually chosen reviews.
    view.HomepageSections.apply(view.HomepageSections.normalize(next,view.HomepageSettings.safeImage),doc);

@@ -26,3 +26,11 @@ test('backend fails closed without Google credentials and never exposes upstream
  const load=createReviewFeed({env:key=>key==='GOOGLE_REVIEW_LOCATION'?'accounts/1/locations/2':'secret',fetcher:async()=>{throw Error('secret response');}});
  assert.deepEqual(await load(),{connected:false,reason:'temporarily_unavailable',reviews:[]});
 });
+
+test('an empty Google refresh restores manual cards instead of retaining old automatic content',async()=>{
+ let restored=0;const section={dataset:{reviewSource:'google'},querySelector:()=>null};
+ const document={querySelector:()=>section,defaultView:{HomepageSections:{apply:()=>{restored++;}}}};
+ const config={sections:{reviews:{source:'google',enabled:true,items:[item(1)]}}};let count=0;
+ const fetcher=async()=>({ok:true,json:async()=>++count===1?{endpoint:'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request',anonKey:'public'}:{connected:true,fetchedAt:new Date(time).toISOString(),averageRating:4.9,reviews:[]}});
+ await feed.refresh(config,document,fetcher,time);assert.equal(restored,1);assert.equal(section.dataset.reviewSource,'manual');
+});
