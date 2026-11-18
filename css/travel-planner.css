@@ -75,7 +75,9 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
  .mobile-shortcuts>a[aria-current]{color:#087f73;font-weight:700}
  .mobile-shortcuts>a:last-child{color:#16763c}
  .mobile-shortcut-calendar{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;gap:2px;color:#173f35;font-size:11px;line-height:1.2}
- .mobile-shortcuts .floating-calendar{position:static;margin:-17px 0 0;width:48px;height:48px;border:3px solid #fff;box-shadow:0 0 0 1px #d6e4dc,0 3px 10px #173f3526}
+ .mobile-shortcuts .floating-calendar{position:static;margin:-17px 0 0;width:48px;height:48px;border:3px solid #fff;background:#ffd43b;color:#173f35;box-shadow:0 0 0 1px #efc52f,0 4px 12px #d9a90038}
+ .mobile-shortcuts .floating-calendar:hover{background:#ffca1a}
+ .mobile-shortcuts .floating-calendar:active{background:#f4bd00}
  .mobile-shortcuts a:focus-visible{outline:3px solid #ec792e;outline-offset:-3px;border-radius:8px}
 }
 @media print{.mobile-shortcuts{display:none!important}}
