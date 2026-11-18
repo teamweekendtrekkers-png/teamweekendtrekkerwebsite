@@ -22,7 +22,18 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     let file=path.resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!file.startsWith(root+path.sep))return route.abort();
     try{return route.fulfill({contentType:({'.js':'text/javascript','.css':'text/css','.json':'application/json','.html':'text/html','.jpg':'image/jpeg'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});}catch{return route.fulfill({status:404});}
    });
-   await page.goto(origin);await page.getByText('Browse departure calendar',{exact:true}).click();
+   await page.goto(origin);
+   await page.locator('.finder-preferences').waitFor();
+   assert.equal(await page.locator('.finder-preferences').evaluate(node=>node.open),width>=768,'Phone preferences start compact');
+   if(width<768){
+    assert.equal(await page.locator('.whatsapp-float').isVisible(),false,'Floating help does not obscure departure actions');
+    assert.equal(await page.locator('.finder-help').isVisible(),true,'Inline WhatsApp help stays available');
+    await page.setViewportSize({width:1440,height:844});
+    await page.waitForFunction(()=>document.querySelector('.finder-preferences').open);
+    await page.setViewportSize({width,height:844});
+    await page.waitForFunction(()=>!document.querySelector('.finder-preferences').open);
+   }
+   await page.getByText('Browse departure calendar',{exact:true}).click();
    await page.getByRole('button',{name:'8 November 2030: 1 departure',exact:true}).click();assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'15 November 2030: 2 departures',exact:true}).click();assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'Next month',exact:true}).click();assert.equal(await page.locator('.calendar-navigation h3').innerText(),'December 2030');
