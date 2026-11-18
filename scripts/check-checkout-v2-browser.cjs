@@ -146,6 +146,13 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.screenshot({path:path.join(output,`checkout-v2-unavailable-${width}.png`)});
    // Gallery dialog owns keyboard focus and restores it on Escape.
    await page.goto(origin+'/trip-detail.html?trip=demo');await page.waitForSelector('#trip-custom_why_choose_us');
+   const packing=page.locator('[data-trip-section="thingsToCarry"]');
+   if(!(await packing.evaluate(el=>el.open)))await packing.locator('summary').click();
+   await page.locator('.packing-checkbox').first().check();assert.match(await page.locator('.packing-count').innerText(),/^1 of /);
+   await page.reload();await page.waitForSelector('.packing-checkbox',{state:'attached'});
+   assert.equal(await page.locator('.packing-checkbox').first().isChecked(),true,'Packing choices survive reloading this trip');
+   if(!(await packing.evaluate(el=>el.open)))await packing.locator('summary').click();
+   await page.getByRole('button',{name:'Reset packing',exact:true}).click();assert.equal(await page.locator('.packing-checkbox:checked').count(),0);
    await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
    await page.getByRole('button',{name:'30 October 2026: 1 departure',exact:true}).click();
    await page.getByRole('button',{name:'Choose this departure',exact:true}).click();

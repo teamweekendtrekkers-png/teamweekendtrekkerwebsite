@@ -37,6 +37,12 @@ const fixtures={
    const ids=()=>page.locator('#tripsDynamicGrid .trip-card').evaluateAll(nodes=>nodes.map(node=>node.dataset.tripId));
    await page.goto(origin+'/trips.html');
    await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===3);
+   await page.getByLabel('Sort trips',{exact:true}).selectOption('price-desc');
+   assert.deepEqual(await ids(),['heritage','coast','coorg']);assert.match(page.url(),/sort=price-desc/);
+   await page.reload();await page.waitForFunction(()=>document.querySelector('#catalogueSort').value==='price-desc');
+   assert.deepEqual(await ids(),['heritage','coast','coorg']);
+   await page.getByLabel('Sort trips',{exact:true}).selectOption('title');assert.deepEqual(await ids(),['coast','heritage','coorg']);
+   await page.getByLabel('Sort trips',{exact:true}).selectOption('next');
    for(const badge of await page.locator('.trip-card-types .trip-badge,.trip-bestseller-badge').all())await assertReadable(badge);
    await assertReadable(page.locator('.trip-footer .btn').first());
    await assertReadable(page.locator('.page-header h1'));
