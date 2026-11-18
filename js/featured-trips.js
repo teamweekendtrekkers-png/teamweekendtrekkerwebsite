@@ -11,9 +11,11 @@
 
 const featuredTripIds = [
     "kannur-theyyam",
-    "trip_1792519339566",
     "gokarna-new-year-party",
+    "varkala-kochi-christmas",
     "rameshwaram-dhanushkodi",
+    "trip_1792519339566",
+    "trip_1793817467369",
 ];
 
 // Function to get featured trips data
