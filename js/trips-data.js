@@ -597,7 +597,7 @@ const tripsData = {
             {name: "Silk Board", landmark: "Silk Board Junction", time: "9:15 PM - 10:45 PM", mapLink: "https://maps.google.com/?q=Silk+Board+Junction+Bangalore"},
             {name: "Electronic City", landmark: "Infosys Gate / Toll Plaza", time: "9:45 PM - 11:15 PM", mapLink: "https://maps.google.com/?q=Electronic+City+Infosys+Bangalore"},
         ],
-        galleryImages: [],
+        galleryImages: ["images/gallery/gokarna-new-year-party/img_1794988872673.png"],
         groupSize: "20+",
         maxTravellers: 25,
         isActive: false,
