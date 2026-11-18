@@ -188,7 +188,15 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.goto(origin+'/trip-detail.html?trip=demo');
    await page.waitForFunction(()=>document.getElementById('tripTitle').textContent==='Demo Trip');
    assert.equal(await page.locator('#peopleCount option').count(),6);
-   if(width<768)await page.locator('#mobileBookBtn a').first().click();
+   if(width<768){
+    const links=await page.locator('#bookingCard .booking-price-note').evaluate(note=>{const bounds=note.getBoundingClientRect();return [...note.querySelectorAll('a')].map(link=>{const r=link.getBoundingClientRect();return {height:r.height,inside:r.left>=bounds.left-1&&r.right<=bounds.right+1};});});
+    assert.equal(links.length,3,'All booking information links remain available');
+    assert.ok(links.every(link=>link.height>=44&&link.inside),'Booking links fit without sideways scrolling and retain touch targets');
+    // The dock intentionally hides when the inline Continue button is visible.
+    // Open it from further down the page, as a traveller browsing the itinerary would.
+    await page.locator('footer').scrollIntoViewIfNeeded();
+    await page.locator('#mobileBookBtn a').first().click();
+   }
    assert.equal(await page.locator('#bookNowBtn').innerText(),'Choose a departure date');
    await page.locator('#bookNowBtn').click();
    assert.match(await page.locator('#departureFeedback').innerText(),/Choose a departure date/);

@@ -184,12 +184,14 @@ body[data-site-page] .footer{padding-top:32px}
  body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset:disabled{display:none}
 }
 
-/* Compact phone spacing around the decisions needed to book a trip. */
+/* Keep the title, gallery and booking card together without shrinking tap targets. */
 @media(max-width:767px){
+ body[data-site-page="trip-detail"].tour-refined .trip-hero-gallery{padding-top:68px;padding-bottom:8px}
+ body[data-site-page="trip-detail"].tour-refined .trip-hero-gallery>.container{padding-block:8px}
  body[data-site-page="trip-detail"].tour-refined .trip-heading{margin-bottom:12px}
  body[data-site-page="trip-detail"].tour-refined .gallery-main{aspect-ratio:16/9}
- body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note{flex-wrap:nowrap;gap:8px;overflow-x:auto;scrollbar-width:thin;scroll-padding-inline:4px;margin-bottom:8px}
- body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note a{flex:0 0 auto;white-space:nowrap;font-size:12px}
+ body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px}
+ body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note a{min-width:0;justify-content:center;white-space:normal;text-align:center;font-size:12px;line-height:1.35}
  body[data-site-page="trip-detail"].tour-refined .trip-highlights-overview{padding-block:12px}
  body[data-site-page="trip-detail"] .trip-highlights-overview h2{font-size:20px;margin-bottom:12px}
  body[data-site-page="trip-detail"] #tripHighlightsPreview li{padding:10px 12px;line-height:1.5}
