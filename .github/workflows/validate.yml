@@ -39,7 +39,9 @@ jobs:
         run: |
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-db-fixture.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f supabase/migrations/20261021_journey_analytics.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f supabase/migrations/20261118181652_journey_report_indexed_funnel.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-db.test.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-report-volume.test.sql
 
   validate:
     runs-on: ubuntu-latest
