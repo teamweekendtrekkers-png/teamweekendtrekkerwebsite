@@ -306,7 +306,7 @@
             root.addEventListener('popstate',()=>{restore();render();});
         }
         render();
-        if(sortSelect)sortSelect.addEventListener('change',()=>{order=Object.hasOwn(sortLabels,sortSelect.value)?sortSelect.value:'next';render();});
+        if(sortSelect){sortSelect.addEventListener('change',()=>{order=Object.hasOwn(sortLabels,sortSelect.value)?sortSelect.value:'next';render();});sortSelect.disabled=false;}
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
     return { renderPrice, renderDeparture, displayTitle, experiences, experiencesFor, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
