@@ -41,6 +41,23 @@
    const results=make('div','calendar-results');results.setAttribute('aria-live','polite');
    content.append(navigation,hint,table,results);host.append(content);
    doc.body.append(host,trigger);let focusAfterClose=trigger;
+   if(!current){
+    const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
+    const icon=path=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
+    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['Treks','trips.html?experience=trek','<path d="m2 20 7-14 4 7 3-5 6 12H2zM6 12l3 2 3-2"/>'],null,['Trips','trips.html','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
+    let calendarSlot;
+    for(const item of items){
+     if(!item){calendarSlot=make('div','mobile-shortcut-calendar');const label=make('span','','Calendar');label.setAttribute('aria-hidden','true');calendarSlot.append(label);shortcuts.append(calendarSlot);continue;}
+     const link=make('a');link.href=item[1];link.innerHTML=icon(item[2]);link.append(make('span','',item[0]));
+     if(item[0]==='WhatsApp'){link.target='_blank';link.rel='noopener';}
+     const catalogue=/\/trips\.html$/.test(win.location.pathname),treks=new URLSearchParams(win.location.search).get('experience')==='trek';
+     if((item[0]==='Home'&&!catalogue)||(item[0]==='Treks'&&catalogue&&treks)||(item[0]==='Trips'&&catalogue&&!treks))link.setAttribute('aria-current','page');
+     shortcuts.append(link);
+    }
+    doc.body.append(shortcuts);doc.body.classList.add('has-mobile-shortcuts');
+    const mobileShortcuts=win.matchMedia('(max-width:767px)'),placeShortcut=()=>{if(mobileShortcuts.matches)calendarSlot.prepend(trigger);else doc.body.append(trigger);};
+    mobileShortcuts.addEventListener('change',placeShortcut);placeShortcut();
+   }
    host.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');focusAfterClose.focus();focusAfterClose=trigger;});
    host.addEventListener('click',event=>{if(event.target!==host)return;const r=host.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)host.close();});
    let month,selected='',data=[];const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
