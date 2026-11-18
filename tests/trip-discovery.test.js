@@ -4,6 +4,11 @@ const discovery = require('../js/trip-discovery');
 const settings = require('../js/homepage-settings');
 const dates = require('../js/trip-date-utils');
 const now = new Date('2026-08-13T12:00:00Z');
+test('catalogue sorting compares numeric prices, puts unknown prices last and preserves source order',()=>{
+ const source=[{id:'costly',title:'Alpha',price:'₹12,000',availableDates:['Aug 21-23, 2026']},{id:'cheap',title:'Zulu',price:'₹3,999',availableDates:['Aug 14-16, 2026']},{id:'ask',title:'Middle',price:'Ask us',availableDates:['Aug 14-16, 2026']}];
+ const before=JSON.stringify(source),ids=order=>discovery.sortTrips(source,now,order).map(t=>t.id);
+ assert.deepEqual(ids('price-asc'),['cheap','costly','ask']);assert.deepEqual(ids('price-desc'),['costly','cheap','ask']);assert.deepEqual(ids('title'),['costly','ask','cheap']);assert.equal(JSON.stringify(source),before);
+});
 const trips = [
     { id: 'later', title: 'Coast & town', location: 'Gokarna', experience: 'beach', image: 'images/coast.jpg', price: '₹3,999', availableDates: ['Aug 21-23, 2026'], departureCity: 'Bengaluru' },
     { id: 'soon', title: 'Green hill', location: 'Coorg', experience: 'trek', image: 'images/hill.jpg', availableDates: ['Aug 14-16, 2026', 'Aug 21-23, 2026'] },

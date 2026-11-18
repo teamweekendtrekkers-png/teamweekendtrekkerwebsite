@@ -51,10 +51,16 @@
             return terms.every(term => searchable.includes(term));
         });
     }
-    function sortTrips(trips, referenceDate) {
+    function sortTrips(trips, referenceDate, order = 'next') {
         const keyed = trips.map((trip, index) => ({ trip, index, ranges: dates.getUpcomingDateRanges(trip, referenceDate) }));
         const rank = item => item.trip.isActive === false ? 2 : item.ranges.length ? 0 : 1;
-        return keyed.sort((a, b) => rank(a) - rank(b) || (a.ranges[0] && b.ranges[0] ? a.ranges[0].start - b.ranges[0].start : 0) || Number(b.trip.featured === true) - Number(a.trip.featured === true) || a.index - b.index).map(item => item.trip);
+        const price = trip => {const value=String(trip.price??'').replace(/[₹,\s]/g,'');return /^\d+(?:\.\d+)?$/.test(value)&&Number(value)>0?Number(value):null;};
+        const compare = (a,b) => {
+            if(order==='title')return displayTitle(a.trip).localeCompare(displayTitle(b.trip),'en',{sensitivity:'base'});
+            if(order==='price-asc'||order==='price-desc'){const x=price(a.trip),y=price(b.trip);return x===null?(y===null?0:1):y===null?-1:(order==='price-desc'?-1:1)*(x-y);}
+            return a.ranges[0]&&b.ranges[0]?a.ranges[0].start-b.ranges[0].start:0;
+        };
+        return keyed.sort((a, b) => rank(a) - rank(b) || compare(a,b) || Number(b.trip.featured === true) - Number(a.trip.featured === true) || a.index - b.index).map(item => item.trip);
     }
     function displayTitle(trip) {
         let value = (textFormat ? textFormat.plain(trip.cardTitle || trip.title || '') : String(trip.cardTitle || trip.title || '')).replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,'').trim();
@@ -210,6 +216,9 @@
         const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
         let current = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
         let catalogControls;
+        const sortSelect=document.getElementById('catalogueSort'),sortLabels={next:'next departure first',title:'name A–Z','price-asc':'price low to high','price-desc':'price high to low'};
+        const readOrder=()=>Object.hasOwn(sortLabels,new URLSearchParams(root.location.search).get('sort'))?new URLSearchParams(root.location.search).get('sort'):'next';
+        let order=readOrder();if(sortSelect)sortSelect.value=order;
         const readFilters = () => {
             const params = new URLSearchParams(root.location.search);
             const category = params.get('type') || 'all';
@@ -221,7 +230,7 @@
             if (!root.location.href || !root.history?.replaceState) return;
             const url = new URL(root.location.href);
             for (const [key,value] of Object.entries({q:current.query,experience:current.experience==='all'?'':current.experience,
-                departure:current.departure,collection:current.collection||'',when:current.when||'',type:current.category==='all'?'':current.category,unavailable:current.showComingSoon?'1':''})) {
+                departure:current.departure,collection:current.collection||'',when:current.when||'',type:current.category==='all'?'':current.category,unavailable:current.showComingSoon?'1':'',sort:order==='next'?'':order})) {
                 if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);
             }
             if(url.href!==root.location.href)root.history.replaceState(root.history.state,'',url.href);
@@ -259,10 +268,10 @@
             });
         };
         const render = () => {
-            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate);
+            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order);
             const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
-            const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ' · scheduled departures first'}`;
+            const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ''}`;
             if (status && status.textContent !== resultText) status.textContent = resultText;
             if (catalogControls) catalogControls.update(current, visible.length);
             updateSelectedFilters();
@@ -286,6 +295,7 @@
         if(container){
             catalogControls = organiseCatalogControls(container);
             const restore = () => {
+                order=readOrder();if(sortSelect)sortSelect.value=order;
                 const saved = readFilters();
                 const restored=controls?.restore(saved)||{query:'',experience:'all',departure:''};
                 current = {...saved,query:restored.query,experience:restored.experience,departure:restored.departure};
@@ -296,6 +306,7 @@
             root.addEventListener('popstate',()=>{restore();render();});
         }
         render();
+        if(sortSelect)sortSelect.addEventListener('change',()=>{order=Object.hasOwn(sortLabels,sortSelect.value)?sortSelect.value:'next';render();});
         setInterval(()=>{referenceDate.setTime(Date.now());render();},30000);
     }
     return { renderPrice, renderDeparture, displayTitle, experiences, experiencesFor, experience, category, safeImage, imagePath, departureOptions, filterTrips, sortTrips, renderCard, attachImageFallbacks, mountControls, initCatalog };
