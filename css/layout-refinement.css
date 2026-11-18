@@ -184,8 +184,10 @@ body[data-site-page] .footer{padding-top:32px}
  body[data-site-page="trips"] .catalogue-filter-panel>.discovery-reset:disabled{display:none}
 }
 
-/* Compact phone spacing around the decisions needed to book a trip. */
+/* Keep the title, gallery and booking card together without shrinking tap targets. */
 @media(max-width:767px){
+ body[data-site-page="trip-detail"].tour-refined .trip-hero-gallery{padding-top:68px;padding-bottom:8px}
+ body[data-site-page="trip-detail"].tour-refined .trip-hero-gallery>.container{padding-block:8px}
  body[data-site-page="trip-detail"].tour-refined .trip-heading{margin-bottom:12px}
  body[data-site-page="trip-detail"].tour-refined .gallery-main{aspect-ratio:16/9}
  body[data-site-page="trip-detail"].tour-refined #bookingCard .booking-price-note{flex-wrap:nowrap;gap:8px;overflow-x:auto;scrollbar-width:thin;scroll-padding-inline:4px;margin-bottom:8px}
