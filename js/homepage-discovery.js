@@ -60,6 +60,15 @@
   for(const [index,photo] of photos.entries())if(win.TripDiscovery.safeImage(photo.path)){const image=make('img');image.alt=photo.alt;image.loading=index?'lazy':'eager';image.decoding='async';if(win.ResponsiveImages)win.ResponsiveImages.set(image,photo.path,{sizes:'(max-width:767px) 50vw, 30vw'});else image.src=photo.path;image.addEventListener('error',()=>image.hidden=true,{once:true});collage.append(image);}
   collage.append(make('figcaption','','Shared journeys. New stories.'));hero.append(layout);layout.append(copy,collage);hero.classList.add('homepage-discovery-ready');
   const featured=doc.getElementById('featured-trips-grid')?.closest('section'),reviews=doc.querySelector('.testimonials');if(featured&&reviews)featured.after(reviews);
+  if(featured){
+   const featuredAnchor=doc.createComment('Desktop featured trips position'),finderAnchor=doc.createComment('Desktop trip preferences position');featured.before(featuredAnchor);finder.before(finderAnchor);
+   const mobileSection=make('section','mobile-finder-section'),mobileContainer=make('div','container');mobileSection.setAttribute('aria-label','Find a trip by date or interest');mobileSection.append(mobileContainer);mobileSection.hidden=true;
+   function placeDiscovery(){
+    if(mobileFinder.matches){hero.after(featured);featured.after(mobileSection);mobileContainer.append(finder);mobileSection.hidden=finder.hidden;}
+    else{featuredAnchor.after(featured);finderAnchor.after(finder);mobileSection.hidden=true;}
+   }
+   mobileFinder.addEventListener('change',placeDiscovery);placeDiscovery();
+  }
   if(!win.matchMedia('(prefers-reduced-motion: reduce)').matches&&win.IntersectionObserver){const observer=new win.IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('home-revealed');observer.unobserve(entry.target);}}),{threshold:.08});doc.querySelectorAll('.trips-section,.testimonials,.homepage-info-section').forEach(node=>observer.observe(node));}
  }
  return {choices,matchingDepartures,init};

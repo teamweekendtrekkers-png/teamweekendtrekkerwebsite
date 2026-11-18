@@ -30,14 +30,36 @@
   const currentId=typeof getTripFromURL==='function'?getTripFromURL():null,current=all.find(trip=>trip.id===currentId);
   const upcoming=doc.querySelector('#upcoming-batches .container')||doc.getElementById('trip-discovery-controls')?.parentElement;
   if(upcoming||current){
-   const host=make('details','departure-calendar');host.id='departure-calendar';const summary=make('summary','','Browse departure calendar');host.append(summary);
+   const host=make('dialog','departure-calendar calendar-dialog');host.id='departure-calendar';host.setAttribute('aria-labelledby','departure-calendar-title');
+   const header=make('div','calendar-dialog-header'),heading=make('h2','','Departure calendar'),close=button('×','calendar-dialog-close');heading.id='departure-calendar-title';close.setAttribute('aria-label','Close departure calendar');close.onclick=()=>host.close();header.append(heading,close);host.append(header);
+   const trigger=button('','floating-calendar');trigger.setAttribute('aria-label','Browse departure calendar');trigger.setAttribute('aria-haspopup','dialog');trigger.setAttribute('aria-controls',host.id);trigger.setAttribute('aria-expanded','false');trigger.title='Departure calendar';
+   trigger.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18M8 15h.01M12 15h.01M16 15h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>';
    const content=make('div','calendar-content'),navigation=make('div','calendar-navigation'),previous=button('←','calendar-arrow'),next=button('→','calendar-arrow'),caption=make('h3');
    previous.setAttribute('aria-label','Previous month');next.setAttribute('aria-label','Next month');navigation.append(previous,caption,next);
    const hint=make('p','planner-muted','Highlighted days are departure dates. Select a day to see trips. Dates follow India time.');
    const table=make('table','calendar-table');table.setAttribute('aria-label','Departure dates');
    const results=make('div','calendar-results');results.setAttribute('aria-live','polite');
    content.append(navigation,hint,table,results);host.append(content);
-   if(current)doc.getElementById('dateSelect')?.closest('.form-group')?.before(host);else upcoming.append(host);
+   doc.body.append(host,trigger);let focusAfterClose=trigger;
+   if(!current){
+    const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
+    const icon=path=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
+    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['Treks','trips.html?experience=trek','<path d="m2 20 7-14 4 7 3-5 6 12H2zM6 12l3 2 3-2"/>'],null,['Trips','trips.html','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
+    let calendarSlot;
+    for(const item of items){
+     if(!item){calendarSlot=make('div','mobile-shortcut-calendar');const label=make('span','','Calendar');label.setAttribute('aria-hidden','true');calendarSlot.append(label);shortcuts.append(calendarSlot);continue;}
+     const link=make('a');link.href=item[1];link.innerHTML=icon(item[2]);link.append(make('span','',item[0]));
+     if(item[0]==='WhatsApp'){link.target='_blank';link.rel='noopener';}
+     const catalogue=/\/trips\.html$/.test(win.location.pathname),treks=new URLSearchParams(win.location.search).get('experience')==='trek';
+     if((item[0]==='Home'&&!catalogue)||(item[0]==='Treks'&&catalogue&&treks)||(item[0]==='Trips'&&catalogue&&!treks))link.setAttribute('aria-current','page');
+     shortcuts.append(link);
+    }
+    doc.body.append(shortcuts);doc.body.classList.add('has-mobile-shortcuts');
+    const mobileShortcuts=win.matchMedia('(max-width:767px)'),placeShortcut=()=>{if(mobileShortcuts.matches)calendarSlot.prepend(trigger);else doc.body.append(trigger);};
+    mobileShortcuts.addEventListener('change',placeShortcut);placeShortcut();
+   }
+   host.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');focusAfterClose.focus();focusAfterClose=trigger;});
+   host.addEventListener('click',event=>{if(event.target!==host)return;const r=host.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)host.close();});
    let month,selected='',data=[];const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
    const monthKey=date=>date.toISOString().slice(0,7);
    month=today().slice(0,7);
@@ -63,14 +85,16 @@
       const card=make('article','calendar-departure'),link=make('a','',title(item.trip));
       const bookable=['available','confirmed'].includes(item.status.key);link.href=bookable?win.TripLinks.departureUrl(item.trip.id,item.range.originalLabel):win.TripLinks.detailUrl(item.trip.id);
       card.append(link,make('p','planner-muted',item.range.fullLabel));const status=make('span','departure-status',item.status.label);status.dataset.status=item.status.key;card.append(status);
-      if(current&&bookable){const select=button('Choose this departure','planner-enquiry');select.onclick=()=>{const input=doc.getElementById('dateSelect');if([...input.options].some(option=>option.value===item.range.originalLabel)){input.value=item.range.originalLabel;input.dispatchEvent(new Event('change',{bubbles:true}));host.open=false;input.focus();}};card.append(select);}
+      if(current&&bookable){const select=button('Choose this departure','planner-enquiry');select.onclick=()=>{const input=doc.getElementById('dateSelect');if([...input.options].some(option=>option.value===item.range.originalLabel)){input.value=item.range.originalLabel;input.dispatchEvent(new Event('change',{bubbles:true}));focusAfterClose=input;host.close();}};card.append(select);}
       results.append(card);
      }
     }
     previous.disabled=month<=today().slice(0,7);const max=data.at(-1)?.range.startKey.slice(0,7)||today().slice(0,7);next.disabled=month>=max;
     if(focusDay)table.querySelector(`[data-day="${selected}"]`)?.focus();
    }
-   const move=offset=>{const date=new Date(month+'-01T00:00:00Z');date.setUTCMonth(date.getUTCMonth()+offset);month=monthKey(date);render();};previous.onclick=()=>move(-1);next.onclick=()=>move(1);host.addEventListener('toggle',()=>{if(host.open)render();});win.addEventListener('pageshow',()=>{if(host.open)render();});render();
+   const move=offset=>{const date=new Date(month+'-01T00:00:00Z');date.setUTCMonth(date.getUTCMonth()+offset);month=monthKey(date);render();};previous.onclick=()=>move(-1);next.onclick=()=>move(1);
+   trigger.onclick=()=>{const chosen=current&&dates.parseTripDateRange(doc.getElementById('dateSelect')?.value);if(chosen){month=chosen.startKey.slice(0,7);selected=chosen.startKey;}render();trigger.setAttribute('aria-expanded','true');host.showModal();};
+   win.addEventListener('pageshow',()=>{if(host.open)render();});render();
   }
   if(win.TripDiscovery&&doc.body.classList.contains('homepage')){
    const featured=doc.getElementById('featured-trips-grid')?.closest('section'),reviews=doc.querySelector('.testimonials');

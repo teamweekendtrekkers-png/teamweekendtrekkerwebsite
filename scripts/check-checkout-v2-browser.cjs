@@ -146,6 +146,17 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.screenshot({path:path.join(output,`checkout-v2-unavailable-${width}.png`)});
    // Gallery dialog owns keyboard focus and restores it on Escape.
    await page.goto(origin+'/trip-detail.html?trip=demo');await page.waitForSelector('#trip-custom_why_choose_us');
+   await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
+   await page.getByRole('button',{name:'30 October 2026: 1 departure',exact:true}).click();
+   await page.getByRole('button',{name:'Choose this departure',exact:true}).click();
+   await page.waitForFunction(()=>document.activeElement.id==='dateSelect');
+   assert.equal(await page.locator('#dateSelect').inputValue(),later,'Floating calendar updates the original booking form');
+   assert.equal(await page.locator('#bookingCard .departure-calendar').count(),0,'No inline calendar takes booking space');
+   if(width<768){
+    const geometry=await page.locator('.itinerary-accordion').evaluate(root=>{const h=root.querySelector('.accordion-header h3').getBoundingClientRect(),badge=root.querySelector('.day-badge').getBoundingClientRect(),text=root.querySelector('.accordion-content ul').getBoundingClientRect(),card=root.querySelector('.accordion-item').getBoundingClientRect();return {stacked:h.top>=badge.bottom-1,textInset:text.left-card.left,textWidth:text.width,cardWidth:card.width};});
+    assert.ok(geometry.stacked,'Day label sits above the title');
+    assert.ok(geometry.textInset<=16&&geometry.textWidth>=geometry.cardWidth-32,'Itinerary text uses the card width');
+   }
    assert.equal(await page.locator('#tripHeadingSummary').innerText(),'Meet local hosts and explore.');
    assert.equal(await page.locator('#tripHighlightsPreview li').count(),4);
    assert.equal(await page.locator('#tripHighlightsOverview').isVisible(),true);

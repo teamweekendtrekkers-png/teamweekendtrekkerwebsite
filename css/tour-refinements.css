@@ -128,3 +128,16 @@
  .tour-refined #bookingCard .booking-price-note a{min-height:44px;text-underline-offset:3px}
  .tour-refined #bookingCard .booking-price-note a:focus-visible{outline:3px solid #087f73;outline-offset:2px;border-radius:4px}
 }
+
+/* Give itinerary titles and text the full card width on a phone. */
+@media(max-width:767px){
+ .tour-refined #tripItinerary{padding:14px 12px}
+ .tour-refined .accordion-content{padding:12px 14px 14px}
+ .tour-refined .accordion-content ul{padding:0;list-style:none}
+ .tour-refined .accordion-content li{line-height:1.6;margin-bottom:10px}
+ .tour-refined .accordion-content li:last-child{margin-bottom:0}
+ .tour-refined .accordion-header{display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:6px 10px;align-items:start;padding:12px 14px}
+ .tour-refined .accordion-header .day-badge{grid-column:1;grid-row:1;justify-self:start;font-size:12px;padding:4px 8px;line-height:1.3}
+ .tour-refined .accordion-header h3{grid-column:1;grid-row:2;min-width:0;font-size:16px;line-height:1.4;margin:0}
+ .tour-refined .accordion-header i{grid-column:2;grid-row:1/3;align-self:center;justify-self:center}
+}

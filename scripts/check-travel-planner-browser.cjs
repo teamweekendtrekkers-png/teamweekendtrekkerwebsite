@@ -24,8 +24,16 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    });
    await page.goto(origin);
    await page.locator('.finder-preferences').waitFor();
+   assert.equal(await page.locator('.floating-calendar').count(),1,'One calendar control across layouts');
+   assert.equal(await page.getByRole('navigation',{name:'Mobile shortcuts',exact:true}).isVisible(),width<768);
    assert.equal(await page.locator('.finder-preferences').evaluate(node=>node.open),width>=768,'Phone preferences start compact');
    if(width<768){
+    const order=await page.evaluate(()=>{const trips=document.querySelector('.trips-section').getBoundingClientRect(),stats=document.querySelector('.stats').getBoundingClientRect(),finder=document.querySelector('.weekend-finder').getBoundingClientRect();return {trips:trips.top,stats:stats.top,finder:finder.top};});
+    assert.ok(order.trips<order.stats&&order.trips<order.finder,'Trip cards appear before statistics and preferences');
+    assert.equal(await page.locator('.hero .weekend-finder').count(),0,'Hero stays focused on search');
+    const shortcuts=page.getByRole('navigation',{name:'Mobile shortcuts',exact:true});
+    assert.equal(await shortcuts.getByRole('link',{name:'Home',exact:true}).getAttribute('aria-current'),'page');
+    assert.match(await shortcuts.getByRole('link',{name:'Treks',exact:true}).getAttribute('href'),/experience=trek/);
     assert.equal(await page.locator('.whatsapp-float').isVisible(),false,'Floating help does not obscure departure actions');
     assert.equal(await page.locator('.finder-help').isVisible(),true,'Inline WhatsApp help stays available');
     await page.setViewportSize({width:1440,height:844});
@@ -33,11 +41,16 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     await page.setViewportSize({width,height:844});
     await page.waitForFunction(()=>!document.querySelector('.finder-preferences').open);
    }
-   await page.getByText('Browse departure calendar',{exact:true}).click();
+   await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
+   assert.equal(await page.locator('.mobile-shortcuts .floating-calendar').count(),width<768?1:0,'Calendar moves into the phone shortcut bar');
    await page.getByRole('button',{name:'8 November 2030: 1 departure',exact:true}).click();assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'15 November 2030: 2 departures',exact:true}).click();assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'Next month',exact:true}).click();assert.equal(await page.locator('.calendar-navigation h3').innerText(),'December 2030');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'Homepage fits phone width');
+   await page.getByRole('button',{name:'Close departure calendar',exact:true}).click();
+   assert.equal(await page.locator('.floating-calendar').evaluate(node=>node===document.activeElement),true,'Calendar restores launcher focus');
+   await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
+   await page.keyboard.press('Escape');assert.equal(await page.locator('.calendar-dialog[open]').count(),0);
    await page.getByRole('button',{name:'Plan private group trip',exact:true}).click();
    const dialog=page.locator('.planner-dialog');await dialog.getByLabel('Your name',{exact:true}).fill('Test Traveller');await dialog.getByLabel('Phone / WhatsApp number',{exact:true}).fill('9999999999');
    assert.equal(await dialog.getByLabel('Number of travellers',{exact:true}).inputValue(),'6');await dialog.getByRole('button',{name:'Send enquiry',exact:true}).click();await dialog.getByText(/Enquiry sent\. Our team/).waitFor();assert.equal(writes,1);assert.equal(await dialog.locator('[type=submit]').isDisabled(),true);
