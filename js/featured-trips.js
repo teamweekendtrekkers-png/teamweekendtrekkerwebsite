@@ -12,6 +12,7 @@
 const featuredTripIds = [
     "kannur-theyyam",
     "trip_1792519339566",
+    "gokarna-new-year-party",
     "rameshwaram-dhanushkodi",
 ];
 
