@@ -96,3 +96,12 @@
   .homepage .hero-desc { font-size: 16px; line-height: 1.5; margin-bottom: 12px; }
   .homepage .hero-search { margin: 14px 0 10px; }
 }
+
+/* On phones, let travellers see real trips before preferences and statistics. */
+.homepage .mobile-finder-section[hidden]{display:none!important}
+@media(max-width:767px){
+ .homepage .hero.homepage-discovery-ready .hero-buttons{display:none}
+ .homepage .mobile-finder-section{padding:8px 0 16px;background:#f7faf7}
+ .homepage .mobile-finder-section .weekend-finder{margin-top:0}
+ .homepage .hero+.trips-section{padding-top:12px}
+}
