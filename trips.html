@@ -63,7 +63,7 @@
         <div class="container">
             <div class="catalogue-status">
                 <p id="trip-results-status" aria-live="polite">Loading trips…</p>
-                <label class="catalogue-sort" for="catalogueSort"><span class="sr-only">Sort trips</span><select id="catalogueSort" aria-label="Sort trips"><option value="next">Next departure</option><option value="title">Name: A–Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></label>
+                <label class="catalogue-sort" for="catalogueSort"><span class="sr-only">Sort trips</span><select id="catalogueSort" aria-label="Sort trips" disabled><option value="next">Next departure</option><option value="title">Name: A–Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></label>
                 <label class="coming-soon-toggle"><input type="checkbox" id="show-coming-soon"> Show trips without available dates</label>
             </div>
             <div class="trips-grid" id="tripsDynamicGrid">
@@ -127,7 +127,7 @@
     <script src="js/homepage-settings.js"></script>
     <script src="js/inline-format.js?v=1"></script>
     <script src="js/departure-colors.js?v=1"></script>
-    <script src="js/trip-discovery.js?v=2026111902"></script>
+    <script src="js/trip-discovery.js?v=2026111903"></script>
     <script>
     // UPI Protection - Display masked, copy actual
     (function() {

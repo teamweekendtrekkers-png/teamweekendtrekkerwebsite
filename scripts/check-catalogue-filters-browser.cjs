@@ -21,13 +21,14 @@ const fixtures={
    const page=await browser.newPage({viewport:{width,height:1000}}),errors=[],writes=[];
    await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    let discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
+   let releaseConfig;const configReady=new Promise(resolve=>releaseConfig=resolve);
    page.on('pageerror',error=>errors.push(error.message));
    await page.route('**/*',async route=>{
     const req=route.request(),url=new URL(req.url());
     if(req.method()!=='GET'){writes.push(req.method()+' '+req.url());return route.abort();}
     if(url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData = '+JSON.stringify(fixtures)+';'});
-    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,discovery})});
+    if(url.pathname==='/js/homepage-config.json'){await configReady;return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,discovery})});}
     if(url.pathname.startsWith('/images/'))return route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
     const file=path.resolve(root,'.'+url.pathname);
     if(!file.startsWith(root+path.sep))return route.abort();
@@ -35,7 +36,9 @@ const fixtures={
     catch{return route.fulfill({status:404,body:''});}
    });
    const ids=()=>page.locator('#tripsDynamicGrid .trip-card').evaluateAll(nodes=>nodes.map(node=>node.dataset.tripId));
-   await page.goto(origin+'/trips.html');
+   await page.goto(origin+'/trips.html',{waitUntil:'domcontentloaded'});
+   assert.equal(await page.getByLabel('Sort trips',{exact:true}).isDisabled(),true,'Sorting waits for catalogue settings');
+   releaseConfig();
    await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===3);
    await page.getByLabel('Sort trips',{exact:true}).selectOption('price-desc');
    assert.deepEqual(await ids(),['heritage','coast','coorg']);assert.match(page.url(),/sort=price-desc/);
