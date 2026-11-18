@@ -571,7 +571,7 @@ const tripsData = {
         featured: false,
         price: "₹6,999",
         originalPrice: 7999,
-        image: "images/gallery/rameshwaram-dhanushkodi/img_1767723256822.jpg",
+        image: "images/trips/gokarna-new-year-party_1794991718578.jpg",
         batchColor: "rose",
         distance: "480 km from Bangalore",
         elevation: "Sea level",
