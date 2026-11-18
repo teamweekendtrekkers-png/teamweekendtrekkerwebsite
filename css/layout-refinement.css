@@ -111,6 +111,7 @@ body[data-site-page] .footer{padding-top:32px}
 }
 
 /* Compact discovery and a consistent rhythm below the trip cards. */
+.homepage .weekend-finder .finder-help{display:none}
 .homepage .finder-preferences{border:0;background:transparent;padding:0}
 .homepage .finder-preferences>summary{cursor:pointer;min-height:44px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;list-style:none;color:#173f35}
 .homepage .finder-preferences>summary::-webkit-details-marker{display:none}
@@ -128,6 +129,8 @@ body[data-site-page] .footer{padding-top:32px}
 .homepage .cta-section{padding-block:36px}
 @media(max-width:767px){
  .homepage .weekend-finder{margin-top:8px}
+ .homepage .weekend-finder .finder-help{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font-size:13px}
+ .homepage .whatsapp-float{display:none!important}
  .homepage .weekend-finder h2{font-size:16px;margin-bottom:2px}
  .homepage .finder-preferences>summary{align-items:flex-start;padding-block:6px;position:relative;padding-right:24px;gap:2px 10px}
  .homepage .finder-preferences-title,.homepage .finder-selection{flex-basis:100%}

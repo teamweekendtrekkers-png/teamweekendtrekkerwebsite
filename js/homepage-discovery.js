@@ -26,7 +26,7 @@
   const preferences=make('details','finder-preferences'),summary=make('summary'),selection=make('span','finder-selection');
   summary.append(make('span','finder-preferences-title','Trip preferences'),selection);preferences.append(summary);
   const mobileFinder=win.matchMedia('(max-width:767px)');preferences.open=!mobileFinder.matches;
-  mobileFinder.addEventListener('change',()=>{if(!mobileFinder.matches)preferences.open=true;});
+  mobileFinder.addEventListener('change',()=>{preferences.open=!mobileFinder.matches;});
   const saved=new URLSearchParams(win.location.search),categories=['all','trek','beach','heritage','getaway','adventure'];
   const state={query:'',when:choices().some(item=>item.value===saved.get('when'))?saved.get('when'):'',experience:categories.includes(saved.get('experience'))?saved.get('experience'):'all'};
   const categoryGroup=make('div','finder-choices');categoryGroup.setAttribute('role','group');categoryGroup.setAttribute('aria-label','Choose a trip experience');
@@ -50,6 +50,7 @@
   buttons(categoryGroup,[{value:'all',label:'All experiences'},{value:'trek',label:'Treks'},{value:'beach',label:'Beaches'},{value:'heritage',label:'Heritage'},{value:'getaway',label:'Getaways'},{value:'adventure',label:'Adventure'}],'experience');
   const whenLabel=make('p','finder-label','When can you go?');
   buttons(whenGroup,choices(),'when');preferences.append(categoryGroup,whenLabel,whenGroup);finder.append(preferences,result,status);
+  const help=copy.querySelector('.hero-help')?.cloneNode(true);if(help){help.classList.add('finder-help');finder.append(help);}
   finder.hidden=!config.discovery.enabled;categoryGroup.hidden=!config.discovery.showExperienceFilter;whenGroup.hidden=whenLabel.hidden=!config.discovery.showWeekendFilter;preferences.hidden=categoryGroup.hidden&&whenGroup.hidden;
   const searchResults=doc.getElementById('heroSearchResults');(searchResults||form).after(finder);search?.addEventListener('input',update);win.addEventListener('pageshow',update);win.setInterval(update,30000);update();
   const layout=make('div','homepage-hero-layout'),collage=make('figure','traveller-collage');collage.setAttribute('aria-label','Moments from our travel community');

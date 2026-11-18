@@ -14,12 +14,21 @@ test('generated bodies render the current description of every managed trip',()=
  const generator=require('../scripts/generate-trip-pages');
  const trips=generator.readTripsData(path.join(__dirname,'..'));
  const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
- for(const trip of Object.values(trips)){
+ for(const [id,trip] of Object.entries(trips)){
  const output=require('../scripts/trip-body').renderBody(template,trip,config);
+ const visibleOutput=output.replace(/<\/?(?:strong|em)>/g,'');
  const escape=text=>text.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
  const paragraphs=String(trip.about||'').split(/\n\s*\n/).filter(Boolean);
- for(const paragraph of paragraphs)assert.ok(output.includes('<p>'+escape(content.cleanText(paragraph))+'</p>'),'Current trip description must appear in the generated body');
+ for(const paragraph of paragraphs)assert.ok(visibleOutput.includes('<p>'+escape(require('../js/inline-format').plain(content.cleanText(paragraph)))+'</p>'),`Current trip description must appear in the generated body: ${id}`);
  }
+});
+test('generated descriptions retain bold and italic text while escaping embedded markup',()=>{
+ const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
+ const trip={about:'**Coast <views> & "sunsets"** with *local hosts*.\n\nA **new adventure** awaits <img src=x onerror=alert(1)>.'};
+ const output=require('../scripts/trip-body').renderBody(template,trip,config);
+ assert.ok(output.includes('<p><strong>Coast &lt;views&gt; &amp; &quot;sunsets&quot;</strong> with <em>local hosts</em>.</p>'));
+ assert.ok(output.includes('<p>A <strong>new adventure</strong> awaits &lt;img src=x onerror=alert(1)&gt;.</p>'));
+ assert.ok(!output.includes('<img src=x'));
 });
 test('generated descriptions accept manager edits and escape markup across paragraphs',()=>{
  const template=fs.readFileSync(path.join(__dirname,'../trip-detail.html'),'utf8');
