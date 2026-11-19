@@ -1,8 +1,9 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const presentation=require('../js/site-presentation');
 test('appearance accepts only approved palettes, safe photos and bounded motion',()=>{
- const valid={animationsEnabled:true,preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMobileFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
+ const valid={partColours:{...presentation.defaults.partColours,dateFirst:'rose',navCalendar:'blue'},animationsEnabled:true,preset:'ocean',heroMobileImage:'images/mobile.jpg',heroFocalPoint:'top',heroMobileFocalPoint:'top',heroMotion:true,heroSlides:['images/2.jpg','https://example.com/3.webp']};
  assert.deepEqual(presentation.normalize(valid),valid);
+ assert.equal(presentation.normalize({partColours:{dateFirst:'unknown'}}).partColours.dateFirst,'default');
  for(const preset of ['__proto__','constructor','evil'])assert.equal(presentation.normalize({preset}).preset,'forest');
  for(const image of ['javascript:alert(1)','images/../secret','https://user:pass@example.com/a','https://[/bad','images/a.jpg")'])assert.equal(presentation.normalize({heroMobileImage:image,heroSlides:[image]}).heroMobileImage,'');
  assert.equal(presentation.normalize({heroSlides:['images/1.jpg','images/2.jpg','images/3.jpg']}).heroSlides.length,2);

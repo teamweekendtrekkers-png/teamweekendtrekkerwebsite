@@ -102,3 +102,20 @@
 .trip-video .btn{min-height:44px;margin:4px 10px 4px 0}
 .trip-video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#173f35}
 .trip-video>a{display:inline-flex;align-items:center;min-height:44px;color:#09685f;text-decoration:underline}
+
+
+.trip-card .trip-date-tags .trip-date-tag:nth-child(1){background:var(--part-dateFirst-tint,#d8f2ea);border-color:var(--part-dateFirst-ink,#79af9f);color:var(--part-dateFirst-ink,#13483f)}
+.trip-card .trip-date-tags .trip-date-tag:nth-child(2){background:var(--part-dateSecond-tint,#e0ecfc);border-color:var(--part-dateSecond-ink,#8aa8cc);color:var(--part-dateSecond-ink,#203e67)}
+.trip-card .trip-date-tags .trip-date-tag:nth-child(3){background:var(--part-dateThird-tint,#f0e2fd);border-color:var(--part-dateThird-ink,#ac90c5);color:var(--part-dateThird-ink,#4d2c72)}
+.trip-card .trip-footer .trip-price{color:var(--part-cardPrice-ink,var(--brand-forest))}
+.trip-card .trip-footer .trip-card-details{background:var(--part-cardDetails-ink,var(--brand-teal));border-color:var(--part-cardDetails-ink,var(--brand-teal));color:#fff}
+.trip-card .trip-footer .trip-card-details:hover{filter:brightness(.9)}
+.trip-card .trip-card-help{background:var(--part-cardHelp-tint,#fff);color:var(--part-cardHelp-ink,#173f35);border-color:var(--part-cardHelp-ink,#789b8d)}
+@media(max-width:767px){
+ .mobile-shortcuts>a:nth-child(1){color:var(--part-navHome-ink,#09685f)}
+ .mobile-shortcuts>a:nth-child(2){color:var(--part-navWeekend-ink,#a03e17)}
+ .mobile-shortcuts>a:nth-child(4){color:var(--part-navAll-ink,#56408d)}
+ .mobile-shortcuts>a:last-child{color:var(--part-navWhatsapp-ink,#16763c)}
+ .mobile-shortcuts .floating-calendar,
+ .mobile-shortcuts .floating-calendar:is(:hover,:active){background:var(--part-navCalendar-bright,#ffd43b);color:var(--brand-forest)}
+}
