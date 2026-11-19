@@ -52,7 +52,18 @@ const server=http.createServer((req,res)=>{
     }catch{return route.fulfill({status:404,body:''});}
    });
    const open=async()=>{await page.goto(origin+'/checkout.html?trip=demo&date='+encodeURIComponent(date)+'&people=1');await page.waitForFunction(()=>!document.getElementById('submitDetailsBtn').disabled);};
-   const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
+   const fillTravellers=async()=>{
+    const count=await page.locator('.traveller-card').count();
+    for(let n=1;n<=count;n++){
+     await page.fill('#traveller-'+n+'-name','Demo Traveller '+n);
+     await page.fill('#traveller-'+n+'-age','30');
+     await page.fill('#traveller-'+n+'-phone','9999999999');
+     await page.fill('#traveller-'+n+'-email','demo@example.com');
+     const pickup=page.locator('#traveller-'+n+'-pickup');
+     if(await pickup.count())await pickup.selectOption({index:1});
+    }
+   };
+   const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');await fillTravellers();};
    await open();await fill();
    assert.equal(await page.locator('input[value="confirmation"][name="bookingPaymentMode"]').isChecked(),true);
    await page.click('#submitDetailsBtn');await page.waitForSelector('#requestReceived[open]');

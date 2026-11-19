@@ -9,7 +9,7 @@ function page(config,response) {
  for(const id of ['submitSuccess','requestReceived'])elements[id]={children:[],querySelector(){return this.children[0] || null;},append(element){this.children.push(element);}};
  const calls=[],stored=new Map();let legacy=0,success=0;
  const window={submitDetails:async()=>{legacy++;},bookingData:{date:'Oct 16-18, 2026',people:2,total:8998,coupon:''}};
- const context=vm.createContext({window,document:{getElementById:id=>elements[id],createElement:()=>({dataset:{}}),dispatchEvent:event=>calls.push({event:event.type,detail:event.detail})},
+ const context=vm.createContext({window,TravellerDetails:{read:()=>[{name:'Demo One',age:30,phone:'9999999999',email:'demo@example.com',pickup:'Central'},{name:'Demo Two',age:31,phone:'9999999999',email:'demo@example.com',pickup:'Central'}]},document:{getElementById:id=>elements[id],createElement:()=>({dataset:{}}),dispatchEvent:event=>calls.push({event:event.type,detail:event.detail})},
   CustomEvent:class{constructor(type,options){this.type=type;this.detail=options?.detail;}},Event:class{constructor(type){this.type=type;}},crypto:webcrypto,TextEncoder,AbortSignal,validateForm:()=>true,getTripFromURL:()=>'wayanad',showPaymentSection:()=>{success++;},
   sessionStorage:{getItem:key=>stored.get(key),setItem:(key,value)=>stored.set(key,value)},
   fetch:async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>options?.method==='POST'?response:config};}});

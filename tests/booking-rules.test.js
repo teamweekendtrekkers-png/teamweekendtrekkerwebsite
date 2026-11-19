@@ -42,7 +42,7 @@ test('checkout opens success/payment instructions only after a successful form r
  const source=html.slice(html.indexOf('async function submitDetails()'),html.indexOf('function showPaymentSection()'));
  for(const response of [{ok:true,success:true},{ok:false,success:true},{ok:true,success:false},null]){
   let successes=0,alerts=0;const elements={};
-  const context={document:{getElementById:id=>elements[id]||(elements[id]={value:'Test',disabled:false})},window:{bookingData:{trip:'Test',total:100,subtotal:100,discount:0,people:1}},WEB3FORMS_ACCESS_KEY:'test-only',validateForm:()=>true,showPaymentSection:()=>successes++,alert:()=>alerts++,console:{log(){},error(){}},fetch:async()=>{if(!response)throw Error('offline');return{ok:response.ok,json:async()=>({success:response.success})};}};
+  const context={TravellerDetails:{read:()=>[{name:'Test'}]},document:{getElementById:id=>elements[id]||(elements[id]={value:'Test',disabled:false})},window:{bookingData:{trip:'Test',total:100,subtotal:100,discount:0,people:1}},WEB3FORMS_ACCESS_KEY:'test-only',validateForm:()=>true,showPaymentSection:()=>successes++,alert:()=>alerts++,console:{log(){},error(){}},fetch:async()=>{if(!response)throw Error('offline');return{ok:response.ok,json:async()=>({success:response.success})};}};
   vm.createContext(context);vm.runInContext(source,context);await context.submitDetails();
   assert.equal(successes,response?.ok&&response?.success?1:0);assert.equal(alerts,successes?0:1);
  }

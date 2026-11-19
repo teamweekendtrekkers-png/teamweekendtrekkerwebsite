@@ -342,7 +342,25 @@
             .slice(0, batchLimit);
     }
 
+    function pickupPoints(trip, fallback = []) {
+        const configured = Array.isArray(trip.boardingLocations) ? trip.boardingLocations : [];
+        return (configured.some(point => point?.name && point.time) ? configured : fallback)
+            .filter(point => typeof point?.name === "string" && point.name.trim());
+    }
+
+    function departurePricing(trip, date) {
+        const key = parseTripDateRange(date)?.key;
+        const entry = key && trip.departurePricing?.[key];
+        if (!Number.isSafeInteger(entry?.price) || entry.price <= 0) return null;
+        return {price: entry.price, note: String(entry.note || '').trim().slice(0, 120) || 'Special departure pricing'};
+    }
+
+    const formatPrice = amount => '\u20b9' + amount.toLocaleString('en-IN');
+
     return {
+        departurePricing,
+        pickupPoints,
+        formatPrice,
         departureStatus,
         dateWindow,
         unavailableDateLabel,

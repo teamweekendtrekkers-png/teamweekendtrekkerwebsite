@@ -39,6 +39,7 @@
 <script src="/js/website-pages.js?v=20261116"></script>
 <link rel="stylesheet" href="css/travel-planner.css?v=2026111902">
 <link rel="stylesheet" href="css/layout-refinement.css?v=2026111802">
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026111905">
 </head>
 <body data-site-page="trip-detail">
     <nav class="navbar">
@@ -369,7 +370,7 @@
                         <form class="booking-form" id="bookingForm">
                             <div class="form-group">
                                 <label for="dateSelect">Departure date</label>
-                                <select name="date" id="dateSelect" required>
+                                <select name="date" id="dateSelect" aria-describedby="departurePriceNote" required>
                                     <option value="">Choose a date</option>
                                 </select>
                             </div>
@@ -768,13 +769,7 @@
             const pickupTable = document.querySelector('#pickupTable tbody');
             if (pickupTable) {
                 // Use trip-specific boardingLocations ONLY if it has valid entries (name & time)
-                const hasValidBoardingLocations = trip.boardingLocations && 
-                    trip.boardingLocations.length > 0 && 
-                    trip.boardingLocations.some(p => p.name && p.time);
-                
-                const pickupPoints = hasValidBoardingLocations 
-                    ? trip.boardingLocations 
-                    : (typeof commonPickupPoints !== 'undefined' ? commonPickupPoints : []);
+                const pickupPoints = TripDateUtils.pickupPoints(trip, typeof commonPickupPoints === 'undefined' ? [] : commonPickupPoints);
                 
                 pickupTable.innerHTML = pickupPoints.map(point => `
                     <tr role="row">
@@ -865,26 +860,34 @@
             }
 
             // Update booking sidebar prices and meta
-            const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
             document.getElementById('currentPrice').textContent = trip.price;
             // Mirror price into mobile float button
             const floatPrice = document.getElementById('floatPrice');
             if (floatPrice) floatPrice.textContent = trip.price + ' ·';
             document.getElementById('totalAmount').textContent = trip.price;
-            // Store price for calculations
-            window.tripPrice = priceNum;
+            window.bookingTrip = trip;
+            const note = document.createElement('p');
+            note.id = 'departurePriceNote';
+            note.setAttribute('role', 'status');
+            dateSelect.after(note);
             TripTravellers.populate(document.getElementById("peopleCount"), trip);
             // Update total when people count changes
             document.getElementById('peopleCount').addEventListener('change', updateTotal);
             document.getElementById('dateSelect').addEventListener('change', updateTotal);
-            updateTotal();
-            updateTotal();
             TripDecision.apply(trip, document, window);
+            updateTotal();
             MobileExperience.trip(trip);
         }
         function updateTotal() {
             const people = parseInt(document.getElementById('peopleCount').value) || 1;
-            const total = window.tripPrice * people;
+            const trip = window.bookingTrip;
+            const special = TripDateUtils.departurePricing(trip, document.getElementById('dateSelect').value);
+            const price = special?.price ?? Number(trip.price.replace(/[^\d.]/g, ''));
+            const note = document.getElementById('departurePriceNote');
+            note.textContent = special?.note || '';
+            note.hidden = !special;
+            document.getElementById('currentPrice').textContent = special ? TripDateUtils.formatPrice(price) : trip.price;
+            const total = price * people;
             document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
             const date = document.getElementById('dateSelect').value;
             const link = document.getElementById('bookNowBtn');
@@ -1041,16 +1044,16 @@
             }, { passive: true });
         })();
     </script>
-    <script src="js/trip-date-utils.js?v=2026111303"></script>
+    <script src="js/trip-date-utils.js?v=2026111904"></script>
     <script src="js/trip-decision.js?v=6"></script>
     <script src="js/security.js"></script>
-<script src="js/trip-customer.js?v=2026111703"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=2026111705"></script><script src="js/packing-checklist.js?v=2026111902"></script>
+<script src="js/trip-customer.js?v=2026111904"></script><script src="js/trip-content-defaults.js?v=3"></script><script src="js/trip-content.js?v=2026111705"></script><script src="js/packing-checklist.js?v=2026111902"></script>
     <script src="js/trip-brochure.js?v=2026111701"></script>
 <script src="js/tour-refinements.js?v=2"></script>
 <script src="js/site-motion.js?v=20261116"></script>
 <script defer src="/js/journey-analytics.js?v=2"></script>
 <script src="js/trip-links.js"></script>
-<script src="js/travel-planner.js?v=2026111901"></script>
+<script src="js/travel-planner.js?v=2026111904"></script>
 </body>
 </html>
 

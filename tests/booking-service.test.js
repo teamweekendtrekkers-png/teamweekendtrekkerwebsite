@@ -113,3 +113,23 @@ test('each trip enforces its own traveller cap before accepting a booking',async
  data.trips.demo.maxTravellers=0;
  assert.throws(()=>bookingFromCatalog(input(),data,now),/service_unavailable/);
 });
+test('departure overrides determine the payable amount and reject a stale standard price', async () => {
+ const {bookingFromCatalog}=await core;
+ const data=catalog(), now=new Date('2026-10-12');
+ data.trips.demo.departures[0].price=4999;
+ assert.throws(()=>bookingFromCatalog(input(),data,now),/quote_changed/);
+ const booking=bookingFromCatalog({...input(),expected_total:9998},data,now);
+ assert.equal(booking.price_per_person,4999);
+ assert.equal(booking.subtotal,9998);
+});
+test('traveller details require one valid record per seat and a configured pickup point', async () => {
+ const {normalizeRequest,bookingFromCatalog}=await core;
+ const data=catalog(), now=new Date('2026-10-12');
+ data.trips.demo.pickupPoints=['Central'];
+ const person={name:'Demo Traveller',age:30,phone:'9999999999',email:'demo@example.com',pickup:'Central'};
+ const valid={...input(),traveller_details:[person,{...person,name:'Second Traveller'}]};
+ assert.equal(bookingFromCatalog(normalizeRequest(valid),data,now).traveller_details.length,2);
+ assert.throws(()=>normalizeRequest({...valid,traveller_details:[person]}),/invalid_request/);
+ assert.throws(()=>normalizeRequest({...valid,traveller_details:[person,{...person,age:121}]}),/invalid_request/);
+ assert.throws(()=>bookingFromCatalog(normalizeRequest({...valid,traveller_details:[person,{...person,pickup:'Other'}]}),data,now),/invalid_request/);
+});

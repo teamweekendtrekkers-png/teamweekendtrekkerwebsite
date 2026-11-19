@@ -52,7 +52,18 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
      }
      assert.equal(await page.locator('.page-header h1').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.navbar').getBoundingClientRect().bottom),true,'Checkout heading clears navigation');
    };
-   const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');};
+   const fillTravellers=async()=>{
+    const count=await page.locator('.traveller-card').count();
+    for(let n=1;n<=count;n++){
+     await page.fill('#traveller-'+n+'-name','Demo Traveller '+n);
+     await page.fill('#traveller-'+n+'-age','30');
+     await page.fill('#traveller-'+n+'-phone','9999999999');
+     await page.fill('#traveller-'+n+'-email','demo@example.com');
+     const pickup=page.locator('#traveller-'+n+'-pickup');
+     if(await pickup.count())await pickup.selectOption({index:1});
+    }
+   };
+   const fill=async()=>{await page.fill('#fullName','Demo Traveller');await page.fill('#email','demo@example.com');await page.fill('#phone','9999999999');await fillTravellers();};
    // Missing, unknown or duplicate trip IDs must never select a fallback trip.
    for(const query of ['', '?trip=unknown&date='+encodeURIComponent(date), '?trip=demo&trip=other&date='+encodeURIComponent(date), '?trip=__proto__&date='+encodeURIComponent(date)]) {
     await page.goto(origin+'/checkout.html'+query);
@@ -113,13 +124,15 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.waitForSelector('.booking-change-dialog:not([open])',{state:'attached'});
    assert.match(page.url(),/checkout.html/);assert.equal(await page.inputValue('#fullName'),'Demo Traveller');assert.equal(await page.inputValue('#email'),'demo@example.com');
    assert.equal(new URL(page.url()).searchParams.get('date'),later);assert.equal(new URL(page.url()).searchParams.get('people'),'2');
+   assert.equal(await page.inputValue('#traveller-1-name'),'Demo Traveller 1');
+   await fillTravellers();
    await page.locator('#couponEntry summary').click();await page.fill('#couponCode','SAVE100');await page.click('#applyCoupon');await page.waitForFunction(()=>window.bookingData.total===8898);
    await page.click('#submitDetailsBtn');await page.waitForSelector('#paymentSection',{state:'visible'});
    assert.equal(await page.locator('[data-booking-step="2"]').getAttribute('aria-current'),'step');
    assert.match(await page.locator('#paymentTripContext').innerText(),/Demo Trip/);
    assert.match(await page.locator('#paymentTripContext').innerText(),/8,898/);
    if(width<768)assert.equal(await page.locator('.mobile-trip-summary').getAttribute('open'),null,'Trip summary collapses when payment starts');
-   assert.equal(leads.length,1);assert.equal(leads[0].full_name,'Demo Traveller');
+   assert.equal(leads.length,1);assert.equal(leads[0].full_name,'Demo Traveller');assert.equal(leads[0].traveller_details.length,2);assert.equal(leads[0].traveller_details[0].pickup,'Central pickup');
    assert.equal(posts.length,0);assert.match(await page.textContent('#paymentDue'),/4,449\.00/);assert.equal(await page.locator('#paymentChecklist li').count(),3);assert.equal(await page.locator('#paymentNote').isVisible(),false);
    await page.waitForTimeout(2200); // The legacy masking timer must leave this explicitly visible ID readable.
    assert.equal(await page.textContent('#paymentUpiValue'),'first@upi');

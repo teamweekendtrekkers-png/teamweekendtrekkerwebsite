@@ -11,7 +11,11 @@
   button.addEventListener('click',()=>{
    if(window.bookingData.bookingReference)return;
    const ranges=TripDateUtils.getUpcomingDateRanges(trip,new Date());dates.replaceChildren();
-   for(const range of ranges)dates.add(new Option(range.originalLabel,range.originalLabel));
+   for (const range of ranges) {
+    const special = TripDateUtils.departurePricing(trip, range.originalLabel);
+    const label = special ? range.originalLabel + " (" + TripDateUtils.formatPrice(special.price) + " per person)" : range.originalLabel;
+    dates.add(new Option(label, range.originalLabel));
+   }
    const selected=TripDecision.matchingDeparture(trip,getDateFromURL());if(selected)dates.value=selected;
    people.value=String(Math.min(window.bookingData.people,TripTravellers.limit(trip)));dates.disabled=!ranges.length;submit.disabled=!ranges.length;
    feedback.textContent=ranges.length?'':'No other departures are available for this trip. Please contact our team.';

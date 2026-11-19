@@ -31,7 +31,7 @@
       const payload = {trip_id: getTripFromURL(), departure_label: booking.date, travellers: booking.people,
         full_name: value('fullName'), email: value('email'), phone: value('phone'),
         alternate_phone: value('altPhone'),
-        participant_names: value('participants').split(/[,\n]/).map(name => name.trim()).filter(Boolean),
+        participant_names: TravellerDetails.read().map(person => person.name), traveller_details: TravellerDetails.read(),
         special_requests: value('notes'), coupon_code: booking.coupon || '', expected_total: booking.total};
       payload.idempotency_key = await requestKey({event: 'checkout-started', ...payload});
       const response = await fetch(config.endpoint.replace(/booking-request$/, 'checkout-started'), {
@@ -67,7 +67,7 @@
       const booking = window.bookingData;
       const payload = {trip_id: getTripFromURL(), departure_label: booking.date, travellers: booking.people,
         full_name: value('fullName'), email: value('email'), phone: value('phone'), alternate_phone: value('altPhone'),
-        participant_names: value('participants').split(/[,\n]/).map(name => name.trim()).filter(Boolean),
+        participant_names: TravellerDetails.read().map(person => person.name), traveller_details: TravellerDetails.read(),
         special_requests: window.PaymentOptions ? window.PaymentOptions.reportText(booking.paymentReport, value('notes')) : value('notes'), coupon_code: booking.coupon || '', expected_total: booking.total};
       payload.idempotency_key = await requestKey(payload);
       document.getElementById('bookingIssue').hidden = true;
