@@ -167,7 +167,8 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    if(!(await packing.evaluate(el=>el.open)))await packing.locator('summary').click();
    await page.getByRole('button',{name:'Reset packing',exact:true}).click();assert.equal(await page.locator('.packing-checkbox:checked').count(),0);
    await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
-   await page.getByRole('button',{name:'30 October 2026: 1 departure',exact:true}).click();
+   if(width<768)await page.getByRole('dialog',{name:'Departure calendar'}).getByRole('combobox',{name:'Departure date',exact:true}).selectOption('2026-10-30');
+   else await page.getByRole('button',{name:'30 October 2026: 1 departure',exact:true}).click();
    await page.getByRole('button',{name:'Choose this departure',exact:true}).click();
    await page.waitForFunction(()=>document.activeElement.id==='dateSelect');
    assert.equal(await page.locator('#dateSelect').inputValue(),later,'Floating calendar updates the original booking form');
