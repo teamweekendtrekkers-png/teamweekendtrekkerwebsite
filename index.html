@@ -22,9 +22,9 @@
     <link rel="stylesheet" href="css/homepage-layout.css?v=2026111901">
 <script src="/js/website-pages.js?v=20261116"></script>
 <link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=2">
-<link rel="stylesheet" href="css/travel-planner.css?v=2026112003">
+<link rel="stylesheet" href="css/travel-planner.css?v=2026112006">
 <link rel="stylesheet" href="css/layout-refinement.css?v=2026111802">
-<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112005">
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112007">
 </head>
 <body class="homepage" data-site-page="index">
     <!-- Navigation -->
@@ -108,20 +108,24 @@
         </div>
     </section>
 
-    <!-- Featured Trips -->
-    <section class="trips-section">
+    <!-- Explore Destinations -->
+    <section class="trips-section explore-destinations">
         <div class="container">
-            <h2 class="section-title">Explore Destinations</h2>
-            <p class="section-subtitle">We Provide Real Adventures, Not Just Tours</p>
+            <div class="explore-heading">
+                <div>
+                    <h2 class="section-title">Explore Destinations</h2>
+                    <p class="section-subtitle">We Provide Real Adventures, Not Just Tours</p>
+                </div>
             <div class="explore-sort"><label for="exploreSort">Sort trips</label>
                 <select id="exploreSort" aria-controls="featured-trips-grid" disabled><option value="manager">Recommended</option><option value="next">Next departure</option><option value="title">Name: A–Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select>
+            </div>
             </div>
             <div class="trips-grid" id="featured-trips-grid">
                 <!-- Featured trips will be loaded dynamically -->
                 <div class="loading-placeholder">Loading adventures...</div>
             </div>
-            <div class="center-btn">
-                <a href="trips.html" class="btn btn-primary">View All Trips</a>
+            <div class="center-btn explore-actions">
+                <a href="trips.html?unavailable=1&amp;sort=manager" class="btn btn-primary">View All Trips</a>
             </div>
         </div>
     </section>
@@ -346,7 +350,7 @@
     <script src="js/main.js?v=4"></script>
     <script src="js/security.js"></script>
 <script src="js/trip-gallery-slideshow.js?v=2"></script>
-<script src="js/trip-rails.js?v=2026112002"></script>
+<script src="js/trip-rails.js?v=2026112007"></script>
 <script src="js/homepage-compact.js?v=1"></script>
 <script src="js/homepage-discovery.js?v=2026111901"></script>
 <script src="js/site-motion.js?v=20261116"></script>
