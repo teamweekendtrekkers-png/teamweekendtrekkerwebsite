@@ -39,7 +39,8 @@
    const hint=make('p','planner-muted','Highlighted days are departure dates. Select a day to see trips. Dates follow India time.');
    const table=make('table','calendar-table');table.setAttribute('aria-label','Departure dates');
    const results=make('div','calendar-results');results.setAttribute('aria-live','polite');
-   content.append(navigation,hint,table,results);host.append(content);
+   const holidaysList=make('div','calendar-holidays');
+   content.append(navigation,hint,table,results,holidaysList);host.append(content);
    doc.body.append(host,trigger);let focusAfterClose=trigger;
    if(!current){
     const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
@@ -61,7 +62,7 @@
    }
    host.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');focusAfterClose.focus();focusAfterClose=trigger;});
    host.addEventListener('click',event=>{if(event.target!==host)return;const r=host.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)host.close();});
-   let month,selected='',data=[];const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+   let month,selected='',data=[],holidays=[];const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
    const monthKey=date=>date.toISOString().slice(0,7);
    month=today().slice(0,7);
    function render(focusDay=false){
@@ -70,20 +71,46 @@
     caption.textContent=new Intl.DateTimeFormat('en-IN',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(month+'-01T00:00:00Z'));
     const first=new Date(month+'-01T00:00:00Z'),offset=(first.getUTCDay()+6)%7,days=new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();
     const head=make('thead'),header=make('tr');for(const label of ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']){const cell=make('th','',label);cell.scope='col';header.append(cell);}head.append(header);
+    const monthHolidays=holidays.filter(item=>item.date.startsWith(month));
+    hint.textContent=monthHolidays.length?'Tap a highlighted date to see trips. ◆ marks a holiday.':'Highlighted days are departure dates. Select a day to see trips. Dates follow India time.';
+    const holidaysByDate=new Map(monthHolidays.map(item=>[item.date,item.name]));
     const body=make('tbody');let row;
     for(let index=0;index<Math.ceil((offset+days)/7)*7;index++){
      if(index%7===0){row=make('tr');body.append(row);}const cell=make('td');row.append(cell);const day=index-offset+1;if(day<1||day>days)continue;
      const key=month+'-'+String(day).padStart(2,'0'),matches=visible.filter(item=>item.range.startKey===key);
-     if(!matches.length){cell.append(make('span','calendar-empty-day',String(day)));continue;}
+     const holiday=holidaysByDate.get(key);
+     if(holiday){cell.classList.add('calendar-holiday');cell.title=holiday;}
+     if(!matches.length){
+      const empty=make('span','calendar-empty-day',String(day));
+      if(holiday)empty.append(make('span','sr-only',', '+holiday));
+      cell.append(empty);continue;
+     }
      const node=button(String(day),'calendar-day');node.dataset.day=key;node.setAttribute('aria-pressed',String(selected===key));node.setAttribute('aria-label',`${day} ${caption.textContent}: ${matches.length} ${matches.length===1?'departure':'departures'}`);
+     if(holiday)node.setAttribute('aria-label',node.getAttribute('aria-label')+', '+holiday);
      node.append(make('small','',String(matches.length)));if(key===today())node.setAttribute('aria-current','date');node.onclick=()=>{selected=key;render(true);};cell.append(node);
     }
     table.replaceChildren(head,body);results.replaceChildren();
     if(!visible.length)results.append(make('p','planner-muted','No scheduled departures this month. Try the next month or ask us about new dates.'));
     else{
      results.append(make('h4','',new Intl.DateTimeFormat('en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(selected+'T00:00:00Z'))));
+     const usedColours=new Set();
+     const baseColours=win.DepartureColors?.palettes||{};
+     const palette={...baseColours,
+      coral:{background:'#fff0e8',accent:'#923b30'},
+      indigo:{background:'#eeefff',accent:'#383d8a'},
+      olive:{background:'#f3f5db',accent:'#4b561e'},
+      plum:{background:'#f9edf6',accent:'#76316b'},
+     };
+     const colourKeys=Object.keys(palette);
      for(const item of visible.filter(item=>item.range.startKey===selected)){
       const card=make('article','calendar-departure'),link=make('a','',title(item.trip));
+      const configured=item.trip.batchColor;
+      const preferred=win.DepartureColors?.key(undefined,item.trip.id);
+      const colour=Object.hasOwn(baseColours,configured)?configured:
+       preferred&&!usedColours.has(preferred)?preferred:colourKeys.find(key=>!usedColours.has(key))||preferred||colourKeys[0];
+      usedColours.add(colour);
+      card.style.setProperty('--trip-date-accent',palette[colour].accent);
+      card.style.setProperty('--trip-date-bg',palette[colour].background);
       const bookable=['available','confirmed'].includes(item.status.key);link.href=bookable?win.TripLinks.departureUrl(item.trip.id,item.range.originalLabel):win.TripLinks.detailUrl(item.trip.id);
       card.append(link,make('p','planner-muted',item.range.fullLabel));const status=make('span','departure-status',item.status.label);status.dataset.status=item.status.key;card.append(status);
       const special=dates.departurePricing(item.trip,item.range.originalLabel);
@@ -92,12 +119,25 @@
       results.append(card);
      }
     }
-    previous.disabled=month<=today().slice(0,7);const max=data.at(-1)?.range.startKey.slice(0,7)||today().slice(0,7);next.disabled=month>=max;
+    holidaysList.replaceChildren();
+    if(monthHolidays.length){
+     const list=make('ul');
+     for(const item of monthHolidays)list.append(make('li','',Number(item.date.slice(-2))+' · '+item.name));
+     holidaysList.append(make('h4','','Holidays this month'),list);
+    }
+    previous.disabled=month<=today().slice(0,7);
+    const lastDeparture=data.at(-1)?.range.startKey.slice(0,7)||today().slice(0,7);
+    const lastHoliday=holidays.at(-1)?.date.slice(0,7)||'';
+    next.disabled=month>=(lastDeparture>lastHoliday?lastDeparture:lastHoliday);
     if(focusDay)table.querySelector(`[data-day="${selected}"]`)?.focus();
    }
    const move=offset=>{const date=new Date(month+'-01T00:00:00Z');date.setUTCMonth(date.getUTCMonth()+offset);month=monthKey(date);render();};previous.onclick=()=>move(-1);next.onclick=()=>move(1);
    trigger.onclick=()=>{const chosen=current&&dates.parseTripDateRange(doc.getElementById('dateSelect')?.value);if(chosen){month=chosen.startKey.slice(0,7);selected=chosen.startKey;}render();trigger.setAttribute('aria-expanded','true');host.showModal();};
    win.addEventListener('pageshow',()=>{if(host.open)render();});render();
+   if(win.HomepageSettings)win.HomepageSettings.load(win.fetch.bind(win)).then(config=>{
+    holidays=config.calendarHolidays||[];
+    render(host.open&&table.contains(doc.activeElement));
+   });
   }
   if(win.TripDiscovery&&doc.body.classList.contains('homepage')){
    const featured=doc.getElementById('featured-trips-grid')?.closest('section'),reviews=doc.querySelector('.testimonials');

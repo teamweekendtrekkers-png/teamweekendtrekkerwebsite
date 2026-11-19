@@ -9,6 +9,8 @@
         version: 1,
         tripGallery: { autoSlide: true, intervalSeconds: 5 },
         destinationSlider: { autoSlide: true, intervalSeconds: 5 },
+        calendarHolidays: [{"date":"2026-12-25","name":"Christmas Day"},{"date":"2027-01-01","name":"New Year’s Day"},{"date":"2027-01-26","name":"Republic Day"}],
+        tripDisplayOrder: { explore: [], weekend: [], all: [] },
         hero: {
             backgroundImage: 'images/wix/hero1.jpg', title: 'Explore. Travel. Experience.',
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
@@ -37,9 +39,27 @@
         }
         return /^images\/[A-Za-z0-9_./-]+$/.test(value) && !value.split('/').some(part => part === '..' || part === '.');
     }
+    function normalizeHolidays(raw) {
+        if (!Array.isArray(raw)) return clone(defaults.calendarHolidays);
+        const unique = new Map();
+        for (const item of raw) {
+            if (!item || typeof item.date !== 'string' || typeof item.name !== 'string') continue;
+            const name = item.name.trim().slice(0, 80);
+            if (!name || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) continue;
+            const date = new Date(item.date + 'T00:00:00Z');
+            if (!Number.isFinite(+date) || date.toISOString().slice(0, 10) !== item.date) continue;
+            unique.set(item.date, {date: item.date, name});
+        }
+        return [...unique.values()].sort((a, b) => a.date.localeCompare(b.date));
+    }
     function normalize(raw) {
         if (!raw || raw.version !== 1) return clone(defaults);
         const result = clone(defaults);
+        for (const key of Object.keys(result.tripDisplayOrder)) {
+            const list = raw.tripDisplayOrder?.[key];
+            if (Array.isArray(list)) result.tripDisplayOrder[key] = [...new Set(list.filter(id => typeof id === "string" && /^[a-zA-Z0-9_-]+$/.test(id)))];
+        }
+        result.calendarHolidays = normalizeHolidays(raw.calendarHolidays);
         result.pages = pages ? pages.normalize(raw.pages) : {};
         const slider = raw.destinationSlider || {};
         if (typeof slider.autoSlide === 'boolean') result.destinationSlider.autoSlide = slider.autoSlide;
@@ -121,5 +141,5 @@
             } finally { clearTimeout(timeout); }
         } catch (_) { return clone(defaults); }
     }
-    return { defaults, normalize, safeImage, selectedTrips, buildBatches, apply, load };
+    return { defaults, normalize, normalizeHolidays, safeImage, selectedTrips, buildBatches, apply, load };
 }));

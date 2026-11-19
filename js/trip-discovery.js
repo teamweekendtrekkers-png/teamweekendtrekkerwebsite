@@ -51,8 +51,11 @@
             return terms.every(term => searchable.includes(term));
         });
     }
-    function sortTrips(trips, referenceDate, order = 'next', when = '') {
-        if (order === 'manager') return [...trips];
+    function sortTrips(trips, referenceDate, order = 'next', when = '', recommended = []) {
+        if (order === 'manager') {
+            const positions = new Map(recommended.map((id, index) => [id, index]));
+            return [...trips].sort((a, b) => (positions.get(a.id) ?? recommended.length) - (positions.get(b.id) ?? recommended.length));
+        }
         const window = dates.dateWindow(when, referenceDate);
         const keyed = trips.map((trip, index) => ({ trip, index, ranges: dates.getUpcomingDateRanges(trip, referenceDate).filter(range =>
             !window || (range.start.getTime() >= window.start && range.start.getTime() < window.end)) }));
@@ -271,7 +274,8 @@
             });
         };
         const render = () => {
-            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order, current.when);
+            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order, current.when,
+                config.tripDisplayOrder?.[current.when === "weekend" ? "weekend" : "all"] || []);
             const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
             const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ''}`;
