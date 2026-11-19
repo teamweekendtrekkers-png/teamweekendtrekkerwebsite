@@ -23,7 +23,8 @@ const server=http.createServer((req,res)=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined});
  fs.mkdirSync(output,{recursive:true});
  try{
-  for(const width of [390,1440]){
+  // The active checkout suite covers desktop and mobile layouts. Keep one compatibility run.
+  for(const width of [390]){
    const page=await browser.newPage({viewport:{width,height:900}}),errors=[],posts=[];
    await page.addInitScript(()=>localStorage.setItem('twt-analytics-consent','no'));
    page.on('pageerror',error=>errors.push(error.message));
@@ -106,6 +107,6 @@ const server=http.createServer((req,res)=>{
    commerce.payment.directDepartures=[{tripId:'demo',dateKey:key}];
    assert.deepEqual(errors,[]);await page.close();
   }
-  console.log('PASS: confirmation/direct paths, exact advance, QR fallback, manual statuses, WhatsApp details, eligibility and mobile/desktop layout. All external POSTs mocked.');
+  console.log('PASS: confirmation/direct paths, exact advance, QR fallback, manual statuses, WhatsApp details, eligibility and compact layout. All external POSTs mocked.');
  }finally{await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});
