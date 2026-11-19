@@ -13,7 +13,10 @@
    if(id==='upcoming-batches-grid'){
     const actions=rail.parentElement.querySelector('.upcoming-batches-action');
     if(actions)actions.prepend(controls);else rail.after(controls);
-   }else rail.after(controls);
+   }else {
+    const actions=rail.parentElement.querySelector('.explore-actions');
+    if(actions)actions.prepend(controls);else rail.after(controls);
+   }
    const sync=()=>{const max=rail.scrollWidth-rail.clientWidth;controls.hidden=max<2;controls.children[0].disabled=rail.scrollLeft<2;controls.children[1].disabled=rail.scrollLeft>=max-2;autoplay?.refresh();};
    rail.addEventListener('scroll',sync,{passive:true});new ResizeObserver(sync).observe(rail);new MutationObserver(sync).observe(rail,{childList:true});sync();
    if(id==='featured-trips-grid'&&window.TripGallerySlideshow){

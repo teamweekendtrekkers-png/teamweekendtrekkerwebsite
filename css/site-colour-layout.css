@@ -119,3 +119,29 @@
  .mobile-shortcuts .floating-calendar,
  .mobile-shortcuts .floating-calendar:is(:hover,:active){background:var(--part-navCalendar-bright,#ffd43b);color:var(--brand-forest)}
 }
+
+/* Keep the trips and their controls together without stretching short cards. */
+.homepage .explore-destinations { padding-block: 22px 14px; }
+.homepage .explore-destinations > .container { width: 100%; max-width: 1600px; }
+.explore-destinations .explore-heading { margin-bottom: 8px; }
+.explore-destinations .explore-heading :is(h2,p) { margin-bottom: 4px; }
+.explore-destinations .explore-sort { margin-bottom: 0; }
+.homepage #featured-trips-grid.trip-rail { align-items: start; padding-bottom: 7px; }
+#featured-trips-grid .trip-content { padding: 12px 14px; }
+#featured-trips-grid .trip-content h3 { min-height: 0; margin-bottom: 5px; }
+#featured-trips-grid .trip-card-summary { min-height: 0; margin-bottom: 6px; }
+#featured-trips-grid .trip-content .trip-dates { margin-block: 4px 7px; }
+#featured-trips-grid .trip-meta { margin-bottom: 5px; }
+#featured-trips-grid .trip-departure-city { margin-bottom: 5px; }
+#featured-trips-grid .trip-footer { margin-top: 5px; padding-top: 8px; gap: 6px; }
+.homepage .explore-actions { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 7px; }
+.homepage .explore-actions .rail-controls { margin: 0; gap: 6px; }
+.explore-actions .rail-controls[hidden] { display: none; }
+.explore-actions .rail-arrow { min-height: 44px; min-width: 44px; }
+@media (min-width: 768px) {
+  .explore-destinations .explore-heading { display:flex; justify-content:space-between; gap:16px; align-items:end; }
+  .explore-destinations .explore-heading :is(h2,p) { text-align:left; }
+}
+@media (min-width: 1280px) {
+  .homepage #featured-trips-grid.trip-rail { grid-auto-columns: calc((100% - 42px)/4); gap:14px; }
+}
