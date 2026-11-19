@@ -93,5 +93,5 @@ test('compact departures omit secondary fields and retain safe date-specific lin
     assert.doesNotMatch(grid.innerHTML, /Hill &amp; Lake|2 days|<img/);
     assert.match(grid.innerHTML, /trips\/a\//);
     assert.doesNotMatch(grid.innerHTML, /batch-trip-price|batch-trip-status|batch-weekday|trip-meta/);
-    assert.match(featured.innerHTML, /No featured trips/);
+    assert.match(featured.innerHTML, /data-trip-id="a"/);
 });

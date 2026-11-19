@@ -49,19 +49,21 @@
         })).join('');
     }
 
-    function renderFeaturedTrips(referenceDate) {
+    function renderExploreTrips(referenceDate) {
         const grid = document.getElementById('featured-trips-grid');
-        if (!grid || typeof getFeaturedTrips !== 'function' || typeof TripDateUtils === 'undefined') return;
+        if (!grid || typeof TripDateUtils === 'undefined') return;
 
-        const featuredTrips = getFeaturedTrips();
+        const allTrips = getAllTrips();
+        const order = document.getElementById('exploreSort')?.value || 'manager';
+        const exploreTrips = typeof TripDiscovery === 'undefined' ? allTrips : TripDiscovery.sortTrips(allTrips, referenceDate, order);
         const escapeHTML = TripDateUtils.escapeHTML;
 
-        if (featuredTrips.length === 0) {
-            grid.innerHTML = '<p class="trips-empty">No featured trips are available right now.</p>';
+        if (exploreTrips.length === 0) {
+            grid.innerHTML = '<p class="trips-empty">No trips are available right now.</p>';
             return;
         }
 
-        grid.innerHTML = featuredTrips.map(trip => {
+        grid.innerHTML = exploreTrips.map(trip => {
             if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {compact:true,enhanced:true});
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';
@@ -95,7 +97,15 @@
 
     document.addEventListener('DOMContentLoaded', async function () {
         const referenceDate = new Date();
-        renderFeaturedTrips(referenceDate);
+        const sort = document.getElementById('exploreSort');
+        if (sort) {
+            sort.addEventListener('change', () => {
+                renderExploreTrips(new Date());
+                document.getElementById('featured-trips-grid').scrollLeft = 0;
+            });
+            sort.disabled = false;
+        }
+        renderExploreTrips(referenceDate);
         if (typeof HomepageSettings !== 'undefined') {
             const config = await HomepageSettings.load(window.fetch.bind(window));
             HomepageSettings.apply(config, document);
@@ -117,7 +127,7 @@
             }
             update({ query: '', experience: 'all', departure: '' });
             let departureSnapshot=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));
-            setInterval(()=>{const next=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));if(next!==departureSnapshot){departureSnapshot=next;renderFeaturedTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});}},30000);
+            setInterval(()=>{const next=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));if(next!==departureSnapshot){departureSnapshot=next;renderExploreTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});}},30000);
         } else {
             renderUpcomingBatches(referenceDate);
         }

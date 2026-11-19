@@ -51,8 +51,11 @@
             return terms.every(term => searchable.includes(term));
         });
     }
-    function sortTrips(trips, referenceDate, order = 'next') {
-        const keyed = trips.map((trip, index) => ({ trip, index, ranges: dates.getUpcomingDateRanges(trip, referenceDate) }));
+    function sortTrips(trips, referenceDate, order = 'next', when = '') {
+        if (order === 'manager') return [...trips];
+        const window = dates.dateWindow(when, referenceDate);
+        const keyed = trips.map((trip, index) => ({ trip, index, ranges: dates.getUpcomingDateRanges(trip, referenceDate).filter(range =>
+            !window || (range.start.getTime() >= window.start && range.start.getTime() < window.end)) }));
         const rank = item => item.trip.isActive === false ? 2 : item.ranges.length ? 0 : 1;
         const price = trip => {const value=String(trip.price??'').replace(/[₹,\s]/g,'');return /^\d+(?:\.\d+)?$/.test(value)&&Number(value)>0?Number(value):null;};
         const compare = (a,b) => {
@@ -216,7 +219,7 @@
         const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
         let current = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
         let catalogControls;
-        const sortSelect=document.getElementById('catalogueSort'),sortLabels={next:'next departure first',title:'name A–Z','price-asc':'price low to high','price-desc':'price high to low'};
+        const sortSelect=document.getElementById('catalogueSort'),sortLabels={manager:'manager order',next:'next departure first',title:'name A–Z','price-asc':'price low to high','price-desc':'price high to low'};
         const readOrder=()=>Object.hasOwn(sortLabels,new URLSearchParams(root.location.search).get('sort'))?new URLSearchParams(root.location.search).get('sort'):'next';
         let order=readOrder();if(sortSelect)sortSelect.value=order;
         const readFilters = () => {
@@ -268,7 +271,7 @@
             });
         };
         const render = () => {
-            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order);
+            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order, current.when);
             const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
             const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ''}`;

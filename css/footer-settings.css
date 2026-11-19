@@ -6,4 +6,14 @@
 .footer [data-footer-contact] a { color: inherit; }
 .footer [data-footer-contact] a:hover { color: var(--secondary); }
 .footer a:focus-visible, .footer button:focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; }
-@media (max-width: 480px) { .footer .footer-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 767px) {
+  body .footer { padding-top: 18px; padding-bottom: 12px; }
+  .footer .footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 12px 14px; text-align: left; }
+  .footer .footer-col :is(h4, p, ul, li) { margin: 0; }
+  .footer .footer-col h4 { margin-bottom: 4px; }
+  .footer [data-footer-brand], .footer [data-footer-information], .footer [data-footer-upi] { grid-column: 1 / -1; }
+  .footer [data-footer-brand] .social-links { justify-content: flex-start; margin: 6px 0 0; }
+  .footer [data-footer-navigation] a, .footer [data-footer-information] a { display: inline-flex; align-items: center; min-height: 36px; }
+  .footer [data-footer-contact] p { margin-bottom: 5px; }
+  .footer .footer-bottom { padding-top: 10px; margin-top: 10px; }
+}

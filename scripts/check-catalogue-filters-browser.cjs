@@ -162,6 +162,10 @@ const fixtures={
    assert.equal(await page.locator('#trip-discovery-controls').isVisible(),false);
    discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
    await page.goto(origin+'/index.html');await page.waitForSelector('.weekend-finder');
+   const explore=page.locator('#featured-trips-grid .trip-card');
+   assert.deepEqual(await explore.evaluateAll(nodes=>nodes.map(node=>node.dataset.tripId)),Object.keys(fixtures));
+   await page.locator('#exploreSort').selectOption('price-desc');
+   assert.deepEqual(await explore.evaluateAll(nodes=>nodes.slice(0,3).map(node=>node.dataset.tripId)),['heritage','coast','coorg']);
    const finder=page.locator('.weekend-finder');
    const preferences=finder.locator('.finder-preferences');
    if(!(await preferences.evaluate(node=>node.open)))await preferences.locator('summary').click();
