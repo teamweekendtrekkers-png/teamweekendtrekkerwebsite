@@ -121,7 +121,10 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
 .explore-sort select{font-size:16px;min-height:44px;max-width:65%;padding:4px 8px;border:1px solid #789b8d;border-radius:8px;background:#fff;color:#173f35}
 
 .calendar-table td.calendar-holiday{position:relative}
-.calendar-holiday::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:1px;background:#a54d12;pointer-events:none;transform:rotate(45deg)}
+.calendar-table .calendar-holiday :is(.calendar-day,.calendar-empty-day){background:#682443;color:#fff;border-radius:8px;border-color:#4b1530;font-weight:700}
+.calendar-table .calendar-holiday .calendar-day[aria-pressed="true"]{box-shadow:inset 0 0 0 2px #ffe3a3}
+.calendar-table .calendar-holiday .calendar-empty-day{min-height:30px;display:grid;place-items:center}
+.calendar-holiday::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:1px;background:#ffd979;pointer-events:none;transform:rotate(45deg)}
 .calendar-holidays:empty{display:none}
 .calendar-holidays{grid-column:1/-1;margin-top:10px;padding-top:8px;border-top:1px solid #e1eae5}
 .calendar-holidays h4{margin:0 0 4px;font-size:14px}

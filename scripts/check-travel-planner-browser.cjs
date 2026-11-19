@@ -48,6 +48,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    await page.getByRole('heading',{name:'Holidays this month'}).waitFor();
    assert.match(await page.locator('.calendar-holidays').innerText(),/20 · Example holiday/);
    assert.equal(await page.locator('.calendar-holiday').count(),1);
+   assert.equal(await page.locator('.calendar-holiday .calendar-empty-day').evaluate(node=>getComputedStyle(node).backgroundColor),'rgb(104, 36, 67)');
    const weekColours=await page.locator('.calendar-day').evaluateAll(nodes=>nodes.map(node=>getComputedStyle(node).backgroundColor));
    assert.notEqual(weekColours[0],weekColours[1],'Different weeks have different departure colours');
    const chooseDate=(day,count)=>page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
