@@ -8,3 +8,13 @@ test('compact next date advances at departure plus 24 hours in India',()=>{const
 test('compact cards with no eligible dates show coming-soon text',()=>{for(const source of [{...trip,availableDates:[]},{...trip,availableDates:['Oct 1-3, 2026']}])assert.ok(discovery.renderCard(source,new Date('2026-10-12T00:00:00Z'),{compact:true}).includes('New dates coming soon'));});
 
 test('inactive compact cards label the trip as coming soon',()=>{assert.match(discovery.renderCard({...trip,isActive:false},new Date('2026-10-12T00:00:00Z'),{compact:true}),/>Coming soon<\/p>/);});
+
+test('trip cards cap their date preview at the next three departures',()=>{
+ const tripWithDates={...trip,availableDates:['Oct 16-18, 2026','Oct 23-25, 2026','Oct 30-Nov 1, 2026','Nov 6-8, 2026']};
+ for(const state of [{},{compact:true,enhanced:true}]){
+  const card=discovery.renderCard(tripWithDates,new Date('2026-10-12T00:00:00Z'),state);
+  assert.equal((card.match(/class="trip-date-tag"/g)||[]).length,3);
+  assert.ok(!card.includes('trip-date-more'));
+  assert.ok(!card.includes('2026-11-06'));
+ }
+});

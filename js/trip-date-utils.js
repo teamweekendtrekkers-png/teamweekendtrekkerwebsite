@@ -278,7 +278,7 @@
         }[character]));
     }
 
-    function renderTripDateTags(trip, referenceDate, limit) {
+    function renderTripDateTags(trip, referenceDate, limit, {showRemaining = true} = {}) {
         const tags = getTripDateTags(trip, referenceDate, limit);
 
         if (tags.visible.length === 0) {
@@ -293,7 +293,7 @@
                 <time datetime="${date.startKey}">${escapeHTML(date.shortLabel)}</time>
                 <span class="departure-status" data-status="${departureStatus(trip,date.key).key}">${departureStatus(trip,date.key).label}</span>
             </span>`).join('');
-        const remaining = tags.remaining > 0
+        const remaining = showRemaining && tags.remaining > 0
             ? `<span class="trip-date-more" aria-label="${tags.remaining} more dates">+${tags.remaining} more</span>`
             : '';
 

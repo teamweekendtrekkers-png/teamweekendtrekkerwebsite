@@ -102,3 +102,7 @@
 .trip-video .btn{min-height:44px;margin:4px 10px 4px 0}
 .trip-video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#173f35}
 .trip-video>a{display:inline-flex;align-items:center;min-height:44px;color:#09685f;text-decoration:underline}
+
+.trip-card .trip-date-tags .trip-date-tag:nth-child(1){background:#d8f2ea;border-color:#79af9f;color:#13483f}
+.trip-card .trip-date-tags .trip-date-tag:nth-child(2){background:#e0ecfc;border-color:#8aa8cc;color:#203e67}
+.trip-card .trip-date-tags .trip-date-tag:nth-child(3){background:#f0e2fd;border-color:#ac90c5;color:#4d2c72}
