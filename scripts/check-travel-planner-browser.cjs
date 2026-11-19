@@ -44,9 +44,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    }
    await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
    assert.equal(await page.locator('.mobile-shortcuts .floating-calendar').count(),width<768?1:0,'Calendar moves into the phone shortcut bar');
-   const chooseDate=async (day,count)=>width<768
-    ? page.getByRole('dialog',{name:'Departure calendar'}).getByRole('combobox',{name:'Departure date',exact:true}).selectOption('2030-11-'+String(day).padStart(2,'0'))
-    : page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
+   const chooseDate=(day,count)=>page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
    await chooseDate(8,1);assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
    await chooseDate(15,2);assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'Next month',exact:true}).click();assert.equal(await page.locator('.calendar-navigation h3').innerText(),'December 2030');
