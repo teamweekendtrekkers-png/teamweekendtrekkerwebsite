@@ -65,7 +65,8 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Dec",
         duration: "2D/1N",
-        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026"],
+        availableDates: ["Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026", "Dec 11-13, 2026", "Dec 18-20, 2026", "Dec 25-27, 2026"],
+        departurePricing: {"2026-12-25/2026-12-27":{"price":6499,"note":"Christmas Weekend Pricing"}},
         about: "Step into the mystical world of Theyyam, where ancient rituals, powerful drumbeats and vibrant traditions come alive! \uD83D\uDD25\n\nJourney through Kannur & Thalassery to witness sacred Theyyam performances, explore historic forts, soak in beautiful coastal sunsets and savour authentic Malabar flavours.\n\nFrom fascinating cultural experiences to unforgettable moments with fellow travellers, this is no ordinary weekend getaway!\n\n✨ One Weekend. Ancient Traditions. Unforgettable Memories!",
         highlights: ["\uD83D\uDD25 Experience the magical Theyyam performance & receive divine blessings", "\uD83D\uDE4F Visit the famous Parassinikadavu Sri Muthappan Temple(Famosly known for welcoming dogs and pet)", "⛴️ Enjoy a scenic backwater ferry ride", "\uD83C\uDFAD Explore the fascinating folklore behind Theyyam", "\uD83C\uDFF0 Explore historic forts, street art & local markets", "⛪ Discover charming churches & hidden beaches", "\uD83C\uDF05 Enjoy beautiful coastal sunsets", "\uD83C\uDFA8 Walk through the colourful Graffiti Street", "\uD83E\uDD1D Travel with strangers, return with friends!"],
         itinerary: [
