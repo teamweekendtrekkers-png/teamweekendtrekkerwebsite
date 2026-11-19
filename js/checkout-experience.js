@@ -22,6 +22,7 @@
   if(code&&!quote.valid){code='';message(quote.message);byId('offerUpdate').hidden=false;byId('offerUpdate').textContent=quote.message+' Please review your updated total.';}
   data.subtotal=subtotal;data.discount=quote.discount;data.coupon=quote.valid?quote.code:'';data.total=quote.total;
   byId('summarySubtotal').textContent=money(subtotal);
+  byId('priceBreakdownLabel').textContent='Price breakdown · '+money(window.bookingData.price)+' / person';
   byId('summaryTotal').textContent=money(data.total);
   byId('couponSavings').textContent='−'+money(data.discount);
   byId('couponSavingsRow').querySelector('span').textContent=quote.valid?'Coupon '+quote.code:'Coupon savings';
@@ -71,8 +72,8 @@
   document.querySelector('.summary-trip-info p').textContent=trip.location||'';
   byId('requestViewTrip').href=TripLinks.detailUrl(getTripFromURL());
   const breakdown=document.createElement('details');breakdown.id='priceBreakdown';breakdown.className='price-breakdown';breakdown.open=!matchMedia('(max-width:767px)').matches;
-  const label=document.createElement('summary');label.textContent='Price breakdown · '+trip.price+' / person';breakdown.append(label);
-  const priceRow=document.querySelector('.summary-details .summary-row:nth-child(3)'),subtotalRow=byId('summarySubtotal').closest('.summary-row');priceRow.before(breakdown);breakdown.append(priceRow,subtotalRow,byId('couponSavingsRow'));
+  const label=document.createElement('summary');label.id='priceBreakdownLabel';label.textContent='Price breakdown';breakdown.append(label);
+  const priceRow=byId('summaryUnitPrice').closest('.summary-row'),subtotalRow=byId('summarySubtotal').closest('.summary-row');priceRow.before(breakdown);breakdown.append(priceRow,subtotalRow,byId('couponSavingsRow'));
   byId('summaryFacts').textContent=[trip.duration,trip.departureCity&&'Departing '+trip.departureCity].filter(Boolean).join(' · ');
 
   const disclosure=document.createElement('details');disclosure.className='mobile-trip-summary';
@@ -85,7 +86,7 @@
 
   const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
   const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
-  [anchor,byId('participants').closest('.form-group'),byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
+  [anchor,byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
   byId('fullName').autocomplete='name';byId('email').autocomplete='email';byId('phone').autocomplete='tel';byId('altPhone').autocomplete='tel';
   const support=document.querySelector('.support-card');support.classList.remove('support-locked');
   const help=document.createElement('details');help.className='checkout-help';help.open=!matchMedia('(max-width:767px)').matches;

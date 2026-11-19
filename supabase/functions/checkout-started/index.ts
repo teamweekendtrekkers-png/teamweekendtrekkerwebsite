@@ -36,7 +36,7 @@ Deno.serve(async(request: Request)=>{
   if(!ready)return reply({error:'service_unavailable'},503);
   try {
     const raw=await request.text();
-    if(new TextEncoder().encode(raw).length>16000)return reply({error:'invalid_request'},413);
+    if(new TextEncoder().encode(raw).length>65536)return reply({error:'invalid_request'},413);
     let body;try{body=JSON.parse(raw);}catch{return reply({error:'invalid_request'},400);}
     const ip=(request.headers.get('x-forwarded-for')||'unknown').split(',')[0].trim().slice(0,80);
     return reply(await acceptLead(body,{

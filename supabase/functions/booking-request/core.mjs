@@ -31,6 +31,22 @@ export function normalizeRequest(body) {
     || !Array.isArray(request.participant_names) || request.participant_names.length>50
     || !Number.isFinite(request.expected_total) || request.expected_total<0) fail();
   request.participant_names = request.participant_names.map(name=>text(name,150,true));
+  if (body.traveller_details !== undefined) {
+    if (!Array.isArray(body.traveller_details) || body.traveller_details.length !== request.travellers) fail();
+    request.traveller_details = body.traveller_details.map(person => {
+      if (!person || typeof person !== 'object') fail();
+      const name = text(person.name, 150, true);
+      const age = person.age;
+      const phone = text(person.phone, 30, true);
+      const email = text(person.email, 254, true).toLowerCase();
+      const pickup = text(person.pickup, 250);
+      if (/[\r\n\t]/.test(name+pickup) || !Number.isInteger(age) || age < 0 || age > 120 ||
+          !/^\+?[\d ()-]+$/.test(phone) || !/^\d{10,13}$/.test(phone.replace(/\D/g,'')) ||
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fail();
+      return {name, age, phone, email, pickup};
+    });
+    request.participant_names = request.traveller_details.map(person => person.name);
+  }
   return request;
 }
 export function bookingFromCatalog(request,catalog,now=new Date()) {
@@ -39,11 +55,16 @@ export function bookingFromCatalog(request,catalog,now=new Date()) {
   if (!trip || !trip.active || !departure || !Number.isFinite(Date.parse(departure.cutoff)) || Date.parse(departure.cutoff)<=now.getTime()) {
     throw new BookingError('departure_unavailable',409);
   }
-  if (!Number.isFinite(trip.price) || trip.price<0) throw new BookingError('service_unavailable',503);
+  if (request.traveller_details && Array.isArray(trip.pickupPoints)) {
+    const stops = trip.pickupPoints.length ? trip.pickupPoints : [''];
+    if (request.traveller_details.some(person => !stops.includes(person.pickup))) fail();
+  }
+  const price = departure.price ?? trip.price;
+  if (!Number.isFinite(price) || price<0) throw new BookingError('service_unavailable',503);
   const maxTravellers = trip.maxTravellers ?? 50;
   if (!Number.isInteger(maxTravellers) || maxTravellers < 1 || maxTravellers > 50) throw new BookingError('service_unavailable',503);
   if (request.travellers > maxTravellers) throw new BookingError('traveller_limit',409);
-  const subtotal = trip.price * request.travellers;
+  const subtotal = price * request.travellers;
   let discount=0;
   if (request.coupon_code) {
     const coupon=catalog.showCoupons && catalog.coupons?.find(c=>String(c.code).trim().toUpperCase()===request.coupon_code);
@@ -76,7 +97,7 @@ export function bookingFromCatalog(request,catalog,now=new Date()) {
     throw new BookingError('booking_request_unavailable',409);
   }
   const {expected_total,...fields}=request;
-  return {...fields,trip_name:trip.title,departure_date:departure.date,price_per_person:trip.price,subtotal,discount_amount:discount};
+  return {...fields,trip_name:trip.title,departure_date:departure.date,price_per_person:price,subtotal,discount_amount:discount};
 }
 export function emailPayload(booking,key) {
   const report=paymentReport(booking.special_requests);

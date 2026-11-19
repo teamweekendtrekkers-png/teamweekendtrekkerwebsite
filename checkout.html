@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/site-motion.css?v=2026111701">
 <script src="js/trip-travellers.js?v=1"></script>
 <script src="/js/website-pages.js?v=20261116"></script>
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026111905">
 </head>
 <body class="checkout-page" data-site-page="checkout">
     <nav class="navbar">
@@ -75,8 +76,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="participants">Participant Names (if more than 1)</label>
-                                <textarea id="participants" name="participants" rows="3" placeholder="Enter names of all participants, one per line"></textarea>
+                                <div id="travellerCards"></div>
                             </div>
                             <div class="form-group">
                                 <label for="notes">Special Requests</label>
@@ -204,10 +204,11 @@
                             </div>
                             <div class="summary-row">
                                 <span>Price per person</span>
-                                <span>—</span>
+                                <span id="summaryUnitPrice">—</span>
                             </div>
                             <div class="summary-row" id="couponSavingsRow" hidden><span>Coupon savings</span><span id="couponSavings"></span></div>
                         </div>
+                        <p id="checkoutPriceNote" hidden></p>
                         <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal"></span></div><p id="offerUpdate" role="alert" hidden></p><details id="couponEntry" hidden><summary>Have a coupon?</summary><label for="couponCode">Coupon code</label><div class="coupon-controls"><input id="couponCode" autocomplete="off" maxlength="40"><button id="applyCoupon" type="button">Apply</button></div><button id="removeCoupon" type="button" hidden>Remove coupon</button><p id="couponFeedback" role="status"></p></details>
                         <div class="summary-total">
                             <span>Total Amount</span>
@@ -257,7 +258,8 @@
     <script src="js/footer-settings.js?v=2"></script>
     <script src="js/inline-format.js?v=1"></script>
     <script src="js/trips-data.js?v=1791748800"></script>
-    <script src="js/trip-date-utils.js?v=2026111303"></script>
+    <script src="js/traveller-details.js?v=2026111905"></script>
+    <script src="js/trip-date-utils.js?v=2026111904"></script>
     <script src="js/trip-decision.js?v=6"></script>
     <script src="js/trip-links.js"></script>
     <script src="js/payment-options.js?v=20261016-2"></script><script src="js/booking-rules.js?v=20261016-2"></script>
@@ -306,7 +308,8 @@
             const date = getDateFromURL();
             const people = getPeopleFromURL();
             
-            const priceNum = parseInt(trip.price.replace(/[₹,]/g, ''));
+            const special = TripDateUtils.departurePricing(trip, date);
+            const priceNum = special?.price ?? parseInt(trip.price.replace(/[₹,]/g, ''));
             const totalAmount = priceNum * people;
             const formattedTotal = totalAmount.toLocaleString('en-IN');
             const halfAmount = Math.round(totalAmount * 50) / 100;
@@ -323,7 +326,10 @@
             ResponsiveImages.set(document.querySelector('.summary-img'), trip.cardImage || trip.galleryImages?.[0] || trip.image, {eager:true});
             document.getElementById('summaryDate').textContent = date || 'Choose a departure';
             document.getElementById('summaryPeople').textContent = people === 1 ? '1 Person' : people + ' People';
-            document.querySelector('.summary-details .summary-row:nth-child(3) span:last-child').textContent = trip.price;
+            document.getElementById('summaryUnitPrice').textContent = special ? TripDateUtils.formatPrice(priceNum) : trip.price;
+            const note = document.getElementById('checkoutPriceNote');
+            note.textContent = special?.note || '';
+            note.hidden = !special;
             document.getElementById('summaryTotal').textContent = '₹' + formattedTotal;
             
             // Update hidden fields
@@ -344,6 +350,7 @@
             // Update page title
             document.title = 'Checkout - ' + TripText.plain(trip.title) + ' | Team Weekend Trekkers';
             
+            TravellerDetails.render(trip, people);
             // Store data for later
             window.bookingData = { trip: TripText.plain(trip.title), location: trip.location, date: date, people: people, price: priceNum, total: totalAmount };
             
@@ -417,6 +424,13 @@
                 clearFieldError(field);
                 if(message){showError(id,message);firstError ||= field;}
             }
+            for (const field of document.querySelectorAll('#travellerCards input, #travellerCards select')) {
+                clearFieldError(field);
+                if (!field.value.trim() || !field.checkValidity()) {
+                    showError(field.id, 'Enter a valid ' + field.dataset.label + '.');
+                    firstError ||= field;
+                }
+            }
             if(firstError){
                 const details=firstError.closest('details');if(details)details.open=true;
                 firstError.focus({preventScroll:true});
@@ -465,7 +479,7 @@
                 'Request Status': window.bookingData.paymentReport ? 'Customer reports payment; payment and availability verification pending' : 'Team must verify availability and coupon before payment',
                 'Payment Details': window.bookingData.paymentReport ? JSON.stringify(window.bookingData.paymentReport) : 'Pay after confirmation',
                 // Additional Info
-                'Participant Names': document.getElementById('participants').value.trim() || 'Single participant',
+                'Participant Names': TravellerDetails.read().map(person => person.name).join(', '),
                 'Special Requests': document.getElementById('notes').value.trim() || 'None',
                 'Booking Time': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
             };
@@ -519,7 +533,7 @@
         });
     </script>
     <script src="js/security.js"></script>
-<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=lead-20261112"></script><script src="js/checkout-booking-change.js?v=cap-20261016-2"></script><script src="js/checkout-experience.js?v=20261112"></script>
+<dialog id="requestReceived" class="request-dialog"><h2>Your booking request has been received</h2><p>Our team will contact you to confirm availability and the next steps. Your place is confirmed only after our team confirms availability and payment.</p><a data-send-booking-details hidden class="btn btn-whatsapp" target="_blank" rel="noopener">Send booking details on WhatsApp</a><a data-trip-help class="btn btn-whatsapp" href="https://wa.me/917019235581" target="_blank" rel="noopener">Chat on WhatsApp</a><a id="requestViewTrip" class="btn" href="trips.html">View Trip</a><p class="payment-reminder">Wait for our team to confirm availability and the amount before paying.</p><button id="popupCopyUpi" type="button">Copy UPI ID</button><p id="popupPaymentFeedback" role="status"></p><button id="closeRequestPopup" type="button">View payment instructions</button></dialog><script src="js/booking-client.js?v=2026111905"></script><script src="js/checkout-booking-change.js?v=2026111904"></script><script src="js/checkout-experience.js?v=2026111905"></script>
 <script src="js/payment-checkout.js?v=lead-20261112"></script>
 <script src="js/site-motion.js?v=20261116"></script>
 <script defer src="/js/journey-analytics.js?v=2"></script>

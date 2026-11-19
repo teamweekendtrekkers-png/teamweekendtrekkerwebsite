@@ -85,6 +85,8 @@
       const card=make('article','calendar-departure'),link=make('a','',title(item.trip));
       const bookable=['available','confirmed'].includes(item.status.key);link.href=bookable?win.TripLinks.departureUrl(item.trip.id,item.range.originalLabel):win.TripLinks.detailUrl(item.trip.id);
       card.append(link,make('p','planner-muted',item.range.fullLabel));const status=make('span','departure-status',item.status.label);status.dataset.status=item.status.key;card.append(status);
+      const special=dates.departurePricing(item.trip,item.range.originalLabel);
+      if(special)card.append(make('p','planner-muted',dates.formatPrice(special.price)+' / person: '+special.note));
       if(current&&bookable){const select=button('Choose this departure','planner-enquiry');select.onclick=()=>{const input=doc.getElementById('dateSelect');if([...input.options].some(option=>option.value===item.range.originalLabel)){input.value=item.range.originalLabel;input.dispatchEvent(new Event('change',{bubbles:true}));focusAfterClose=input;host.close();}};card.append(select);}
       results.append(card);
      }

@@ -72,8 +72,8 @@ Deno.serve(async(request: Request)=>{
       for (const booking of bookings) await deliverNotifications(booking,dependencies('admin'));
       return reply({processed:bookings.length});
     }
-    if (Number(request.headers.get('content-length') || '0')>16000) return reply({error:'invalid_request'},413);
-    const raw=await request.text();if (new TextEncoder().encode(raw).length>16000) return reply({error:'invalid_request'},413);
+    if (Number(request.headers.get('content-length') || '0')>65536) return reply({error:'invalid_request'},413);
+    const raw=await request.text();if (new TextEncoder().encode(raw).length>65536) return reply({error:'invalid_request'},413);
     let body;try {body=JSON.parse(raw);} catch {return reply({error:'invalid_request'},400);}
     const ip=(request.headers.get('x-forwarded-for') || 'unknown').split(',')[0].trim().slice(0,80);
     return reply(await acceptRequest(body,dependencies(ip)));

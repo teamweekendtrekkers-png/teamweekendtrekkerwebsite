@@ -94,7 +94,7 @@
    new IntersectionObserver(entries=>bar.classList.toggle('inline-booking-visible',entries[0].isIntersecting),{rootMargin:'-80px 0px -90px 0px'}).observe(continueButton);
   }
   if(oldLink){const link=oldLink.cloneNode(true);oldLink.replaceWith(link);link.addEventListener('click',open);
-   const update=()=>{link.setAttribute('aria-label','Choose dates and travellers to book');link.setAttribute('aria-haspopup','dialog');link.querySelector('.float-cta').textContent=select.disabled?'Dates unavailable':select.value?'Change date':'View dates';const price=link.querySelector('#floatPrice');price.firstChild.textContent=trip.price+' / person';const date=link.querySelector('.mobile-book-date');if(date)date.textContent=TripDateUtils.parseTripDateRange(select.value)?.shortLabel||'Pick your departure';};select.addEventListener('change',update);update();
+   const update=()=>{link.setAttribute('aria-label','Choose dates and travellers to book');link.setAttribute('aria-haspopup','dialog');link.querySelector('.float-cta').textContent=select.disabled?'Dates unavailable':select.value?'Change date':'View dates';const price=link.querySelector('#floatPrice');const special=TripDateUtils.departurePricing(trip,select.value);price.firstChild.textContent=(special?TripDateUtils.formatPrice(special.price):trip.price)+' / person';const date=link.querySelector('.mobile-book-date');if(date)date.textContent=TripDateUtils.parseTripDateRange(select.value)?.shortLabel||'Pick your departure';};select.addEventListener('change',update);update();
   }
  });
 }());

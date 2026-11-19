@@ -1,0 +1,86 @@
+/* Shared page rhythm and booking details. */
+:root {
+  --brand-ivory: #fdfaf3;
+  --brand-gold: #ffd43b;
+  --brand-teal: #087569;
+  --brand-sage: #e9f5ed;
+  --brand-text: #24352f;
+}
+.homepage .hero, .tour-refined .trip-details, .tour-refined .trek-glance {
+  background: var(--brand-ivory);
+}
+.tour-refined #tripSectionLinks {
+  background: var(--brand-ivory);
+  width: min(calc(100% - 48px), 1552px);
+  max-width: none;
+  padding-inline: 0;
+}
+.tour-refined .itinerary-content p { max-inline-size: 76ch; }
+#departurePriceNote:not([hidden]), #checkoutPriceNote:not([hidden]) {
+  background: var(--brand-pending-bg);
+  color: var(--brand-pending-text);
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin: 6px 0;
+  font-size: .875rem;
+}
+#travellerCards { display: grid; gap: 14px; }
+.traveller-card {
+  min-inline-size: 0;
+  border: 1px solid var(--brand-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+.traveller-card legend {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--brand-sage);
+  color: var(--brand-forest);
+  font-weight: 700;
+}
+.traveller-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px 14px;
+}
+.traveller-fields .form-group { margin: 0; min-width: 0; }
+.traveller-fields input, .traveller-fields select { width: 100%; min-height: 44px; font-size: 16px; }
+.traveller-action {
+  min-height: 44px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-teal);
+  text-decoration: underline;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 3px;
+}
+@media (min-width: 1000px) {
+  body[data-site-page="trip-detail"] .trip-layout { grid-template-columns: minmax(0, 1fr) clamp(320px, 26vw, 400px); gap: 24px; }
+  .tour-refined #bookingCard { padding: 20px; }
+  .tour-refined #bookingCard .form-group { margin-bottom: 12px; }
+  .tour-refined #bookingCard .booking-price-note a { min-height: 36px; }
+  .checkout-page .checkout-layout { gap: 24px; }
+}
+@media (min-width: 1360px) {
+  body[data-site-page] > section > .container,
+  body[data-site-page] > .navbar .nav-container,
+  .homepage > section > .container,
+  .homepage .nav-container,
+  .homepage .homepage-hero-layout { max-width: 1600px; width: 100%; }
+  body[data-site-page="trips"] #tripsDynamicGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  body[data-site-page] > section > .container,
+  .homepage > section > .container,
+  .homepage .homepage-hero-layout { padding-inline: 12px; }
+  .tour-refined #tripSectionLinks { width: calc(100% - 24px); }
+  .checkout-page .checkout-section > .container { padding-inline: 12px; }
+  .traveller-fields { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}

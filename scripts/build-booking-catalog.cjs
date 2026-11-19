@@ -14,18 +14,19 @@ function validatePublicConfig(config) {
 function buildCatalog(root) {
   validatePublicConfig(JSON.parse(fs.readFileSync(path.join(root, 'js/booking-config.json'), 'utf8')));
   const context = vm.createContext({});
-  vm.runInContext(fs.readFileSync(path.join(root, 'js/trips-data.js'), 'utf8') + '\nthis.catalogTrips = tripsData;', context, {timeout: 2000});
+  vm.runInContext(fs.readFileSync(path.join(root, 'js/trips-data.js'), 'utf8') + '\nthis.catalogTrips = tripsData; this.pickupDefaults = typeof commonPickupPoints === "undefined" ? [] : commonPickupPoints;', context, {timeout: 2000});
   const trips = {};
   for (const [id, trip] of Object.entries(context.catalogTrips)) {
     const price = Number(String(trip.price).replace(/[^\d.]/g, ''));
     if (!Number.isFinite(price) || price < 0) throw new Error('Invalid price for ' + id);
     const maxTravellers = trip.maxTravellers ?? 50;
     if (!Number.isInteger(maxTravellers) || maxTravellers < 1 || maxTravellers > 50) throw new Error('Invalid traveller limit for ' + id);
-    trips[id] = {maxTravellers, title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
+    const pickupPoints = dates.pickupPoints(trip, context.pickupDefaults).map(point => point.name.trim());
+    trips[id] = {maxTravellers, pickupPoints, title: trip.title.trim(), location: trip.location || '', price, active: trip.isActive !== false,
       departures: (trip.availableDates || []).filter(label => ![...(trip.closedDepartures || []),...(trip.soldOutDepartures || [])].includes(dates.parseTripDateRange(label)?.key)).map(label => {
         const range = dates.parseTripDateRange(label);
         if (!range) throw new Error('Invalid departure for ' + id + ': ' + label);
-        return {label, date: range.startKey, dateKey: range.key, cutoff: dates.bookingCutoff(trip, range).toISOString()};
+        return {label, ...dates.departurePricing(trip, label), date: range.startKey, dateKey: range.key, cutoff: dates.bookingCutoff(trip, range).toISOString()};
       })};
   }
   const commerce = JSON.parse(fs.readFileSync(path.join(root, 'js/commerce-config.json'), 'utf8'));
