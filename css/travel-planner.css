@@ -119,3 +119,10 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
 
 .explore-sort{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:0 0 8px;color:#173f35;font-size:14px}
 .explore-sort select{font-size:16px;min-height:44px;max-width:65%;padding:4px 8px;border:1px solid #789b8d;border-radius:8px;background:#fff;color:#173f35}
+
+.calendar-table td.calendar-holiday{position:relative}
+.calendar-holiday::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:1px;background:#a54d12;pointer-events:none;transform:rotate(45deg)}
+.calendar-holidays:empty{display:none}
+.calendar-holidays{grid-column:1/-1;margin-top:10px;padding-top:8px;border-top:1px solid #e1eae5}
+.calendar-holidays h4{margin:0 0 4px;font-size:14px}
+.calendar-holidays ul{list-style:none;padding:0;margin:0;color:#744013;font-size:13px}

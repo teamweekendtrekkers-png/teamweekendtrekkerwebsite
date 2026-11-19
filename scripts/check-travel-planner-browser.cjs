@@ -18,6 +18,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     }
     if(request.method()!=='GET'||url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData='+JSON.stringify(trips)+';'});
+    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
     if(url.pathname==='/js/featured-trips.js')return route.fulfill({contentType:'text/javascript',body:'function getFeaturedTrips(){return Object.entries(tripsData).map(([id,trip])=>({...trip,id}));}'});
     let file=path.resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!file.startsWith(root+path.sep))return route.abort();
     try{return route.fulfill({contentType:({'.js':'text/javascript','.css':'text/css','.json':'application/json','.html':'text/html','.jpg':'image/jpeg'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});}catch{return route.fulfill({status:404});}
@@ -44,6 +45,11 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    }
    await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
    assert.equal(await page.locator('.mobile-shortcuts .floating-calendar').count(),width<768?1:0,'Calendar moves into the phone shortcut bar');
+   await page.getByRole('heading',{name:'Holidays this month'}).waitFor();
+   assert.match(await page.locator('.calendar-holidays').innerText(),/20 · Example holiday/);
+   assert.equal(await page.locator('.calendar-holiday').count(),1);
+   const weekColours=await page.locator('.calendar-day').evaluateAll(nodes=>nodes.map(node=>getComputedStyle(node).backgroundColor));
+   assert.notEqual(weekColours[0],weekColours[1],'Different weeks have different departure colours');
    const chooseDate=(day,count)=>page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
    await chooseDate(8,1);assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
    await chooseDate(15,2);assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));

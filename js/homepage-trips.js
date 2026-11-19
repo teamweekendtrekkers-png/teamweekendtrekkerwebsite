@@ -49,13 +49,14 @@
         })).join('');
     }
 
+    let exploreOrder = [];
     function renderExploreTrips(referenceDate) {
         const grid = document.getElementById('featured-trips-grid');
         if (!grid || typeof TripDateUtils === 'undefined') return;
 
         const allTrips = getAllTrips();
         const order = document.getElementById('exploreSort')?.value || 'manager';
-        const exploreTrips = typeof TripDiscovery === 'undefined' ? allTrips : TripDiscovery.sortTrips(allTrips, referenceDate, order);
+        const exploreTrips = typeof TripDiscovery === 'undefined' ? allTrips : TripDiscovery.sortTrips(allTrips, referenceDate, order, '', exploreOrder);
         const escapeHTML = TripDateUtils.escapeHTML;
 
         if (exploreTrips.length === 0) {
@@ -109,6 +110,8 @@
         if (typeof HomepageSettings !== 'undefined') {
             const config = await HomepageSettings.load(window.fetch.bind(window));
             HomepageSettings.apply(config, document);
+            exploreOrder = config.tripDisplayOrder?.explore || [];
+            if (exploreOrder.length) renderExploreTrips(referenceDate);
             const primary = document.querySelector('.hero .btn-primary');
             if (primary) primary.href = config.upcomingBatches.enabled ? '#upcoming-batches' : 'trips.html';
             const trust = document.getElementById('hero-trust'), rating = document.getElementById('hero-trust-rating'), link = document.getElementById('hero-trust-link');

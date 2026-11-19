@@ -37,9 +37,9 @@
 <link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=2">
 <script src="js/trip-travellers.js?v=1"></script>
 <script src="/js/website-pages.js?v=20261116"></script>
-<link rel="stylesheet" href="css/travel-planner.css?v=2026112002">
+<link rel="stylesheet" href="css/travel-planner.css?v=2026112003">
 <link rel="stylesheet" href="css/layout-refinement.css?v=2026111802">
-<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112002">
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112003">
 </head>
 <body data-site-page="trip-detail">
     <nav class="navbar">
@@ -190,6 +190,12 @@
                         </ul>
                         </div>
                     </details>
+
+                    <section id="tripVideo" class="content-section trip-video" aria-labelledby="tripVideoTitle" hidden>
+                        <h2 id="tripVideoTitle">See the experience</h2>
+                        <button class="btn btn-primary" type="button"><span aria-hidden="true">▶</span> Watch trip video</button>
+                        <a target="_blank" rel="noopener noreferrer">Open on YouTube</a>
+                    </section>
 
                     <!-- Itinerary -->
                     <div class="content-section" id="tripItinerary">
@@ -578,6 +584,35 @@
         }
 
         // Update page with trip data
+        function renderTripVideo(trip) {
+            const section = document.getElementById('tripVideo');
+            if (typeof trip.videoUrl !== 'string') return;
+            let url;
+            try { url = new URL(trip.videoUrl); } catch { return; }
+            if (url.protocol !== 'https:' || url.username || url.password || url.port) return;
+            const parts = url.pathname.split('/').filter(Boolean);
+            let id;
+            if (url.hostname === 'youtu.be' && parts.length === 1) id = parts[0];
+            if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(url.hostname)) {
+                if (url.pathname === '/watch') id = url.searchParams.get('v');
+                else if (parts.length === 2 && ['shorts', 'embed'].includes(parts[0])) id = parts[1];
+            }
+            if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+            section.hidden = false;
+            const play = section.querySelector('button');
+            const external = section.querySelector('a');
+            external.href = 'https://www.youtube.com/watch?v=' + id;
+            play.addEventListener('click', () => {
+                const player = document.createElement('iframe');
+                player.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1';
+                player.title = 'Trip video on YouTube';
+                player.allowFullscreen = true;
+                player.allow = 'autoplay; encrypted-media; picture-in-picture';
+                play.replaceWith(player);
+                player.focus();
+            }, {once: true});
+        }
+
         function updateTripPage() {
             const tripId = getTripFromURL();
             if (!hasTripData(tripId)) {
@@ -587,6 +622,7 @@
             const trip = getTripData(tripId);
 
             updateTripMetadata(trip, tripId);
+            renderTripVideo(trip);
             TripDetailLists.render(trip, document);
             TripSections.apply(trip, document, window);
 
@@ -1053,7 +1089,9 @@
 <script src="js/site-motion.js?v=20261116"></script>
 <script defer src="/js/journey-analytics.js?v=2"></script>
 <script src="js/trip-links.js"></script>
-<script src="js/travel-planner.js?v=2026112002"></script>
+<script src="js/homepage-sections.js"></script>
+<script src="js/homepage-settings.js?v=2026112003"></script>
+<script src="js/travel-planner.js?v=2026112003"></script>
 </body>
 </html>
 
