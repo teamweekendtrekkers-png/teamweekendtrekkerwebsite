@@ -186,7 +186,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.equal(await page.locator('#pickupTable td[data-label="Time"]').first().innerText(),'9:30 PM');
    assert.equal(await page.locator('#pickupTable .map-link').getAttribute('href'),'https://maps.google.com/?q=central');
    if(width<768){
-    assert.equal(await page.locator('#pickupTable tbody tr').first().evaluate(el=>getComputedStyle(el).display),'block');
+    assert.equal(await page.locator('#pickupTable tbody tr').first().evaluate(el=>getComputedStyle(el).display),'grid');
     assert.ok((await page.locator('#pickupTable .map-link').boundingBox()).height>=44);
    }
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);

@@ -44,7 +44,7 @@
    if(!current){
     const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
     const icon=path=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
-    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['This Weekend','trips.html?when=weekend','<path d="M3 12h16m-6-6 6 6-6 6"/>'],null,['All Departures','trips.html','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
+    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['This Weekend','trips.html?when=weekend&sort=manager','<path d="M3 12h16m-6-6 6 6-6 6"/>'],null,['All Departures','trips.html?unavailable=1&sort=manager','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
     let calendarSlot;
     for(const item of items){
      if(!item){calendarSlot=make('div','mobile-shortcut-calendar');const label=make('span','','Calendar');label.setAttribute('aria-hidden','true');calendarSlot.append(label);shortcuts.append(calendarSlot);continue;}

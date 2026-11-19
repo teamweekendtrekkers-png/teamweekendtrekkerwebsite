@@ -23,10 +23,10 @@ test('homepage loads tested date utilities before its trip renderer', () => {
     assert.ok(homepageRendererPosition > tripLinksPosition);
 });
 
-test('homepage renderer keeps featured-trip selection and detail links intact', () => {
+test('homepage renderer uses the full trip catalogue and keeps detail links intact', () => {
     const renderer = readProjectFile('js/homepage-trips.js');
 
-    assert.match(renderer, /getFeaturedTrips\(\)/);
+    assert.match(renderer, /const allTrips = getAllTrips\(\)/);
     assert.match(renderer, /TripLinks\.detailUrl\(trip\.id\)/);
     assert.doesNotMatch(renderer, /trip-detail\.html\?trip=/);
     assert.doesNotMatch(renderer, /checkout\.html/);

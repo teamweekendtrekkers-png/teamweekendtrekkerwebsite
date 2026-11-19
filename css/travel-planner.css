@@ -116,3 +116,6 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
   box-shadow: inset 0 0 0 2px currentColor;
   font-weight: 700;
 }
+
+.explore-sort{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:0 0 8px;color:#173f35;font-size:14px}
+.explore-sort select{font-size:16px;min-height:44px;max-width:65%;padding:4px 8px;border:1px solid #789b8d;border-radius:8px;background:#fff;color:#173f35}

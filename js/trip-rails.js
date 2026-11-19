@@ -3,7 +3,7 @@
  document.addEventListener('DOMContentLoaded',()=>{
   for(const id of ['upcoming-batches-grid','featured-trips-grid']){
    const rail=document.getElementById(id);if(!rail)continue;
-   rail.classList.add('trip-rail');rail.setAttribute('tabindex','0');rail.setAttribute('aria-label',id.startsWith('upcoming')?'Upcoming departures; scroll to browse':'Featured trips; scroll to browse');
+   rail.classList.add('trip-rail');rail.setAttribute('tabindex','0');rail.setAttribute('aria-label',id.startsWith('upcoming')?'Upcoming departures; scroll to browse':'Explore trips; scroll to browse');
    let autoplay=null;
    const controls=document.createElement('div');controls.className='rail-controls';
    for(const [label,direction,symbol] of [['Previous trips',-1,'←'],['Next trips',1,'→']]){

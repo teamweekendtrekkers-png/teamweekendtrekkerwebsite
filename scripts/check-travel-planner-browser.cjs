@@ -34,7 +34,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     const shortcuts=page.getByRole('navigation',{name:'Mobile shortcuts',exact:true});
     assert.equal(await shortcuts.getByRole('link',{name:'Home',exact:true}).getAttribute('aria-current'),'page');
     assert.match(await shortcuts.getByRole('link',{name:'This weekend’s departures',exact:true}).getAttribute('href'),/when=weekend/);
-    assert.equal(await shortcuts.getByRole('link',{name:'All Departures',exact:true}).getAttribute('href'),'trips.html');
+    assert.equal(await shortcuts.getByRole('link',{name:'All Departures',exact:true}).getAttribute('href'),'trips.html?unavailable=1&sort=manager');
     assert.equal(await page.locator('.whatsapp-float').isVisible(),false,'Floating help does not obscure departure actions');
     assert.equal(await page.locator('.finder-help').isVisible(),true,'Inline WhatsApp help stays available');
     await page.setViewportSize({width:1440,height:844});
