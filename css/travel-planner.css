@@ -126,3 +126,6 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
 .calendar-holidays{grid-column:1/-1;margin-top:10px;padding-top:8px;border-top:1px solid #e1eae5}
 .calendar-holidays h4{margin:0 0 4px;font-size:14px}
 .calendar-holidays ul{list-style:none;padding:0;margin:0;color:#744013;font-size:13px}
+
+.calendar-dialog .calendar-departure{background:var(--trip-date-bg,#eff7f2);border:0;border-inline-start:4px solid var(--trip-date-accent,#174b32);border-radius:8px;margin:6px 0;padding:8px 10px}
+.calendar-dialog .calendar-departure>a{color:var(--trip-date-accent,#174b32)}

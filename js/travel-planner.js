@@ -93,8 +93,24 @@
     if(!visible.length)results.append(make('p','planner-muted','No scheduled departures this month. Try the next month or ask us about new dates.'));
     else{
      results.append(make('h4','',new Intl.DateTimeFormat('en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(selected+'T00:00:00Z'))));
+     const usedColours=new Set();
+     const baseColours=win.DepartureColors?.palettes||{};
+     const palette={...baseColours,
+      coral:{background:'#fff0e8',accent:'#923b30'},
+      indigo:{background:'#eeefff',accent:'#383d8a'},
+      olive:{background:'#f3f5db',accent:'#4b561e'},
+      plum:{background:'#f9edf6',accent:'#76316b'},
+     };
+     const colourKeys=Object.keys(palette);
      for(const item of visible.filter(item=>item.range.startKey===selected)){
       const card=make('article','calendar-departure'),link=make('a','',title(item.trip));
+      const configured=item.trip.batchColor;
+      const preferred=win.DepartureColors?.key(undefined,item.trip.id);
+      const colour=Object.hasOwn(baseColours,configured)?configured:
+       preferred&&!usedColours.has(preferred)?preferred:colourKeys.find(key=>!usedColours.has(key))||preferred||colourKeys[0];
+      usedColours.add(colour);
+      card.style.setProperty('--trip-date-accent',palette[colour].accent);
+      card.style.setProperty('--trip-date-bg',palette[colour].background);
       const bookable=['available','confirmed'].includes(item.status.key);link.href=bookable?win.TripLinks.departureUrl(item.trip.id,item.range.originalLabel):win.TripLinks.detailUrl(item.trip.id);
       card.append(link,make('p','planner-muted',item.range.fullLabel));const status=make('span','departure-status',item.status.label);status.dataset.status=item.status.key;card.append(status);
       const special=dates.departurePricing(item.trip,item.range.originalLabel);
