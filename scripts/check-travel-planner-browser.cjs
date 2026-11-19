@@ -33,7 +33,8 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     assert.equal(await page.locator('.hero .weekend-finder').count(),0,'Hero stays focused on search');
     const shortcuts=page.getByRole('navigation',{name:'Mobile shortcuts',exact:true});
     assert.equal(await shortcuts.getByRole('link',{name:'Home',exact:true}).getAttribute('aria-current'),'page');
-    assert.match(await shortcuts.getByRole('link',{name:'Treks',exact:true}).getAttribute('href'),/experience=trek/);
+    assert.match(await shortcuts.getByRole('link',{name:'This weekend’s departures',exact:true}).getAttribute('href'),/when=weekend/);
+    assert.equal(await shortcuts.getByRole('link',{name:'All Departures',exact:true}).getAttribute('href'),'trips.html');
     assert.equal(await page.locator('.whatsapp-float').isVisible(),false,'Floating help does not obscure departure actions');
     assert.equal(await page.locator('.finder-help').isVisible(),true,'Inline WhatsApp help stays available');
     await page.setViewportSize({width:1440,height:844});
@@ -43,8 +44,11 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    }
    await page.getByRole('button',{name:'Browse departure calendar',exact:true}).click();
    assert.equal(await page.locator('.mobile-shortcuts .floating-calendar').count(),width<768?1:0,'Calendar moves into the phone shortcut bar');
-   await page.getByRole('button',{name:'8 November 2030: 1 departure',exact:true}).click();assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
-   await page.getByRole('button',{name:'15 November 2030: 2 departures',exact:true}).click();assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
+   const chooseDate=async (day,count)=>width<768
+    ? page.getByRole('dialog',{name:'Departure calendar'}).getByRole('combobox',{name:'Departure date',exact:true}).selectOption('2030-11-'+String(day).padStart(2,'0'))
+    : page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
+   await chooseDate(8,1);assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
+   await chooseDate(15,2);assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'Next month',exact:true}).click();assert.equal(await page.locator('.calendar-navigation h3').innerText(),'December 2030');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'Homepage fits phone width');
    await page.getByRole('button',{name:'Close departure calendar',exact:true}).click();
