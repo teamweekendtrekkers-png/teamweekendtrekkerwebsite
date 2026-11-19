@@ -39,7 +39,11 @@
    const hint=make('p','planner-muted','Highlighted days are departure dates. Select a day to see trips. Dates follow India time.');
    const table=make('table','calendar-table');table.setAttribute('aria-label','Departure dates');
    const results=make('div','calendar-results');results.setAttribute('aria-live','polite');
-   content.append(navigation,hint,table,results);host.append(content);
+   const mobileDate=make('label','calendar-mobile-date','Departure date'),mobileSelect=make('select');
+   mobileSelect.setAttribute('aria-label','Departure date');
+   mobileSelect.onchange=()=>{selected=mobileSelect.value;render();};
+   mobileDate.append(mobileSelect);
+   content.append(navigation,hint,table,mobileDate,results);host.append(content);
    doc.body.append(host,trigger);let focusAfterClose=trigger;
    if(!current){
     const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
@@ -78,6 +82,12 @@
      const node=button(String(day),'calendar-day');node.dataset.day=key;node.setAttribute('aria-pressed',String(selected===key));node.setAttribute('aria-label',`${day} ${caption.textContent}: ${matches.length} ${matches.length===1?'departure':'departures'}`);
      node.append(make('small','',String(matches.length)));if(key===today())node.setAttribute('aria-current','date');node.onclick=()=>{selected=key;render(true);};cell.append(node);
     }
+    const dateLabels=new Intl.DateTimeFormat('en-IN',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
+    const dateCounts=new Map();
+    for(const {range} of visible)dateCounts.set(range.startKey,(dateCounts.get(range.startKey)||0)+1);
+    const options=[...dateCounts].map(([key,count])=>new win.Option(dateLabels.format(new Date(key+'T00:00:00Z'))+' · '+count+' '+(count===1?'departure':'departures'),key));
+    mobileSelect.replaceChildren(...(options.length?options:[new win.Option('No departures','')]));
+    mobileSelect.disabled=!options.length;mobileSelect.value=selected;
     table.replaceChildren(head,body);results.replaceChildren();
     if(!visible.length)results.append(make('p','planner-muted','No scheduled departures this month. Try the next month or ask us about new dates.'));
     else{

@@ -88,3 +88,13 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
 .packing-progress{padding:14px;margin-bottom:14px;border:1px solid #d8e7de;border-radius:12px;background:#f4faf6;color:#173f35}.packing-progress-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.packing-count{margin:4px 0 10px;font-size:14px}.packing-reset{min-height:44px;padding:6px 10px;border:1px solid #a5c2b4;border-radius:9px;background:#fff;color:#173f35;font:inherit;font-size:13px;cursor:pointer}.packing-reset:disabled{opacity:.5;cursor:default}.packing-bar{display:block;width:100%;height:10px;accent-color:#087f73;border:0;border-radius:20px;overflow:hidden}.packing-bar::-webkit-progress-bar{background:#fff}.packing-bar::-webkit-progress-value{background:#087f73}.packing-bar::-moz-progress-bar{background:#087f73}.packing-note{margin:8px 0 0;font-size:12px;line-height:1.4;color:#52685c}.carry-grid .packing-item{display:grid;grid-template-columns:24px minmax(0,1fr);align-items:start;gap:10px;padding:12px;min-height:56px;border:1px solid #d8e5dd;border-radius:12px;background:#fff;cursor:pointer}.packing-checkbox{width:20px;height:20px;margin:3px 0 0;accent-color:#087f73}.packing-text{min-width:0;line-height:1.6;overflow-wrap:anywhere}.packing-item:has(input:checked){background:#edf7ef;border-color:#84b69c}.packing-item:has(input:checked) .packing-text{text-decoration:line-through;color:#586b60}.packing-item:focus-within{outline:3px solid #e9b900;outline-offset:2px}@media(max-width:767px){#thingsToCarryGrid{grid-template-columns:minmax(0,1fr);gap:10px}}
 
 @media print{.packing-progress,.packing-checkbox{display:none!important}.carry-grid .packing-item{grid-template-columns:1fr}.packing-item .packing-text{text-decoration:none!important;color:inherit}}
+
+.calendar-mobile-date{display:none}
+@media(max-width:767px){
+ .calendar-dialog .calendar-table,.calendar-dialog .calendar-content>.planner-muted{display:none}
+ .calendar-dialog-header{margin-bottom:6px}
+ .calendar-mobile-date{display:grid;gap:4px;margin:8px 0;color:#173f35;font-size:14px;font-weight:600}
+ .calendar-mobile-date select{min-height:44px;width:100%;border:1px solid #9cbbb0;border-radius:8px;background:#fff;color:#173f35;padding:6px 10px;font-size:16px}
+ .calendar-results h4{margin:6px 0}
+ .calendar-dialog .calendar-departure{padding:8px 0}
+}
