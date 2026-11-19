@@ -1,5 +1,143 @@
 {
   "version": 1,
+  "calendarHolidays": [
+    {
+      "date": "2026-11-24",
+      "name": "Guru Nanak Jayanti"
+    },
+    {
+      "date": "2026-12-25",
+      "name": "Christmas Day"
+    },
+    {
+      "date": "2027-01-01",
+      "name": "New Year’s Day (restricted)"
+    },
+    {
+      "date": "2027-01-14",
+      "name": "Makar Sankranti / Magha Bihu (restricted)"
+    },
+    {
+      "date": "2027-01-15",
+      "name": "Pongal / Guru Gobind Singh Jayanti (restricted)"
+    },
+    {
+      "date": "2027-01-26",
+      "name": "Republic Day"
+    },
+    {
+      "date": "2027-02-11",
+      "name": "Vasant Panchami (restricted)"
+    },
+    {
+      "date": "2027-03-06",
+      "name": "Maha Shivratri (restricted)"
+    },
+    {
+      "date": "2027-03-10",
+      "name": "Eid al-Fitr (subject to moon sighting)"
+    },
+    {
+      "date": "2027-03-22",
+      "name": "Holika Dahan (restricted)"
+    },
+    {
+      "date": "2027-03-23",
+      "name": "Holi"
+    },
+    {
+      "date": "2027-03-26",
+      "name": "Good Friday"
+    },
+    {
+      "date": "2027-04-07",
+      "name": "Ugadi / Gudi Padwa (restricted)"
+    },
+    {
+      "date": "2027-04-14",
+      "name": "Vaisakhi / Vishu / Tamil New Year (restricted)"
+    },
+    {
+      "date": "2027-04-15",
+      "name": "Ram Navami"
+    },
+    {
+      "date": "2027-04-19",
+      "name": "Mahavir Jayanti"
+    },
+    {
+      "date": "2027-05-17",
+      "name": "Bakrid (subject to moon sighting)"
+    },
+    {
+      "date": "2027-05-20",
+      "name": "Buddha Purnima"
+    },
+    {
+      "date": "2027-06-16",
+      "name": "Muharram (subject to moon sighting)"
+    },
+    {
+      "date": "2027-07-05",
+      "name": "Rath Yatra (restricted)"
+    },
+    {
+      "date": "2027-08-15",
+      "name": "Independence Day / Milad-un-Nabi (moon sighting for Milad)"
+    },
+    {
+      "date": "2027-08-17",
+      "name": "Raksha Bandhan (restricted)"
+    },
+    {
+      "date": "2027-08-25",
+      "name": "Janmashtami"
+    },
+    {
+      "date": "2027-09-04",
+      "name": "Ganesh Chaturthi (restricted)"
+    },
+    {
+      "date": "2027-09-12",
+      "name": "Onam (restricted)"
+    },
+    {
+      "date": "2027-10-02",
+      "name": "Gandhi Jayanti"
+    },
+    {
+      "date": "2027-10-09",
+      "name": "Dussehra (Vijayadashami)"
+    },
+    {
+      "date": "2027-10-28",
+      "name": "Naraka Chaturdashi (restricted)"
+    },
+    {
+      "date": "2027-10-29",
+      "name": "Diwali (Deepavali)"
+    },
+    {
+      "date": "2027-10-30",
+      "name": "Govardhan Puja (restricted)"
+    },
+    {
+      "date": "2027-10-31",
+      "name": "Bhai Dooj (restricted)"
+    },
+    {
+      "date": "2027-11-04",
+      "name": "Chhath Puja (restricted)"
+    },
+    {
+      "date": "2027-11-14",
+      "name": "Guru Nanak Jayanti"
+    },
+    {
+      "date": "2027-12-25",
+      "name": "Christmas Day"
+    }
+  ],
   "pages": {
     "aboutTitle": "About Us",
     "aboutSubtitle": "A Travel Community for Travellers, By Travellers",
