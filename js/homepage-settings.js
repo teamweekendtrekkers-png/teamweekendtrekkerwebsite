@@ -16,7 +16,7 @@
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
             description: 'A travel community for travellers, by travellers'
         },
-        discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true },
+        discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true, showTripTypeFilter: true },
         upcomingBatches: {
             enabled: true, title: 'Upcoming Batches',
             subtitle: 'Plan your next escape with our nearest available trip dates',

@@ -150,6 +150,12 @@ const fixtures={
    await page.goto(origin+'/trips.html?q=Coorg%20Bengaluru');
    await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===1);
    assert.deepEqual(await ids(),['coorg']);
+   discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true,showTripTypeFilter:false};
+   await page.goto(origin+'/trips.html?type=roadtrip');
+   await page.waitForFunction(()=>document.querySelectorAll('#tripsDynamicGrid .trip-card').length===3);
+   assert.equal(await page.locator('.filter-buttons').count(),0,'Manager can hide the trip type row without hiding trips');
+   assert.equal(new URL(page.url()).searchParams.has('type'),false,'Disabled type filters are cleared from bookmarked URLs');
+   assert.ok(await search.isVisible());
    discovery={enabled:true,showSearch:true,showExperienceFilter:false,showWeekendFilter:false};
    await page.goto(origin+'/trips.html');await page.waitForSelector('#trip-discovery-controls input');
    assert.equal(await page.locator('.catalogue-filter-toggle').count(),0);

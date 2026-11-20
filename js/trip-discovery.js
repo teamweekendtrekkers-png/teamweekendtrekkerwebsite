@@ -220,6 +220,10 @@
         if (!grid || typeof tripsData !== 'object') return;
         const all = Object.entries(tripsData).map(([id, trip]) => ({ ...trip, id })), referenceDate = new Date();
         const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
+        if (config.discovery.showTripTypeFilter === false) {
+            document.querySelector('.filter-context')?.remove();
+            document.querySelector('.filter-buttons')?.remove();
+        }
         let current = { query: '', experience: 'all', departure: '', category: 'all', showComingSoon: false };
         let catalogControls;
         const sortSelect=document.getElementById('catalogueSort'),sortLabels={manager:'manager order',next:'next departure first',title:'name A–Z','price-asc':'price low to high','price-desc':'price high to low'};
