@@ -7,6 +7,7 @@
     'use strict';
     const defaults = {
         version: 1,
+        storyHighlights: { enabled: false, items: [] },
         tripGallery: { autoSlide: true, intervalSeconds: 5 },
         destinationSlider: { autoSlide: true, intervalSeconds: 5 },
         calendarHolidays: [{"date":"2026-12-25","name":"Christmas Day"},{"date":"2027-01-01","name":"New Year’s Day"},{"date":"2027-01-26","name":"Republic Day"}],
@@ -52,6 +53,16 @@
         }
         return [...unique.values()].sort((a, b) => a.date.localeCompare(b.date));
     }
+    function normalizeStories(raw) {
+        const items = Array.isArray(raw?.items) ? raw.items.slice(0, 12) : [];
+        return {
+            enabled: raw?.enabled === true,
+            items: items.filter(item => item && typeof item.name === 'string' && item.name.trim() &&
+                safeImage(item.image) && typeof item.url === 'string' &&
+                /^https:\/\/(?:www\.)?instagram\.com\/stories\/highlights\/\d+\/?(?:\?[^\s]*)?$/i.test(item.url))
+                .map(({name, image, url}) => ({name: name.trim().slice(0, 32), image, url}))
+        };
+    }
     function normalize(raw) {
         if (!raw || raw.version !== 1) return clone(defaults);
         const result = clone(defaults);
@@ -59,6 +70,7 @@
             const list = raw.tripDisplayOrder?.[key];
             if (Array.isArray(list)) result.tripDisplayOrder[key] = [...new Set(list.filter(id => typeof id === "string" && /^[a-zA-Z0-9_-]+$/.test(id)))];
         }
+        result.storyHighlights = normalizeStories(raw.storyHighlights);
         result.calendarHolidays = normalizeHolidays(raw.calendarHolidays);
         result.pages = pages ? pages.normalize(raw.pages) : {};
         const slider = raw.destinationSlider || {};
@@ -121,6 +133,28 @@
             const images = [normalized.hero.backgroundImage];
 
             hero.style.backgroundImage = images.map(path => `url("${path}")`).join(', ');
+        }
+        const stories = document.getElementById?.('story-highlights');
+        if (stories) {
+            const {enabled, items} = normalized.storyHighlights;
+            const links = enabled ? items.map(({name, image, url}) => {
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                const cover = document.createElement('img');
+                cover.src = image;
+                cover.alt = '';
+                cover.width = 56;
+                cover.height = 56;
+                cover.decoding = 'async';
+                const label = document.createElement('span');
+                label.textContent = name;
+                link.append(cover, label);
+                return link;
+            }) : [];
+            stories.replaceChildren(...links);
+            stories.hidden = !links.length;
         }
         const section = document.querySelector('.upcoming-batches');
         if (section) section.hidden = !normalized.upcomingBatches.enabled;

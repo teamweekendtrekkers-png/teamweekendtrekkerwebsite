@@ -18,13 +18,20 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     }
     if(request.method()!=='GET'||url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData='+JSON.stringify(trips)+';'});
-    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,tripDisplayOrder:{all:['long']},calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
+    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,storyHighlights:{enabled:true,items:[{name:'Trail moments',image:'images/logo.jpg',url:'https://www.instagram.com/stories/highlights/123/'}]},tripDisplayOrder:{all:['long']},calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
     if(url.pathname==='/js/featured-trips.js')return route.fulfill({contentType:'text/javascript',body:'function getFeaturedTrips(){return Object.entries(tripsData).map(([id,trip])=>({...trip,id}));}'});
     let file=path.resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!file.startsWith(root+path.sep))return route.abort();
     try{return route.fulfill({contentType:({'.js':'text/javascript','.css':'text/css','.json':'application/json','.html':'text/html','.jpg':'image/jpeg'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});}catch{return route.fulfill({status:404});}
    });
    await page.goto(origin);
    await page.locator('.finder-preferences').waitFor();
+   const story = page.getByRole('link',{name:'Trail moments',exact:true});
+   await story.waitFor();
+   assert.equal(await story.getAttribute('href'),'https://www.instagram.com/stories/highlights/123/');
+   assert.ok(await story.evaluate(node=>node.getBoundingClientRect().top >= document.querySelector('.navbar').getBoundingClientRect().bottom),'Stories clear the navigation header');
+   assert.ok(await story.evaluate(node=>node.getBoundingClientRect().top < document.querySelector('.hero h1').getBoundingClientRect().top),'Story circles precede the homepage headline');
+   await page.evaluate(async ()=>{const cfg=await HomepageSettings.load(fetch.bind(window)); HomepageSettings.apply({...cfg,storyHighlights:{...cfg.storyHighlights,enabled:false}},document);});
+   assert.equal(await story.count(),0,'Switching off story highlights removes the rail');
    assert.equal(await page.locator('.floating-calendar').count(),1,'One calendar control across layouts');
    assert.equal(await page.getByRole('navigation',{name:'Mobile shortcuts',exact:true}).isVisible(),width<768);
    assert.equal(await page.locator('.finder-preferences').evaluate(node=>node.open),width>=768,'Phone preferences start compact');
