@@ -290,6 +290,7 @@
     "enabled": true,
     "showSearch": true,
     "showExperienceFilter": true,
+    "showTripTypeFilter": false,
     "showWeekendFilter": true
   },
   "presentation": {
