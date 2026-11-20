@@ -273,8 +273,15 @@
                 selectedFilters.append(button);
             });
         };
+        const typeButtons = [...document.querySelectorAll('.filter-buttons [data-filter]')];
         const render = () => {
-            const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order, current.when,
+            const matching = filterTrips(all, { ...current, category: 'all' }, referenceDate);
+            const matchingTypes = new Set(matching.map(category));
+            typeButtons.forEach(button => {
+                const type = button.dataset.filter;
+                button.hidden = type !== 'all' && !matchingTypes.has(type);
+            });
+            const visible = sortTrips(current.category === 'all' ? matching : matching.filter(trip => category(trip) === current.category), referenceDate, order, current.when,
                 config.tripDisplayOrder?.[["week","weekend"].includes(current.when) ? "weekend" : "all"] || []);
             const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : `<div class="discovery-empty"><h2>${current.when === 'week' ? 'No matching departures this week' : 'No matching trips'}</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>`;
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
