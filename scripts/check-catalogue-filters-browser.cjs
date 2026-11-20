@@ -76,6 +76,8 @@ const fixtures={
    assert.equal(await reset.isDisabled(),true);
    await search.fill(' Coorg   Bengaluru ');
    assert.deepEqual(await ids(),['coorg']);
+   assert.equal(await page.locator('[data-filter="roadtrip"]').evaluate(button=>button.hidden),true,'Hide trip types with no matches under the active search');
+   assert.equal(await page.locator('[data-filter="expedition"]').evaluate(button=>button.hidden),true,'Hide trip types without departures');
    assert.equal(await page.locator('.trip-bestseller-badge').innerText(),'Bestseller');
    assert.deepEqual(await page.locator('.trip-card-types .trip-badge').allTextContents(),['Treks','Adventure']);
    await toggle.focus();await page.keyboard.press('Enter');
