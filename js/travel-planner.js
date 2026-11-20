@@ -45,15 +45,15 @@
    if(!current){
     const shortcuts=make('nav','mobile-shortcuts');shortcuts.setAttribute('aria-label','Mobile shortcuts');
     const icon=path=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
-    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['This Weekend','trips.html?when=weekend&sort=manager','<path d="M3 12h16m-6-6 6 6-6 6"/>'],null,['All Departures','trips.html?unavailable=1&sort=manager','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
+    const items=[['Home','index.html','<path d="m3 10 9-7 9 7v10H14v-6h-4v6H3z"/>'],['This Week','trips.html?when=week&sort=manager','<path d="M3 12h16m-6-6 6 6-6 6"/>'],null,['All Departures','trips.html?unavailable=1&sort=manager','<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V4h6v3M4 12h16"/>'],['WhatsApp',doc.querySelector('.whatsapp-float')?.href||'https://wa.me/917019235581','<path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5z"/><path d="M8 8c0 4 4 7 7 7l1-2-3-1-1 1-2-2 1-1-1-2z"/>']];
     let calendarSlot;
     for(const item of items){
      if(!item){calendarSlot=make('div','mobile-shortcut-calendar');const label=make('span','','Calendar');label.setAttribute('aria-hidden','true');calendarSlot.append(label);shortcuts.append(calendarSlot);continue;}
      const link=make('a');link.href=item[1];link.innerHTML=icon(item[2]);link.append(make('span','',item[0]));
-     if(item[0]==='This Weekend')link.setAttribute('aria-label','This weekend’s departures');
+     if(item[0]==='This Week')link.setAttribute('aria-label','This week’s departures');
      if(item[0]==='WhatsApp'){link.target='_blank';link.rel='noopener';}
-     const catalogue=/\/trips\.html$/.test(win.location.pathname),weekend=new URLSearchParams(win.location.search).get('when')==='weekend';
-     if((item[0]==='Home'&&!catalogue)||(item[0]==='This Weekend'&&catalogue&&weekend)||(item[0]==='All Departures'&&catalogue&&!weekend))link.setAttribute('aria-current','page');
+     const catalogue=/\/trips\.html$/.test(win.location.pathname),week=['week','weekend'].includes(new URLSearchParams(win.location.search).get('when'));
+     if((item[0]==='Home'&&!catalogue)||(item[0]==='This Week'&&catalogue&&week)||(item[0]==='All Departures'&&catalogue&&!week))link.setAttribute('aria-current','page');
      shortcuts.append(link);
     }
     doc.body.append(shortcuts);doc.body.classList.add('has-mobile-shortcuts');
@@ -62,7 +62,7 @@
    }
    host.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');focusAfterClose.focus();focusAfterClose=trigger;});
    host.addEventListener('click',event=>{if(event.target!==host)return;const r=host.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)host.close();});
-   let month,selected='',data=[],holidays=[];const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+   let month,selected='',data=[],holidays=[],tripPositions=new Map();const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
    const monthKey=date=>date.toISOString().slice(0,7);
    month=today().slice(0,7);
    function render(focusDay=false){
@@ -102,7 +102,12 @@
       plum:{background:'#f9edf6',accent:'#76316b'},
      };
      const colourKeys=Object.keys(palette);
-     for(const item of visible.filter(item=>item.range.startKey===selected)){
+     const departures=visible.filter(item=>item.range.startKey===selected);
+     if(tripPositions.size){
+      const position=item=>tripPositions.get(item.trip.id)??tripPositions.size;
+      departures.sort((a,b)=>position(a)-position(b));
+     }
+     for(const item of departures){
       const card=make('article','calendar-departure'),link=make('a','',title(item.trip));
       const configured=item.trip.batchColor;
       const preferred=win.DepartureColors?.key(undefined,item.trip.id);
@@ -136,6 +141,7 @@
    win.addEventListener('pageshow',()=>{if(host.open)render();});render();
    if(win.HomepageSettings)win.HomepageSettings.load(win.fetch.bind(win)).then(config=>{
     holidays=config.calendarHolidays||[];
+    tripPositions=new Map((config.tripDisplayOrder?.all||[]).map((id,index)=>[id,index]));
     render(host.open&&table.contains(doc.activeElement));
    });
   }

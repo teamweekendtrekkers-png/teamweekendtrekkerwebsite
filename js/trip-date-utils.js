@@ -249,6 +249,10 @@
 
     function dateWindow(value,referenceDate){
         const today=getIndiaTodayTimestamp(referenceDate),day=86400000,now=new Date(today);
+        if(value==='week'){
+            const monday=today-((now.getUTCDay()+6)%7)*day;
+            return {start:monday,end:monday+7*day,label:'This week'};
+        }
         if(value==='weekend'||value==='next-weekend'){
             const weekday=now.getUTCDay(),friday=today+((weekday===0?-2:weekday===6?-1:5-weekday)+(value==='next-weekend'?7:0))*day;
             return {start:friday,end:friday+3*day,label:value==='weekend'?'This weekend':'Next weekend'};
