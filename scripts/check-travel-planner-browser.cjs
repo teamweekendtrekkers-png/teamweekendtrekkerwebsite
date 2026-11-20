@@ -18,7 +18,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     }
     if(request.method()!=='GET'||url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData='+JSON.stringify(trips)+';'});
-    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
+    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,tripDisplayOrder:{all:['long']},calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
     if(url.pathname==='/js/featured-trips.js')return route.fulfill({contentType:'text/javascript',body:'function getFeaturedTrips(){return Object.entries(tripsData).map(([id,trip])=>({...trip,id}));}'});
     let file=path.resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!file.startsWith(root+path.sep))return route.abort();
     try{return route.fulfill({contentType:({'.js':'text/javascript','.css':'text/css','.json':'application/json','.html':'text/html','.jpg':'image/jpeg'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});}catch{return route.fulfill({status:404});}
@@ -34,7 +34,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     assert.equal(await page.locator('.hero .weekend-finder').count(),0,'Hero stays focused on search');
     const shortcuts=page.getByRole('navigation',{name:'Mobile shortcuts',exact:true});
     assert.equal(await shortcuts.getByRole('link',{name:'Home',exact:true}).getAttribute('aria-current'),'page');
-    assert.match(await shortcuts.getByRole('link',{name:'This weekend’s departures',exact:true}).getAttribute('href'),/when=weekend/);
+    assert.match(await shortcuts.getByRole('link',{name:'This week’s departures',exact:true}).getAttribute('href'),/when=week&/);
     assert.equal(await shortcuts.getByRole('link',{name:'All Departures',exact:true}).getAttribute('href'),'trips.html?unavailable=1&sort=manager');
     assert.equal(await page.locator('.whatsapp-float').isVisible(),false,'Floating help does not obscure departure actions');
     assert.equal(await page.locator('.finder-help').isVisible(),true,'Inline WhatsApp help stays available');
@@ -53,7 +53,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    assert.notEqual(weekColours[0],weekColours[1],'Different weeks have different departure colours');
    const chooseDate=(day,count)=>page.getByRole('button',{name:day+' November 2030: '+count+' departure'+(count===1?'':'s'),exact:true}).click();
    await chooseDate(8,1);assert.equal(await page.locator('.calendar-results .departure-status').innerText(),'Sold out');assert.ok(!(await page.locator('.calendar-results a').getAttribute('href')).includes('date='));
-   await chooseDate(15,2);assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
+   await chooseDate(15,2);assert.deepEqual(await page.locator('.calendar-results a').allTextContents(),['Long coastal trip','Culture weekend'],'The configured trip comes before unlisted trips for the selected day');assert.match(await page.locator('.calendar-results').innerText(),/Confirmed departure/);assert.ok((await page.locator('.calendar-results a').first().getAttribute('href')).includes('date='));
    await page.getByRole('button',{name:'Next month',exact:true}).click();assert.equal(await page.locator('.calendar-navigation h3').innerText(),'December 2030');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'Homepage fits phone width');
    await page.getByRole('button',{name:'Close departure calendar',exact:true}).click();

@@ -275,8 +275,8 @@
         };
         const render = () => {
             const visible = sortTrips(filterTrips(all, current, referenceDate), referenceDate, order, current.when,
-                config.tripDisplayOrder?.[current.when === "weekend" ? "weekend" : "all"] || []);
-            const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : '<div class="discovery-empty"><h2>No matching trips</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>';
+                config.tripDisplayOrder?.[["week","weekend"].includes(current.when) ? "weekend" : "all"] || []);
+            const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : `<div class="discovery-empty"><h2>${current.when === 'week' ? 'No matching departures this week' : 'No matching trips'}</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>`;
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
             const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ''}`;
             if (status && status.textContent !== resultText) status.textContent = resultText;
