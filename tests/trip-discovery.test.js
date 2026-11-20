@@ -16,8 +16,8 @@ const trips = [
     { id: 'inactive', title: 'Next season', isActive: false, featured: true, availableDates: ['Aug 14-16, 2026'] },
 ];
 test('legacy config gains individually configurable safe discovery defaults', () => {
-    assert.deepEqual(settings.normalize({version:1}).discovery, {enabled:true, showSearch:true, showExperienceFilter:true, showWeekendFilter:true});
-    assert.deepEqual(settings.normalize({version:1, discovery:{enabled:false, showSearch:false, showExperienceFilter:'false', showWeekendFilter:false}}).discovery, {enabled:false, showSearch:false, showExperienceFilter:true, showWeekendFilter:false});
+    assert.deepEqual(settings.normalize({version:1}).discovery, {enabled:true, showSearch:true, showExperienceFilter:true, showWeekendFilter:true, showTripTypeFilter:true});
+    assert.deepEqual(settings.normalize({version:1, discovery:{enabled:false, showSearch:false, showExperienceFilter:'false', showWeekendFilter:false, showTripTypeFilter:false}}).discovery, {enabled:false, showSearch:false, showExperienceFilter:true, showWeekendFilter:false, showTripTypeFilter:false});
 });
 test('search, explicit experience and canonical departure filters compose without mutating trips', () => {
     const before = JSON.stringify(trips);
