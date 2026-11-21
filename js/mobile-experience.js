@@ -54,7 +54,7 @@
    });
    main._slideshow=slideshow;
   }
-  const table=document.getElementById('pickupTable');if(table){const labels=[...table.querySelectorAll('th')].map(node=>node.textContent.trim());table.querySelectorAll('tbody tr').forEach(row=>[...row.children].forEach((cell,index)=>{cell.dataset.label=labels[index]||'';}));table.querySelectorAll('a').forEach(link=>{link.rel='noopener';link.textContent='Open map';const value=link.getAttribute('href').trim().replace(/^https:\/\/https:\/\//,'https://');try{const url=new URL(value);if(url.protocol==='https:'&&['maps.app.goo.gl','maps.google.com','www.google.com','goo.gl'].includes(url.hostname))link.href=url.href;else link.removeAttribute('href');}catch(_){link.removeAttribute('href');}});}
+  const table=document.getElementById('pickupTable');if(table){const labels=[...table.querySelectorAll('th')].map(node=>node.textContent.trim());table.querySelectorAll('tbody tr').forEach(row=>[...row.children].forEach((cell,index)=>{cell.dataset.label=labels[index]||'';}));table.querySelectorAll('a').forEach(link=>{link.rel='noopener';link.textContent='Map';const value=link.getAttribute('href').trim().replace(/^https:\/\/https:\/\//,'https://');try{const url=new URL(value);if(url.protocol==='https:'&&['maps.app.goo.gl','maps.google.com','www.google.com','goo.gl'].includes(url.hostname))link.href=url.href;else link.removeAttribute('href');}catch(_){link.removeAttribute('href');}});}
   const bar=document.getElementById('mobileBookBtn'),select=document.getElementById('dateSelect');
   if(bar&&select&&!bar.dataset.ready){
    bar.dataset.ready='true';const reserve=bar.querySelector('a'),label=bar.querySelector('.float-cta');

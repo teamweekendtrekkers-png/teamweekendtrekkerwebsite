@@ -37,9 +37,9 @@
 <link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=2">
 <script src="js/trip-travellers.js?v=1"></script>
 <script src="/js/website-pages.js?v=20261116"></script>
-<link rel="stylesheet" href="css/travel-planner.css?v=2026112006">
+<link rel="stylesheet" href="css/travel-planner.css?v=2026112102">
 <link rel="stylesheet" href="css/layout-refinement.css?v=2026111802">
-<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112003">
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112102">
 </head>
 <body data-site-page="trip-detail">
     <nav class="navbar">
@@ -322,7 +322,6 @@
                                 <thead>
                                     <tr>
                                         <th>Location</th>
-                                        <th>Landmark</th>
                                         <th>Time</th>
                                         <th>Map</th>
                                     </tr>
@@ -489,14 +488,14 @@
     <script src="js/responsive-images.js?v=2"></script>
     <script src="js/site-presentation.js?v=20261116"></script>
     <script src="js/trip-gallery-slideshow.js?v=2"></script>
-    <script src="js/mobile-experience.js?v=6"></script>
+    <script src="js/mobile-experience.js?v=2026112102"></script>
     <script src="js/main.js?v=4"></script>
     <script src="js/footer-settings.js?v=2"></script>
     <script src="js/inline-format.js?v=1"></script>
     <script src="js/trip-gallery.js?v=1"></script>
     <script src="js/trip-detail-lists.js?v=20261021"></script>
     <script src="js/trip-sections.js?v=1"></script>
-    <script src="js/trips-data.js?v=1791748800"></script>
+    <script src="js/trips-data.js?v=2026112102"></script>
     <script>
         // Get trip from URL parameter
         function getTripFromURL() {
@@ -807,14 +806,19 @@
                 // Use trip-specific boardingLocations ONLY if it has valid entries (name & time)
                 const pickupPoints = TripDateUtils.pickupPoints(trip, typeof commonPickupPoints === 'undefined' ? [] : commonPickupPoints);
                 
-                pickupTable.innerHTML = pickupPoints.map(point => `
-                    <tr role="row">
-                        <td role="cell" data-label="Pickup"><strong>${point.name || ''}</strong></td>
-                        <td role="cell" data-label="Landmark">${point.landmark || ''}</td>
-                        <td role="cell" data-label="Time"><span class="pickup-time">${point.time || ''}</span></td>
-                        <td role="cell" data-label="Map">${point.mapLink ? `<a href="${point.mapLink}" target="_blank" rel="noopener noreferrer" class="map-link"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> View map</a>` : ''}</td>
-                    </tr>
-                `).join('');
+                const escape = TripDateUtils.escapeHTML;
+                pickupTable.innerHTML = pickupPoints.map(point => {
+                    const name = escape(point.name || '');
+                    const landmark = escape(point.landmark || '');
+                    const stop = landmark ? `<details class="pickup-landmark"><summary><strong>${name}</strong></summary><p>${landmark}</p></details>` : `<strong>${name}</strong>`;
+                    const mapLink = (point.mapLink || '').trim().replace('https://https://', 'https://');
+                    const map = /^https:\/\/(?:maps\.app\.goo\.gl|maps\.google\.com|www\.google\.com|goo\.gl)\//i.test(mapLink) ? escape(mapLink) : '';
+                    return `<tr role="row">
+                        <td role="cell" data-label="Pickup">${stop}</td>
+                        <td role="cell" data-label="Time"><span class="pickup-time">${escape(point.time || '')}</span></td>
+                        <td role="cell" data-label="Map">${map ? `<a href="${map}" target="_blank" rel="noopener noreferrer" class="map-link" aria-label="Map for ${name}">Map</a>` : ''}</td>
+                    </tr>`;
+                }).join('');
             }
 
             // Update Cancellation Policy Cards
@@ -1092,7 +1096,7 @@
 <script src="js/homepage-sections.js"></script>
 <script src="js/homepage-settings.js?v=2026112010"></script>
 <script src="js/departure-colors.js?v=1"></script>
-<script src="js/travel-planner.js?v=2026112008"></script>
+<script src="js/travel-planner.js?v=2026112102"></script>
 </body>
 </html>
 

@@ -6,6 +6,24 @@
         {key: 'phone', label: 'Phone number', type: 'tel', maxLength: 30, pattern: '\\+?[0-9 \(\)\-]{10,30}', autocomplete: 'tel'},
         {key: 'email', label: 'Email address', type: 'email', maxLength: 254, autocomplete: 'email'}
     ];
+    const contactFields = {name: 'fullName', phone: 'phone', email: 'email'};
+    const edited = new Set();
+    let solo = false;
+    function syncContact() {
+        if (!solo) return;
+        for (const [key, id] of Object.entries(contactFields)) {
+            const field = document.getElementById('traveller-1-' + key);
+            if (field && !edited.has(key)) field.value = document.getElementById(id).value;
+        }
+    }
+    function contactChanged(event) {
+        for (const [key, id] of Object.entries(contactFields)) {
+            if (event.target.id === 'traveller-1-' + key) edited.add(key);
+            if (event.target.id === id) syncContact();
+        }
+    }
+    document.addEventListener('input', contactChanged);
+    document.addEventListener('change', contactChanged);
     function button(label, action) {
         const element = document.createElement('button');
         element.type = 'button';
@@ -49,10 +67,16 @@
             grid.className = 'traveller-fields';
             card.append(legend);
             if (index === 1) card.append(button('Use booking contact details', () => {
-                for (const [key, id] of [['name', 'fullName'], ['phone', 'phone'], ['email', 'email']]) {
+                for (const [key, id] of Object.entries(contactFields)) {
+                    edited.delete(key);
                     document.getElementById('traveller-1-' + key).value = document.getElementById(id).value;
                 }
             }));
+            if (count === 1) {
+                const hint = document.createElement('p');
+                hint.textContent = 'Contact details are filled in for you. You can edit them below.';
+                card.append(hint);
+            }
             card.append(grid);
             for (const {key, label, ...attributes} of fields) {
                 const input = Object.assign(document.createElement('input'), attributes);
@@ -77,6 +101,8 @@
             cards.push(card);
         }
         host.replaceChildren(...cards);
+        solo = count === 1;
+        syncContact();
     }
     window.TravellerDetails = {render, read};
 }());

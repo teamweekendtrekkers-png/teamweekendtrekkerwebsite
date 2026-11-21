@@ -99,6 +99,17 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
     await page.screenshot({path:path.join(output,`checkout-compact-${width}.png`),fullPage:true});
    }
    // Initialization enables the button with a CSS transition; measure its final interactive state.
+   await page.fill('#fullName','Solo Contact');
+   await page.fill('#phone','9876543210');
+   await page.fill('#email','solo@example.com');
+   assert.equal(await page.inputValue('#traveller-1-name'),'Solo Contact');
+   assert.equal(await page.inputValue('#traveller-1-phone'),'9876543210');
+   assert.equal(await page.inputValue('#traveller-1-email'),'solo@example.com');
+   await page.fill('#traveller-1-name','Edited Traveller');
+   await page.fill('#fullName','Updated Contact');
+   assert.equal(await page.inputValue('#traveller-1-name'),'Edited Traveller');
+   assert.ok(await page.locator('#traveller-1-age').isVisible());
+   assert.ok(await page.locator('#traveller-1-pickup').isVisible());
    await page.locator('#submitDetailsBtn').evaluate(async button=>{
     getComputedStyle(button).opacity;
     await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})));
@@ -187,6 +198,11 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.getByRole('button',{name:'See all 5 highlights',exact:true}).click();
    assert.equal(await page.locator('[data-trip-section="highlights"]').evaluate(el=>el.open),true);
    assert.equal(await page.locator('#pickupTable tbody tr').count(),2);
+   const landmark=page.locator('#pickupTable .pickup-landmark').first();
+   assert.equal(await landmark.locator('p').isVisible(),false);
+   await landmark.locator('summary').click();
+   assert.equal(await landmark.locator('p').isVisible(),true);
+   await landmark.locator('summary').click();
    assert.equal(await page.locator('#pickupTable td[data-label="Time"]').first().innerText(),'9:30 PM');
    assert.equal(await page.locator('#pickupTable .map-link').getAttribute('href'),'https://maps.google.com/?q=central');
    if(width<768){
