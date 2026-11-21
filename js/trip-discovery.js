@@ -218,8 +218,35 @@
     async function initCatalog(document) {
         const grid = document.getElementById('tripsDynamicGrid');
         if (!grid || typeof tripsData !== 'object') return;
-        const all = Object.entries(tripsData).map(([id, trip]) => ({ ...trip, id })), referenceDate = new Date();
-        const root = document.defaultView, config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
+        const root = document.defaultView;
+        const bengaluru = new URLSearchParams(root.location.search).get('weekend-trips') === '1';
+        const all = Object.entries(tripsData)
+            .map(([id, trip]) => ({ ...trip, id }))
+            .filter(trip => !bengaluru || /^(bengaluru|bangalore)$/i.test(String(trip.departureCity || '').trim()));
+        const referenceDate = new Date();
+        if (bengaluru) {
+            document.title = 'Weekend trips from Bengaluru | Team Weekend Trekkers';
+            for (const [selector, label] of [
+                ['.page-header h1', 'Weekend trips from Bengaluru'],
+                ['.page-header p', 'Browse available departures, dates and prices.'],
+            ]) {
+                const node = document.querySelector(selector);
+                node.setAttribute('data-fixed-copy', '');
+                node.hidden = false;
+                node.textContent = label;
+            }
+            const shortcuts = document.getElementById('weekendTripLinks');
+            shortcuts.hidden = false;
+            const url = new URL(root.location.href);
+            for (const link of shortcuts.querySelectorAll('a')) {
+                const filter = new URL(link.href).searchParams;
+                if (['when', 'collection'].every(key => url.searchParams.get(key) === filter.get(key))) {
+                    link.setAttribute('aria-current', 'page');
+                }
+            }
+            document.getElementById('show-coming-soon').closest('label').hidden = true;
+        }
+        const config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
         if (config.discovery.showTripTypeFilter === false) {
             document.querySelector('.filter-context')?.remove();
             document.querySelector('.filter-buttons')?.remove();
@@ -234,7 +261,7 @@
             const category = params.get('type') || 'all';
             return {query:(params.get('q') || '').slice(0,200), experience:params.get('experience') || 'all',
                 departure:params.get('departure') || '', category:[...document.querySelectorAll('[data-filter]')].some(button=>button.dataset.filter===category)?category:'all',
-                showComingSoon:params.get('unavailable')==='1',collection:params.get('collection')==='long'?'long':'',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
+                showComingSoon:!bengaluru&&params.get('unavailable')==='1',collection:params.get('collection')==='long'?'long':'',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
         };
         const writeFilters = () => {
             if (!root.location.href || !root.history?.replaceState) return;

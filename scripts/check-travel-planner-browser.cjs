@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const root=path.resolve(__dirname,'..'),origin='https://planner.test';
-const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'heritage',featured:true,price:5999,originalPrice:6499,image:'images/logo.jpg',galleryImages:['images/logo.jpg'],availableDates:['Nov 8-10, 2030','Nov 15-17, 2030','Nov 22-24, 2030','Dec 6-8, 2030'],soldOutDepartures:['2030-11-08/2030-11-10'],confirmedDepartures:['2030-11-15/2030-11-17'],closedDepartures:['2030-11-22/2030-11-24']},long:{title:'Long coastal trip',duration:'3D/2N',experience:'beach',featured:true,price:7999,image:'images/logo.jpg',availableDates:['Nov 15-18, 2030']}};
+const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'heritage',featured:true,price:5999,originalPrice:6499,image:'images/logo.jpg',galleryImages:['images/logo.jpg'],availableDates:['Nov 8-10, 2030','Nov 15-17, 2030','Nov 22-24, 2030','Dec 6-8, 2030'],soldOutDepartures:['2030-11-08/2030-11-10'],confirmedDepartures:['2030-11-15/2030-11-17'],closedDepartures:['2030-11-22/2030-11-24']},long:{departureCity:'Bengaluru',title:'Long coastal trip',duration:'3D/2N',experience:'beach',featured:true,price:7999,image:'images/logo.jpg',availableDates:['Nov 15-18, 2030']}};
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined});
  try{
@@ -15,6 +15,10 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     if(url.href==='https://api.web3forms.com/submit'){
      assert.equal(request.method(),'POST');writes++;const data=request.postDataJSON();assert.equal(data.name,'Test Traveller');assert.equal(data.phone,'9999999999');assert.match(data.subject,/Callback request|Custom group trip/);
      return route.fulfill({status:fail?500:200,contentType:'application/json',body:JSON.stringify({success:!fail})});
+    }
+    if(url.hostname==='vdxunrhcahgkwtzvjjdj.supabase.co'&&url.pathname==='/functions/v1/booking-status'){
+     assert.equal(request.method(),'POST');assert.equal(request.postDataJSON().token,'98765432-1234-4123-8123-123456789abc');
+     return route.fulfill({json:{reference:'TWT-TEST',bookingStatus:'requested',paymentReview:'pending',paymentReported:true}});
     }
     if(request.method()!=='GET'||url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData='+JSON.stringify(trips)+';'});
@@ -69,11 +73,22 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    await page.keyboard.press('Escape');assert.equal(await page.locator('.calendar-dialog[open]').count(),0);
    await page.getByRole('button',{name:'Plan private group trip',exact:true}).click();
    const dialog=page.locator('.planner-dialog');await dialog.getByLabel('Your name',{exact:true}).fill('Test Traveller');await dialog.getByLabel('Phone / WhatsApp number',{exact:true}).fill('9999999999');
+   await dialog.getByLabel('My dates are flexible').check();
+   assert.equal(await dialog.getByLabel('Preferred dates (optional)').isDisabled(),true);
+   await dialog.getByLabel('Budget per person', {exact:false}).fill('4500');
    assert.equal(await dialog.getByLabel('Number of travellers',{exact:true}).inputValue(),'6');await dialog.getByRole('button',{name:'Send enquiry',exact:true}).click();await dialog.getByText(/Enquiry sent\. Our team/).waitFor();assert.equal(writes,1);assert.equal(await dialog.locator('[type=submit]').isDisabled(),true);
    await dialog.getByRole('button',{name:'Close',exact:true}).first().click();assert.equal(await page.getByRole('button',{name:'Plan private group trip',exact:true}).evaluate(node=>node===document.activeElement),true);
    await page.getByRole('button',{name:'Request a callback about Culture weekend',exact:true}).click();assert.equal(await dialog.getByLabel('Trip or destination',{exact:true}).inputValue(),'Culture weekend');assert.ok(!(await dialog.locator('a').getAttribute('href')).includes('9999999999'),'Reopening clears previous personal details from fallback');
    fail=true;await dialog.getByLabel('Your name',{exact:true}).fill('Test Traveller');await dialog.getByLabel('Phone / WhatsApp number',{exact:true}).fill('9999999999');await dialog.getByRole('button',{name:'Send enquiry',exact:true}).click();await dialog.getByText(/We could not confirm delivery/).waitFor();assert.equal(await dialog.getByLabel('Your name',{exact:true}).inputValue(),'Test Traveller');assert.equal(await dialog.locator('[type=submit]').isEnabled(),true);assert.equal(writes,2);
    await dialog.getByRole('button',{name:'Close',exact:true}).first().click();await page.getByRole('link',{name:/Longer getaways Three days or more/}).click();await page.waitForURL('**/trips.html?collection=long');await page.locator('.catalogue-selected-filters').getByRole('button',{name:/Three days or more/}).waitFor();assert.equal(await page.locator('#tripsDynamicGrid .trip-card').count(),1);
+   await page.goto(origin+'/trips.html?weekend-trips=1&collection=long');
+   await page.getByRole('heading',{name:'Weekend trips from Bengaluru',exact:true}).waitFor();
+   await page.getByRole('link',{name:'Long Weekends',exact:true}).waitFor();
+   await page.locator('#tripsDynamicGrid .trip-card').first().waitFor();
+   assert.equal(await page.locator('#tripsDynamicGrid .trip-card').count(),1);
+   await page.goto(origin+'/my-booking.html#key=98765432-1234-4123-8123-123456789abc');
+   await page.getByRole('heading',{name:'Payment awaiting verification',exact:true}).waitFor();
+   assert.match(await page.locator('#bookingUpdate').innerText(),/TWT-TEST/);
    assert.deepEqual(errors,[]);await page.close();
   }
   console.log('Travel planner passed: mobile/desktop, real statuses and departure links, collections, enquiries, failure recovery, no repeated writes.');
