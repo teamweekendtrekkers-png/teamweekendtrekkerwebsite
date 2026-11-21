@@ -3,3 +3,6 @@ verify_jwt = true
 
 [functions.google-reviews]
 verify_jwt = true
+
+[functions.booking-status]
+verify_jwt = true

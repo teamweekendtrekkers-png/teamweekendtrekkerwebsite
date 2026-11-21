@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=require('node:child_process');
-const pages=['index.html','trips.html','trip-detail.html','checkout.html','about.html','contact.html'];
+const pages=['index.html','trips.html','trip-detail.html','checkout.html','about.html','contact.html','my-booking.html'];
 function attributes(tag){const result={};for(const m of tag.matchAll(/([\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g))result[m[1].toLowerCase()]=m[2]??m[3];return result;}
 function validateSource(root,entries=pages){
  root=path.resolve(root);const errors=[],scripts=new Set();

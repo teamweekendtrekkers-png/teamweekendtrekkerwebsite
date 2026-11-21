@@ -9,7 +9,7 @@ function page(config,response) {
  for(const id of ['submitSuccess','requestReceived'])elements[id]={children:[],querySelector(){return this.children[0] || null;},append(element){this.children.push(element);}};
  const calls=[],stored=new Map();let legacy=0,success=0;
  const window={submitDetails:async()=>{legacy++;},bookingData:{date:'Oct 16-18, 2026',people:2,total:8998,coupon:''}};
- const context=vm.createContext({window,TravellerDetails:{read:()=>[{name:'Demo One',age:30,phone:'9999999999',email:'demo@example.com',pickup:'Central'},{name:'Demo Two',age:31,phone:'9999999999',email:'demo@example.com',pickup:'Central'}]},document:{getElementById:id=>elements[id],createElement:()=>({dataset:{}}),dispatchEvent:event=>calls.push({event:event.type,detail:event.detail})},
+ const context=vm.createContext({window,TravellerDetails:{read:()=>[{name:'Demo One',age:30,phone:'9999999999',email:'demo@example.com',pickup:'Central'},{name:'Demo Two',age:31,phone:'9999999999',email:'demo@example.com',pickup:'Central'}]},document:{getElementById:id=>elements[id],createElement:tag=>({tag,dataset:{},append(...children){(this.children ??= []).push(...children);}}),dispatchEvent:event=>calls.push({event:event.type,detail:event.detail})},
   CustomEvent:class{constructor(type,options){this.type=type;this.detail=options?.detail;}},Event:class{constructor(type){this.type=type;}},crypto:webcrypto,TextEncoder,AbortSignal,validateForm:()=>true,getTripFromURL:()=>'wayanad',showPaymentSection:()=>{success++;},
   sessionStorage:{getItem:key=>stored.get(key),setItem:(key,value)=>stored.set(key,value)},
   fetch:async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>options?.method==='POST'?response:config};}});
@@ -29,6 +29,7 @@ test('an enabled service saves a stable request key and displays the returned re
  assert.equal(env.calls.filter(call=>call.event==='twt:booking-accepted').length,2);
  assert.equal(first.idempotency_key,second.idempotency_key);assert.equal(first.expected_total,8998);
  assert.match(env.elements.requestReceived.children[0].textContent,/TWT-DEMO/);
+ assert.equal(env.elements.requestReceived.children[0].children.find(child=>child.tag==='a').href,'my-booking.html#key='+first.idempotency_key);
 });
 test('a rejected database request never displays success or falls back to email alone',async()=>{
  const env=page({enabled:true,endpoint:'https://vdxunrhcahgkwtzvjjdj.supabase.co/functions/v1/booking-request',anonKey:'public-test-key'},{error:'rate_limited'});

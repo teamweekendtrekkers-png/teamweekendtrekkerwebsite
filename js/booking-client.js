@@ -91,6 +91,14 @@
         let reference = parent.querySelector('[data-booking-reference]');
         if (!reference) {reference = document.createElement('p'); reference.dataset.bookingReference = ''; parent.append(reference);}
         reference.textContent = 'Booking reference: ' + result.booking_reference;
+        const statusLink = document.createElement('a');
+        statusLink.href = 'my-booking.html#key=' + encodeURIComponent(payload.idempotency_key);
+        statusLink.textContent = 'Check booking status';
+        statusLink.referrerPolicy = 'no-referrer';
+        reference.append(document.createElement('br'), statusLink);
+        const note = document.createElement('span');
+        note.textContent = 'Save this private link to check your booking later.';
+        reference.append(document.createElement('br'), note);
       }
       button.innerHTML = '<i class="fas fa-check"></i> Request Saved!';
     } catch (error) {

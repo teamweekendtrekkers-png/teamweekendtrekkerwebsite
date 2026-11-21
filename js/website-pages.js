@@ -13,7 +13,7 @@
  function apply(config,document){
   const values=normalize(config.pages);
   const travellers=config.sections?.stats?.items?.find(item=>item?.id==='travellers')?.value||'10,000+';
-  for(const field of fields){const node=document.querySelector(field.selector);if(!node)continue;
+  for(const field of fields){const node=document.querySelector(field.selector);if(!node||node.hasAttribute?.('data-fixed-copy'))continue;
    const value=values[field.key].replaceAll('{travellers}',typeof travellers==='string'?travellers:'10,000+');
    if(field.kind==='list'){node.replaceChildren(...value.split('\n').map(text=>text.trim()).filter(Boolean).map(text=>{const item=document.createElement('li');item.textContent='✓ '+text;return item;}));}
    else node.textContent=value;

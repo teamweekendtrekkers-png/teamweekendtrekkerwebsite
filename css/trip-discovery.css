@@ -101,3 +101,9 @@
 .catalogue-status>p{margin:0}.catalogue-sort{margin-left:auto;flex:0 1 190px;min-width:140px}
 .catalogue-sort select{width:100%;min-height:44px;border:1px solid #aac5b7;border-radius:10px;padding:9px 10px;background:#fff;color:#173f35;font:inherit}
 @media(max-width:767px){.catalogue-sort select{font-size:16px}.discovery-card .trip-content,#featured-trips-grid .trip-content{padding:14px}.discovery-card .trip-content h3,#featured-trips-grid .trip-content h3{min-height:0;margin-bottom:6px;font-size:18px;line-height:1.35}.discovery-card .trip-meta,#featured-trips-grid .trip-meta{margin-bottom:6px}.discovery-card .trip-departure-city,#featured-trips-grid .trip-departure-city{margin-bottom:8px}.discovery-card .trip-content .trip-dates,#featured-trips-grid .trip-content .trip-dates{margin-block:8px 10px}}
+
+.weekend-trip-links { display: flex; gap: 8px; overflow-x: auto; margin: 0 0 10px; padding: 3px; }
+.weekend-trip-links[hidden] { display: none; }
+.weekend-trip-links a { display: inline-flex; align-items: center; flex: none; min-height: 44px; padding: 0 12px; border: 1px solid #9cbcaf; border-radius: 22px; color: #173f35; text-decoration: none; }
+
+.weekend-trip-links a[aria-current=page] { background: #dceee7; border-color: #287768; font-weight: 700; }

@@ -12,6 +12,8 @@ test('collection links use authored duration and exclude trips without bookable 
 });
 test('enquiry payload validates real phone and party size, bounds text and identifies requests without claiming bookings',()=>{
  const valid={name:'Test Traveller',phone:'+91 99999 99999',travellers:'6',type:'group',trip:'Kannur',date:'Flexible',notes:'x'.repeat(2000)};
+ const flexible=planner.enquiryPayload({...valid,date:'Saturday',flexible:'on',budget:'4500'});
+ assert.match(flexible.message,/Preferred dates: Flexible/);assert.match(flexible.message,/Budget per person: ₹4500/);
  const payload=planner.enquiryPayload(valid);assert.equal(payload.phone,'919999999999');assert.match(payload.subject,/Custom group trip/);assert.match(payload.message,/Travellers: 6/);assert.ok(payload.message.length<1900);
  for(const change of [{name:'x'},{phone:'1234x567890'},{travellers:'0'},{travellers:'101'},{travellers:'1.5'}])assert.throws(()=>planner.enquiryPayload({...valid,...change}));
 });

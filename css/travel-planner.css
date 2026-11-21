@@ -135,3 +135,6 @@ body:has(dialog[open]) .floating-calendar{visibility:hidden}
 
 .calendar-dialog .calendar-departure{background:var(--trip-date-bg,#eff7f2);border:0;border-inline-start:4px solid var(--trip-date-accent,#174b32);border-radius:8px;margin:6px 0;padding:8px 10px}
 .calendar-dialog .calendar-departure>a{color:var(--trip-date-accent,#174b32)}
+
+.planner-dialog .enquiry-check { flex-direction: row; align-items: center; gap: 10px; min-height: 44px; }
+.planner-dialog .enquiry-check input { width: 20px; min-height: 20px; margin: 0; accent-color: #087f73; }

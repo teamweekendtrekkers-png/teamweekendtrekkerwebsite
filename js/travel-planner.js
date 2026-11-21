@@ -17,8 +17,10 @@
   const name=clean(values.name,100),phone=clean(values.phone,25).replace(/[\s()+-]/g,''),travellers=Number(values.travellers);
   if(name.length<2||!/^\d{10,15}$/.test(phone)||!Number.isInteger(travellers)||travellers<1||travellers>100)throw Error('Enter your name, a valid phone number and 1–100 travellers.');
   const type=values.type==='group'?'Custom group trip':'Callback request';
+  const budget=clean(values.budget, 12);
+  if(type==='Custom group trip' && budget && !/^[1-9]\d{0,6}$/.test(budget))throw Error('Enter a valid budget per person.');
   return {access_key:'519286b7-8c28-4093-8cf1-6ad73f9233b7',subject:type+' · '+(clean(values.trip,180)||'Help choosing a trip'),from_name:'Team Weekend Trekkers Website',name,phone,
-   message:[type,'Trip / destination: '+(clean(values.trip)||'Please help me choose'),'Preferred dates: '+(clean(values.date,100)||'Flexible'),'Travellers: '+travellers,'Group type: '+clean(values.group,60),'Notes: '+clean(values.notes,1500)].join('\n')};
+   message:[type,'Trip / destination: '+(clean(values.trip)||'Please help me choose'),'Preferred dates: '+(values.flexible==='on'&&type==='Custom group trip'?'Flexible':clean(values.date,100)||'Not specified'),'Travellers: '+travellers,...(type==='Custom group trip'&&budget?['Budget per person: ₹'+budget]:[]),'Notes: '+clean(values.notes,1500)].join('\n')};
  }
  async function init(win){
   const doc=win.document;if(typeof tripsData!=='object')return;
@@ -183,10 +185,10 @@
   function setup(){
    dialog=make('dialog','planner-dialog');dialog.setAttribute('aria-labelledby','enquiry-heading');form=make('form');form.method='dialog';
    const heading=make('h2');heading.id='enquiry-heading';const top=make('div','enquiry-top'),dismiss=button('Close','planner-enquiry');dismiss.onclick=()=>{if(!busy)dialog.close();};top.append(heading,dismiss);const note=make('p','planner-muted','Share your preferences with our team. This is an enquiry, not a confirmed booking.');form.append(top,note);
-   for(const [key,label,type,required] of [['name','Your name','text',true],['phone','Phone / WhatsApp number','tel',true],['trip','Trip or destination','text',false],['date','Preferred dates (optional)','text',false],['travellers','Number of travellers','number',true],['group','Group type (optional)','text',false],['notes','Anything else? (optional)','textarea',false]]){
+   for(const [key,label,type,required] of [['name','Your name','text',true],['phone','Phone / WhatsApp number','tel',true],['trip','Trip or destination','text',false],['date','Preferred dates (optional)','text',false],['travellers','Number of travellers','number',true],['flexible','My dates are flexible','checkbox',false],['budget','Budget per person (₹, optional)','number',false],['notes','Anything else? (optional)','textarea',false]]){
     const wrapper=make('label','enquiry-field',label),input=make(type==='textarea'?'textarea':'input');input.name=key;if(type!=='textarea')input.type=type;input.required=required;
-    if(type==='number'){input.min='1';input.max='100';input.value='1';}else input.maxLength=key==='notes'?1500:key==='phone'?25:200;
-    if(key==='name')input.autocomplete='name';if(key==='phone')input.autocomplete='tel';wrapper.append(input);form.append(wrapper);
+    if(type==='number'){input.min='1';input.max=key==='budget'?'9999999':'100';if(key!=='budget')input.value='1';}else input.maxLength=key==='notes'?1500:key==='phone'?25:200;
+    if(key==='name')input.autocomplete='name';if(key==='phone')input.autocomplete='tel';if(type==='checkbox'){wrapper.classList.add('enquiry-check');wrapper.prepend(input);}else wrapper.append(input);form.append(wrapper);
    }
    const trap=make('input');trap.name='botcheck';trap.type='checkbox';trap.hidden=true;trap.tabIndex=-1;form.append(trap);
    const privacy=make('p','planner-muted','By sending, you agree that our team may contact you about this enquiry by phone or WhatsApp.');form.append(privacy);
@@ -194,7 +196,7 @@
    const actions=make('div','enquiry-actions'),submit=make('button','btn btn-primary','Send enquiry');submit.type='submit';const close=button('Close','btn btn-secondary');close.onclick=()=>dialog.close();
    const fallback=make('a','planner-enquiry','Ask on WhatsApp instead');fallback.href='https://wa.me/917019235581';fallback.target='_blank';fallback.rel='noopener';actions.append(submit,close);form.append(status,actions,fallback);dialog.append(form);doc.body.append(dialog);
    dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault();});dialog.addEventListener('close',()=>opener?.focus());
-   form.addEventListener('input',()=>{try{fallback.href='https://wa.me/917019235581?text='+encodeURIComponent(enquiryPayload({...Object.fromEntries(new FormData(form)),type:contextType}).message);}catch{fallback.href='https://wa.me/917019235581';}});
+   form.addEventListener('input',()=>{form.elements.date.disabled=form.elements.flexible.checked;try{fallback.href='https://wa.me/917019235581?text='+encodeURIComponent(enquiryPayload({...Object.fromEntries(new FormData(form)),type:contextType}).message);}catch{fallback.href='https://wa.me/917019235581';}});
    form.addEventListener('submit',async event=>{
     event.preventDefault();if(busy||!form.reportValidity()||trap.checked)return;let payload;try{payload=enquiryPayload({...Object.fromEntries(new FormData(form)),type:contextType});}catch(error){status.textContent=error.message;return;}
     busy=true;submit.disabled=true;close.disabled=true;submit.textContent='Sending…';status.textContent='Sending your enquiry…';
@@ -210,7 +212,7 @@
    form.querySelector('a').href='https://wa.me/917019235581?text='+encodeURIComponent((contextType==='group'?'I would like to plan a private group trip':'Please help me choose a trip')+(trip?' · '+title(trip):''));
    form.reset();form.querySelectorAll('input,textarea').forEach(input=>input.disabled=false);const field=name=>form.elements.namedItem(name);
    field('trip').value=trip?title(trip):'';field('travellers').value=contextType==='group'?'6':doc.getElementById('peopleCount')?.value||'1';field('date').value=trigger.dataset.enquiryDate||(trip&&current?.id===trip.id?doc.getElementById('dateSelect')?.value||'':'');
-   field('group').closest('label').hidden=contextType!=='group';dialog.querySelector('h2').textContent=contextType==='group'?'Plan private group trip':'Request a callback';dialog.querySelector('#enquiry-status').textContent='';const submit=form.querySelector('[type="submit"]');submit.disabled=false;submit.textContent='Send enquiry';dialog.showModal();field('name').focus();
+   for(const key of ['flexible','budget']){const input=field(key);input.disabled=contextType!=='group';input.closest('label').hidden=input.disabled;}dialog.querySelector('h2').textContent=contextType==='group'?'Plan private group trip':'Request a callback';dialog.querySelector('#enquiry-status').textContent='';const submit=form.querySelector('[type="submit"]');submit.disabled=false;submit.textContent='Send enquiry';dialog.showModal();field('name').focus();
   });
  }
  return {entries,collections,enquiryPayload,init};

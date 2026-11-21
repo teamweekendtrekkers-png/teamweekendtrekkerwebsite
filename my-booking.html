@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta name="referrer" content="no-referrer">
+    <title>My Booking | Team Weekend Trekkers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/booking-status.css">
+    <script src="js/booking-status.js" defer></script>
+</head>
+<body>
+    <main class="booking-status">
+        <a href="index.html">← Team Weekend Trekkers</a>
+        <h1>My Booking</h1>
+        <p>Open the private link shown when you submitted your booking or payment details, or paste it below.</p>
+        <form id="bookingLookup">
+            <label for="privateBookingLink">Private booking link</label>
+            <input id="privateBookingLink" type="url" required autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" type="submit">Check status</button>
+        </form>
+        <section id="bookingUpdate" aria-live="polite" aria-atomic="true"></section>
+        <p>Need help? <a href="https://wa.me/917019235581">Contact us on WhatsApp</a>.</p>
+    </main>
+</body>
+</html>
