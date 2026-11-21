@@ -78,11 +78,6 @@
                 card.append(hint);
             }
             card.append(grid);
-            for (const {key, label, ...attributes} of fields) {
-                const input = Object.assign(document.createElement('input'), attributes);
-                if (attributes.autocomplete) input.autocomplete = 'section-traveller' + index + ' ' + attributes.autocomplete;
-                addField(grid, input, label, index, key);
-            }
             if (stops.length) {
                 const select = document.createElement('select');
                 select.add(new Option('Choose a pickup point', ''));
@@ -96,6 +91,11 @@
                 const message = document.createElement('p');
                 message.textContent = 'Our team will confirm your pickup point.';
                 card.append(message);
+            }
+            for (const {key, label, ...attributes} of fields) {
+                const input = Object.assign(document.createElement('input'), attributes);
+                if (attributes.autocomplete) input.autocomplete = 'section-traveller' + index + ' ' + attributes.autocomplete;
+                addField(grid, input, label, index, key);
             }
             for (const field of grid.querySelectorAll('input, select')) field.value = previous[index - 1]?.[field.id] ?? '';
             cards.push(card);
