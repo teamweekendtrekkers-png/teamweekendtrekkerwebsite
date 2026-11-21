@@ -92,7 +92,9 @@
     table.replaceChildren(head,body);results.replaceChildren();
     if(!visible.length)results.append(make('p','planner-muted','No scheduled departures this month. Try the next month or ask us about new dates.'));
     else{
-     results.append(make('h4','',new Intl.DateTimeFormat('en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(selected+'T00:00:00Z'))));
+     const departures=visible.filter(item=>item.range.startKey===selected);
+     const dateLabel=new Intl.DateTimeFormat('en-IN',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(selected+'T00:00:00Z'));
+     results.append(make('h4','',dateLabel+' · '+departures.length+(departures.length===1?' trip':' trips')));
      const usedColours=new Set();
      const baseColours=win.DepartureColors?.palettes||{};
      const palette={...baseColours,
@@ -102,7 +104,6 @@
       plum:{background:'#f9edf6',accent:'#76316b'},
      };
      const colourKeys=Object.keys(palette);
-     const departures=visible.filter(item=>item.range.startKey===selected);
      if(tripPositions.size){
       const position=item=>tripPositions.get(item.trip.id)??tripPositions.size;
       departures.sort((a,b)=>position(a)-position(b));

@@ -145,3 +145,14 @@
 @media (min-width: 1280px) {
   .homepage #featured-trips-grid.trip-rail { grid-auto-columns: calc((100% - 42px)/4); gap:14px; }
 }
+
+#pickupTable .pickup-landmark summary { cursor: pointer; }
+#pickupTable .pickup-landmark p { margin: 2px 0 6px; font-size: .875rem; }
+#pickupTable .pickup-landmark summary:focus-visible { outline: 2px solid #087f73; outline-offset: 2px; }
+@media (max-width: 767px) {
+  #pickupTable tbody tr { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: start; gap: 6px; padding: 4px 8px; }
+  #pickupTable td:first-child, #pickupTable td:nth-child(2) { grid-column: auto; min-height: 44px; }
+  #pickupTable td:first-child::before { display: none; }
+  #pickupTable td:first-child { font-size: .875rem; }
+  #pickupTable .pickup-landmark summary { min-height: 44px; align-content: center; }
+}
