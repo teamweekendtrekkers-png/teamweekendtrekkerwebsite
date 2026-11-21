@@ -149,6 +149,9 @@
 #pickupTable .pickup-landmark summary { cursor: pointer; }
 #pickupTable .pickup-landmark p { margin: 2px 0 6px; font-size: .875rem; }
 #pickupTable .pickup-landmark summary:focus-visible { outline: 2px solid #087f73; outline-offset: 2px; }
+@media (min-width: 768px) {
+  #pickupTable tbody td { padding-block: 7px; }
+}
 @media (max-width: 767px) {
   #pickupTable tbody tr { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: start; gap: 6px; padding: 4px 8px; }
   #pickupTable td:first-child, #pickupTable td:nth-child(2) { grid-column: auto; min-height: 44px; }

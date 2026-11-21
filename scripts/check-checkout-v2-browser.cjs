@@ -110,6 +110,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    assert.equal(await page.inputValue('#traveller-1-name'),'Edited Traveller');
    assert.ok(await page.locator('#traveller-1-age').isVisible());
    assert.ok(await page.locator('#traveller-1-pickup').isVisible());
+   assert.equal(await page.locator('.traveller-fields input,.traveller-fields select').first().getAttribute('id'),'traveller-1-pickup');
    await page.locator('#submitDetailsBtn').evaluate(async button=>{
     getComputedStyle(button).opacity;
     await Promise.all(button.getAnimations().map(animation=>animation.finished.catch(()=>{})));
@@ -198,6 +199,7 @@ const payment=()=>({checkoutVersion:2,mode:'direct',requestTripIds:[],profiles:[
    await page.getByRole('button',{name:'See all 5 highlights',exact:true}).click();
    assert.equal(await page.locator('[data-trip-section="highlights"]').evaluate(el=>el.open),true);
    assert.equal(await page.locator('#pickupTable tbody tr').count(),2);
+   if (width >= 768) assert.ok((await page.locator('#pickupTable tbody tr').first().boundingBox()).height < 65);
    const landmark=page.locator('#pickupTable .pickup-landmark').first();
    assert.equal(await landmark.locator('p').isVisible(),false);
    await landmark.locator('summary').click();
