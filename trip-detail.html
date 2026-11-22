@@ -590,6 +590,16 @@
             let url;
             try { url = new URL(trip.videoUrl); } catch { return; }
             if (url.protocol !== 'https:' || url.username || url.password || url.port) return;
+            if (['instagram.com', 'www.instagram.com'].includes(url.hostname)) {
+                const reel = new RegExp('^/reel/([A-Za-z0-9_-]{1,64})/?$').exec(url.pathname);
+                if (!reel) return;
+                const external = section.querySelector('a');
+                external.textContent = 'Watch Reel on Instagram';
+                external.href = 'https://www.instagram.com/reel/' + reel[1] + '/';
+                section.querySelector('button').remove();
+                section.hidden = false;
+                return;
+            }
             const parts = url.pathname.split('/').filter(Boolean);
             let id;
             if (url.hostname === 'youtu.be' && parts.length === 1) id = parts[0];
