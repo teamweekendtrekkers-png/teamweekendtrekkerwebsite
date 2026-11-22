@@ -61,13 +61,10 @@
   collage.append(make('figcaption','','Shared journeys. New stories.'));hero.append(layout);layout.append(copy,collage);hero.classList.add('homepage-discovery-ready');
   const featured=doc.getElementById('featured-trips-grid')?.closest('section'),reviews=doc.querySelector('.testimonials');if(featured&&reviews)featured.after(reviews);
   if(featured){
-   const featuredAnchor=doc.createComment('Desktop featured trips position'),finderAnchor=doc.createComment('Desktop trip preferences position');featured.before(featuredAnchor);finder.before(finderAnchor);
-   const mobileSection=make('section','mobile-finder-section'),mobileContainer=make('div','container');mobileSection.setAttribute('aria-label','Find a trip by date or interest');mobileSection.append(mobileContainer);mobileSection.hidden=true;
-   function placeDiscovery(){
-    if(mobileFinder.matches){hero.after(featured);featured.after(mobileSection);mobileContainer.append(finder);mobileSection.hidden=finder.hidden;}
-    else{featuredAnchor.after(featured);finderAnchor.after(finder);mobileSection.hidden=true;}
-   }
-   mobileFinder.addEventListener('change',placeDiscovery);placeDiscovery();
+   const finderSection=make('section','homepage-finder-section'),container=make('div','container');
+   finderSection.setAttribute('aria-label','Find a trip by date or interest');
+   finderSection.hidden=finder.hidden;container.append(finder);finderSection.append(container);
+   featured.after(finderSection);
   }
   if(!win.matchMedia('(prefers-reduced-motion: reduce)').matches&&win.IntersectionObserver){const observer=new win.IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('home-revealed');observer.unobserve(entry.target);}}),{threshold:.08});doc.querySelectorAll('.trips-section,.testimonials,.homepage-info-section').forEach(node=>observer.observe(node));}
  }

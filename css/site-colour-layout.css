@@ -124,8 +124,13 @@
 .homepage .explore-destinations { padding-block: 22px 14px; }
 .homepage .explore-destinations > .container { width: 100%; max-width: 1600px; }
 .explore-destinations .explore-heading { margin-bottom: 8px; }
-.explore-destinations .explore-heading :is(h2,p) { margin-bottom: 4px; }
-.explore-destinations .explore-sort { margin-bottom: 0; }
+.homepage .explore-destinations .section-title { margin: 0; text-align: left; }
+.explore-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.explore-weekends { display: inline-flex; align-items: center; min-height: 44px; color: var(--brand-forest); font-size: .875rem; line-height: 1.25; }
+.explore-destinations .explore-sort { margin: 0; }
+.explore-destinations .explore-sort select { max-width: 170px; }
+.homepage .homepage-finder-section { padding-block: 8px 16px; }
+.homepage .homepage-finder-section .weekend-finder { max-width: 760px; margin: 0 auto; }
 .homepage #featured-trips-grid.trip-rail { align-items: start; padding-bottom: 7px; }
 #featured-trips-grid .trip-content { padding: 12px 14px; }
 #featured-trips-grid .trip-content h3 { min-height: 0; margin-bottom: 5px; }
@@ -139,8 +144,21 @@
 .explore-actions .rail-controls[hidden] { display: none; }
 .explore-actions .rail-arrow { min-height: 44px; min-width: 44px; }
 @media (min-width: 768px) {
-  .explore-destinations .explore-heading { display:flex; justify-content:space-between; gap:16px; align-items:end; }
-  .explore-destinations .explore-heading :is(h2,p) { text-align:left; }
+  .explore-destinations .explore-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .explore-toolbar { gap: 16px; }
+  .homepage .homepage-hero-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding-bottom: 16px; }
+  .homepage .homepage-hero-layout .hero-content { align-self: center; }
+  .homepage .homepage-hero-layout .traveller-collage img:first-child { height: clamp(160px, 15vw, 210px); }
+  .homepage .homepage-hero-layout .traveller-collage img { height: clamp(100px, 9vw, 130px); }
+
+}
+@media (max-width: 767px) {
+  .homepage .explore-destinations .explore-sort label { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+  .explore-destinations .explore-sort select { width: min(148px, 44vw); }
+  .homepage #featured-trips-grid .trip-image { aspect-ratio: 1.95; }
+  .homepage .explore-actions > .btn { width: auto; padding-inline: 14px; }
+  .homepage .explore-actions .rail-playback { min-width: 44px; width: 44px; padding: 0; }
+  .homepage .explore-actions .rail-playback span:last-child { position: absolute; clip-path: inset(50%); }
 }
 @media (min-width: 1280px) {
   .homepage #featured-trips-grid.trip-rail { grid-auto-columns: calc((100% - 42px)/4); gap:14px; }

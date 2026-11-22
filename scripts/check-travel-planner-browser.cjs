@@ -6,7 +6,7 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined});
  try{
-  for(const width of [320,390,1440]){
+  for(const width of [320,390,768,1024,1440]){
    const page=await browser.newPage({viewport:{width,height:844},reducedMotion:'reduce'});let writes=0,fail=false;const errors=[];
    page.on('pageerror',error=>errors.push(error.message));
    await page.addInitScript(()=>{const Original=Date;window.Date=class extends Original{constructor(...args){super(...(args.length?args:['2030-11-01T10:00:00Z']));}static now(){return new Original('2030-11-01T10:00:00Z').getTime();}};localStorage.setItem('twt-analytics-consent','no');});
@@ -39,10 +39,17 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
    assert.equal(await page.locator('.floating-calendar').count(),1,'One calendar control across layouts');
    assert.equal(await page.getByRole('navigation',{name:'Mobile shortcuts',exact:true}).isVisible(),width<768);
    assert.equal(await page.locator('.finder-preferences').evaluate(node=>node.open),width>=768,'Phone preferences start compact');
+   const layout=await page.evaluate(()=>{
+    const box=selector=>document.querySelector(selector).getBoundingClientRect();
+    return {card:box('#featured-trips-grid .trip-card').top, trips:box('.trips-section').top,
+     stats:box('.stats').top, finder:box('.weekend-finder').top, heading:box('.explore-heading').height,
+     sort:box('#exploreSort').height, search:box('.hero-search').height};
+   });
+   assert.ok(layout.trips<layout.stats&&layout.trips<layout.finder,'Trips appear before statistics and preferences at every width');
+   assert.ok(layout.card<660&&layout.heading<115,'The first card and its compact heading are visible without scrolling');
+   assert.ok(layout.sort>=44&&layout.search>=44,'Search and sort keep their touch target sizes');
+   assert.equal(await page.locator('.hero .weekend-finder').count(),0,'Hero stays focused on search');
    if(width<768){
-    const order=await page.evaluate(()=>{const trips=document.querySelector('.trips-section').getBoundingClientRect(),stats=document.querySelector('.stats').getBoundingClientRect(),finder=document.querySelector('.weekend-finder').getBoundingClientRect();return {trips:trips.top,stats:stats.top,finder:finder.top};});
-    assert.ok(order.trips<order.stats&&order.trips<order.finder,'Trip cards appear before statistics and preferences');
-    assert.equal(await page.locator('.hero .weekend-finder').count(),0,'Hero stays focused on search');
     const shortcuts=page.getByRole('navigation',{name:'Mobile shortcuts',exact:true});
     assert.equal(await shortcuts.getByRole('link',{name:'Home',exact:true}).getAttribute('aria-current'),'page');
     assert.match(await shortcuts.getByRole('link',{name:'This week’s departures',exact:true}).getAttribute('href'),/when=week&/);
