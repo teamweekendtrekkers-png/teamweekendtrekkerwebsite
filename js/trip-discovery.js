@@ -220,7 +220,7 @@
         if (!grid || typeof tripsData !== 'object') return;
         const root = document.defaultView;
         const bengaluru = new URLSearchParams(root.location.search).get('weekend-trips') === '1';
-        const all = Object.entries(tripsData)
+        const trips = Object.entries(tripsData)
             .map(([id, trip]) => ({ ...trip, id }))
             .filter(trip => !bengaluru || /^(bengaluru|bangalore)$/i.test(String(trip.departureCity || '').trim()));
         const referenceDate = new Date();
@@ -247,6 +247,8 @@
             document.getElementById('show-coming-soon').closest('label').hidden = true;
         }
         const config = root.HomepageSettings ? await root.HomepageSettings.load(root.fetch.bind(root)) : { discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true } };
+        const all = root.HomepageSettings ? root.HomepageSettings.visibleTrips(trips, config, referenceDate) : trips;
+        if (config.discovery.hideComingSoonTrips) document.getElementById('show-coming-soon')?.closest('label')?.remove();
         if (config.discovery.showTripTypeFilter === false) {
             document.querySelector('.filter-context')?.remove();
             document.querySelector('.filter-buttons')?.remove();
@@ -261,7 +263,7 @@
             const category = params.get('type') || 'all';
             return {query:(params.get('q') || '').slice(0,200), experience:params.get('experience') || 'all',
                 departure:params.get('departure') || '', category:[...document.querySelectorAll('[data-filter]')].some(button=>button.dataset.filter===category)?category:'all',
-                showComingSoon:!bengaluru&&params.get('unavailable')==='1',collection:params.get('collection')==='long'?'long':'',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
+                showComingSoon:!bengaluru&&!config.discovery.hideComingSoonTrips&&params.get('unavailable')==='1',collection:params.get('collection')==='long'?'long':'',when:dates.dateWindow(params.get('when'),referenceDate)?params.get('when'):''};
         };
         const writeFilters = () => {
             if (!root.location.href || !root.history?.replaceState) return;

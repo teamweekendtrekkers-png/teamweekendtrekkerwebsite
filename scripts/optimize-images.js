@@ -1,6 +1,8 @@
 // Original files stay untouched. Only referenced site photos are converted.
 const fs=require('node:fs/promises'), path=require('node:path');
 const sharp=require('sharp');
+const {createHash}=require('node:crypto');
+const cache=process.env.OPTIMIZED_IMAGE_CACHE;
 const root=path.resolve(process.argv[2] || path.join(__dirname,'..'));
 async function main() {
  const sources=new Set();
@@ -22,11 +24,24 @@ async function main() {
   }
  }}
  await walk(root);
- const manifest={}; let before=0, after=0;
+ const manifest={}; let before=0, after=0, reused=0;
+ const used=new Set();
+ if(cache) await fs.mkdir(cache,{recursive:true});
  const output=path.join(root,'images/optimized'); await fs.mkdir(output,{recursive:true});
  for(const relative of sources) {
   const input=path.join(root,relative);
   let stat; try {stat=await fs.stat(input);} catch(e) {if(e.code==='ENOENT')continue;throw e;}
+  const hash=cache&&createHash('sha256').update(await fs.readFile(input)).digest('hex');
+  async function derivative(name, encode) {
+   const target=path.join(root,name);
+   if(!cache){await encode(target);return;}
+   const key=hash+'-'+path.basename(name);
+   used.add(key);
+   const saved=path.join(cache,key);
+   try {await fs.copyFile(saved,target);reused++;return;} catch(error) {if(error.code!=='ENOENT')throw error;}
+   await encode(target);
+   await fs.copyFile(target,saved);
+  }
   const metadata=await sharp(input,{failOn:'error'}).metadata();
   const prefix=relative.replace(/^images\//,'').replace(/[^A-Za-z0-9_-]/g,'_');
   const orientedWidth = metadata.orientation >= 5 && metadata.orientation <= 8 ? metadata.height : metadata.width;
@@ -36,15 +51,13 @@ async function main() {
   const webp=[], avif=[];
   for(const width of sizes) {
    const name='images/optimized/'+prefix+'-'+width+'.webp';
-   let cached; try { cached=await fs.stat(path.join(root,name)); } catch (_) {}
-   if(!cached || cached.mtimeMs<stat.mtimeMs) await sharp(input).rotate().resize({width,withoutEnlargement:true}).webp({quality:78,effort:4}).toFile(path.join(root,name));
+   await derivative(name,target=>sharp(input).rotate().resize({width,withoutEnlargement:true}).webp({quality:78,effort:4}).toFile(target));
    after+=(await fs.stat(path.join(root,name))).size; webp.push({width,path:name});
   }
   // AVIF is offered to picture-capable clients; keep a WebP fallback.
   for(const width of sizes) {
    const name='images/optimized/'+prefix+'-'+width+'.avif';
-   let cached; try { cached=await fs.stat(path.join(root,name)); } catch (_) {}
-   if(!cached || cached.mtimeMs<stat.mtimeMs) await sharp(input).rotate().resize({width,withoutEnlargement:true}).avif({quality:48,effort:2}).toFile(path.join(root,name));
+   await derivative(name,target=>sharp(input).rotate().resize({width,withoutEnlargement:true}).avif({quality:48,effort:2}).toFile(target));
    after+=(await fs.stat(path.join(root,name))).size; avif.push({width,path:name});
   }
   before+=stat.size; manifest[relative]={webp,avif,width:metadata.width,height:metadata.height};
@@ -63,6 +76,9 @@ async function main() {
   });
   if(next!==text)await fs.writeFile(file,next);
  }
- console.log(JSON.stringify({photos:Object.keys(manifest).length,originalBytes:before,derivativeBytes:after}));
+ if(cache) for(const key of await fs.readdir(cache)) {
+  if(/^[a-f0-9]{64}-[\w.-]+\.(?:avif|webp)$/.test(key)&&!used.has(key)) await fs.unlink(path.join(cache,key));
+ }
+ console.log(JSON.stringify({reused,photos:Object.keys(manifest).length,originalBytes:before,derivativeBytes:after}));
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

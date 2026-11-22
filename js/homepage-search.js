@@ -1,9 +1,10 @@
 (function(){
  'use strict';
- document.addEventListener('DOMContentLoaded',()=>{
+ document.addEventListener('DOMContentLoaded',async()=>{
   const input=document.getElementById('heroTripSearch'),results=document.getElementById('heroSearchResults');
   if(!input||!results)return;
-  const all=()=>Object.entries(tripsData).map(([id,trip])=>({...trip,id}));
+  const config=await HomepageSettings.load(window.fetch.bind(window));
+  const all=()=>HomepageSettings.visibleTrips(Object.entries(tripsData).map(([id,trip])=>({...trip,id})),config,new Date());
   function show(){
    const query=input.value.trim();results.replaceChildren();results.hidden=!query;if(!query)return;
    const form=input.closest('form'),when=form?.querySelector('[name="when"]')?.value||'',experience=form?.querySelector('[name="experience"]')?.value||'all';

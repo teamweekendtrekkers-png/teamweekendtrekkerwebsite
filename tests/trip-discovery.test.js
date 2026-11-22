@@ -16,8 +16,15 @@ const trips = [
     { id: 'inactive', title: 'Next season', isActive: false, featured: true, availableDates: ['Aug 14-16, 2026'] },
 ];
 test('legacy config gains individually configurable safe discovery defaults', () => {
-    assert.deepEqual(settings.normalize({version:1}).discovery, {enabled:true, showSearch:true, showExperienceFilter:true, showWeekendFilter:true, showTripTypeFilter:true});
-    assert.deepEqual(settings.normalize({version:1, discovery:{enabled:false, showSearch:false, showExperienceFilter:'false', showWeekendFilter:false, showTripTypeFilter:false}}).discovery, {enabled:false, showSearch:false, showExperienceFilter:true, showWeekendFilter:false, showTripTypeFilter:false});
+    assert.deepEqual(settings.normalize({version:1}).discovery, {enabled:true, showSearch:true, showExperienceFilter:true, showWeekendFilter:true, showTripTypeFilter:true, hideComingSoonTrips:false});
+    assert.deepEqual(settings.normalize({version:1, discovery:{enabled:false, showSearch:false, showExperienceFilter:'false', showWeekendFilter:false, showTripTypeFilter:false}}).discovery, {enabled:false, showSearch:false, showExperienceFilter:true, showWeekendFilter:false, showTripTypeFilter:false, hideComingSoonTrips:false});
+});
+test('Coming soon visibility hides both inactive and undated cards', () => {
+    const closed = { ...trips[0], id: 'closed', closedDepartures: ['2026-08-21/2026-08-23'] };
+    const catalogue = [...trips, closed];
+    assert.equal(settings.visibleTrips(catalogue, settings.defaults, now), catalogue);
+    const config = settings.normalize({version: 1, discovery: {enabled: false, hideComingSoonTrips: true}});
+    assert.deepEqual(settings.visibleTrips(catalogue, config, now).map(trip => trip.id), ['later', 'soon', 'closed']);
 });
 test('search, explicit experience and canonical departure filters compose without mutating trips', () => {
     const before = JSON.stringify(trips);

@@ -17,7 +17,7 @@
             tagline: '🧗 Trips | Tours | Unique Experiences 🏕️',
             description: 'A travel community for travellers, by travellers'
         },
-        discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true, showTripTypeFilter: true },
+        discovery: { enabled: true, showSearch: true, showExperienceFilter: true, showWeekendFilter: true, showTripTypeFilter: true, hideComingSoonTrips: false },
         upcomingBatches: {
             enabled: true, title: 'Upcoming Batches',
             subtitle: 'Plan your next escape with our nearest available trip dates',
@@ -175,5 +175,11 @@
             } finally { clearTimeout(timeout); }
         } catch (_) { return clone(defaults); }
     }
-    return { defaults, normalize, normalizeHolidays, safeImage, selectedTrips, buildBatches, apply, load };
+    function visibleTrips(trips, config, referenceDate) {
+        if (!config?.discovery?.hideComingSoonTrips) return trips;
+        return trips.filter(trip => trip.isActive !== false &&
+            (dates.getUpcomingDateRanges(trip, referenceDate).length > 0 ||
+                dates.unavailableDateLabel(trip, referenceDate) !== 'New dates coming soon'));
+    }
+    return { visibleTrips, defaults, normalize, normalizeHolidays, safeImage, selectedTrips, buildBatches, apply, load };
 }));
