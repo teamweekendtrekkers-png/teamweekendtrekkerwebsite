@@ -1,5 +1,35 @@
 {
   "version": 1,
+  "storyHighlights": {
+    "enabled": true,
+    "items": [
+      {
+        "name": "Kannur",
+        "image": "https://www.instagram.com/stories/highlights/18099331457553879/",
+        "url": "https://www.instagram.com/stories/highlights/18099331457553879/"
+      },
+      {
+        "name": "Badami",
+        "image": "https://www.instagram.com/stories/highlights/17966470508980461/",
+        "url": "https://www.instagram.com/stories/highlights/17966470508980461/"
+      },
+      {
+        "name": "Rameshwaram",
+        "image": "https://www.instagram.com/stories/highlights/18076504705947175/",
+        "url": "https://www.instagram.com/stories/highlights/18076504705947175/"
+      },
+      {
+        "name": "Srisaialam",
+        "image": "https://www.instagram.com/stories/highlights/18220383115347110/",
+        "url": "https://www.instagram.com/stories/highlights/18220383115347110/"
+      },
+      {
+        "name": "Sakleshpur",
+        "image": "https://www.instagram.com/stories/highlights/18599755933008820/",
+        "url": "https://www.instagram.com/stories/highlights/18599755933008820/"
+      }
+    ]
+  },
   "pages": {
     "aboutTitle": "About Us",
     "aboutSubtitle": "A Travel Community for Travellers, By Travellers",
