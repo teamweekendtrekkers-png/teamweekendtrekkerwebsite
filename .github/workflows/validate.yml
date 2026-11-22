@@ -184,7 +184,16 @@ jobs:
     - name: Install image optimiser
       run: npm install --no-audit --no-fund --package-lock=false
 
+    - name: Restore responsive photo cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/responsive-photos
+        key: responsive-photos-v1-${{ hashFiles('scripts/optimize-images.js', 'package.json') }}-${{ github.sha }}-${{ github.run_attempt }}
+        restore-keys: responsive-photos-v1-${{ hashFiles('scripts/optimize-images.js', 'package.json') }}-
+
     - name: Generate responsive WebP and AVIF photos
+      env:
+        OPTIMIZED_IMAGE_CACHE: ${{ runner.temp }}/responsive-photos
       run: npm run optimize-images
 
     - name: Prepare selected homepage cover and settings

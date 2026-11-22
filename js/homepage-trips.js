@@ -50,11 +50,13 @@
     }
 
     let exploreOrder = [];
+    let homepageConfig;
     function renderExploreTrips(referenceDate) {
         const grid = document.getElementById('featured-trips-grid');
         if (!grid || typeof TripDateUtils === 'undefined') return;
 
-        const allTrips = getAllTrips();
+        const trips = getAllTrips();
+        const allTrips = typeof HomepageSettings === 'undefined' ? trips : HomepageSettings.visibleTrips(trips, homepageConfig, referenceDate);
         const order = document.getElementById('exploreSort')?.value || 'manager';
         const exploreTrips = typeof TripDiscovery === 'undefined' ? allTrips : TripDiscovery.sortTrips(allTrips, referenceDate, order, '', exploreOrder);
         const escapeHTML = TripDateUtils.escapeHTML;
@@ -106,12 +108,12 @@
             });
             sort.disabled = false;
         }
-        renderExploreTrips(referenceDate);
         if (typeof HomepageSettings !== 'undefined') {
             const config = await HomepageSettings.load(window.fetch.bind(window));
+            homepageConfig = config;
             HomepageSettings.apply(config, document);
             exploreOrder = config.tripDisplayOrder?.explore || [];
-            if (exploreOrder.length) renderExploreTrips(referenceDate);
+            renderExploreTrips(referenceDate);
             const primary = document.querySelector('.hero .btn-primary');
             if (primary) primary.href = config.upcomingBatches.enabled ? '#upcoming-batches' : 'trips.html';
             const trust = document.getElementById('hero-trust'), rating = document.getElementById('hero-trust-rating'), link = document.getElementById('hero-trust-link');
@@ -132,6 +134,7 @@
             let departureSnapshot=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));
             setInterval(()=>{const next=JSON.stringify(getAllTrips().map(t=>TripDateUtils.getUpcomingDateRanges(t,new Date()).map(r=>r.key)));if(next!==departureSnapshot){departureSnapshot=next;renderExploreTrips(new Date());renderUpcomingBatches(new Date(),config,{query:'',experience:'all',departure:''});}},30000);
         } else {
+            renderExploreTrips(referenceDate);
             renderUpcomingBatches(referenceDate);
         }
     });
