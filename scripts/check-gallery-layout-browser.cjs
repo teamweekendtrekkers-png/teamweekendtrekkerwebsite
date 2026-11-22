@@ -69,16 +69,15 @@ async function main(){
   for(const width of [320,390,768,1440,3840]){
    await page.setViewportSize({width,height:width>2000?2160:900});
    const metrics=await page.evaluate(()=>{
-    const hero=document.querySelector('.hero'),dest=document.querySelector('.trips-section'),sheet=document.querySelector('link[href*="homepage-layout"]');
-    const after={hero:hero.offsetHeight,destinations:dest.offsetTop};sheet.sheet.disabled=true;
-    const before={hero:hero.offsetHeight,destinations:dest.offsetTop};sheet.sheet.disabled=false;
-    return {before,after,overflow:document.documentElement.scrollWidth>innerWidth,
+    const hero=document.querySelector('.hero'),dest=document.querySelector('.trips-section'),card=dest.querySelector('.trip-card');
+    return {hero:hero.offsetHeight,destinations:dest.offsetTop,firstCard:card.getBoundingClientRect().top + scrollY,
+      overflow:document.documentElement.scrollWidth>innerWidth,
       targets:[...document.querySelectorAll('.hero .btn,.hero-help,.upcoming-batches-action .btn')].filter(x=>x.getClientRects().length).map(x=>x.getBoundingClientRect().height),
       font:parseFloat(getComputedStyle(document.querySelector('.hero-search input')).fontSize)};
    });
    assert.equal(metrics.overflow,false,'horizontal overflow at '+width);
-   assert.ok(metrics.after.destinations<metrics.before.destinations,'discovery must appear sooner at '+width);
-   assert.ok(metrics.after.hero<600,'banner must not grow with tall or wide screens at '+width);
+   assert.ok(metrics.firstCard<700,'First trip card appears in the initial viewport at '+width);
+   assert.ok(metrics.hero<600,'banner must not grow with tall or wide screens at '+width);
    assert.ok(metrics.targets.every(h=>h>=44),'preserve touch targets at '+width);
    assert.ok(metrics.font>=16,'preserve search readability at '+width);
    await page.screenshot({path:path.join(reviews,'homepage-'+width+'.png')});

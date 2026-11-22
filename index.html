@@ -19,12 +19,12 @@
     <link rel="stylesheet" href="css/brand-colors.css?v=5">
     <link rel="stylesheet" href="css/site-motion.css?v=2026111701">
 <link rel="stylesheet" href="css/trip-presentation.css?v=1">
-    <link rel="stylesheet" href="css/homepage-layout.css?v=2026111901">
+    <link rel="stylesheet" href="css/homepage-layout.css?v=2026112303">
 <script src="/js/website-pages.js?v=20261116"></script>
 <link rel="stylesheet" href="css/trip-gallery-slideshow.css?v=2">
 <link rel="stylesheet" href="css/travel-planner.css?v=2026112104">
 <link rel="stylesheet" href="css/layout-refinement.css?v=2026111802">
-<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112007">
+<link rel="stylesheet" href="css/site-colour-layout.css?v=2026112303">
 </head>
 <body class="homepage" data-site-page="index">
     <!-- Navigation -->
@@ -67,6 +67,28 @@
 
 
 
+    <!-- Explore Destinations -->
+    <section class="trips-section explore-destinations">
+        <div class="container">
+            <div class="explore-heading">
+                <h2 class="section-title">Explore Destinations</h2>
+                <div class="explore-toolbar">
+                    <a href="trips.html?weekend-trips=1" class="explore-weekends">Bengaluru weekends</a>
+                    <div class="explore-sort"><label for="exploreSort">Sort trips</label>
+                        <select id="exploreSort" aria-controls="featured-trips-grid" disabled><option value="manager">Recommended</option><option value="next">Next departure</option><option value="title">Name: A–Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select>
+                    </div>
+                </div>
+            </div>
+            <div class="trips-grid" id="featured-trips-grid">
+                <!-- Featured trips will be loaded dynamically -->
+                <div class="loading-placeholder">Loading adventures...</div>
+            </div>
+            <div class="center-btn explore-actions">
+                <a href="trips.html?unavailable=1&amp;sort=manager" class="btn btn-primary">View All Trips</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Upcoming Batches -->
     <section class="upcoming-batches" id="upcoming-batches" aria-labelledby="upcoming-batches-title">
         <div class="container">
@@ -105,29 +127,6 @@
                     <span class="stat-number">20+</span>
                     <span class="stat-label">Destinations</span>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Explore Destinations -->
-    <section class="trips-section explore-destinations">
-        <div class="container">
-            <div class="explore-heading">
-                <div>
-                    <h2 class="section-title">Explore Destinations</h2>
-                    <a href="trips.html?weekend-trips=1">Browse Bengaluru weekend trips</a>
-                    <p class="section-subtitle">We Provide Real Adventures, Not Just Tours</p>
-                </div>
-            <div class="explore-sort"><label for="exploreSort">Sort trips</label>
-                <select id="exploreSort" aria-controls="featured-trips-grid" disabled><option value="manager">Recommended</option><option value="next">Next departure</option><option value="title">Name: A–Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select>
-            </div>
-            </div>
-            <div class="trips-grid" id="featured-trips-grid">
-                <!-- Featured trips will be loaded dynamically -->
-                <div class="loading-placeholder">Loading adventures...</div>
-            </div>
-            <div class="center-btn explore-actions">
-                <a href="trips.html?unavailable=1&amp;sort=manager" class="btn btn-primary">View All Trips</a>
             </div>
         </div>
     </section>
@@ -354,7 +353,7 @@
 <script src="js/trip-gallery-slideshow.js?v=2"></script>
 <script src="js/trip-rails.js?v=2026112007"></script>
 <script src="js/homepage-compact.js?v=1"></script>
-<script src="js/homepage-discovery.js?v=2026111901"></script>
+<script src="js/homepage-discovery.js?v=2026112303"></script>
 <script src="js/site-motion.js?v=20261116"></script>
 <script defer src="/js/journey-analytics.js?v=2"></script>
 <script src="js/travel-planner.js?v=2026112104"></script>

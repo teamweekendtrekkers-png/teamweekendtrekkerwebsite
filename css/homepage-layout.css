@@ -98,7 +98,7 @@
 }
 
 /* On phones, let travellers see real trips before preferences and statistics. */
-.homepage .mobile-finder-section[hidden]{display:none!important}
+.homepage .homepage-finder-section[hidden]{display:none!important}
 @media(max-width:767px){
  .homepage .hero.homepage-discovery-ready .hero-buttons{display:none}
  .homepage .mobile-finder-section{padding:8px 0 16px;background:#f7faf7}
