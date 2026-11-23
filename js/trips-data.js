@@ -24,7 +24,7 @@ const tripsData = {
         difficulty: "Moderate",
         bestTime: "July - Dec",
         duration: "2D/1N",
-        availableDates: ["Nov 6-8, 2026", "Nov 13-15, 2026", "Nov 20-22, 2026"],
+        availableDates: ["Dec 4-6, 2026"],
         about: "Escape to the heart of the Western Ghats with a weekend packed with adventure, waterfalls, rainforest trails, scenic viewpoints, an off-road jeep ride, and peaceful Malenadu landscapes. Trek to Kodachadri Peak, unwind at Hidlumane Falls, and return with unforgettable memories.",
         highlights: ["\uD83C\uDF3F Kodachadri Trek – Trek through misty forests to a breathtaking summit.", "\uD83D\uDCA6 Hidlumane Falls – Refresh at a beautiful multi-tiered waterfall.", "\uD83D\uDE99 Jeep Ride (Optional) – Thrilling off-road adventure through forest trails.", "\uD83D\uDCA7 Devagange Ponds – Relax by peaceful natural poo", "\uD83C\uDFEF Nagara Fort – Explore a historic fort with scenic views.", "\uD83C\uDFAC Malgudi Museum (Optional) – Relive the charm of R.K. Narayan's Malgudi.", "\uD83C\uDF3F Rainforest Trails – Walk through lush forests and streams.", "\uD83D\uDCF8 Mountain Views – Capture stunning Western Ghats landscapes.", "\uD83C\uDFE1 Homestay Stay – Enjoy local food and a peaceful stay.", "\uD83D\uDD25 Campfire Night – Good food, music, and great company.", "\uD83D\uDC9A Perfect Weekend – Adventure, nature, and unforgettable memories."],
         itinerary: [
@@ -256,6 +256,8 @@ const tripsData = {
         isActive: true,
     },
     dandeli: {
+        publicSlug: "dandeli",
+        departureTime: "22:00",
         title: "Dandeli River Adventure",
         location: "Dandeli, Karnataka",
         badge: "Adventure",
@@ -269,7 +271,7 @@ const tripsData = {
         difficulty: "Moderate",
         bestTime: "Oct - May",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        availableDates: ["Dec 4-6, 2026"],
         about: "Get your adrenaline pumping at Dandeli - Karnataka's adventure capital! Known for white water rafting on the Kali River, this destination offers a perfect mix of adventure sports and wildlife experiences.\n\nCamp by the river, try rafting through rapids, go kayaking, and spot crocodiles on a coracle ride. Perfect for adventure enthusiasts and nature lovers alike!",
         highlights: ["White water rafting (Grade 2-3)", "Kayaking on Kali River", "Coracle ride", "Jungle safari", "Night camping by river", "Bonfire and BBQ"],
         itinerary: [
@@ -300,7 +302,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Feb",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Dec 4-6, 2026"],
         about: "Step back in time at Hampi, the UNESCO World Heritage Site and capital of the mighty Vijayanagara Empire. This open-air museum features stunning temple architecture, boulder-strewn landscapes, and the sacred Tungabhadra River.\n\nClimb Anjanadri Hill (believed to be Lord Hanuman's birthplace), explore ancient ruins, and witness magical sunsets over the surreal boulder landscape!",
         highlights: ["Anjanadri Hill sunrise trek", "Virupaksha Temple", "Vijaya Vittala Temple & Stone Chariot", "Coracle ride on Tungabhadra", "Hemakuta Hill sunset", "Hippie Island exploration"],
         itinerary: [
@@ -360,7 +362,7 @@ const tripsData = {
         difficulty: "Moderate",
         bestTime: "Oct - Mar",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Dec 4-6, 2026"],
         about: "Experience Gokarna - the quieter, more spiritual cousin of Goa! This temple town offers pristine beaches, beach trekking, and a laid-back vibe perfect for backpackers. Trek between secluded beaches and discover hidden coves.\n\nFrom the sacred Mahabaleshwar Temple to the hippie paradise of Om Beach, experience the best of this coastal gem!",
         highlights: ["Beach trek: Kudle to Paradise", "Om Beach camping", "Mahabaleshwar Temple", "Half Moon Beach", "Paradise Beach", "Sunset at Kudle Beach"],
         itinerary: [
@@ -391,7 +393,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Mar",
         duration: "2D/1N",
-        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026"],
+        availableDates: ["Jan 11-12, 2026", "Jan 18-19, 2026", "Jan 25-26, 2026", "Feb 01-02, 2026", "Feb 08-09, 2026", "Dec 4-6, 2026"],
         about: "Experience the French Riviera of the East! Pondicherry charms visitors with its unique blend of French colonial heritage, spiritual centers, pristine beaches, and vibrant cafes. Walk through the yellow-painted French Quarter, feel the peace at Auroville, and enjoy the laid-back beach vibes.\n\nFrom croissants at French bakeries to sunrise at Paradise Beach, Pondicherry offers a perfect blend of culture, spirituality, and relaxation.",
         highlights: ["French Quarter heritage walk", "Auroville Matrimandir visit", "Paradise Beach sunrise", "Promenade Beach evening", "French cafes and cuisine", "Sri Aurobindo Ashram"],
         itinerary: [
@@ -422,7 +424,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Mar",
         duration: "3D/2N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026", "Dec 4-6, 2026"],
         about: "Embark on a spiritual journey through Tamil Nadu's most magnificent temples! Visit the awe-inspiring Meenakshi Temple in Madurai, take a holy dip at Ramanathaswamy Temple in Rameswaram, and marvel at the architectural wonder of Brihadeeswarar Temple in Thanjavur.\n\nThis heritage trail covers three UNESCO-recognized sites and offers deep insights into Dravidian architecture and South Indian spirituality.",
         highlights: ["Meenakshi Amman Temple", "Ramanathaswamy Temple", "Dhanushkodi ghost town", "Brihadeeswarar Temple (UNESCO)", "Pamban Bridge view", "Traditional Tamil cuisine"],
         itinerary: [
@@ -452,7 +454,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Oct - Jun",
         duration: "2D/1N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026"],
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 2, 2026", "Feb 7-9, 2026", "Dec 4-6, 2026"],
         about: "Escape to the Queen of Hill Stations! Ooty, nestled in the Nilgiri hills, offers colonial charm, toy train rides, tea gardens, and beautiful botanical gardens. Combined with the quieter Coonoor, this trip is perfect for nature lovers.\n\nExperience the famous Nilgiri Mountain Railway, walk through tea estates, and enjoy the pleasant weather year-round!",
         highlights: ["Nilgiri Mountain Railway (Toy Train)", "Ooty Botanical Gardens", "Doddabetta Peak viewpoint", "Tea factory visit", "Ooty Lake boating", "Coonoor Sim's Nose viewpoint", "Lamb"],
         itinerary: [
@@ -518,7 +520,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Aug - Oct",
         duration: "2D/1N",
-        availableDates: ["Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026"],
+        availableDates: ["Oct 9-11, 2026", "Oct 16-18, 2026", "Oct 23-25, 2026", "Oct 30-Nov 1, 2026", "Dec 4-6, 2026"],
         about: "Escape into the misty Western Ghats for a weekend packed with waterfalls, mountain peaks, coffee estates and breathtaking sunsets. \uD83D\uDC9A\nChase the roaring Hebbe & Jhari Waterfalls, explore Mullayanagiri, witness a magical Kemmanagundi sunset, relax in a beautiful coffee estate, and end the day with campfire, music & great company. \uD83D\uDD25\n✨ A perfect weekend of mountains, waterfalls, adventure and Malnad vibes!",
         highlights: ["☕ Coffee Estate Stay – Wake up amidst the misty coffee plantations.", "\uD83D\uDCA6 Hebbe Waterfalls – Scenic forest trails, jeep adventure & refreshing waterfalls.", "\uD83C\uDF04 Kemmanagundi Sunset – Watch the Western Ghats glow at golden hour.", "\uD83C\uDFD4️ Mullayanagiri Peak – Experience Karnataka's highest peak.", "\uD83C\uDF0A Jhari Waterfalls – Off-road jeep ride & a refreshing waterfall experience.", "\uD83D\uDD25 Campfire Night – Music, dance, games & unforgettable conversations.", "\uD83D\uDEA3 Yagachi Backwaters – Optional water adventure activities.", "\uD83C\uDFDB️ Belur Temple – Explore the magnificent Hoysala architecture"],
         itinerary: [
@@ -551,7 +553,7 @@ const tripsData = {
         difficulty: "Easy",
         bestTime: "Sep - Mar",
         duration: "2D/2N",
-        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026"],
+        availableDates: ["Jan 10-12, 2026", "Jan 17-19, 2026", "Jan 24-26, 2026", "Jan 31-Feb 02, 2026", "Feb 07-09, 2026", "Dec 4-6, 2026"],
         about: "Experience the tea capital of South India! Munnar's rolling tea gardens, misty mountains, and the world's highest tea plantation at Kolukkumalai make this a must-visit destination. Witness a magical sunrise above the clouds!\n\nThe jeep ride to Kolukkumalai through winding paths is an adventure in itself. Combine with Eravikulam National Park for Nilgiri Tahr sighting!",
         highlights: ["Kolukkumalai sunrise jeep trip", "World''''"],
         itinerary: [
@@ -903,7 +905,7 @@ const tripsData = {
         difficulty: "Easy-Moderate",
         bestTime: "",
         duration: "2D/1N",
-        availableDates: ["Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026"],
+        availableDates: ["Nov 13-15, 2026", "Nov 20-22, 2026", "Nov 27-29, 2026", "Dec 4-6, 2026"],
         about: "Forget the usual weekend getaway. This time, let's climb something extraordinary!\n\nDiscover Badami, where towering sandstone cliffs become your adventure playground and centuries-old temples tell stories of Karnataka's glorious past.\n\nExperience the thrill of rock climbing and rappelling, explore magnificent cave temples, enjoy a peaceful sunset at Agastya Lake, and discover the architectural wonders of Aihole and Pattadakal.\n\nA perfect mix of adventure, heritage, scenic landscapes and new friendships — all in one unforgettable weekend!",
         highlights: ["\uD83E\uDDD7 Experience the thrill of rock climbing on Badami's sandstone cliffs.", "\uD83E\uDEA2 Challenge yourself with guided rappelling activities.", "\uD83C\uDFDB️ Explore the magnificent Badami Cave Temples.", "\uD83D\uDED5 Visit the historic Bhutanatha Temple beside Agastya Lake.", "\uD83C\uDF05 Enjoy beautiful sunset views at Agastya Lake.", "\uD83C\uDFF0 Discover Pattadakal, a UNESCO World Heritage Site.", "\uD83C\uDFFA Explore the ancient Chalukyan temples of Aihole.", "\uD83D\uDE4F Visit Mahakuta and Banashankari Temples.", "\uD83D\uDE90 Enjoy a fun-filled road trip with fellow travellers."],
         itinerary: [
