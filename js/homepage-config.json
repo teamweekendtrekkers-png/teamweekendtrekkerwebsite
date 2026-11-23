@@ -321,6 +321,7 @@
     "showSearch": true,
     "showExperienceFilter": true,
     "showTripTypeFilter": false,
+    "hideComingSoonTrips": true,
     "showWeekendFilter": true
   },
   "presentation": {
