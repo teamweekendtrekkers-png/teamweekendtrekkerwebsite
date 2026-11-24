@@ -49,6 +49,7 @@ const tripsData = {
     "kannur-theyyam": {
         publicSlug: "theyyam-experience",
         departureTime: "22:00",
+        videoUrl: "https://youtube.com/shorts/ys58qeRcGwc?si=ErdLvBk4HlVLKpLw",
         previousSlugs: ["kannur-theyyam"],
         title: " Theyyam Experience – Kannur & Thalassery \uD83D\uDD25\uD83E\uDD41",
         location: "Kannur, Kerala",
