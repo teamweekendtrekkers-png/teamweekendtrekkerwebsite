@@ -624,7 +624,7 @@
         "id": "google-review-privacy",
         "label": "Google review privacy",
         "url": "https://www.teamweekendtrekkers.com/google-reviews-privacy.html",
-        "visible": true
+        "visible": false
       }
     ],
     "contactTitle": "Contact Us",
