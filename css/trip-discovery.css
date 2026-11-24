@@ -92,6 +92,9 @@
 
 /* Multiple experience labels and an independently managed Bestseller badge. */
 .discovery-card .trip-image{position:relative}
+a.trip-date-tag { text-decoration: none; }
+a.trip-date-tag:hover time { text-decoration: underline; }
+a.trip-date-tag:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .discovery-card .trip-card-title { color: inherit; text-decoration: none; }
 .discovery-card .trip-card-title:hover { text-decoration: underline; text-underline-offset: .18em; }
 .discovery-card .trip-card-title:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }

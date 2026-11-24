@@ -102,6 +102,7 @@
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
         const selectedExperiences = experiencesFor(trip);
         const labels = selectedExperiences.map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
+        const dateOptions = {showRemaining: false, departureLink: date => links.departureUrl?.(trip.id, date.originalLabel)};
         const photo = typeof ResponsiveImages !== 'undefined'
             ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint, state.photo)
             : 'src="' + escape(imagePath(trip)) + '"';
@@ -112,7 +113,7 @@
             <div class="trip-content"><h3><a class="trip-card-title" href="${escape(href)}">${formattedTitle(trip)}</a></h3>
             ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${(!state.compact || state.enhanced) && teaser.trim() ? `<p class="trip-card-summary">${escape((textFormat?textFormat.plain(teaser):teaser).trim().slice(0, 160))}</p>` : ''}
-            ${state.enhanced ? dates.renderTripDateTags(scopedTrip,referenceDate,3,{showRemaining:false}) : state.compact ? (ranges[0] ? `<p class="trip-next-departure">Next departure: <time datetime="${escape(ranges[0].startKey)}" title="${escape(ranges[0].fullLabel)}">${escape(ranges[0].shortLabel)}</time></p>` : `<p class="trip-next-departure">${escape(dates.unavailableDateLabel(trip, referenceDate))}</p>`) : dates.renderTripDateTags(selected ? { ...scopedTrip, availableDates: [selected.originalLabel] } : scopedTrip, referenceDate, 3, {showRemaining:false})}
+            ${state.enhanced ? dates.renderTripDateTags(scopedTrip,referenceDate,3,dateOptions) : state.compact ? (ranges[0] ? `<p class="trip-next-departure">Next departure: <time datetime="${escape(ranges[0].startKey)}" title="${escape(ranges[0].fullLabel)}">${escape(ranges[0].shortLabel)}</time></p>` : `<p class="trip-next-departure">${escape(dates.unavailableDateLabel(trip, referenceDate))}</p>`) : dates.renderTripDateTags(selected ? { ...scopedTrip, availableDates: [selected.originalLabel] } : scopedTrip, referenceDate, 3, dateOptions)}
             <div class="trip-meta">${trip.duration ? `<span><i class="fas fa-clock" aria-hidden="true"></i> ${escape(trip.duration)}</span>` : ''}${trip.difficulty ? `<span><i class="fas fa-signal" aria-hidden="true"></i> ${escape(trip.difficulty)}</span>` : ''}</div>
             ${trip.departureCity && String(trip.departureCity).trim() ? `<p class="trip-departure-city">Departs from ${escape(String(trip.departureCity).trim().slice(0, 80))}</p>` : ''}
 
