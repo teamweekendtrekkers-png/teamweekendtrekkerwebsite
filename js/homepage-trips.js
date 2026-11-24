@@ -58,7 +58,7 @@
 
         const trips = getAllTrips();
         const allTrips = typeof HomepageSettings === 'undefined' ? trips : HomepageSettings.visibleTrips(trips, homepageConfig, referenceDate);
-        const order = document.getElementById('exploreSort')?.value || 'manager';
+        const order = document.getElementById('exploreSort')?.value || 'next';
         const exploreTrips = typeof TripDiscovery === 'undefined' ? allTrips : TripDiscovery.sortTrips(allTrips, referenceDate, order, '', exploreOrder);
         const escapeHTML = TripDateUtils.escapeHTML;
 

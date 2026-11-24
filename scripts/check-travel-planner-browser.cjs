@@ -22,13 +22,20 @@ const trips={culture:{title:'Culture weekend',duration:'2D/1N',experience:'herit
     }
     if(request.method()!=='GET'||url.origin!==origin)return route.abort();
     if(url.pathname==='/js/trips-data.js')return route.fulfill({contentType:'text/javascript',body:'const tripsData='+JSON.stringify(trips)+';'});
-    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,storyHighlights:{enabled:true,items:[{name:'Trail moments',image:'images/logo.jpg',url:'https://www.instagram.com/stories/highlights/123/'}]},tripDisplayOrder:{all:['long']},calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
+    if(url.pathname==='/js/homepage-config.json')return route.fulfill({contentType:'application/json',body:JSON.stringify({version:1,storyHighlights:{enabled:true,items:[{name:'Trail moments',image:'images/logo.jpg',url:'https://www.instagram.com/stories/highlights/123/'}]},tripDisplayOrder:{all:['long'],explore:['long']},calendarHolidays:[{date:'2030-11-20',name:'Example holiday'}]})});
     if(url.pathname==='/js/featured-trips.js')return route.fulfill({contentType:'text/javascript',body:'function getFeaturedTrips(){return Object.entries(tripsData).map(([id,trip])=>({...trip,id}));}'});
     let file=path.resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!file.startsWith(root+path.sep))return route.abort();
     try{return route.fulfill({contentType:({'.js':'text/javascript','.css':'text/css','.json':'application/json','.html':'text/html','.jpg':'image/jpeg'})[path.extname(file)]||'application/octet-stream',body:fs.readFileSync(file)});}catch{return route.fulfill({status:404});}
    });
    await page.goto(origin);
    await page.locator('.finder-preferences').waitFor();
+   const sort = page.locator('#exploreSort');
+   const firstTrip = page.locator('#featured-trips-grid article').first();
+   assert.equal(await sort.inputValue(), 'next');
+   assert.equal(await firstTrip.getAttribute('data-trip-id'), 'culture');
+   await sort.selectOption('manager');
+   assert.equal(await firstTrip.getAttribute('data-trip-id'), 'long');
+   await sort.selectOption('next');
    const story = page.getByRole('link',{name:'Trail moments',exact:true});
    await story.waitFor();
    assert.equal(await story.getAttribute('href'),'https://www.instagram.com/stories/highlights/123/');
