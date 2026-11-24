@@ -63,3 +63,10 @@
 }
 .story-highlights span { max-width: 100%; padding: 2px 5px; border-radius: 5px; background: #fff; color: #173f35; font-weight: 700; overflow-wrap: anywhere; }
 .story-highlights a:focus-visible { outline: 2px solid #e6a444; outline-offset: 2px; }
+.homepage img[data-deferred-src] { visibility: hidden; }
+@media (max-width: 767px) {
+    .story-highlights { gap: 8px; padding: 3px 3px 4px; margin-bottom: 4px; scrollbar-width: none; }
+    .story-highlights a { flex-basis: 78px; gap: 4px; font-size: .72rem; }
+    .story-highlights img { width: 54px; height: 54px; }
+    .story-highlights span { padding-inline: 3px; }
+}

@@ -8,10 +8,12 @@
   const focal = value => ['center','top','bottom','left','right'].includes(value) ? value : 'center';
   function variants(path) { return manifest[path] && manifest[path].webp || []; }
   function source(path, width) { const items=variants(path); return (items.find(item=>item.width>=width) || items.at(-1) || {}).path || path; }
-  function attributes(path, focus) {
+  function attributes(path, focus, options = {}) {
     const items=variants(path);
-    return 'src="' + escape(source(path,640)) + '"' +
-      (items.length ? ' srcset="' + items.map(item=>escape(item.path)+' '+item.width+'w').join(', ') + '" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1000px) 45vw, 380px"' : '') +
+    const prefix = options.deferred ? 'data-deferred-' : '';
+    const sizes = options.sizes || '(max-width: 600px) calc(100vw - 32px), (max-width: 1000px) 45vw, 380px';
+    return prefix + 'src="' + escape(source(path, options.sizes ? 320 : 640)) + '"' +
+      (items.length ? ' ' + prefix + 'srcset="' + items.map(item=>escape(item.path)+' '+item.width+'w').join(', ') + '" sizes="' + escape(sizes) + '"' : '') +
       ' style="object-position:' + focal(focus) + '"';
   }
   function set(image,path,options) {
@@ -43,5 +45,26 @@
     image.fetchPriority=options.eager?'high':'auto';
     image.src=source(path,options.eager?960:640);
   }
-  return {source, attributes, set, focal};
+  function observeDeferred(container) {
+    container._deferredImages?.disconnect();
+    const images = container.querySelectorAll('img[data-deferred-src]');
+    const load = image => {
+      if (image.dataset.deferredSrcset) image.srcset = image.dataset.deferredSrcset;
+      image.src = image.dataset.deferredSrc;
+      delete image.dataset.deferredSrcset;
+      delete image.dataset.deferredSrc;
+    };
+    const Observer = container.ownerDocument?.defaultView?.IntersectionObserver;
+    if (!Observer) { images.forEach(load); return; }
+    const observer = new Observer(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        load(entry.target);
+      }
+    }, { rootMargin: '120px 0px' });
+    container._deferredImages = observer;
+    images.forEach(image => observer.observe(image));
+  }
+  return {source, attributes, set, focal, observeDeferred};
 }));
