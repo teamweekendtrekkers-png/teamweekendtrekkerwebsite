@@ -37,4 +37,9 @@ do $$declare r jsonb; d date:=(now() at time zone 'Asia/Kolkata')::date;begin
 end $$;
 reset role;
 do $$begin if (select count(*) from public.twt_journey_events)<>12 then raise exception 'idempotency failed';end if;end $$;
+insert into public.twt_journey_events(id,session_id,event_name,source,device,occurred_at)
+values('00000000-0000-4000-8000-000000000020','99999999-9999-4999-8999-999999999999','site_visit','direct','desktop',now()-interval '91 days');
+select public.twt_purge_journey();
+select public.twt_track_journey('44444444-4444-4444-8444-444444444444','direct','desktop','[{"id":"00000000-0000-4000-8000-000000000021","name":"site_visit"}]');
+do $$begin if not exists(select 1 from public.twt_journey_events where id='00000000-0000-4000-8000-000000000020') then raise exception 'Older journey was deleted';end if;end $$;
 rollback;

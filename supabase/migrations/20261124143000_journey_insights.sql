@@ -34,7 +34,6 @@ begin
   on conflict(id) do nothing;
   v_count:=v_count+1;
  end loop;
- delete from public.twt_journey_events where id in (select id from public.twt_journey_events where occurred_at<now()-interval '90 days' limit 1000);
  delete from public.twt_journey_limits where bucket<now()-interval '1 day';
 end; $$;
 revoke all on function public.twt_track_journey(uuid,text,text,jsonb) from public,anon,authenticated;
@@ -115,5 +114,13 @@ begin
  ) into result;
  return result;
 end; $function$;
+
+-- Preserve scheduled housekeeping for temporary request-limit counters.
+create or replace function public.twt_purge_journey()
+returns void language plpgsql security definer set search_path='' as $$
+begin
+ delete from public.twt_journey_limits where bucket<now()-interval '1 day';
+end; $$;
+revoke all on function public.twt_purge_journey() from public,anon,authenticated;
 
 commit;
