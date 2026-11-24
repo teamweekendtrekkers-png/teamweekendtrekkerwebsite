@@ -171,6 +171,8 @@ const fixtures={
    discovery={enabled:true,showSearch:true,showExperienceFilter:true,showWeekendFilter:true};
    await page.goto(origin+'/index.html');await page.waitForSelector('.weekend-finder');
    const explore=page.locator('#featured-trips-grid .trip-card');
+   assert.equal(await page.locator('#exploreSort').inputValue(),'next');
+   await page.locator('#exploreSort').selectOption('manager');
    assert.deepEqual(await explore.evaluateAll(nodes=>nodes.map(node=>node.dataset.tripId)),Object.keys(fixtures));
    await page.locator('#exploreSort').selectOption('price-desc');
    assert.deepEqual(await explore.evaluateAll(nodes=>nodes.slice(0,3).map(node=>node.dataset.tripId)),['heritage','coast','coorg']);
