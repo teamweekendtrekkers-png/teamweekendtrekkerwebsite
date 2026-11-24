@@ -312,7 +312,10 @@
                 const avatar = make('span', 'reviewer-avatar', item.name.trim().slice(0, 1));
                 header.append(avatar);
                 if (item.photo) {
-                    const image = make('img', 'reviewer-photo'); image.src = item.photo; image.alt = ''; image.loading = 'lazy'; image.referrerPolicy = 'no-referrer';
+                    const image = make('img', 'reviewer-photo');
+                    if (document.defaultView?.ResponsiveImages?.observeDeferred) image.dataset.deferredSrc = item.photo;
+                    else image.src = item.photo;
+                    image.alt = ''; image.fetchPriority = 'low'; image.decoding = 'async'; image.referrerPolicy = 'no-referrer';
                     image.addEventListener('error', () => image.remove(), { once: true }); avatar.append(image);
                 }
                 const info = make('div', 'reviewer-info'); info.append(make('span', 'reviewer-name', item.name), make('span', 'review-date', item.date)); header.append(info);
@@ -320,6 +323,7 @@
                 card.append(header, stars, make('p', '', item.text), link('View on Google ↗', item.googleMapsUrl || reviews.googleMapsUrl)); return card;
             }));
             if (!grid.children.length) grid.append(make('p', 'reviews-empty', 'Read traveller reviews on Google.'));
+            document.defaultView?.ResponsiveImages?.observeDeferred?.(grid);
             initSlider(grid, reviews, document);
         }
         setText('.cta-section h2', sections.cta.title);

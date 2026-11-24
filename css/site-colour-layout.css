@@ -153,6 +153,11 @@
 
 }
 @media (max-width: 767px) {
+  .homepage .homepage-hero-layout { padding-block: 12px 4px; }
+  .homepage .homepage-hero-layout .hero-trust { margin-bottom: 5px; }
+  .homepage .homepage-hero-layout .hero-search { margin: 7px 0 3px; }
+  .homepage .hero + .explore-destinations { padding-top: 8px; }
+  .explore-destinations .explore-heading { margin-bottom: 4px; }
   .homepage .explore-destinations .explore-sort label { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
   .explore-destinations .explore-sort select { width: min(148px, 44vw); }
   .homepage #featured-trips-grid .trip-image { aspect-ratio: 1.95; }

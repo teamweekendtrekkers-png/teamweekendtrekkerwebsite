@@ -49,6 +49,7 @@
         })).join('');
     }
 
+    const explorePhotoSizes = '(max-width: 767px) calc(88vw - 25px), (max-width: 1000px) calc(50vw - 34px), (max-width: 1279px) calc(33.33vw - 30px), min(380px, 25vw - 23px)';
     let exploreOrder = [];
     let homepageConfig;
     function renderExploreTrips(referenceDate) {
@@ -62,12 +63,16 @@
         const escapeHTML = TripDateUtils.escapeHTML;
 
         if (exploreTrips.length === 0) {
+            grid._deferredImages?.disconnect();
             grid.innerHTML = '<p class="trips-empty">No trips are available right now.</p>';
             return;
         }
 
-        grid.innerHTML = exploreTrips.map(trip => {
-            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {compact:true,enhanced:true});
+        grid.innerHTML = exploreTrips.map((trip, index) => {
+            if (typeof TripDiscovery !== 'undefined') return TripDiscovery.renderCard(trip, referenceDate, {
+                compact: true, enhanced: true,
+                photo: { eager: index === 0, deferred: index > 0, sizes: explorePhotoSizes },
+            });
             const isInactive = trip.isActive === false;
             const inactiveClass = isInactive ? 'trip-inactive' : '';
             const title = String(trip.title || '').trim();
@@ -96,6 +101,7 @@
                 </article>`;
         }).join('');
         if (typeof TripDiscovery !== 'undefined') TripDiscovery.attachImageFallbacks(grid);
+        if (typeof ResponsiveImages !== 'undefined') ResponsiveImages.observeDeferred?.(grid);
     }
 
     document.addEventListener('DOMContentLoaded', async function () {

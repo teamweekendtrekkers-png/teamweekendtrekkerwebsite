@@ -102,8 +102,13 @@
         const fallback = safeImage(trip.image) && trip.image !== imagePath(trip) ? trip.image : 'images/logo.jpg';
         const selectedExperiences = experiencesFor(trip);
         const labels = selectedExperiences.map(key => key === 'other' ? String(trip.badge || 'Trip') : experiences[key]);
+        const photo = typeof ResponsiveImages !== 'undefined'
+            ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint, state.photo)
+            : 'src="' + escape(imagePath(trip)) + '"';
+        const priority = state.photo?.eager ? 'loading="eager" fetchpriority="high"'
+            : state.photo?.deferred ? 'loading="eager" fetchpriority="low"' : 'loading="lazy"';
         return `<article class="trip-card discovery-card ${trip.isActive === false ? 'trip-inactive' : ''}" data-trip-id="${escape(trip.id)}" data-category="${category(trip)}">
-            <div class="trip-image"><img ${typeof ResponsiveImages !== 'undefined' ? ResponsiveImages.attributes(imagePath(trip), trip.cardFocalPoint) : 'src="' + escape(imagePath(trip)) + '"'} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" loading="lazy" decoding="async"><div class="trip-card-types">${labels.map((label, index) => `<span class="trip-badge" data-experience="${escape(selectedExperiences[index])}">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
+            <div class="trip-image"><img ${photo} data-image-fallback="${escape(fallback)}" alt="${escape(title)}" ${priority} decoding="async"><div class="trip-card-types">${labels.map((label, index) => `<span class="trip-badge" data-experience="${escape(selectedExperiences[index])}">${escape(label)}</span>`).join('')}</div>${trip.isBestseller === true ? '<span class="trip-bestseller-badge">Bestseller</span>' : ''}${trip.isActive === false ? '<span class="trip-inactive-badge">Coming Soon</span>' : ''}</div>
             <div class="trip-content"><h3>${formattedTitle(trip)}</h3>
             ${!state.compact && trip.location ? `<p class="trip-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${escape(trip.location)}</p>` : ''}
             ${(!state.compact || state.enhanced) && teaser.trim() ? `<p class="trip-card-summary">${escape((textFormat?textFormat.plain(teaser):teaser).trim().slice(0, 160))}</p>` : ''}
@@ -117,7 +122,7 @@
         if (!container || typeof container.querySelectorAll !== 'function') return;
         container.querySelectorAll('img[data-image-fallback]').forEach(image => {
             const queue = [...new Set([image.dataset.imageFallback, 'images/logo.jpg'])]
-                .filter(path => safeImage(path) && path !== image.getAttribute('src'));
+                .filter(path => safeImage(path) && path !== (image.getAttribute('src') || image.dataset.deferredSrc));
             // Consume the marker now so repeated enhancement cannot attach a
             // second handler. A failed final logo terminates the finite queue.
             delete image.dataset.imageFallback;
@@ -125,7 +130,7 @@
             const recover = () => { const fallback = queue.shift(); if (fallback) { image.removeAttribute('srcset'); image.src = fallback; } else cleanup(); };
             image.addEventListener('error', recover);
             image.addEventListener('load', cleanup);
-            if (image.complete) { if (image.naturalWidth) cleanup(); else recover(); }
+            if (!image.dataset.deferredSrc && image.complete) { if (image.naturalWidth) cleanup(); else recover(); }
         });
     }
     function mountControls(container, trips, options, referenceDate, onChange) {
