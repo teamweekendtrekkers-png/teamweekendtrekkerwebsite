@@ -282,7 +282,7 @@
         }[character]));
     }
 
-    function renderTripDateTags(trip, referenceDate, limit, {showRemaining = true} = {}) {
+    function renderTripDateTags(trip, referenceDate, limit, {showRemaining = true, departureLink} = {}) {
         const tags = getTripDateTags(trip, referenceDate, limit);
 
         if (tags.visible.length === 0) {
@@ -292,11 +292,16 @@
                 </div>`;
         }
 
-        const dateTags = tags.visible.map(date => `
-            <span class="trip-date-tag" title="${escapeHTML(date.fullLabel)}">
+        const dateTags = tags.visible.map(date => {
+            const status = departureStatus(trip, date.key);
+            const href = status.key !== 'sold-out' && departureLink?.(date);
+            const tag = href ? 'a' : 'span';
+            return `
+            <${tag} class="trip-date-tag"${href ? ` href="${escapeHTML(href)}"` : ''} title="${escapeHTML(date.fullLabel)}">
                 <time datetime="${date.startKey}">${escapeHTML(date.shortLabel)}</time>
-                <span class="departure-status" data-status="${departureStatus(trip,date.key).key}">${departureStatus(trip,date.key).label}</span>
-            </span>`).join('');
+                <span class="departure-status" data-status="${status.key}">${status.label}</span>
+            </${tag}>`;
+        }).join('');
         const remaining = showRemaining && tags.remaining > 0
             ? `<span class="trip-date-more" aria-label="${tags.remaining} more dates">+${tags.remaining} more</span>`
             : '';
