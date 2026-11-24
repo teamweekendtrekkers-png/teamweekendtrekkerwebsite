@@ -5,7 +5,9 @@
   if(!input||!results)return;
   const config=await HomepageSettings.load(window.fetch.bind(window));
   const all=()=>HomepageSettings.visibleTrips(Object.entries(tripsData).map(([id,trip])=>({...trip,id})),config,new Date());
+  let emptySearchTimer;
   function show(){
+   window.clearTimeout(emptySearchTimer);
    const query=input.value.trim();results.replaceChildren();results.hidden=!query;if(!query)return;
    const form=input.closest('form'),when=form?.querySelector('[name="when"]')?.value||'',experience=form?.querySelector('[name="experience"]')?.value||'all';
    const matches=TripDiscovery.sortTrips(TripDiscovery.filterTrips(all(),{query,when,experience,showComingSoon:true},new Date()),new Date()).slice(0,5);
@@ -17,7 +19,7 @@
     if(when&&date)link.href=TripLinks.departureUrl(trip.id,date.originalLabel);
     meta.textContent=[date?date.shortLabel:'New dates coming soon',trip.price&&trip.price+' / person'].filter(Boolean).join(' · ');copy.append(title,meta);link.append(image,copy);results.append(link);
    }
-   if(!matches.length){const text=document.createElement('p');text.textContent='No matching trips. Try another destination or ask us on WhatsApp.';results.append(text);}
+   if(!matches.length){emptySearchTimer=window.setTimeout(()=>window.TwtJourney?.track('search_no_results'),600);const text=document.createElement('p');text.textContent='No matching trips. Try another destination or ask us on WhatsApp.';results.append(text);}
    const params=new URLSearchParams({q:query});if(when)params.set('when',when);if(experience!=='all')params.set('experience',experience);
    const more=document.createElement('a');more.href='trips.html?'+params;more.textContent='Browse all matching trips →';results.append(more);
   }

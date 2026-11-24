@@ -54,6 +54,8 @@
  }
  window.refreshCheckoutCommerce=refresh;
  function invalidRequest(){
+  const issue = byId('bookingIssue');
+  if(currentTrip() && !TripDecision.matchingDeparture(currentTrip(),getDateFromURL())) issue.dataset.analyticsCode = 'date_unavailable';
   const trip=currentTrip();
   byId('bookingIssue').hidden=false;byId('bookingIssue').textContent=trip&&!TripTravellers.valid(trip,Number(new URLSearchParams(location.search).get('people')||1))?'This trip allows up to '+TripTravellers.limit(trip)+' travellers per booking. Use Change date or travellers to update your selection.':trip?'This departure is no longer accepting requests. Please choose another date.':'The selected trip is missing or unavailable. Please choose a trip to continue.';
   byId('chooseTripLink').hidden=!!trip;
