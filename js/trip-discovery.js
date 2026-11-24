@@ -312,6 +312,7 @@
             });
         };
         const typeButtons = [...document.querySelectorAll('.filter-buttons [data-filter]')];
+        let emptySearchTimer;
         const render = () => {
             const matching = filterTrips(all, { ...current, category: 'all' }, referenceDate);
             const matchingTypes = new Set(matching.map(category));
@@ -321,6 +322,12 @@
             });
             const visible = sortTrips(current.category === 'all' ? matching : matching.filter(trip => category(trip) === current.category), referenceDate, order, current.when,
                 config.tripDisplayOrder?.[["week","weekend"].includes(current.when) ? "weekend" : "all"] || []);
+            root.clearTimeout(emptySearchTimer);
+            if (!visible.length && (current.query || current.when || current.departure || current.experience !== 'all' || current.category !== 'all')) {
+                emptySearchTimer = root.setTimeout(() => root.TwtJourney?.track('search_no_results'), 600);
+            }
+            const selectedDay = current.departure ? departureOptions(all, referenceDate).find(range => range.key === current.departure)?.startKey : null;
+            if (selectedDay) root.TwtJourney?.track('departure_searched', null, selectedDay);
             const markup = visible.length ? visible.map(trip => renderCard(trip, referenceDate, current)).join('') : `<div class="discovery-empty"><h2>${current.when === 'week' ? 'No matching departures this week' : 'No matching trips'}</h2><p>Try another departure or experience, or reset the filters.</p><button type="button" class="discovery-reset" data-reset-results>Reset filters</button></div>`;
             if (markup !== lastMarkup) { grid.innerHTML = markup; lastMarkup = markup; attachImageFallbacks(grid); }
             const resultText = `${visible.length} ${visible.length === 1 ? 'trip' : 'trips'} found${current.showComingSoon ? ' · includes trips without available dates' : ''}`;
