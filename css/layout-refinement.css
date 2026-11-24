@@ -207,3 +207,27 @@ body[data-site-page] .footer{padding-top:32px}
 @media(max-width:359px){
  body[data-site-page="trip-detail"].tour-refined #bookNowBtn{font-size:14px}
 }
+
+
+/* Keep catalogue controls close to the trip results. */
+body[data-site-page="trips"] .page-header { padding-block: 82px 12px; }
+body[data-site-page="trips"] .page-header h1 { margin-bottom: 4px; }
+body[data-site-page="trips"] .filter-section { padding-block: 8px; }
+body[data-site-page="trips"] .weekend-trip-links { margin-bottom: 0; }
+body[data-site-page="trips"] #trip-discovery-controls { padding: 8px; margin-bottom: 0; }
+body[data-site-page="trips"] #trip-discovery-controls .discovery-search > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+body[data-site-page="trips"] .trips-section { padding-top: 8px; }
+body[data-site-page="trips"] .catalogue-status { margin-bottom: 8px; }
+@media (max-width: 767px) {
+  body[data-site-page="trips"] .page-header { padding-block: 82px 10px; }
+  body[data-site-page="trips"] .filter-section > .container { gap: 5px; }
+  body[data-site-page="trips"] .weekend-trip-links { padding-block: 2px; scrollbar-width: none; }
+  body[data-site-page="trips"] .weekend-trip-links a { padding-inline: 10px; font-size: .875rem; }
+  body[data-site-page="trips"] .catalogue-sort { flex-basis: 160px; }
+}
