@@ -612,11 +612,11 @@
   },
   "footer": {
     "brandName": "Team Weekend Trekkers",
-    "description": "A travel community for travellers, by travellers. 🧗 Trips | Tours | Unique Experiences 🏕️",
+    "description": "Weekend trips, treks and cultural getaways.",
     "quickLinksTitle": "Quick Links",
     "homeLabel": "Home",
     "tripsLabel": "All Trips",
-    "aboutLabel": "About Us",
+    "aboutLabel": "About",
     "contactLabel": "Contact",
     "informationTitle": "Information",
     "informationLinks": [
@@ -631,12 +631,12 @@
     "location": "Kalkere, Bangalore",
     "whatsAppNumber": "",
     "instagramUrl": "",
-    "instagramLabel": "",
+    "instagramLabel": "Instagram",
     "email": "",
     "showSocialLinks": true,
     "showUpi": false,
     "upiTitle": "Pay via UPI",
     "copyUpiLabel": "Copy UPI ID",
-    "copyright": "© {year} {brand}. All rights reserved."
+    "copyright": "© {year} {brand}"
   }
 }
