@@ -14,7 +14,7 @@
   title.after(route,facts);
   const select=document.getElementById('dateSelect');
   const choices=document.getElementById('heroDepartureChoices');
-  const departureOptions=TripDateUtils.getUpcomingDateRanges(trip).slice(0,3);
+  const departureOptions=TripDateUtils.getUpcomingDateRanges(trip).slice(0,1);
   const quickButtons=new Map();
   if(choices && select && departureOptions.length){
    for(const range of departureOptions){
