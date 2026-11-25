@@ -38,7 +38,7 @@
    const chosen=TripDateUtils.parseTripDateRange(select?.value||'');
    const next=departureOptions[0];
    for(const [key,button] of quickButtons)button.setAttribute('aria-pressed',String(chosen?.key===key));
-   const date=chosen?'Selected: '+chosen.shortLabel:next?'Next: '+next.shortLabel:'New dates coming soon';
+   const date=chosen&&chosen.key!==next?.key?'Selected: '+chosen.shortLabel:quickButtons.size?'':next?'Next: '+next.shortLabel:'New dates coming soon';
    facts.textContent=[trip.duration,trip.difficulty,date].filter(Boolean).join(' · ');
   };
   select?.addEventListener('change',syncFacts);syncFacts();

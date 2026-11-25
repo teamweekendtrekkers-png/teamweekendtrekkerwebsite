@@ -148,3 +148,9 @@
 .hero-departure-choices button small { flex-basis:100%; text-align:left; }
 .hero-departure-choices button[aria-pressed=true] { border-color:#087f73; background:#e5f3ed; outline:1px solid #087f73; }
 .hero-departure-choices button:focus-visible { outline:2px solid #173f35; outline-offset:2px; }
+
+@media(max-width:767px){
+ .hero-departure-choices:not([hidden]){margin-block:8px}
+ .hero-departure-choices button{width:100%; max-width:24rem; text-align:left}
+ .hero-departure-choices button span{margin-inline-start:auto}
+}
