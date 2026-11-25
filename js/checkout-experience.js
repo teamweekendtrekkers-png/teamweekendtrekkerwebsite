@@ -13,7 +13,11 @@
   const facts=document.createElement('span');facts.className='checkout-summary-facts';
   facts.textContent=data.date+' · '+data.people+' '+(data.people===1?'traveller':'travellers')+' · '+money(data.total);
   const action=document.createElement('span');action.className='checkout-summary-action';action.textContent='View details or change date';
-  compact.replaceChildren(title,facts,action);
+  const pickups=[...document.querySelectorAll('select[id^="traveller-"][id$="-pickup"]')]
+    .filter(select=>select.value).map(select=>select.selectedOptions[0]?.textContent).filter(Boolean);
+  const pickup=document.createElement('span');pickup.className='checkout-summary-facts';
+  pickup.textContent=pickups.length ? 'Pickup: '+[...new Set(pickups)].join(' · ') : '';
+  compact.replaceChildren(title,facts,...(pickups.length?[pickup]:[]),action);
  }
  function recalculate(){
   const data=window.bookingData;if(!data||!config)return;
@@ -86,6 +90,7 @@
   const desktop=matchMedia('(min-width:768px)');
   const setDisclosure=()=>{disclosure.open=desktop.matches;};setDisclosure();desktop.addEventListener('change',setDisclosure);
 
+  byId('checkoutForm').addEventListener('change',event=>{if(event.target.matches('select[id$="-pickup"]'))updateCompactSummary();});
   const optional=document.createElement('details');optional.className='optional-fields';optional.innerHTML='<summary>Additional details (optional)</summary>';
   const anchor=byId('altPhone').closest('.form-group');anchor.parentElement.after(optional);
   [anchor,byId('notes').closest('.form-group')].forEach(node=>optional.append(node));
@@ -128,4 +133,3 @@
   window.addEventListener('pageshow',()=>{if(!dateValid())invalidRequest();});
  });
 }());
-

@@ -13,9 +13,31 @@
   const facts=document.createElement('p');facts.className='trip-mobile-facts';
   title.after(route,facts);
   const select=document.getElementById('dateSelect');
+  const choices=document.getElementById('heroDepartureChoices');
+  const departureOptions=TripDateUtils.getUpcomingDateRanges(trip).slice(0,3);
+  const quickButtons=new Map();
+  if(choices && select && departureOptions.length){
+   for(const range of departureOptions){
+    const special=TripDateUtils.departurePricing(trip,range.originalLabel);
+    const button=document.createElement('button');button.type='button';
+    const dateLabel=document.createElement('strong');dateLabel.textContent=range.shortLabel;
+    const price=document.createElement('span');price.textContent=special?TripDateUtils.formatPrice(special.price):trip.price;
+    const availability=document.createElement('small');availability.textContent=TripDateUtils.departureStatus(trip,range.key).label;
+    button.append(dateLabel,price,availability);
+    if(special){const note=document.createElement('small');note.textContent=special.note;button.append(note);}
+    button.addEventListener('click',()=>{
+     if(![...select.options].some(o=>o.value===range.originalLabel&&!o.disabled))return;
+     select.value=range.originalLabel;
+     select.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+    choices.append(button);quickButtons.set(range.key,button);
+   }
+   choices.hidden=false;
+  }
   const syncFacts=()=>{
    const chosen=TripDateUtils.parseTripDateRange(select?.value||'');
-   const next=TripDateUtils.getUpcomingDateRanges(trip)[0];
+   const next=departureOptions[0];
+   for(const [key,button] of quickButtons)button.setAttribute('aria-pressed',String(chosen?.key===key));
    const date=chosen?'Selected: '+chosen.shortLabel:next?'Next: '+next.shortLabel:'New dates coming soon';
    facts.textContent=[trip.duration,trip.difficulty,date].filter(Boolean).join(' · ');
   };

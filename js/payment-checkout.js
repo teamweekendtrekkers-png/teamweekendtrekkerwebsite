@@ -92,6 +92,7 @@
       el('qrLoadFeedback').hidden=true;el('paymentQrImage').hidden=false;el('paymentQrImage').src=p.qrImage;
     }
     el('paymentReportSection').hidden=reported;
+    if(el('jumpToPaymentReport'))el('jumpToPaymentReport').hidden=reported;
     document.querySelectorAll('#paymentSection .upi-buttons,#paymentSection .payment-type-selector,#requestReceived #popupCopyUpi').forEach(n=>n.hidden=reported);
     const upi=p.upiId||(Array.isArray(p.profiles)?'':window.TravelSecurity?.getUPI?.()||'');
     el('paymentUpiValue').textContent=upi||'Ask our team for the current UPI ID.';
@@ -165,7 +166,7 @@
         await window.submitPaymentReport();
         // Booking service sets the reference only after the request is accepted.
         if(window.bookingData.bookingReference && window.bookingData.bookingReference!==previous || window.legacyPaymentAccepted===true){
-          reported=true;el('paymentReportFeedback').textContent='Payment details submitted. Verification pending. Share your screenshot on WhatsApp.';el('editPaymentDetails').hidden=true;render();
+          reported=true;el('paymentReportFeedback').textContent='Payment details received. Payment and seat confirmation are pending.';el('editPaymentDetails').hidden=true;render();
         }else{el('paymentReportFeedback').textContent='Your payment report was not saved. Retry or share your transaction ID on WhatsApp.';el('paymentScreenshotLink').hidden=false;}
       }finally{saving=false;el('reportPaymentBtn').disabled=reported;}
     });
@@ -179,4 +180,3 @@
     };
   });
 }());
-

@@ -42,4 +42,22 @@ values('00000000-0000-4000-8000-000000000020','99999999-9999-4999-8999-999999999
 select public.twt_purge_journey();
 select public.twt_track_journey('44444444-4444-4444-8444-444444444444','direct','desktop','[{"id":"00000000-0000-4000-8000-000000000021","name":"site_visit"}]');
 do $$begin if not exists(select 1 from public.twt_journey_events where id='00000000-0000-4000-8000-000000000020') then raise exception 'Older journey was deleted';end if;end $$;
+
+insert into public.bookings(booking_reference,trip_id,departure_date,created_at,special_requests,payment_review_status)
+select 'new-' || n,'theyyam',current_date,now(),'', 'pending' from generate_series(1,55) n;
+insert into public.bookings(booking_reference,trip_id,departure_date,created_at,special_requests,payment_review_status)
+values ('old-pending','theyyam',current_date,now()-interval '2 days','[TWT_PAYMENT:report','pending');
+set local role authenticated;
+do $$ declare r jsonb; begin
+ r:=public.twt_booking_queue('',0,'pending','theyyam',current_date::text);
+ if (r->>'total')::int<>1 or r->'rows'->0->>'booking_reference'<>'old-pending' then
+  raise exception 'Payment queue did not filter before pagination';
+ end if;
+end $$;
+reset role;
+update public.bookings set booking_status='confirmed' where booking_reference='old-pending';
+do $$ begin
+ if not exists(select 1 from public.bookings where booking_reference='old-pending' and confirmed_at is not null)
+ then raise exception 'Booking transition did not record confirmed_at';end if;
+end $$;
 rollback;
