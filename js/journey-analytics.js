@@ -1,9 +1,9 @@
 /* Anonymous session journey analytics. No contact fields, UTRs, URLs or free text. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',()=>api.install(root));else api.install(root);})(typeof window==='undefined'?null:window,function(){
 'use strict';
-const events=new Set(['site_visit','trip_view','date_selected','checkout_open','payment_shown','payment_submitted','booking_requested','upi_copied','qr_downloaded','checkout_error','search_no_results','trip_no_departure','departure_searched']);
+const events=new Set(['site_visit','trip_view','date_selected','checkout_open','payment_shown','payment_submitted','booking_requested','upi_copied','qr_downloaded','checkout_error','search_no_results','trip_no_departure','departure_searched','departure_selected','departure_checkout']);
 const errors=new Set(['date_unavailable','payment_unavailable','checkout_unavailable','booking_submit_failed','qr_failed','pickup_missing','invalid_traveller_details']);
-const extendedEvent = event => ['search_no_results','trip_no_departure','departure_searched'].includes(event.name) || ['pickup_missing','invalid_traveller_details'].includes(event.error);
+const extendedEvent = event => ['search_no_results','trip_no_departure','departure_searched','departure_selected','departure_checkout'].includes(event.name) || ['pickup_missing','invalid_traveller_details'].includes(event.error);
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 function source(referrer,location){
  let url;try{url=new URL(location);}catch{return 'direct';}
@@ -15,7 +15,7 @@ function source(referrer,location){
 function clean(name,trip,error){
  if(!events.has(name))return null;
  const event={name,trip:typeof trip==='string'&&/^[a-z0-9][a-z0-9_-]{0,99}$/.test(trip)?trip:null,error:name==='checkout_error'&&errors.has(error)?error:null};
- if(name==='departure_searched'){
+ if(['departure_searched','departure_selected','departure_checkout'].includes(name)){
   if(typeof error!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(error))return null;
   const time=new Date(error);if(!Number.isFinite(+time)||time.toISOString().slice(0,10)!==error)return null;
   event.day=error;
@@ -51,12 +51,16 @@ function install(w){if(!w||w.TwtJourney)return;const d=w.document;const blocked=
  w.TwtJourney=tracker;
  const trip=()=>{try{return typeof w.getTripFromURL==='function'?w.getTripFromURL():w.currentTrip?.id||null;}catch{return null;}};
  let saved=null;try{saved=w.localStorage.getItem('twt-analytics-consent');}catch{}
- function observeState(){if(!tracker.enabled)return;const id=trip(),checkout=d.getElementById('checkoutForm');if(checkout)tracker.track('checkout_open',id);else if(d.getElementById('tripTitle')){tracker.track('trip_view',id);const dates=d.getElementById('dateSelect');if(dates?.value)tracker.track('date_selected',id);if(dates&&![...dates.options].some(option=>option.value&&!option.disabled))tracker.track('trip_no_departure',id);}
+ function trackDeparture(name,id,label){
+  const day=w.TripDateUtils?.parseTripDateRange(label)?.startKey;
+  if(id&&day)tracker.track(name,id,day);
+ }
+ function observeState(){if(!tracker.enabled)return;const id=trip(),checkout=d.getElementById('checkoutForm');if(checkout){tracker.track('checkout_open',id);trackDeparture('departure_checkout',id,new URLSearchParams(w.location.search).get('date'));}else if(d.getElementById('tripTitle')){tracker.track('trip_view',id);const dates=d.getElementById('dateSelect');if(dates?.value){tracker.track('date_selected',id);trackDeparture('departure_selected',id,dates.value);}if(dates&&![...dates.options].some(option=>option.value&&!option.disabled))tracker.track('trip_no_departure',id);}
  const payment=d.getElementById('paymentSection');if(payment&&payment.getClientRects().length&&w.getComputedStyle(payment).display!=='none')tracker.track('payment_shown',id);
  const issue=d.getElementById('bookingIssue');if(issue&&!issue.hidden&&issue.textContent.trim())tracker.track('checkout_error',id,issue.dataset.analyticsCode || 'checkout_unavailable');
  }
  if(saved!=='no'&&!blocked){tracker.consent(true);observeState();}
- d.addEventListener('change',e=>{if(e.target.id==='dateSelect'&&e.target.value)tracker.track('date_selected',trip());});
+ d.addEventListener('change',e=>{if(e.target.id==='dateSelect'&&e.target.value){tracker.track('date_selected',trip());trackDeparture('departure_selected',trip(),e.target.value);}});
  d.addEventListener('invalid',event=>{
   const field=event.target;if(!field.closest('#checkoutForm'))return;
   tracker.track('checkout_error',trip(),/^traveller-\d+-pickup$/.test(field.id)?'pickup_missing':'invalid_traveller_details');

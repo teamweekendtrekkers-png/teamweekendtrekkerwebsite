@@ -51,7 +51,7 @@
  .tour-refined .trip-back-link{display:inline-flex;align-items:center;min-height:44px;color:#54645d;font-size:14px;margin-bottom:4px;text-decoration:none}
  .tour-refined .trip-heading{margin:0 0 16px}
  .tour-refined .trip-heading h1{font-size:26px;line-height:1.22;margin:0 0 8px}
- .tour-refined .trip-heading-location,.tour-refined .trip-heading-departure,.tour-refined .trip-selected-departure,.tour-refined .trip-dates-shortcut,.tour-refined .trip-essentials{display:none}
+ .tour-refined .trip-heading-location,.tour-refined .trip-heading-departure,.tour-refined .trip-selected-departure,.tour-refined .trip-essentials{display:none}
  .tour-refined .trip-mobile-route{display:block;font-size:14px;color:#54645d;line-height:1.45;margin:0 0 6px}
  .tour-refined .trip-mobile-facts{display:block;font-size:14px;color:#173f35;font-weight:600;line-height:1.45;margin:0 0 8px}
  .tour-refined .trip-heading-summary{font-size:15px;line-height:1.5;margin:0}
@@ -141,3 +141,10 @@
  .tour-refined .accordion-header h3{grid-column:1;grid-row:2;min-width:0;font-size:16px;line-height:1.4;margin:0}
  .tour-refined .accordion-header i{grid-column:2;grid-row:1/3;align-self:center;justify-self:center}
 }
+
+/* Departure choices share the booking form's selected date. */
+.hero-departure-choices:not([hidden]) { display:flex; flex-wrap:wrap; gap:8px; margin-block:10px; }
+.hero-departure-choices button { display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; padding:6px 10px; min-height:44px; border:1px solid #a3c6b9; border-radius:10px; background:#fff; color:#173f35; font:inherit; cursor:pointer; }
+.hero-departure-choices button small { flex-basis:100%; text-align:left; }
+.hero-departure-choices button[aria-pressed=true] { border-color:#087f73; background:#e5f3ed; outline:1px solid #087f73; }
+.hero-departure-choices button:focus-visible { outline:2px solid #173f35; outline-offset:2px; }
