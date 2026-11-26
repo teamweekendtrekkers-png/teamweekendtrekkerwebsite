@@ -75,7 +75,7 @@
     el('publicLink').href = departureLink(slug);
     const [stops, rows] = await Promise.all([
       pickupApi.request(`${base}pickup_stops?departure=eq.${slug}&select=id,name,pickup_time,landmark,map_url,position&order=position`),
-      pickupApi.request(`${base}pickup_checkins?departure=eq.${slug}&updated_at=not.is.null&select=lead_name,phone,party_size,stop&order=lead_name`),
+      pickupApi.request(`${base}pickup_checkins?departure=eq.${slug}&updated_at=not.is.null&select=lead_name,phone,party_size,stop,passenger_names&order=lead_name`),
     ]);
     if (id !== loadId) return;
     pickupStops = stops;
@@ -98,6 +98,8 @@
         call.href = `tel:${digits}`;
         call.textContent = `Call ${party.phone}`;
         row.append(`${party.lead_name} · ${party.party_size} travelling · `, call);
+        const names = (party.passenger_names || []).slice(0, Math.max(0, party.party_size - 1)).filter(Boolean);
+        if (names.length) row.append(document.createElement('br'), `Travelling with ${names.join(', ')}`);
         list.append(row);
       }
       section.append(heading, location, list);

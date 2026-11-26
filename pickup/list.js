@@ -23,6 +23,8 @@
         call.href = `tel:${party.phone.replace(/[^0-9+]/g, '')}`;
         call.textContent = `Call ${party.phone}`;
         row.append(`${party.name} · ${party.people} travelling · `, call);
+        const names = (party.passengers || []).filter(Boolean);
+        if (names.length) row.append(document.createElement('br'), `Travelling with ${names.join(', ')}`);
         list.append(row);
       }
       section.append(title, detail, list);
