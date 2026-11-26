@@ -8,6 +8,7 @@
   let pickupStops = [];
   let departures = [];
   let captainAccess;
+  let accessDeparture;
   const context = new URLSearchParams(location.search);
   const linkedTrek = (context.get('trek') || '').trim().slice(0, 100);
   const linkedDate = context.get('date') || '';
@@ -53,9 +54,12 @@
   async function refresh() {
     const slug = el('departure').value;
     const id = ++loadId;
-    el('generated').hidden = true;
-    captainAccess = null;
-    el('credentials').textContent = '';
+    if (accessDeparture !== slug) {
+      el('generated').hidden = true;
+      captainAccess = null;
+      accessDeparture = null;
+      el('credentials').textContent = '';
+    }
     el('listAccess').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
@@ -166,9 +170,11 @@
     const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
     if (el('departure').value !== slug) return;
     captainAccess = access;
+    accessDeparture = slug;
     const url = new URL('list.html', location.href);
     el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
     el('generated').hidden = false;
+    el('listAccess').open = true;
   }));
   el('copyAccess').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
