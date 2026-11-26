@@ -32,3 +32,10 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
 .checkin-complete { background: #edf7ef; border: 1px solid #9abca9; border-radius: .75rem; padding: .85rem 1rem; }
 .checkin-complete h3 { margin-block: 0 .35rem; }
 .checkin-complete p { margin-block: .35rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .checkin-complete:not([hidden]) { animation: pickup-confirmation 180ms ease-out both; }
+  @keyframes pickup-confirmation {
+    from { opacity: .4; transform: translateY(.25rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

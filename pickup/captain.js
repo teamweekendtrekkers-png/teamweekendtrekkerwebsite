@@ -106,7 +106,12 @@
   async function openDashboard() {
     el('signin').hidden = true;
     el('dashboard').hidden = false;
-    await loadDepartures();
+    const view = context.get('view');
+    const list = context.get('list');
+    if (['all', 'share', 'access'].includes(view) || list) el('week').value = 'all';
+    await loadDepartures(list);
+    if (view === 'access' && el('departure').value) el('listAccess').open = true;
+    if (view === 'share' && el('departure').value) el('copyDeparture').focus();
     if (context.get('create') === '1') {
       el('setup').closest('details').open = true;
       el('title').focus();
