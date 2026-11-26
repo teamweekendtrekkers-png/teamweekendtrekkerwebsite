@@ -8,7 +8,11 @@
   <title>Manage pickup lists | Team Weekend Trekkers</title>
   <link rel="stylesheet" href="pickup.css">
   <script src="api.js?v=2026112602" defer></script>
-  <script src="captain.js?v=2026112602" defer></script>
+  <script src="../js/trips-data.js" defer></script>
+  <script src="../js/trip-date-utils.js" defer></script>
+  <script src="../js/trip-detail-lists.js" defer></script>
+  <script src="reuse.js" defer></script>
+  <script src="captain.js?v=2026112603" defer></script>
 </head>
 <body><main>
   <h1>Manage pickup lists</h1>
@@ -44,6 +48,13 @@
         <label for="carry">Things to carry, one per line</label><textarea id="carry" rows="3"></textarea>
         <button>Create departure page</button>
       </form>
+    </details>
+    <details id="reuseSettings"><summary>Reuse website pickup points and packing items</summary>
+      <label for="reuseTrip">Copy from a website trip</label><select id="reuseTrip"></select>
+      <h3>Pickup points</h3><ul id="reuseStops"></ul>
+      <button id="saveReuseStops" type="button">Add selected pickup points</button>
+      <h3>Things to carry</h3><ul id="reusePacking"></ul>
+      <button id="saveReusePacking" type="button">Save selected packing list</button>
     </details>
     <details id="stopSettings"><summary>Update pickup points</summary>
       <form id="stopForm">

@@ -68,25 +68,44 @@
     for (const stop of stops) {
       byId('stop').add(new Option(stop.name, stop.id));
       const item = document.createElement('li');
-      item.textContent = [stop.name, stop.pickup_time, stop.landmark].filter(Boolean).join(' · ');
+      item.className = 'pickup-point';
+      const name = document.createElement('details');
+      const summary = document.createElement('summary');
+      const landmark = document.createElement('p');
+      summary.textContent = stop.name;
+      landmark.textContent = stop.landmark || 'No extra landmark details.';
+      name.append(summary, landmark);
+      const time = document.createElement('span');
+      time.className = 'pickup-time';
+      time.textContent = stop.pickup_time;
       const map = mapLink(stop.map_url);
-      if (map) item.append(' · ', map);
+      if (map) map.textContent = 'Map';
+      item.append(name, time, map || document.createElement('span'));
       byId('stops').append(item);
     }
+    if (!stops.length) byId('stops').textContent = 'Pickup points will appear here once the organizer adds them.';
+    byId('packingSection').hidden = !trip.packing.length;
+    const grid = byId('thingsToCarryGrid');
     for (const [index, text] of trip.packing.entries()) {
-      const item = document.createElement('li');
-      const label = document.createElement('label');
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      const key = `pickup-packing:${slug}:${index}:${text}`;
-      try { input.checked = localStorage.getItem(key) === 'yes'; } catch {}
-      input.addEventListener('change', () => {
-        try { localStorage.setItem(key, input.checked ? 'yes' : 'no'); } catch {}
-      });
-      label.append(input, text);
-      item.append(label);
-      byId('packing').append(item);
+      const item = document.createElement('div');
+      item.className = 'carry-item';
+      item.textContent = text;
+      // Retain ticks saved by the first version of the departure checklist.
+      try {
+        const previous = `pickup-packing:${slug}:${index}:${text}`;
+        if (localStorage.getItem(previous) === 'yes') {
+          const state = PackingChecklist.createState(localStorage, `twt-packing:v1:pickup:${slug}`);
+          const key = text.normalize('NFC').replace(/\s+/g, ' ').trim().toLowerCase();
+          const count = [...grid.children].filter(row => row.textContent.normalize('NFC')
+            .replace(/\s+/g, ' ').trim().toLowerCase() === key).length;
+          state.checked.add(`${key.slice(0, 1100)}#${count}`);
+          state.save();
+          if (state.persistent) localStorage.removeItem(previous);
+        }
+      } catch {}
+      grid.append(item);
     }
+    PackingChecklist.install(window, `pickup:${slug}`);
     byId('departure').hidden = false;
     const invite = new URLSearchParams(location.hash.slice(1)).get('checkin');
     if (uuid.test(invite || '')) {

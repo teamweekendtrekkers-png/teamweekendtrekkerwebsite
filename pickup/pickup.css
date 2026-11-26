@@ -21,3 +21,11 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
 [data-departure-colour="rust"] { --departure-accent: #8a442e; }
 #departureTitle { color: var(--departure-accent, #166357); }
 #checkins section { border-inline-start: .35rem solid var(--departure-accent, #166357); }
+.reuse-choice { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: .35rem; }
+.reuse-choice button { margin: 0; }
+.pickup-point { display: grid; grid-template-columns: minmax(0, 1fr) minmax(5.5rem, max-content) auto; align-items: start; column-gap: .55rem; }
+.pickup-point details { margin: 0; padding: 0; border: 0; }
+.pickup-point details p { margin-block: .15rem .4rem; color: #4b665b; }
+.pickup-point a { display: flex; min-height: 2.75rem; align-items: center; }
+.pickup-time { margin-top: .25rem; max-width: 8rem; padding: .2rem .45rem; border-radius: .6rem; background: #94411d; color: white; font-size: .85rem; }
+#thingsToCarryGrid { display: grid; gap: .5rem; }

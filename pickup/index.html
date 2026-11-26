@@ -6,9 +6,11 @@
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
   <title>Trip check-in | Team Weekend Trekkers</title>
-  <link rel="stylesheet" href="pickup.css">
+  <link rel="stylesheet" href="../css/travel-planner.css?v=2026112603">
+  <link rel="stylesheet" href="pickup.css?v=2026112603">
   <script src="api.js" defer></script>
-  <script src="pickup.js" defer></script>
+  <script src="../js/packing-checklist.js?v=2026112603" defer></script>
+  <script src="pickup.js?v=2026112603" defer></script>
 </head>
 <body><main>
   <a href="../trips.html">← All trips</a>
@@ -17,7 +19,7 @@
   <div id="departure" hidden>
     <button id="share" type="button">Copy departure link</button>
     <details open><summary>Pickup points</summary><ul id="stops"></ul></details>
-    <details><summary>Things to carry</summary><ul id="packing"></ul></details>
+    <details id="packingSection"><summary>Things to carry</summary><div id="thingsToCarryGrid" class="carry-grid"></div></details>
     <section><h2>Check in</h2>
       <form id="unlock">
         <label for="code">Private check-in code</label>
