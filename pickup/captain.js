@@ -6,6 +6,8 @@
   let loadId = 0;
   let busy = false;
   let pickupStops = [];
+  let departures = [];
+  const colours = ['forest', 'blue', 'purple', 'rust'];
   const run = async action => {
     if (busy) return;
     busy = true;
@@ -15,10 +17,24 @@
   const departureLink = slug => new URL(`./?trip=${encodeURIComponent(slug)}`, location.href);
 
   async function loadDepartures(selected) {
-    const departures = await pickupApi.request(`${base}pickup_departures?select=slug,title,departure_date&order=departure_date.desc`);
-    el('departure').replaceChildren(...departures.map(trip =>
-      new Option(`${trip.title} · ${trip.departure_date}`, trip.slug)));
-    if (selected) el('departure').value = selected;
+    departures = await pickupApi.request(`${base}pickup_departures?select=slug,title,departure_date&order=departure_date.asc`);
+    if (selected) el('week').value = 'all';
+    await showWeek(selected);
+  }
+
+  async function showWeek(selected = el('departure').value) {
+    const week = el('week').value;
+    const parts = new Intl.DateTimeFormat('en-GB', {timeZone: 'Asia/Kolkata',
+      year: 'numeric', month: 'numeric', day: 'numeric'}).formatToParts(new Date());
+    const value = type => Number(parts.find(part => part.type === type).value);
+    const start = new Date(Date.UTC(value('year'), value('month') - 1, value('day')));
+    start.setUTCDate(start.getUTCDate() - (start.getUTCDay() + 6) % 7 + (week === '1' ? 7 : 0));
+    const end = new Date(start);
+    end.setUTCDate(end.getUTCDate() + 7);
+    const visible = departures.filter(trip => week === 'all' ||
+      (trip.departure_date >= start.toISOString().slice(0, 10) && trip.departure_date < end.toISOString().slice(0, 10)));
+    el('departure').replaceChildren(...visible.map(trip => new Option(`${trip.departure_date} · ${trip.title}`, trip.slug)));
+    if (visible.some(trip => trip.slug === selected)) el('departure').value = selected;
     await refresh();
   }
 
@@ -36,8 +52,14 @@
     el('inviteLink').hidden = el('copyInvite').hidden = true;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
+    el('inviteSettings').hidden = !slug;
+    el('departureTitle').hidden = !slug;
     el('publicLink').hidden = !slug;
-    if (!slug) return tell('Create a departure page to start.');
+    if (!slug) return tell(departures.length ? 'No departures scheduled for this week.' : 'Create a departure page to start.');
+    const departure = departures.find(trip => trip.slug === slug);
+    el('departureTitle').textContent = `${departure.departure_date} · ${departure.title}`;
+    const colourIndex = [...slug].reduce((sum, character) => sum + character.charCodeAt(0), 0) % colours.length;
+    el('dashboard').dataset.departureColour = colours[colourIndex];
     el('publicLink').href = departureLink(slug);
     const [stops, rows] = await Promise.all([
       pickupApi.request(`${base}pickup_stops?departure=eq.${slug}&select=id,name,pickup_time,landmark,map_url,position&order=position`),
@@ -82,6 +104,7 @@
     });
   });
   el('departure').addEventListener('change', () => refresh().catch(error => tell(error.message)));
+  el('week').addEventListener('change', () => showWeek().catch(error => tell(error.message)));
   el('refresh').addEventListener('click', () => run(refresh));
   el('setup').addEventListener('submit', event => {
     event.preventDefault();

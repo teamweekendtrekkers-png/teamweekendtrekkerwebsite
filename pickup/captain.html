@@ -19,7 +19,13 @@
     <button>Sign in</button>
   </form>
   <div id="dashboard" hidden>
+    <label for="week">Show departures</label><select id="week">
+      <option value="0">This week</option>
+      <option value="1">Next week</option>
+      <option value="all">All departures</option>
+    </select>
     <label for="departure">Departure</label><select id="departure"></select>
+    <h2 id="departureTitle" hidden></h2>
     <button id="refresh" type="button">Refresh list</button>
     <a id="publicLink" href="./">Open departure page</a>
     <details><summary>Set up a departure</summary>
@@ -40,7 +46,7 @@
         <button>Save pickup point</button>
       </form>
     </details>
-    <details><summary>Share a private check-in link</summary>
+    <details id="inviteSettings"><summary>Share a private check-in link</summary>
       <form id="invite">
         <label for="reference">Booking reference</label><input id="reference" required maxlength="80">
         <button>Get check-in link</button>
