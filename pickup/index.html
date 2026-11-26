@@ -7,10 +7,10 @@
   <meta name="referrer" content="no-referrer">
   <title>Trip check-in | Team Weekend Trekkers</title>
   <link rel="stylesheet" href="../css/travel-planner.css?v=2026112603">
-  <link rel="stylesheet" href="pickup.css?v=2026112603">
+  <link rel="stylesheet" href="pickup.css?v=2026112604">
   <script src="api.js" defer></script>
   <script src="../js/packing-checklist.js?v=2026112603" defer></script>
-  <script src="pickup.js?v=2026112603" defer></script>
+  <script src="pickup.js?v=2026112604" defer></script>
 </head>
 <body><main>
   <a href="../trips.html">← All trips</a>
@@ -21,11 +21,6 @@
     <details open><summary>Pickup points</summary><ul id="stops"></ul></details>
     <details id="packingSection"><summary>Things to carry</summary><div id="thingsToCarryGrid" class="carry-grid"></div></details>
     <section><h2>Check in</h2>
-      <form id="unlock">
-        <label for="code">Private check-in code</label>
-        <input id="code" required autocomplete="off" spellcheck="false">
-        <button>Open check-in</button>
-      </form>
       <form id="checkin" hidden>
         <label for="name">Lead traveller name</label><input id="name" required maxlength="100" autocomplete="name">
         <label for="phone">Phone number</label><input id="phone" type="tel" required maxlength="22" autocomplete="tel">

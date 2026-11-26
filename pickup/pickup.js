@@ -12,8 +12,12 @@
     try { await action(); } catch (error) { announce(error.message); }
     finally { button.disabled = false; }
   });
-  const call = data => pickupApi.request('/rest/v1/rpc/pickup_submission', {p_departure: slug, ...data});
-  let privateCode;
+  const previousInvite = new URLSearchParams(location.hash.slice(1)).get('checkin');
+  const legacy = uuid.test(previousInvite || '');
+  const storageKey = `twt-shared-checkin:${slug}`;
+  let code;
+  const call = data => pickupApi.request(`/rest/v1/rpc/${legacy ? 'pickup_submission' : 'pickup_shared_checkin'}`,
+    {p_departure: slug, p_code: code, ...data});
   let stops = [];
 
   function complete(data) {
@@ -30,27 +34,22 @@
     return true;
   }
 
-  submit(byId('unlock'), async () => {
-    const code = byId('code').value.trim();
-    if (!uuid.test(code)) return announce('Enter the private code supplied by your captain.');
-    const data = await call({p_code: code});
-    if (!data) return announce('This code is unavailable for this departure.');
-    privateCode = code;
+  function fill(data) {
     byId('name').value = data.name || '';
     byId('phone').value = data.phone || '';
     byId('people').value = data.people || 1;
     byId('stop').value = data.stop || '';
-    byId('unlock').hidden = true;
-    if (data.updatedAt && complete(data)) return;
-    byId('checkin').hidden = false;
-    byId('name').focus();
-    announce('Enter your pickup details below.');
-  });
+  }
 
   submit(byId('checkin'), async () => {
-    const data = await call({p_code: privateCode, p_name: byId('name').value,
+    if (!legacy) {
+      try { localStorage.setItem(storageKey, code); } catch {}
+    }
+    const data = await call({p_name: byId('name').value,
       p_phone: byId('phone').value, p_people: Number(byId('people').value), p_stop: byId('stop').value});
     if (!data) return announce('Check-in has closed. Please contact your captain.');
+    if (data.rateLimited) return announce('Too many check-ins at once. Please try again in a minute.');
+    if (data.contactOrganizer) return announce('Please reopen this link in the browser where you checked in, or contact your captain for help.');
     if (!complete(data)) announce('Your check-in was saved. Refresh to see the latest pickup details.');
   });
 
@@ -125,11 +124,28 @@
     }
     PackingChecklist.install(window, `pickup:${slug}`);
     byId('departure').hidden = false;
-    const invite = new URLSearchParams(location.hash.slice(1)).get('checkin');
-    if (uuid.test(invite || '')) {
-      byId('code').value = invite;
-      byId('unlock').requestSubmit();
+    let saved;
+    try { saved = localStorage.getItem(storageKey); } catch {}
+    code = legacy ? previousInvite : uuid.test(saved || '') ? saved : crypto.randomUUID();
+    if (legacy || uuid.test(saved || '')) {
+      const previous = await call({});
+      if (previous) {
+        fill(previous);
+        if (previous.updatedAt && complete(previous)) return bindShare();
+      } else if (legacy) {
+        announce('This older link is closed. Ask your captain for the shared departure link.');
+        return bindShare();
+      }
     }
+    byId('checkin').hidden = false;
+    if (!stops.length) {
+      byId('checkin').querySelector('button').disabled = true;
+      announce('Check-in opens when a pickup point is available.');
+    }
+    bindShare();
+  }
+
+  function bindShare() {
     byId('share').addEventListener('click', async () => {
       const shareUrl = new URL(location.pathname, location.origin);
       shareUrl.searchParams.set('trip', slug);

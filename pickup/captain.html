@@ -12,7 +12,7 @@
   <script src="../js/trip-date-utils.js" defer></script>
   <script src="../js/trip-detail-lists.js" defer></script>
   <script src="reuse.js" defer></script>
-  <script src="captain.js?v=2026112603" defer></script>
+  <script src="captain.js?v=2026112604" defer></script>
 </head>
 <body><main>
   <h1>Manage pickup lists</h1>
@@ -33,6 +33,7 @@
     <h2 id="departureTitle" hidden></h2>
     <button id="refresh" type="button">Refresh list</button>
     <a id="publicLink" href="./">Open departure page</a>
+    <button id="copyDeparture" type="button">Copy shared check-in link</button>
     <details id="listAccess"><summary>Give a captain access</summary>
       <p>Generate credentials for this departure only. Generating a new set replaces the previous set.</p>
       <button id="generate" type="button">Generate username and password</button>
@@ -65,13 +66,6 @@
         <label for="mapUrl">Map link</label><input id="mapUrl" type="url" maxlength="400">
         <button>Save pickup point</button>
       </form>
-    </details>
-    <details id="inviteSettings"><summary>Share a private check-in link</summary>
-      <form id="invite">
-        <label for="reference">Booking reference</label><input id="reference" required maxlength="80">
-        <button>Get check-in link</button>
-      </form>
-      <p><a id="inviteLink" hidden></a> <button id="copyInvite" hidden type="button">Copy link</button></p>
     </details>
     <div id="checkins"></div>
   </div>

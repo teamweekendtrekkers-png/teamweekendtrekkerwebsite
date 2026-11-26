@@ -52,16 +52,15 @@
   async function refresh() {
     const slug = el('departure').value;
     const id = ++loadId;
-    el('inviteLink').hidden = el('copyInvite').hidden = true;
     el('generated').hidden = true;
     el('credentials').textContent = '';
     el('listAccess').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
     el('reuseSettings').hidden = !slug;
-    el('inviteSettings').hidden = !slug;
     el('departureTitle').hidden = !slug;
     el('publicLink').hidden = !slug;
+    el('copyDeparture').hidden = !slug;
     if (!slug) return tell(departures.length ? 'No departures scheduled for this week.' : 'Create a departure page to start.');
     const departure = departures.find(trip => trip.slug === slug);
     if (el('reuseSettings').dataset.departure !== slug) {
@@ -224,24 +223,10 @@
       tell('Pickup point saved.');
     });
   });
-  el('invite').addEventListener('submit', event => {
-    event.preventDefault();
-    run(async () => {
-      const slug = el('departure').value;
-      const ref = el('reference').value.trim().toUpperCase();
-      if (!slug || !ref) return;
-      const code = await pickupApi.request(`${base}rpc/pickup_invite`, {p_departure: slug, p_reference: ref});
-      const url = departureLink(slug);
-      url.hash = new URLSearchParams({checkin: code});
-      const link = el('inviteLink');
-      link.textContent = 'Private check-in link';
-      link.href = url.href;
-      link.hidden = el('copyInvite').hidden = false;
-    });
-  });
-  el('copyInvite').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(el('inviteLink').href); tell('Private link copied. Share it with this booking’s lead traveller.'); }
-    catch { tell('Copy the private check-in link from the link menu.'); }
+  el('copyDeparture').addEventListener('click', async () => {
+    const url = departureLink(el('departure').value).href;
+    try { await navigator.clipboard.writeText(url); tell('Shared check-in link copied.'); }
+    catch { tell(url); }
   });
   pickupApi.configure().then(async () => {
     try {
