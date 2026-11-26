@@ -7,8 +7,11 @@
     <meta name="referrer" content="no-referrer">
     <title>My Booking | Team Weekend Trekkers</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/booking-status.css">
+    <link rel="stylesheet" href="css/booking-status.css?v=2026112601">
     <script src="js/booking-status.js" defer></script>
+    <script src="js/trips-data.js" defer></script>
+    <script src="js/trip-date-utils.js" defer></script>
+    <script src="js/booking-pickup.js" defer></script>
 </head>
 <body>
     <main class="booking-status">
@@ -21,6 +24,23 @@
             <button class="btn btn-primary" type="submit">Check status</button>
         </form>
         <section id="bookingUpdate" aria-live="polite" aria-atomic="true"></section>
+        <section aria-labelledby="pickupHeading">
+            <h2 id="pickupHeading">Confirm or update your pickup</h2>
+            <p>Use the private booking link above and the phone number on your confirmed booking.</p>
+            <form id="pickupLookup">
+                <label for="pickupPhone">Booking phone number</label>
+                <input id="pickupPhone" type="tel" autocomplete="tel" required>
+                <button class="btn btn-primary" type="submit">Open pickup details</button>
+            </form>
+            <form id="pickupEdit" hidden>
+                <p id="pickupParty"></p>
+                <label for="pickupStop">Pickup point for your whole booking</label>
+                <select id="pickupStop" required></select>
+                <p id="pickupMap"></p>
+                <button class="btn btn-primary" type="submit">Save pickup point</button>
+            </form>
+            <p id="pickupMessage" role="status"></p>
+        </section>
         <p>Need help? <a href="https://wa.me/917019235581">Contact us on WhatsApp</a>.</p>
     </main>
 </body>
