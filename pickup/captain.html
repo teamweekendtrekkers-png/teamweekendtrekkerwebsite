@@ -13,7 +13,7 @@
   <script src="../js/trip-detail-lists.js" defer></script>
   <script src="reuse.js" defer></script>
   <script src="password-toggle.js" defer></script>
-  <script src="captain.js?v=2026112613" defer></script>
+  <script src="captain.js?v=2026112614" defer></script>
 </head>
 <body><main>
   <h1>Departure check-in</h1>
@@ -69,10 +69,10 @@
           <small id="manualUsernameHint">Use letters, numbers, dots, underscores or hyphens.</small>
           <label for="manualPassword">Captain password</label>
           <div class="password-field">
-            <input id="manualPassword" type="password" required minlength="12" maxlength="64" autocomplete="new-password" aria-describedby="manualPasswordHint">
+            <input id="manualPassword" type="password" required pattern=".{4,12}" autocomplete="new-password" aria-describedby="manualPasswordHint">
             <button type="button" class="password-toggle" data-password="manualPassword" aria-label="Show password" aria-pressed="false"></button>
           </div>
-          <small id="manualPasswordHint">Use at least 12 characters. Avoid trip names, dates and traveller details.</small>
+          <small id="manualPasswordHint">Use 4–12 characters. Avoid trip names, dates and traveller details.</small>
           <button type="submit">Save captain access</button>
         </form>
       </details>

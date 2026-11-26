@@ -191,8 +191,9 @@
     return run(async () => {
       const slug = el('departure').value;
       const password = el('manualPassword').value;
-      if (password !== password.trim() || new TextEncoder().encode(password).length > 64) {
-        return tell('Use up to 64 bytes for the password and remove spaces at either end.');
+      const length = [...password].length;
+      if (length < 4 || length > 12 || password !== password.trim()) {
+        return tell('Use 4–12 characters without spaces at either end.');
       }
       if (!slug || !window.confirm('Save captain access and replace any previous credentials for this departure?')) return;
       const access = await pickupApi.request(`${base}rpc/pickup_set_list_access`, {
