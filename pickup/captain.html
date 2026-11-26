@@ -13,7 +13,7 @@
   <script src="../js/trip-detail-lists.js" defer></script>
   <script src="reuse.js" defer></script>
   <script src="password-toggle.js" defer></script>
-  <script src="captain.js?v=2026112610" defer></script>
+  <script src="captain.js?v=2026112613" defer></script>
 </head>
 <body><main>
   <h1>Departure check-in</h1>
@@ -89,6 +89,14 @@
         <label for="date">Departure date</label><input id="date" required type="date">
         <label for="carry">Things to carry, one per line</label><textarea id="carry" rows="3"></textarea>
         <button>Create departure page</button>
+      </form>
+    </details>
+    <details id="packingSettings" hidden>
+      <summary>Packing checklist</summary>
+      <form id="packingForm">
+        <label for="departurePacking">Things to carry, one item per line</label>
+        <textarea id="departurePacking" rows="5"></textarea>
+        <button>Save packing checklist</button>
       </form>
     </details>
     <details id="reuseSettings"><summary>Reuse website pickup points and packing items</summary>

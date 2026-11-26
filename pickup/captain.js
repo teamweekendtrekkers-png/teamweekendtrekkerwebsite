@@ -65,12 +65,14 @@
     el('travellerCheckins').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
+    el('packingSettings').hidden = !slug;
     el('reuseSettings').hidden = !slug;
     el('departureTitle').hidden = !slug;
     el('publicLink').hidden = !slug;
     el('copyDeparture').hidden = !slug;
     if (!slug) return tell(departures.length ? 'No departures scheduled for this week.' : 'Create a departure page to start.');
     const departure = departures.find(trip => trip.slug === slug);
+    el('departurePacking').value = departure.packing.join('\n');
     if (el('reuseSettings').dataset.departure !== slug) {
       el('reuseSettings').dataset.departure = slug;
       pickupReuse.match(departure.title);
@@ -118,10 +120,11 @@
     el('dashboard').hidden = false;
     const view = context.get('view');
     const list = context.get('list');
-    if (['all', 'share', 'access'].includes(view) || list) el('week').value = 'all';
+    if (['all', 'share', 'access', 'packing'].includes(view) || list) el('week').value = 'all';
     await loadDepartures(list);
     if (view === 'access' && el('departure').value) el('listAccess').open = true;
     if (view === 'share' && el('departure').value) el('copyDeparture').focus();
+    if (view === 'packing' && el('departure').value) el('packingSettings').open = true;
     if (context.get('create') === '1') {
       el('setup').closest('details').open = true;
       el('title').focus();
@@ -199,6 +202,18 @@
       showCaptainAccess(slug, {...access, password});
     });
   });
+  el('packingForm').addEventListener('submit', event => {
+    event.preventDefault();
+    return run(async () => {
+      const slug = el('departure').value;
+      if (!slug) return;
+      const packing = el('departurePacking').value.split('\n').map(item => item.trim()).filter(Boolean);
+      await pickupApi.request(`${base}pickup_departures?slug=eq.${slug}`, {packing}, 'PATCH');
+      const trip = departures.find(trip => trip.slug === slug);
+      if (trip) trip.packing = packing;
+      tell('Packing checklist saved.');
+    });
+  });
   el('copyAccess').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
     catch { tell('Select and copy the access details shown below.'); }
@@ -253,6 +268,7 @@
     if (departure.packing.length && !window.confirm('Replace the packing list for this departure?')) return;
     await pickupApi.request(`${base}pickup_departures?slug=eq.${slug}`, {packing}, 'PATCH');
     departure.packing = packing;
+    el('departurePacking').value = packing.join('\n');
     tell('Packing list saved.');
   }));
   el('stopForm').addEventListener('submit', event => {
