@@ -14,6 +14,7 @@ const featuredTripIds = [
     "gokarna-new-year-party",
     "varkala-kochi-christmas",
     "rameshwaram-dhanushkodi",
+    "scuba-day-trip",
     "trip_1792519339566",
     "trip_1793817467369",
 ];
