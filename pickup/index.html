@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Trip check-in | Team Weekend Trekkers</title>
+  <link rel="stylesheet" href="pickup.css">
+  <script src="api.js" defer></script>
+  <script src="pickup.js" defer></script>
+</head>
+<body><main>
+  <a href="../trips.html">← All trips</a>
+  <h1 id="trip">Trip check-in</h1>
+  <p id="notice" role="status"></p>
+  <div id="departure" hidden>
+    <button id="share" type="button">Copy departure link</button>
+    <details open><summary>Pickup points</summary><ul id="stops"></ul></details>
+    <details><summary>Things to carry</summary><ul id="packing"></ul></details>
+    <section><h2>Check in</h2>
+      <form id="unlock">
+        <label for="code">Private check-in code</label>
+        <input id="code" required autocomplete="off" spellcheck="false">
+        <button>Open check-in</button>
+      </form>
+      <form id="checkin" hidden>
+        <label for="name">Lead traveller name</label><input id="name" required maxlength="100" autocomplete="name">
+        <label for="phone">Phone number</label><input id="phone" type="tel" required maxlength="22" autocomplete="tel">
+        <label for="people">Total travellers, including you</label><input id="people" type="number" min="1" max="50" required value="1">
+        <label for="stop">Pickup point</label><select id="stop" required></select>
+        <button>Save check-in</button>
+      </form>
+      <p id="confirmation" role="status"></p>
+    </section>
+  </div>
+</main></body></html>

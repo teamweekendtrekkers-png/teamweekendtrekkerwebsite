@@ -1,0 +1,23 @@
+:root { color-scheme: light; color: #17382e; font: 100%/1.5 system-ui, sans-serif; background: #f5f8f5; }
+body { margin: 0; }
+main { max-width: 44rem; margin-inline: auto; padding: 1.25rem; }
+a { color: #0c6050; }
+h1, h2 { line-height: 1.2; }
+details, section { background: white; border: 1px solid #c9dacf; border-radius: .75rem; margin-block: 1rem; padding: 1rem; }
+summary { cursor: pointer; font-weight: 700; min-height: 2rem; }
+ul { list-style: none; padding: 0; }
+li { padding-block: .5rem; border-bottom: 1px solid #e3ece6; }
+form { display: grid; gap: .4rem; max-width: 30rem; }
+[hidden] { display: none !important; }
+input:not([type=checkbox]), select, textarea, button { min-height: 2.75rem; font: inherit; border-radius: .5rem; padding-inline: .75rem; }
+input, select, textarea { border: 1px solid #789487; }
+button { background: #166357; color: white; border: 0; margin-block: .45rem; width: fit-content; cursor: pointer; }
+button:disabled { opacity: .65; cursor: wait; }
+label { display: block; }
+input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; margin-inline-end: .5rem; }
+[data-departure-colour="forest"] { --departure-accent: #166357; }
+[data-departure-colour="blue"] { --departure-accent: #245687; }
+[data-departure-colour="purple"] { --departure-accent: #624883; }
+[data-departure-colour="rust"] { --departure-accent: #8a442e; }
+#departureTitle { color: var(--departure-accent, #166357); }
+#checkins section { border-inline-start: .35rem solid var(--departure-accent, #166357); }
