@@ -50,6 +50,9 @@
     const slug = el('departure').value;
     const id = ++loadId;
     el('inviteLink').hidden = el('copyInvite').hidden = true;
+    el('generated').hidden = true;
+    el('credentials').textContent = '';
+    el('listAccess').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
     el('inviteSettings').hidden = !slug;
@@ -106,6 +109,19 @@
   el('departure').addEventListener('change', () => refresh().catch(error => tell(error.message)));
   el('week').addEventListener('change', () => showWeek().catch(error => tell(error.message)));
   el('refresh').addEventListener('click', () => run(refresh));
+  el('generate').addEventListener('click', () => run(async () => {
+    const slug = el('departure').value;
+    if (!slug || !window.confirm('Generate access for this departure and replace any previous credentials?')) return;
+    const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
+    if (el('departure').value !== slug) return;
+    const url = new URL('list.html', location.href);
+    el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
+    el('generated').hidden = false;
+  }));
+  el('copyAccess').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
+    catch { tell('Select and copy the access details shown below.'); }
+  });
   el('setup').addEventListener('submit', event => {
     event.preventDefault();
     run(async () => {

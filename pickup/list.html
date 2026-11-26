@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Captain pickup list | Team Weekend Trekkers</title>
+  <link rel="stylesheet" href="pickup.css">
+  <script src="api.js" defer></script>
+  <script src="list.js" defer></script>
+</head>
+<body><main>
+  <h1>Captain pickup list</h1>
+  <p id="notice" role="status"></p>
+  <form id="access" hidden>
+    <label for="username">Username</label><input id="username" required maxlength="39" autocomplete="username" autocapitalize="none">
+    <label for="listPassword">Password</label><input id="listPassword" type="password" required maxlength="32" autocomplete="current-password">
+    <button>Open my list</button>
+  </form>
+  <div id="manifest" hidden>
+    <h2 id="tripLabel"></h2>
+    <p id="total"></p>
+    <button id="reload" type="button">Refresh list</button>
+    <button id="lock" type="button">Close list</button>
+    <div id="groups"></div>
+  </div>
+</main></body></html>

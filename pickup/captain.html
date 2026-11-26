@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
-  <title>Captain pickup list | Team Weekend Trekkers</title>
+  <title>Manage pickup lists | Team Weekend Trekkers</title>
   <link rel="stylesheet" href="pickup.css">
   <script src="api.js" defer></script>
   <script src="captain.js" defer></script>
 </head>
 <body><main>
-  <h1>Captain pickup list</h1>
+  <h1>Manage pickup lists</h1>
   <p id="notice" role="status"></p>
   <form id="signin" hidden>
     <label for="email">Captain email</label><input id="email" type="email" required autocomplete="username">
@@ -28,6 +28,14 @@
     <h2 id="departureTitle" hidden></h2>
     <button id="refresh" type="button">Refresh list</button>
     <a id="publicLink" href="./">Open departure page</a>
+    <details id="listAccess"><summary>Give a captain access</summary>
+      <p>Generate credentials for this departure only. Generating a new set replaces the previous set.</p>
+      <button id="generate" type="button">Generate username and password</button>
+      <div id="generated" hidden>
+        <p id="credentials"></p>
+        <button id="copyAccess" type="button">Copy access details</button>
+      </div>
+    </details>
     <details><summary>Set up a departure</summary>
       <form id="setup">
         <label for="title">Trip name</label><input id="title" required maxlength="100">
