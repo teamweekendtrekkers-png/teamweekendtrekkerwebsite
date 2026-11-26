@@ -52,3 +52,19 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
 @media (max-width: 36rem) {
   .departure-filters { grid-template-columns: 1fr; }
 }
+.departure-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .85rem; }
+.departure-header > div { flex: 1 1 20rem; min-width: 0; }
+.departure-header h1 { margin: 0 0 .3rem; font-size: clamp(1.55rem, 4vw, 2.1rem); }
+.departure-header time { color: #496458; }
+.departure-header button { margin: 0; }
+.traveller-departure #notice { overflow-wrap: anywhere; }
+.traveller-departure #notice:empty, .departure-checkin #confirmation:empty { display: none; }
+.departure-checkin h2 { margin: 0 0 .75rem; }
+.checkin-next-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1rem; margin-top: .35rem; }
+.checkin-next-actions a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 650; }
+.checkin-next-actions button { margin: 0; }
+@media (max-width: 36rem) {
+  .traveller-departure { padding-inline: .85rem; }
+  .departure-header { align-items: flex-start; }
+}
+.packing-summary-hint { display: block; margin-top: .15rem; color: #496458; font-size: .875rem; font-weight: 400; }

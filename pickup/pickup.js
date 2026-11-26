@@ -136,7 +136,13 @@
     const trip = departures[0];
     departureTitle = trip.title;
     stops = locations;
-    byId('trip').textContent = `${trip.title} · ${trip.departure_date}`;
+    byId('trip').textContent = trip.title;
+    const travelDate = byId('travelDate');
+    travelDate.dateTime = trip.departure_date;
+    travelDate.textContent = new Intl.DateTimeFormat('en-IN', {
+      dateStyle: 'full', timeZone: 'Asia/Kolkata',
+    }).format(new Date(trip.departure_date + 'T00:00:00Z'));
+    travelDate.hidden = false;
     byId('stop').add(new Option('Choose a pickup point', ''));
     for (const stop of stops) {
       byId('stop').add(new Option(stop.name, stop.id));
@@ -203,6 +209,7 @@
   }
 
   function bindShare() {
+    byId('share').hidden = false;
     byId('share').addEventListener('click', async () => {
       const shareUrl = new URL(location.pathname, location.origin);
       shareUrl.searchParams.set('trip', slug);

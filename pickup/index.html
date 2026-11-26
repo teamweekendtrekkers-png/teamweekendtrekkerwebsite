@@ -7,20 +7,29 @@
   <meta name="referrer" content="no-referrer">
   <title>Trip check-in | Team Weekend Trekkers</title>
   <link rel="stylesheet" href="../css/travel-planner.css?v=2026112603">
-  <link rel="stylesheet" href="pickup.css?v=2026112604">
+  <link rel="stylesheet" href="pickup.css?v=2026112612">
   <script src="api.js" defer></script>
   <script src="../js/packing-checklist.js?v=2026112603" defer></script>
-  <script src="pickup.js?v=2026112611" defer></script>
+  <script src="pickup.js?v=2026112612" defer></script>
 </head>
-<body><main>
+<body><main class="traveller-departure">
   <a href="../trips.html">← All trips</a>
-  <h1 id="trip">Trip check-in</h1>
+  <header class="departure-header">
+    <div>
+      <h1 id="trip">Trip check-in</h1>
+      <time id="travelDate" hidden></time>
+    </div>
+    <button id="share" type="button" hidden>Copy departure link</button>
+  </header>
   <p id="notice" role="status"></p>
   <div id="departure" hidden>
-    <button id="share" type="button">Copy departure link</button>
+
     <details open><summary>Pickup points</summary><ul id="stops"></ul></details>
-    <details id="packingSection"><summary>Things to carry</summary><div id="thingsToCarryGrid" class="carry-grid"></div></details>
-    <section><h2>Check in</h2>
+    <details id="packingSection">
+      <summary>Things to carry <span class="packing-summary-hint">Open the checklist and tick items as you pack.</span></summary>
+      <div id="thingsToCarryGrid" class="carry-grid"></div>
+    </details>
+    <section class="departure-checkin"><h2>Check in</h2>
       <form id="checkin" hidden>
         <label for="name">Lead traveller name</label><input id="name" required maxlength="100" autocomplete="name">
         <label for="phone">Phone number</label><input id="phone" type="tel" required maxlength="22" autocomplete="tel">
@@ -35,8 +44,10 @@
       <div id="checkinComplete" class="checkin-complete" hidden>
         <h3 tabindex="-1" id="checkinCompleteTitle">Check-in complete</h3>
         <p id="checkinDetails"></p>
-        <button id="editCheckin" type="button">Edit check-in</button>
-        <p><a id="checkinTripDetails" href="/trips.html">Browse trips on our website</a></p>
+        <div class="checkin-next-actions">
+          <a id="checkinTripDetails" href="/trips.html">Browse trips on our website</a>
+          <button id="editCheckin" type="button">Edit check-in</button>
+        </div>
       </div>
       <p id="confirmation" role="status"></p>
     </section>
