@@ -7,6 +7,7 @@
   let busy = false;
   let pickupStops = [];
   let departures = [];
+  let captainAccess;
   const context = new URLSearchParams(location.search);
   const linkedTrek = (context.get('trek') || '').trim().slice(0, 100);
   const linkedDate = context.get('date') || '';
@@ -53,6 +54,7 @@
     const slug = el('departure').value;
     const id = ++loadId;
     el('generated').hidden = true;
+    captainAccess = null;
     el('credentials').textContent = '';
     el('listAccess').hidden = !slug;
     el('checkins').replaceChildren();
@@ -161,6 +163,7 @@
     if (!slug || !window.confirm('Generate access for this departure and replace any previous credentials?')) return;
     const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
     if (el('departure').value !== slug) return;
+    captainAccess = access;
     const url = new URL('list.html', location.href);
     el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
     el('generated').hidden = false;
@@ -169,6 +172,13 @@
     try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
     catch { tell('Select and copy the access details shown below.'); }
   });
+  for (const [button, field] of [['copyCaptainUsername', 'username'], ['copyCaptainPassword', 'password']]) {
+    el(button).addEventListener('click', async () => {
+      if (!captainAccess) return;
+      try { await navigator.clipboard.writeText(captainAccess[field]); tell(`Captain ${field} copied.`); }
+      catch { tell(`Select and copy the ${field} from the access details.`); }
+    });
+  }
   el('setup').addEventListener('submit', event => {
     event.preventDefault();
     run(async () => {

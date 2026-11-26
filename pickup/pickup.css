@@ -32,6 +32,10 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
 .checkin-complete { background: #edf7ef; border: 1px solid #9abca9; border-radius: .75rem; padding: .85rem 1rem; }
 .checkin-complete h3 { margin-block: 0 .35rem; }
 .checkin-complete p { margin-block: .35rem; }
+.password-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; }
+.password-field input { min-width: 0; }
+.password-toggle { width: 2.75rem; min-width: 2.75rem; padding: .55rem; margin: 0; }
+.password-toggle svg { display: block; width: 100%; height: 100%; }
 @media (prefers-reduced-motion: no-preference) {
   .checkin-complete:not([hidden]) { animation: pickup-confirmation 180ms ease-out both; }
   @keyframes pickup-confirmation {
