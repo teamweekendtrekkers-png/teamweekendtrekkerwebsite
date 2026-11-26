@@ -107,6 +107,10 @@
       el('signin').hidden = true;
       el('dashboard').hidden = false;
       await loadDepartures();
+      if (context.get('create') === '1') {
+        el('setup').closest('details').open = true;
+        el('title').focus();
+      }
       if (linkedTrek && /^\d{4}-\d{2}-\d{2}$/.test(linkedDate)) {
         const matching = departures.find(trip =>
           trip.departure_date === linkedDate && trip.title.toLowerCase() === linkedTrek.toLowerCase());
