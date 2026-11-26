@@ -47,6 +47,9 @@ jobs:
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/journey-report-volume.test.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f supabase/migrations/20261126120000_pickup_manifest.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/pickup-manifest.test.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f pickup/schema.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f pickup/captain-access.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/standalone-pickup.test.sql
 
   validate:
     runs-on: ubuntu-latest
