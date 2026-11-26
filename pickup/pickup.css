@@ -43,3 +43,12 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
     to { opacity: 1; transform: translateY(0); }
   }
 }
+.checkin-dashboard > section > h3, .dashboard-actions > :is(h2, h3) { margin: 0; }
+.dashboard-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; }
+.departure-filters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: .75rem; margin-top: .5rem; }
+.departure-filters select { width: 100%; }
+#checkins section:last-child { margin-bottom: 0; }
+#credentials { overflow-wrap: anywhere; }
+@media (max-width: 36rem) {
+  .departure-filters { grid-template-columns: 1fr; }
+}

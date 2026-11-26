@@ -61,6 +61,8 @@
       el('credentials').textContent = '';
     }
     el('listAccess').hidden = !slug;
+    el('departureTasks').hidden = !slug;
+    el('travellerCheckins').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
     el('reuseSettings').hidden = !slug;
