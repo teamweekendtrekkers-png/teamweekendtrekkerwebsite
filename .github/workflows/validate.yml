@@ -59,7 +59,12 @@ jobs:
       run: node scripts/validate-source.cjs
 
   javascript-validation:
+    name: Website tests (${{ matrix.suite }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [unit, checkout, browse, presentation]
     steps:
     - uses: actions/checkout@v4
     
@@ -72,28 +77,39 @@ jobs:
       run: npm install --no-audit --no-fund --package-lock=false
 
     - name: Test website behaviour
+      if: matrix.suite == 'unit'
       run: node --test tests/*.test.js
 
-    - name: Install checkout test browser
+    - name: Install Chromium
+      if: matrix.suite != 'unit'
       run: npx playwright install --with-deps chromium
 
-    - name: Test customer checkout and gallery
+    - name: Test checkout and payments
+      if: matrix.suite == 'checkout'
       env:
         PAYMENT_REVIEW_DIR: ${{ github.workspace }}/build/payment-reviews
       run: |
         npm run test:payment
         npm run test:checkout
-        node scripts/check-trip-brochure-browser.cjs
+        node scripts/check-journey-analytics-browser.cjs
+
+    - name: Test trip discovery
+      if: matrix.suite == 'browse'
+      run: |
         node scripts/check-travel-planner-browser.cjs
         node scripts/check-catalogue-filters-browser.cjs
-        node scripts/check-editor-presentation-browser.cjs
-        node scripts/check-journey-analytics-browser.cjs
-        node scripts/check-site-motion-browser.cjs
-        node scripts/check-gallery-layout-browser.cjs
         node scripts/check-destination-slider-browser.cjs
 
+    - name: Test trip and homepage presentation
+      if: matrix.suite == 'presentation'
+      run: |
+        node scripts/check-trip-brochure-browser.cjs
+        node scripts/check-editor-presentation-browser.cjs
+        node scripts/check-site-motion-browser.cjs
+        node scripts/check-gallery-layout-browser.cjs
+
     - name: Save homepage layout screenshots
-      if: always()
+      if: always() && matrix.suite == 'presentation'
       uses: actions/upload-artifact@v4
       with:
         name: homepage-layout-review
@@ -101,7 +117,7 @@ jobs:
         if-no-files-found: warn
 
     - name: Save catalogue filter review screenshots
-      if: always()
+      if: always() && matrix.suite == 'browse'
       uses: actions/upload-artifact@v4
       with:
         name: catalogue-filter-review
@@ -109,7 +125,7 @@ jobs:
         if-no-files-found: warn
 
     - name: Save brochure review pages
-      if: always()
+      if: always() && matrix.suite == 'presentation'
       uses: actions/upload-artifact@v4
       with:
         name: brochure-review
@@ -117,7 +133,7 @@ jobs:
         if-no-files-found: warn
 
     - name: Save checkout review screenshots
-      if: always()
+      if: always() && matrix.suite == 'checkout'
       uses: actions/upload-artifact@v4
       with:
         name: checkout-review
