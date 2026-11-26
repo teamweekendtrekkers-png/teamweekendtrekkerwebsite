@@ -16,9 +16,32 @@
   const legacy = uuid.test(previousInvite || '');
   const storageKey = `twt-shared-checkin:${slug}`;
   let code;
-  const call = data => pickupApi.request(`/rest/v1/rpc/${legacy ? 'pickup_submission' : 'pickup_shared_checkin'}`,
-    {p_departure: slug, p_code: code, ...data});
+  const call = data => pickupApi.request('/rest/v1/rpc/pickup_party_checkin',
+    {p_departure: slug, p_code: code, p_legacy: legacy, ...data});
   let stops = [];
+  let passengerNames = [];
+
+  function renderPassengers() {
+    const count = Number(byId('people').value);
+    const fields = byId('passengerFields');
+    const extra = Number.isInteger(count) && count >= 2 && count <= 50 ? count - 1 : 0;
+    byId('passengers').hidden = extra === 0;
+    fields.replaceChildren(...Array.from({length: extra}, (_, index) => {
+      const row = document.createElement('div');
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.id = `passenger-${index + 2}`;
+      input.maxLength = 100;
+      input.autocomplete = 'off';
+      input.value = passengerNames[index] || '';
+      input.addEventListener('input', () => { passengerNames[index] = input.value; });
+      label.htmlFor = input.id;
+      label.textContent = `Traveller ${index + 2} name (optional)`;
+      row.append(label, input);
+      return row;
+    }));
+  }
+  byId('people').addEventListener('input', renderPassengers);
 
   function complete(data) {
     const point = stops.find(stop => stop.id === data.stop);
@@ -29,6 +52,8 @@
     details.textContent = `${data.people} traveller${data.people === 1 ? '' : 's'} · ${point.name} · ${point.pickup_time}`;
     const map = mapLink(point.map_url);
     if (map) details.append(' · ', map);
+    const names = (data.passengers || []).filter(Boolean);
+    if (names.length) details.append(document.createElement('br'), `Travelling with ${names.join(', ')}`);
     announce('');
     byId('checkinCompleteTitle').focus();
     return true;
@@ -38,6 +63,8 @@
     byId('name').value = data.name || '';
     byId('phone').value = data.phone || '';
     byId('people').value = data.people || 1;
+    passengerNames = data.passengers || [];
+    renderPassengers();
     byId('stop').value = data.stop || '';
   }
 
@@ -46,7 +73,8 @@
       try { localStorage.setItem(storageKey, code); } catch {}
     }
     const data = await call({p_name: byId('name').value,
-      p_phone: byId('phone').value, p_people: Number(byId('people').value), p_stop: byId('stop').value});
+      p_phone: byId('phone').value, p_people: Number(byId('people').value), p_stop: byId('stop').value,
+      p_passengers: [...byId('passengerFields').querySelectorAll('input')].map(input => input.value.trim())});
     if (!data) return announce('Check-in has closed. Please contact your captain.');
     if (data.rateLimited) return announce('Too many check-ins at once. Please try again in a minute.');
     if (data.contactOrganizer) return announce('Please reopen this link in the browser where you checked in, or contact your captain for help.');
