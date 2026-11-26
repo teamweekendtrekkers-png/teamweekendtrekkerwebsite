@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Captain pickup list | Team Weekend Trekkers</title>
+  <link rel="stylesheet" href="pickup.css">
+  <script src="api.js" defer></script>
+  <script src="captain.js" defer></script>
+</head>
+<body><main>
+  <h1>Captain pickup list</h1>
+  <p id="notice" role="status"></p>
+  <form id="signin" hidden>
+    <label for="email">Captain email</label><input id="email" type="email" required autocomplete="username">
+    <label for="password">Password</label><input id="password" type="password" required autocomplete="current-password">
+    <button>Sign in</button>
+  </form>
+  <div id="dashboard" hidden>
+    <label for="departure">Departure</label><select id="departure"></select>
+    <button id="refresh" type="button">Refresh list</button>
+    <a id="publicLink" href="./">Open departure page</a>
+    <details><summary>Set up a departure</summary>
+      <form id="setup">
+        <label for="title">Trip name</label><input id="title" required maxlength="100">
+        <label for="date">Departure date</label><input id="date" required type="date">
+        <label for="carry">Things to carry, one per line</label><textarea id="carry" rows="3"></textarea>
+        <button>Create departure page</button>
+      </form>
+    </details>
+    <details id="stopSettings"><summary>Update pickup points</summary>
+      <form id="stopForm">
+        <label for="stopChoice">Pickup stop</label><select id="stopChoice"></select>
+        <label for="stopName">Stop name</label><input id="stopName" required maxlength="120">
+        <label for="stopTime">Pickup time</label><input id="stopTime" required maxlength="80">
+        <label for="landmark">Landmark</label><input id="landmark" maxlength="160">
+        <label for="mapUrl">Map link</label><input id="mapUrl" type="url" maxlength="400">
+        <button>Save pickup point</button>
+      </form>
+    </details>
+    <details><summary>Share a private check-in link</summary>
+      <form id="invite">
+        <label for="reference">Booking reference</label><input id="reference" required maxlength="80">
+        <button>Get check-in link</button>
+      </form>
+      <p><a id="inviteLink" hidden></a> <button id="copyInvite" hidden type="button">Copy link</button></p>
+    </details>
+    <div id="checkins"></div>
+  </div>
+</main></body></html>
