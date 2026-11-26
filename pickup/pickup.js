@@ -19,6 +19,8 @@
   const call = data => pickupApi.request('/rest/v1/rpc/pickup_party_checkin',
     {p_departure: slug, p_code: code, p_legacy: legacy, ...data});
   let stops = [];
+  let departureTitle;
+  let tripDetailsRequested = false;
   let passengerNames = [];
 
   function renderPassengers() {
@@ -43,11 +45,36 @@
   }
   byId('people').addEventListener('input', renderPassengers);
 
+  function linkTripDetails() {
+    if (tripDetailsRequested) return;
+    tripDetailsRequested = true;
+    const catalogue = document.createElement('script');
+    catalogue.src = '/js/trips-data.js';
+    catalogue.addEventListener('load', () => {
+      const normalize = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const title = '-' + normalize(departureTitle) + '-';
+      const matches = Object.entries(tripsData).filter(([key, trip]) => {
+        const tripTitle = normalize(trip.title || '');
+        const route = trip.publicSlug || key;
+        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(route) &&
+          (('-' + slug + '-').includes('-' + route + '-') ||
+            (tripTitle && title.includes('-' + tripTitle + '-')));
+      });
+      if (matches.length !== 1) return;
+      const [key, trip] = matches[0];
+      const link = byId('checkinTripDetails');
+      link.href = '/trips/' + (trip.publicSlug || key) + '/';
+      link.textContent = 'View itinerary & trip details';
+    });
+    document.head.append(catalogue);
+  }
+
   function complete(data) {
     const point = stops.find(stop => stop.id === data.stop);
     if (!point) return false;
     byId('checkin').hidden = true;
     byId('checkinComplete').hidden = false;
+    linkTripDetails();
     const details = byId('checkinDetails');
     details.textContent = `${data.people} traveller${data.people === 1 ? '' : 's'} · ${point.name} · ${point.pickup_time}`;
     const map = mapLink(point.map_url);
@@ -107,6 +134,7 @@
     ]);
     if (!departures.length) throw new Error('This departure is unavailable.');
     const trip = departures[0];
+    departureTitle = trip.title;
     stops = locations;
     byId('trip').textContent = `${trip.title} · ${trip.departure_date}`;
     byId('stop').add(new Option('Choose a pickup point', ''));
