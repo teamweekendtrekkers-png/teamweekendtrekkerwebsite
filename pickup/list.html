@@ -6,8 +6,9 @@
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
   <title>Captain pickup list | Team Weekend Trekkers</title>
-  <link rel="stylesheet" href="pickup.css">
+  <link rel="stylesheet" href="pickup.css?v=2026112605">
   <script src="api.js" defer></script>
+  <script src="password-toggle.js" defer></script>
   <script src="list.js" defer></script>
 </head>
 <body><main>
@@ -15,7 +16,10 @@
   <p id="notice" role="status"></p>
   <form id="access" hidden>
     <label for="username">Username</label><input id="username" required maxlength="39" autocomplete="username" autocapitalize="none">
-    <label for="listPassword">Password</label><input id="listPassword" type="password" required maxlength="32" autocomplete="current-password">
+    <label for="listPassword">Password</label>
+    <div class="password-field"><input id="listPassword" type="password" required maxlength="32" autocomplete="current-password">
+      <button type="button" class="password-toggle" data-password="listPassword" aria-label="Show password" aria-pressed="false"></button>
+    </div>
     <button>Open my list</button>
   </form>
   <div id="manifest" hidden>

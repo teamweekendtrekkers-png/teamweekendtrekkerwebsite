@@ -6,16 +6,24 @@
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
   <title>Manage pickup lists | Team Weekend Trekkers</title>
-  <link rel="stylesheet" href="pickup.css">
+  <link rel="stylesheet" href="pickup.css?v=2026112605">
   <script src="api.js?v=2026112602" defer></script>
-  <script src="captain.js?v=2026112602" defer></script>
+  <script src="../js/trips-data.js" defer></script>
+  <script src="../js/trip-date-utils.js" defer></script>
+  <script src="../js/trip-detail-lists.js" defer></script>
+  <script src="reuse.js" defer></script>
+  <script src="password-toggle.js" defer></script>
+  <script src="captain.js?v=2026112605" defer></script>
 </head>
 <body><main>
   <h1>Manage pickup lists</h1>
   <p id="notice" role="status"></p>
   <form id="signin" hidden>
     <label for="email">Organizer email</label><input id="email" type="email" required autocomplete="username">
-    <label for="password">Password</label><input id="password" type="password" required autocomplete="current-password">
+    <label for="password">Password</label>
+    <div class="password-field"><input id="password" type="password" required autocomplete="current-password">
+      <button type="button" class="password-toggle" data-password="password" aria-label="Show password" aria-pressed="false"></button>
+    </div>
     <button>Sign in</button>
   </form>
   <div id="dashboard" hidden>
@@ -29,11 +37,14 @@
     <h2 id="departureTitle" hidden></h2>
     <button id="refresh" type="button">Refresh list</button>
     <a id="publicLink" href="./">Open departure page</a>
+    <button id="copyDeparture" type="button">Copy shared check-in link</button>
     <details id="listAccess"><summary>Give a captain access</summary>
       <p>Generate credentials for this departure only. Generating a new set replaces the previous set.</p>
       <button id="generate" type="button">Generate username and password</button>
       <div id="generated" hidden>
         <p id="credentials"></p>
+        <button id="copyCaptainUsername" type="button">Copy username</button>
+        <button id="copyCaptainPassword" type="button">Copy password</button>
         <button id="copyAccess" type="button">Copy access details</button>
       </div>
     </details>
@@ -45,6 +56,13 @@
         <button>Create departure page</button>
       </form>
     </details>
+    <details id="reuseSettings"><summary>Reuse website pickup points and packing items</summary>
+      <label for="reuseTrip">Copy from a website trip</label><select id="reuseTrip"></select>
+      <h3>Pickup points</h3><ul id="reuseStops"></ul>
+      <button id="saveReuseStops" type="button">Add selected pickup points</button>
+      <h3>Things to carry</h3><ul id="reusePacking"></ul>
+      <button id="saveReusePacking" type="button">Save selected packing list</button>
+    </details>
     <details id="stopSettings"><summary>Update pickup points</summary>
       <form id="stopForm">
         <label for="stopChoice">Pickup stop</label><select id="stopChoice"></select>
@@ -54,13 +72,6 @@
         <label for="mapUrl">Map link</label><input id="mapUrl" type="url" maxlength="400">
         <button>Save pickup point</button>
       </form>
-    </details>
-    <details id="inviteSettings"><summary>Share a private check-in link</summary>
-      <form id="invite">
-        <label for="reference">Booking reference</label><input id="reference" required maxlength="80">
-        <button>Get check-in link</button>
-      </form>
-      <p><a id="inviteLink" hidden></a> <button id="copyInvite" hidden type="button">Copy link</button></p>
     </details>
     <div id="checkins"></div>
   </div>

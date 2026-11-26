@@ -21,3 +21,25 @@ input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; ma
 [data-departure-colour="rust"] { --departure-accent: #8a442e; }
 #departureTitle { color: var(--departure-accent, #166357); }
 #checkins section { border-inline-start: .35rem solid var(--departure-accent, #166357); }
+.reuse-choice { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: .35rem; }
+.reuse-choice button { margin: 0; }
+.pickup-point { display: grid; grid-template-columns: minmax(0, 1fr) minmax(5.5rem, max-content) auto; align-items: start; column-gap: .55rem; }
+.pickup-point details { margin: 0; padding: 0; border: 0; }
+.pickup-point details p { margin-block: .15rem .4rem; color: #4b665b; }
+.pickup-point a { display: flex; min-height: 2.75rem; align-items: center; }
+.pickup-time { margin-top: .25rem; max-width: 8rem; padding: .2rem .45rem; border-radius: .6rem; background: #94411d; color: white; font-size: .85rem; }
+#thingsToCarryGrid { display: grid; gap: .5rem; }
+.checkin-complete { background: #edf7ef; border: 1px solid #9abca9; border-radius: .75rem; padding: .85rem 1rem; }
+.checkin-complete h3 { margin-block: 0 .35rem; }
+.checkin-complete p { margin-block: .35rem; }
+.password-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; }
+.password-field input { min-width: 0; }
+.password-toggle { width: 2.75rem; min-width: 2.75rem; padding: .55rem; margin: 0; }
+.password-toggle svg { display: block; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .checkin-complete:not([hidden]) { animation: pickup-confirmation 180ms ease-out both; }
+  @keyframes pickup-confirmation {
+    from { opacity: .4; transform: translateY(.25rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

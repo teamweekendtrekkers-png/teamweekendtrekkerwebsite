@@ -6,9 +6,11 @@
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
   <title>Trip check-in | Team Weekend Trekkers</title>
-  <link rel="stylesheet" href="pickup.css">
+  <link rel="stylesheet" href="../css/travel-planner.css?v=2026112603">
+  <link rel="stylesheet" href="pickup.css?v=2026112604">
   <script src="api.js" defer></script>
-  <script src="pickup.js" defer></script>
+  <script src="../js/packing-checklist.js?v=2026112603" defer></script>
+  <script src="pickup.js?v=2026112604" defer></script>
 </head>
 <body><main>
   <a href="../trips.html">← All trips</a>
@@ -17,13 +19,8 @@
   <div id="departure" hidden>
     <button id="share" type="button">Copy departure link</button>
     <details open><summary>Pickup points</summary><ul id="stops"></ul></details>
-    <details><summary>Things to carry</summary><ul id="packing"></ul></details>
+    <details id="packingSection"><summary>Things to carry</summary><div id="thingsToCarryGrid" class="carry-grid"></div></details>
     <section><h2>Check in</h2>
-      <form id="unlock">
-        <label for="code">Private check-in code</label>
-        <input id="code" required autocomplete="off" spellcheck="false">
-        <button>Open check-in</button>
-      </form>
       <form id="checkin" hidden>
         <label for="name">Lead traveller name</label><input id="name" required maxlength="100" autocomplete="name">
         <label for="phone">Phone number</label><input id="phone" type="tel" required maxlength="22" autocomplete="tel">
@@ -31,6 +28,11 @@
         <label for="stop">Pickup point</label><select id="stop" required></select>
         <button>Save check-in</button>
       </form>
+      <div id="checkinComplete" class="checkin-complete" hidden>
+        <h3 tabindex="-1" id="checkinCompleteTitle">Check-in complete</h3>
+        <p id="checkinDetails"></p>
+        <button id="editCheckin" type="button">Edit check-in</button>
+      </div>
       <p id="confirmation" role="status"></p>
     </section>
   </div>

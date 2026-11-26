@@ -5,8 +5,8 @@
   try{const saved=JSON.parse(storage.getItem(key)||'[]');if(Array.isArray(saved))checked=new Set(saved.filter(v=>typeof v==='string'&&v.length<=1200).slice(0,500));}catch{persistent=false;}
   return {checked,get persistent(){return persistent;},save(){try{storage.setItem(key,JSON.stringify([...checked].slice(0,500)));persistent=true;}catch{persistent=false;}},reset(){checked.clear();try{storage.removeItem(key);persistent=true;}catch{persistent=false;}}};
  }
- function install(win){
-  const doc=win.document,grid=doc.getElementById('thingsToCarryGrid'),id=typeof win.getTripFromURL==='function'?win.getTripFromURL():null;
+ function install(win,departureId){
+  const doc=win.document,grid=doc.getElementById('thingsToCarryGrid'),id=departureId||(typeof win.getTripFromURL==='function'?win.getTripFromURL():null);
   if(!grid||!id||grid.dataset.packingReady)return;
   const items=[...grid.querySelectorAll('.carry-item')].filter(item=>item.textContent.trim());if(!items.length)return;
   grid.dataset.packingReady='true';let storage;try{storage=win.localStorage;}catch{storage={getItem(){throw Error();},setItem(){throw Error();},removeItem(){throw Error();}};}

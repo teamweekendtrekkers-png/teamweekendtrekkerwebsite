@@ -50,6 +50,8 @@ jobs:
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f pickup/schema.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f pickup/captain-access.sql
           psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/standalone-pickup.test.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f pickup/shared-checkin.sql
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f tests/shared-pickup.test.sql
 
   validate:
     runs-on: ubuntu-latest

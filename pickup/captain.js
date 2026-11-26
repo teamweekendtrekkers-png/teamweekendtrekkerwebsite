@@ -7,6 +7,7 @@
   let busy = false;
   let pickupStops = [];
   let departures = [];
+  let captainAccess;
   const context = new URLSearchParams(location.search);
   const linkedTrek = (context.get('trek') || '').trim().slice(0, 100);
   const linkedDate = context.get('date') || '';
@@ -20,7 +21,7 @@
   const departureLink = slug => new URL(`./?trip=${encodeURIComponent(slug)}`, location.href);
 
   async function loadDepartures(selected) {
-    departures = await pickupApi.request(`${base}pickup_departures?select=slug,title,departure_date&order=departure_date.asc`);
+    departures = await pickupApi.request(`${base}pickup_departures?select=slug,title,departure_date,packing&order=departure_date.asc`);
     if (selected) el('week').value = 'all';
     await showWeek(selected);
   }
@@ -52,17 +53,22 @@
   async function refresh() {
     const slug = el('departure').value;
     const id = ++loadId;
-    el('inviteLink').hidden = el('copyInvite').hidden = true;
     el('generated').hidden = true;
+    captainAccess = null;
     el('credentials').textContent = '';
     el('listAccess').hidden = !slug;
     el('checkins').replaceChildren();
     el('stopSettings').hidden = !slug;
-    el('inviteSettings').hidden = !slug;
+    el('reuseSettings').hidden = !slug;
     el('departureTitle').hidden = !slug;
     el('publicLink').hidden = !slug;
+    el('copyDeparture').hidden = !slug;
     if (!slug) return tell(departures.length ? 'No departures scheduled for this week.' : 'Create a departure page to start.');
     const departure = departures.find(trip => trip.slug === slug);
+    if (el('reuseSettings').dataset.departure !== slug) {
+      el('reuseSettings').dataset.departure = slug;
+      pickupReuse.match(departure.title);
+    }
     el('departureTitle').textContent = `${departure.departure_date} · ${departure.title}`;
     const colourIndex = [...slug].reduce((sum, character) => sum + character.charCodeAt(0), 0) % colours.length;
     el('dashboard').dataset.departureColour = colours[colourIndex];
@@ -102,7 +108,12 @@
   async function openDashboard() {
     el('signin').hidden = true;
     el('dashboard').hidden = false;
-    await loadDepartures();
+    const view = context.get('view');
+    const list = context.get('list');
+    if (['all', 'share', 'access'].includes(view) || list) el('week').value = 'all';
+    await loadDepartures(list);
+    if (view === 'access' && el('departure').value) el('listAccess').open = true;
+    if (view === 'share' && el('departure').value) el('copyDeparture').focus();
     if (context.get('create') === '1') {
       el('setup').closest('details').open = true;
       el('title').focus();
@@ -152,6 +163,7 @@
     if (!slug || !window.confirm('Generate access for this departure and replace any previous credentials?')) return;
     const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
     if (el('departure').value !== slug) return;
+    captainAccess = access;
     const url = new URL('list.html', location.href);
     el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
     el('generated').hidden = false;
@@ -160,6 +172,13 @@
     try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
     catch { tell('Select and copy the access details shown below.'); }
   });
+  for (const [button, field] of [['copyCaptainUsername', 'username'], ['copyCaptainPassword', 'password']]) {
+    el(button).addEventListener('click', async () => {
+      if (!captainAccess) return;
+      try { await navigator.clipboard.writeText(captainAccess[field]); tell(`Captain ${field} copied.`); }
+      catch { tell(`Select and copy the ${field} from the access details.`); }
+    });
+  }
   el('setup').addEventListener('submit', event => {
     event.preventDefault();
     run(async () => {
@@ -171,10 +190,40 @@
       await pickupApi.request(`${base}pickup_departures`, {slug, title, departure_date: date, packing, open: true});
       el('setup').reset();
       await loadDepartures(slug);
-      el('stopSettings').open = true;
+      el('reuseSettings').open = true;
     });
   });
   el('stopChoice').addEventListener('change', fillStop);
+  el('saveReuseStops').addEventListener('click', () => run(async () => {
+    const slug = el('departure').value;
+    if (!slug || !el('reuseTrip').value) return tell('Choose a website trip first.');
+    const identity = stop => [stop.name.trim().toLowerCase(), stop.pickup_time.trim()].join('\n');
+    // Repeating an import should not create a second copy of a saved stop.
+    const seen = new Set(pickupStops.map(identity));
+    const added = [];
+    const offset = Math.max(0, ...pickupStops.map(stop => stop.position));
+    for (const stop of pickupReuse.selected('stops')) {
+      const key = identity(stop);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      added.push({...stop, departure: slug, position: offset + added.length + 1});
+    }
+    if (!added.length) return tell('No new pickup points selected.');
+    await pickupApi.request(`${base}pickup_stops`, added);
+    await refresh();
+    tell(`Added ${added.length} pickup point(s).`);
+  }));
+  el('saveReusePacking').addEventListener('click', () => run(async () => {
+    const slug = el('departure').value;
+    if (!slug || !el('reuseTrip').value) return tell('Choose a website trip first.');
+    const departure = departures.find(trip => trip.slug === slug);
+    const packing = pickupReuse.selected('packing');
+    if (JSON.stringify(departure.packing) === JSON.stringify(packing)) return tell('Packing list is already saved.');
+    if (departure.packing.length && !window.confirm('Replace the packing list for this departure?')) return;
+    await pickupApi.request(`${base}pickup_departures?slug=eq.${slug}`, {packing}, 'PATCH');
+    departure.packing = packing;
+    tell('Packing list saved.');
+  }));
   el('stopForm').addEventListener('submit', event => {
     event.preventDefault();
     run(async () => {
@@ -189,24 +238,10 @@
       tell('Pickup point saved.');
     });
   });
-  el('invite').addEventListener('submit', event => {
-    event.preventDefault();
-    run(async () => {
-      const slug = el('departure').value;
-      const ref = el('reference').value.trim().toUpperCase();
-      if (!slug || !ref) return;
-      const code = await pickupApi.request(`${base}rpc/pickup_invite`, {p_departure: slug, p_reference: ref});
-      const url = departureLink(slug);
-      url.hash = new URLSearchParams({checkin: code});
-      const link = el('inviteLink');
-      link.textContent = 'Private check-in link';
-      link.href = url.href;
-      link.hidden = el('copyInvite').hidden = false;
-    });
-  });
-  el('copyInvite').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(el('inviteLink').href); tell('Private link copied. Share it with this booking’s lead traveller.'); }
-    catch { tell('Copy the private check-in link from the link menu.'); }
+  el('copyDeparture').addEventListener('click', async () => {
+    const url = departureLink(el('departure').value).href;
+    try { await navigator.clipboard.writeText(url); tell('Shared check-in link copied.'); }
+    catch { tell(url); }
   });
   pickupApi.configure().then(async () => {
     try {
