@@ -115,6 +115,7 @@
       const item = document.createElement('li');
       item.className = 'pickup-point';
       const name = document.createElement('details');
+      name.open = true;
       const summary = document.createElement('summary');
       const landmark = document.createElement('p');
       summary.textContent = stop.name;
