@@ -99,32 +99,50 @@
     }
   }
 
+  async function openDashboard() {
+    el('signin').hidden = true;
+    el('dashboard').hidden = false;
+    await loadDepartures();
+    if (context.get('create') === '1') {
+      el('setup').closest('details').open = true;
+      el('title').focus();
+    }
+    if (linkedTrek && /^\d{4}-\d{2}-\d{2}$/.test(linkedDate)) {
+      const matching = departures.find(trip =>
+        trip.departure_date === linkedDate && trip.title.toLowerCase() === linkedTrek.toLowerCase());
+      if (matching) {
+        el('week').value = 'all';
+        await showWeek(matching.slug);
+      } else {
+        el('title').value = linkedTrek;
+        el('date').value = linkedDate;
+        el('setup').closest('details').open = true;
+        tell('Create the pickup list for this departure to get started.');
+      }
+    }
+  }
+
   el('signin').addEventListener('submit', event => {
     event.preventDefault();
     run(async () => {
-      await pickupApi.signIn(el('email').value.trim(), el('password').value);
-      el('password').value = '';
-      el('signin').hidden = true;
-      el('dashboard').hidden = false;
-      await loadDepartures();
-      if (context.get('create') === '1') {
-        el('setup').closest('details').open = true;
-        el('title').focus();
-      }
-      if (linkedTrek && /^\d{4}-\d{2}-\d{2}$/.test(linkedDate)) {
-        const matching = departures.find(trip =>
-          trip.departure_date === linkedDate && trip.title.toLowerCase() === linkedTrek.toLowerCase());
-        if (matching) {
-          el('week').value = 'all';
-          await showWeek(matching.slug);
-        } else {
-          el('title').value = linkedTrek;
-          el('date').value = linkedDate;
-          el('setup').closest('details').open = true;
-          tell('Create the pickup list for this departure to get started.');
-        }
-      }
+      try { await pickupApi.signIn(el('email').value.trim(), el('password').value); }
+      finally { el('password').value = ''; }
+      await openDashboard();
     });
+  });
+  el('signOut').addEventListener('click', async () => {
+    el('dashboard').hidden = true;
+    el('checkins').replaceChildren();
+    el('credentials').textContent = '';
+    await pickupApi.signOut();
+    location.reload();
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === 'twt-pickup-organizer-refresh' && event.newValue === null && !el('dashboard').hidden) {
+      el('dashboard').hidden = true;
+      el('checkins').replaceChildren();
+      location.reload();
+    }
   });
   el('departure').addEventListener('change', () => refresh().catch(error => tell(error.message)));
   el('week').addEventListener('change', () => showWeek().catch(error => tell(error.message)));
@@ -190,5 +208,15 @@
     try { await navigator.clipboard.writeText(el('inviteLink').href); tell('Private link copied. Share it with this booking’s lead traveller.'); }
     catch { tell('Copy the private check-in link from the link menu.'); }
   });
-  pickupApi.configure().then(() => { el('signin').hidden = false; }).catch(error => tell(error.message));
+  pickupApi.configure().then(async () => {
+    try {
+      if (await pickupApi.restoreOrganizer()) {
+        await openDashboard();
+        return;
+      }
+    } catch (error) {
+      tell(error.message);
+    }
+    if (el('dashboard').hidden) el('signin').hidden = false;
+  }).catch(error => tell(error.message));
 })();
