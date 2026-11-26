@@ -166,10 +166,7 @@
   el('departure').addEventListener('change', () => refresh().catch(error => tell(error.message)));
   el('week').addEventListener('change', () => showWeek().catch(error => tell(error.message)));
   el('refresh').addEventListener('click', () => run(refresh));
-  el('generate').addEventListener('click', () => run(async () => {
-    const slug = el('departure').value;
-    if (!slug || !window.confirm('Generate access for this departure and replace any previous credentials?')) return;
-    const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
+  function showCaptainAccess(slug, access) {
     if (el('departure').value !== slug) return;
     captainAccess = access;
     accessDeparture = slug;
@@ -177,7 +174,31 @@
     el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
     el('generated').hidden = false;
     el('listAccess').open = true;
+  }
+
+  el('generate').addEventListener('click', () => run(async () => {
+    const slug = el('departure').value;
+    if (!slug || !window.confirm('Generate access for this departure and replace any previous credentials?')) return;
+    const access = await pickupApi.request(`${base}rpc/pickup_generate_list_access`, {p_departure: slug});
+    showCaptainAccess(slug, access);
   }));
+
+  el('manualAccess').addEventListener('submit', event => {
+    event.preventDefault();
+    return run(async () => {
+      const slug = el('departure').value;
+      const password = el('manualPassword').value;
+      if (password !== password.trim() || new TextEncoder().encode(password).length > 64) {
+        return tell('Use up to 64 bytes for the password and remove spaces at either end.');
+      }
+      if (!slug || !window.confirm('Save captain access and replace any previous credentials for this departure?')) return;
+      const access = await pickupApi.request(`${base}rpc/pickup_set_list_access`, {
+        p_departure: slug, p_username: el('manualUsername').value, p_password: password,
+      });
+      el('manualAccess').reset();
+      showCaptainAccess(slug, {...access, password});
+    });
+  });
   el('copyAccess').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
     catch { tell('Select and copy the access details shown below.'); }

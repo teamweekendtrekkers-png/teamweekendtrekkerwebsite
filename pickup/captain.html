@@ -13,7 +13,7 @@
   <script src="../js/trip-detail-lists.js" defer></script>
   <script src="reuse.js" defer></script>
   <script src="password-toggle.js" defer></script>
-  <script src="captain.js?v=2026112609" defer></script>
+  <script src="captain.js?v=2026112610" defer></script>
 </head>
 <body><main>
   <h1>Departure check-in</h1>
@@ -59,8 +59,23 @@
       <div id="checkins"></div>
     </section>
     <details id="listAccess"><summary>Give a captain access</summary>
-      <p>Generate credentials for this departure only. Generating a new set replaces the previous set.</p>
+      <p>Create credentials for this departure only. Saving new credentials replaces the previous set.</p>
       <button id="generate" type="button">Generate username and password</button>
+      <details>
+        <summary>Set username and password manually</summary>
+        <form id="manualAccess" autocomplete="off">
+          <label for="manualUsername">Captain username</label>
+          <input id="manualUsername" required minlength="3" maxlength="72" pattern="[A-Za-z0-9._\-]+" autocapitalize="none" spellcheck="false" aria-describedby="manualUsernameHint">
+          <small id="manualUsernameHint">Use letters, numbers, dots, underscores or hyphens.</small>
+          <label for="manualPassword">Captain password</label>
+          <div class="password-field">
+            <input id="manualPassword" type="password" required minlength="12" maxlength="64" autocomplete="new-password" aria-describedby="manualPasswordHint">
+            <button type="button" class="password-toggle" data-password="manualPassword" aria-label="Show password" aria-pressed="false"></button>
+          </div>
+          <small id="manualPasswordHint">Use at least 12 characters. Avoid trip names, dates and traveller details.</small>
+          <button type="submit">Save captain access</button>
+        </form>
+      </details>
       <div id="generated" hidden>
         <p id="credentials"></p>
         <button id="copyCaptainUsername" type="button">Copy username</button>
