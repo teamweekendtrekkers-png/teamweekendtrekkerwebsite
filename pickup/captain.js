@@ -7,6 +7,9 @@
   let busy = false;
   let pickupStops = [];
   let departures = [];
+  const context = new URLSearchParams(location.search);
+  const linkedTrek = (context.get('trek') || '').trim().slice(0, 100);
+  const linkedDate = context.get('date') || '';
   const colours = ['forest', 'blue', 'purple', 'rust'];
   const run = async action => {
     if (busy) return;
@@ -104,6 +107,19 @@
       el('signin').hidden = true;
       el('dashboard').hidden = false;
       await loadDepartures();
+      if (linkedTrek && /^\d{4}-\d{2}-\d{2}$/.test(linkedDate)) {
+        const matching = departures.find(trip =>
+          trip.departure_date === linkedDate && trip.title.toLowerCase() === linkedTrek.toLowerCase());
+        if (matching) {
+          el('week').value = 'all';
+          await showWeek(matching.slug);
+        } else {
+          el('title').value = linkedTrek;
+          el('date').value = linkedDate;
+          el('setup').closest('details').open = true;
+          tell('Create the pickup list for this departure to get started.');
+        }
+      }
     });
   });
   el('departure').addEventListener('change', () => refresh().catch(error => tell(error.message)));
