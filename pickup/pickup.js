@@ -16,6 +16,20 @@
   let privateCode;
   let stops = [];
 
+  function complete(data) {
+    const point = stops.find(stop => stop.id === data.stop);
+    if (!point) return false;
+    byId('checkin').hidden = true;
+    byId('checkinComplete').hidden = false;
+    const details = byId('checkinDetails');
+    details.textContent = `${data.people} traveller${data.people === 1 ? '' : 's'} · ${point.name} · ${point.pickup_time}`;
+    const map = mapLink(point.map_url);
+    if (map) details.append(' · ', map);
+    announce('');
+    byId('checkinCompleteTitle').focus();
+    return true;
+  }
+
   submit(byId('unlock'), async () => {
     const code = byId('code').value.trim();
     if (!uuid.test(code)) return announce('Enter the private code supplied by your captain.');
@@ -26,20 +40,24 @@
     byId('phone').value = data.phone || '';
     byId('people').value = data.people || 1;
     byId('stop').value = data.stop || '';
-    byId('checkin').hidden = false;
     byId('unlock').hidden = true;
+    if (data.updatedAt && complete(data)) return;
+    byId('checkin').hidden = false;
     byId('name').focus();
-    announce(data.updatedAt ? 'Your saved check-in is shown below.' : 'Enter your pickup details below.');
+    announce('Enter your pickup details below.');
   });
 
   submit(byId('checkin'), async () => {
     const data = await call({p_code: privateCode, p_name: byId('name').value,
       p_phone: byId('phone').value, p_people: Number(byId('people').value), p_stop: byId('stop').value});
     if (!data) return announce('Check-in has closed. Please contact your captain.');
-    const point = stops.find(stop => stop.id === data.stop);
-    announce(`Check-in saved for ${data.people} · ${point.name} · ${point.pickup_time}`);
-    const map = mapLink(point.map_url);
-    if (map) byId('confirmation').append(' · ', map);
+    if (!complete(data)) announce('Your check-in was saved. Refresh to see the latest pickup details.');
+  });
+
+  byId('editCheckin').addEventListener('click', () => {
+    byId('checkinComplete').hidden = true;
+    byId('checkin').hidden = false;
+    byId('stop').focus();
   });
 
   function mapLink(value) {
