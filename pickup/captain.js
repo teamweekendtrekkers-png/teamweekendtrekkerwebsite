@@ -241,6 +241,15 @@
     if (access?.password) showCaptainAccess(slug, access);
     else tell('That password is no longer available. Refresh the list.');
   }));
+  el('copyCaptainLink').addEventListener('click', async () => {
+    const url = el('captainListLink').href;
+    try {
+      await navigator.clipboard.writeText(url);
+      tell('Captain link copied.');
+    } catch {
+      tell(url);
+    }
+  });
   el('copyAccess').addEventListener('click', async () => {
     if (!captainAccess?.password) return;
     try { await navigator.clipboard.writeText(el('captainListLink').href + '\n' + el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
