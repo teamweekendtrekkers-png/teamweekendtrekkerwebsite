@@ -81,11 +81,16 @@
     const colourIndex = [...slug].reduce((sum, character) => sum + character.charCodeAt(0), 0) % colours.length;
     el('dashboard').dataset.departureColour = colours[colourIndex];
     el('publicLink').href = departureLink(slug);
-    const [stops, rows] = await Promise.all([
+    const [savedAccess, stops, rows] = await Promise.all([
+      pickupApi.request(`${base}rpc/pickup_get_saved_list_access`, {p_departure: slug})
+        .catch(() => undefined),
       pickupApi.request(`${base}pickup_stops?departure=eq.${slug}&select=id,name,pickup_time,landmark,map_url,position&order=position`),
       pickupApi.request(`${base}pickup_checkins?departure=eq.${slug}&updated_at=not.is.null&select=lead_name,phone,party_size,stop,passenger_names&order=lead_name`),
     ]);
     if (id !== loadId) return;
+    if (savedAccess && (savedAccess.saved || accessDeparture !== slug || savedAccess.username !== captainAccess?.username)) {
+      showCaptainAccess(slug, savedAccess);
+    }
     pickupStops = stops;
     el('stopChoice').replaceChildren(new Option('Add a stop', ''), ...stops.map(stop => new Option(stop.name, stop.id)));
     fillStop();
@@ -173,8 +178,14 @@
     if (el('departure').value !== slug) return;
     captainAccess = access;
     accessDeparture = slug;
-    const url = new URL('list.html', location.href);
-    el('credentials').innerText = `Captain pickup list: ${url.href}\nUsername: ${access.username}\nPassword: ${access.password}`;
+    const password = access.password || (access.saved
+      ? 'Hidden'
+      : 'Unavailable. Save a new manual password to retrieve it later.');
+    el('credentials').innerText = `Username: ${access.username}\nPassword: ${password}`;
+    el('revealCaptainPassword').hidden = !access.saved;
+    el('revealCaptainPassword').textContent = access.password ? 'Hide password' : 'Show password';
+    el('copyCaptainPassword').disabled = !access.password;
+    el('copyAccess').disabled = !access.password;
     el('generated').hidden = false;
     el('listAccess').open = true;
   }
@@ -200,7 +211,7 @@
         p_departure: slug, p_username: el('manualUsername').value, p_password: password,
       });
       el('manualAccess').reset();
-      showCaptainAccess(slug, {...access, password});
+      showCaptainAccess(slug, access);
     });
   });
   el('packingForm').addEventListener('submit', event => {
@@ -215,8 +226,24 @@
       tell('Packing checklist saved.');
     });
   });
+  el('revealCaptainPassword').addEventListener('click', () => run(async () => {
+    const slug = accessDeparture;
+    const revision = loadId;
+    if (!captainAccess?.saved) return;
+    if (captainAccess.password) {
+      showCaptainAccess(slug, {...captainAccess, password: null});
+      return;
+    }
+    const access = await pickupApi.request(`${base}rpc/pickup_get_saved_list_access`, {
+      p_departure: slug, p_reveal: true,
+    });
+    if (revision !== loadId || el('dashboard').hidden) return;
+    if (access?.password) showCaptainAccess(slug, access);
+    else tell('That password is no longer available. Refresh the list.');
+  }));
   el('copyAccess').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
+    if (!captainAccess?.password) return;
+    try { await navigator.clipboard.writeText(el('captainListLink').href + '\n' + el('credentials').innerText); tell('Access details copied. Share them privately with the assigned captain.'); }
     catch { tell('Select and copy the access details shown below.'); }
   });
   for (const [button, field] of [['copyCaptainUsername', 'username'], ['copyCaptainPassword', 'password']]) {
