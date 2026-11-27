@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="pickup.css?v=2026112605">
   <script src="api.js" defer></script>
   <script src="password-toggle.js" defer></script>
-  <script src="list.js?v=2026112606" defer></script>
+  <script src="list.js?v=2026112617" defer></script>
 </head>
 <body><main>
   <h1>Captain pickup list</h1>
@@ -28,5 +28,9 @@
     <button id="reload" type="button">Refresh list</button>
     <button id="lock" type="button">Close list</button>
     <div id="groups"></div>
+    <section id="captainDetails" hidden aria-labelledby="captainDetailsTitle">
+      <h2 id="captainDetailsTitle">Balances, rooms &amp; requests</h2>
+      <ul id="captainDetailRows"></ul>
+    </section>
   </div>
 </main></body></html>
